@@ -1,0 +1,259 @@
+#!/bin/bash
+
+#git clone --depth 1 https://eicweb.phy.anl.gov/EIC/datasets.git
+export DAWN_PS_PREVIEWER="ls "
+export G4DAWNFILE_VIEWER="ls -lrth "
+export G4DAWNFILE_PS_VIEWER="ls "
+
+function print_the_help {
+  echo "USAGE: ${0} [-s <skip_events>] -d <dawn_run_dir> "
+  echo "  OPTIONS: "
+  echo "            -D,--detector-only            Only generate the prim files for the detector geometry."
+  echo "            -s,--skip <skip_events>       Required run number"
+  echo "            -i,--input <input_file>       Input hepmc file"
+  echo "            -d,--dawn-dir <dawn_run_dir>  Directory with the .DAWN files and a generate script "
+  echo "            -t,--tag <file_tag>           Output file tag"
+  exit 
+}
+
+function yes_or_no {
+  while true; do
+    read -p "$* [y/n]: " yn
+    case $yn in
+      [Yy]*) return 0 ;;
+      [Nn]*) echo "No entered" ; return 1 ;;
+    esac
+  done
+}
+
+if [[ $# -eq 0 ]] ; then
+  print_the_help
+  exit 
+fi
+
+SKIP_EVENTS=0
+DETECTOR_ONLY=0
+FILE_TAG="view"
+DAWN_RUN_DIR="scripts/view1"
+
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+  key="$1"
+
+  case $key in
+    -h|--help)
+      shift # past argument
+      print_the_help
+      ;;
+    -s|--skip)
+      SKIP_EVENTS="$2"
+      shift # past argument
+      shift # past value
+      ;;
+    -i|--input)
+      INPUT_FILE="$2"
+      shift # past argument
+      shift # past value
+      ;;
+    -o|--ouput-dir)
+      OUTPUT_DIR="$2"
+      shift # past argument
+      shift # past value
+      ;;
+    -D|--detector-only)
+      DETECTOR_ONLY=1
+      shift # past argument
+      #shift # past value
+      ;;
+    -d|--dawn-dir)
+      DAWN_RUN_DIR=$2
+      shift # past argument
+      shift # past value
+      ;;
+    -t|--tag)
+      FILE_TAG=$2
+      shift # past argument
+      shift # past value
+      ;;
+    *)    # unknown option
+      #POSITIONAL+=("$1") # save it in an array for later
+      echo "unknown option $1"
+      print_the_help
+      shift # past argument
+      ;;
+  esac
+done
+set -- "${POSITIONAL[@]}" # restore positional parameters
+
+
+rm -f *.prim
+
+if [  "${DETECTOR_ONLY}" -eq "1" ] ; then
+
+  ./scripts/run_topside.py -i scripts/input_data/few_events.hepmc \
+  -o derp.root -n 1 \
+  --ui csh --vis -b -m macro/dawn_picture.mac & 
+
+sleep 10
+echo "sleeping 20 secs ..  " 
+sleep 10
+echo "sleeping 10 secs " 
+sleep 5 
+echo "sleeping 5 secs " 
+sleep 5 
+kill %1
+
+else 
+
+  echo " Running simulation for tracks"
+./scripts/run_topside.py -i scripts/input_data/few_events.hepmc \
+  -o derp.root -s ${SKIP_EVENTS} -n 1 \
+  --ui csh --vis -b -m macro/dawn_picture2.mac & 
+
+sleep 40 
+kill %1
+
+fi
+
+#./scripts/run_topside.py -i scripts/input_data/few_events.hepmc \
+#  -o derp.root -s 2 -n 1 \
+#  --ui csh --vis -b -m macro/dawn_picture2.mac & 
+#
+#sleep 20 
+#kill %1
+
+#./scripts/run_topside.py -i scripts/input_data/few_events.hepmc \
+#  -o derp.root -s 5 -n 1 \
+#  --ui csh --vis -b -m macro/dawn_picture2.mac & 
+#
+#sleep 20 
+#kill %1
+#
+#./scripts/run_topside.py -i scripts/input_data/few_events.hepmc \
+#  -o derp.root -s 6 -n 1 \
+#  --ui csh --vis -b -m macro/dawn_picture2.mac & 
+#
+#sleep 20 
+#kill %1
+
+[[ -f "g4_0000.prim" ]]  || exit -1
+
+echo "simulating done" 
+#npsim --runType vis \
+#      -v WARNING \
+#      --macroFile macro/dawn_picture.mac \
+#      --numberOfEvents 1 \
+#      --compactFile topside.xml \
+#      --inputFiles scripts/input_data/few_events.hepmc \
+#      --outputFile  derp.root \
+#      --dumpSteeringFile >> derp.out
+
+
+ls -lrth
+mkdir -p images
+#mkdir -p images/prim
+
+pushd ${DAWN_RUN_DIR}
+
+if [  "${DETECTOR_ONLY}" -eq "1" ] ; then
+  ./generate_eps -t ${FILE_TAG} -i ../../g4_0000.prim
+else 
+  ./generate_eps -t ${FILE_TAG} -i ../../g4_0000.prim
+fi
+ls -lrth
+
+cp *.pdf ../../images/.
+cp *.png ../../images/.
+#cp *.prim ../../images/prim/.
+popd
+
+
+#./generate_eps -t view1_ev2 -i ../../g4_0002.prim
+#./generate_eps -t view1_ev3 -i ../../g4_0003.prim
+#./generate_eps -t view1_ev4 -i ../../g4_0004.prim
+#cp *.pdf ../../images/.
+#cp *.png ../../images/.
+#popd
+#
+#
+#pushd scripts/view2
+#./generate_eps -t view2 -i ../../g4_0000.prim
+##./generate_eps -t view2_ev1 -i ../../g4_0001.prim
+##./generate_eps -t view2_ev2 -i ../../g4_0002.prim
+##./generate_eps -t view2_ev3 -i ../../g4_0003.prim
+##./generate_eps -t view2_ev4 -i ../../g4_0004.prim
+#cp *.pdf ../../images/.
+#cp *.png ../../images/.
+#popd
+#
+#pushd scripts/view3
+#./generate_eps ../../g4_0000.prim
+#cp *.pdf ../../images/.
+#cp *.png ../../images/.
+#popd
+#
+#pushd scripts/view4
+#./generate_eps ../../g4_0000.prim
+#cp *.eps ../../images/.
+#cp *.pdf ../../images/.
+#cp *.png ../../images/.
+#popd
+#
+#pushd scripts/view5
+#./generate_eps ../../g4_0000.prim
+#cp *.eps ../../images/.
+#cp *.pdf ../../images/.
+#cp *.png ../../images/.
+#popd
+#
+#pushd scripts/view6
+#./generate_eps -t view6 -i ../../g4_0000.prim
+##./generate_eps -t view6_ev1 -i ../../g4_0001.prim
+##./generate_eps -t view6_ev2 -i ../../g4_0002.prim
+##./generate_eps -t view6_ev3 -i ../../g4_0003.prim
+##./generate_eps -t view6_ev4 -i ../../g4_0004.prim
+#cp *.pdf ../../images/.
+#cp *.png ../../images/.
+#popd
+#
+#pushd scripts/view7
+#./generate_eps -t view7 -i ../../g4_0000.prim
+##./generate_eps -t view7_ev1 -i ../../g4_0001.prim
+##./generate_eps -t view7_ev2 -i ../../g4_0002.prim
+##./generate_eps -t view7_ev3 -i ../../g4_0003.prim
+##./generate_eps -t view7_ev4 -i ../../g4_0004.prim
+#cp *.pdf ../../images/.
+#cp *.png ../../images/.
+#popd
+#
+#pushd scripts/view11
+#./generate_eps -t view11 -i ../../g4_0000.prim
+#./generate_eps -t view11_ev1 -i ../../g4_0001.prim
+##./generate_eps -t view11_ev2 -i ../../g4_0002.prim
+##./generate_eps -t view11_ev3 -i ../../g4_0003.prim
+##./generate_eps -t view11_ev4 -i ../../g4_0004.prim
+#cp *.pdf ../../images/.
+#cp *.png ../../images/.
+#popd
+#
+#pushd scripts/view12
+#./generate_eps -t view12 -i ../../g4_0000.prim
+#./generate_eps -t view12_ev1 -i ../../g4_0001.prim
+#./generate_eps -t view12_ev2 -i ../../g4_0002.prim
+##./generate_eps -t view12_ev3 -i ../../g4_0003.prim
+##./generate_eps -t view12_ev4 -i ../../g4_0004.prim
+#cp *.pdf ../../images/.
+#cp *.png ../../images/.
+#popd
+#
+#pushd scripts/view13
+#./generate_eps -t view13 -i ../../g4_0000.prim
+#./generate_eps -t view13_ev1 -i ../../g4_0001.prim
+##./generate_eps -t view13_ev2 -i ../../g4_0002.prim
+##./generate_eps -t view13_ev3 -i ../../g4_0003.prim
+##./generate_eps -t view13_ev4 -i ../../g4_0004.prim
+#cp *.pdf ../../images/.
+#cp *.png ../../images/.
+#popd

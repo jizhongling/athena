@@ -1,0 +1,12 @@
+!*.png
+
+*.prim
+*/*.eps
+*/*/*.eps
+*/*/*.png
+*/*/*.pdf
+*.root
+build/*
+.DAWN*
+*/*.pyc
+**.pyc
