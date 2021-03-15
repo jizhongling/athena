@@ -35,7 +35,7 @@ SKIP_EVENTS=0
 DETECTOR_ONLY=0
 FILE_TAG="view"
 DAWN_RUN_DIR="scripts/view1"
-
+DETECTOR_FILE="detector_template.xml"
 
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -46,6 +46,11 @@ do
     -h|--help)
       shift # past argument
       print_the_help
+      ;;
+    -c|--compact-file)
+      DETECTOR_FILE="$2"
+      shift # past argument
+      shift # past value
       ;;
     -s|--skip)
       SKIP_EVENTS="$2"
@@ -92,7 +97,7 @@ rm -f *.prim
 
 if [  "${DETECTOR_ONLY}" -eq "1" ] ; then
 
-  ./scripts/run_topside.py -i scripts/input_data/few_events.hepmc \
+  ./scripts/run_detector_simulation.py -i scripts/input_data/few_events.hepmc \
   -o derp.root -n 1 \
   --ui csh --vis -b -m macro/dawn_picture.mac & 
 
@@ -108,7 +113,7 @@ kill %1
 else 
 
   echo " Running simulation for tracks"
-./scripts/run_topside.py -i scripts/input_data/few_events.hepmc \
+./scripts/run_detector_simulation.py -i scripts/input_data/few_events.hepmc \
   -o derp.root -s ${SKIP_EVENTS} -n 1 \
   --ui csh --vis -b -m macro/dawn_picture2.mac & 
 
@@ -117,21 +122,21 @@ kill %1
 
 fi
 
-#./scripts/run_topside.py -i scripts/input_data/few_events.hepmc \
+#./scripts/run_detector_simulation.py -i scripts/input_data/few_events.hepmc \
 #  -o derp.root -s 2 -n 1 \
 #  --ui csh --vis -b -m macro/dawn_picture2.mac & 
 #
 #sleep 20 
 #kill %1
 
-#./scripts/run_topside.py -i scripts/input_data/few_events.hepmc \
+#./scripts/run_detector_simulation.py -i scripts/input_data/few_events.hepmc \
 #  -o derp.root -s 5 -n 1 \
 #  --ui csh --vis -b -m macro/dawn_picture2.mac & 
 #
 #sleep 20 
 #kill %1
 #
-#./scripts/run_topside.py -i scripts/input_data/few_events.hepmc \
+#./scripts/run_detector_simulation.py -i scripts/input_data/few_events.hepmc \
 #  -o derp.root -s 6 -n 1 \
 #  --ui csh --vis -b -m macro/dawn_picture2.mac & 
 #

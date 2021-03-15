@@ -31,7 +31,7 @@ stages:
 env:
   stage: config 
   script:
-    - export JUGGLER_DETECTOR="topside"
+    - export JUGGLER_DETECTOR="detector_template"
     - |
       if [[ "x${CI_PIPELINE_SOURCE}" == "xmerge_request_event"  || "$CI_COMMIT_BRANCH" == "master" ]]; then
         export JUGGLER_DETECTOR_VERSION="${CI_COMMIT_REF_NAME}"
@@ -89,16 +89,16 @@ overlap_check:
   needs: 
     - ["compile"]
   script:
-    - checkOverlaps -c topside.xml  | tee doc/overlap_check.out 
+    - checkOverlaps -c detector_template.xml  | tee doc/overlap_check.out 
     - echo "$(cat doc/overlap_check.out | grep ovlp | wc -l) overlaps..."
     - if [[ "$(cat doc/overlap_check.out | grep ovlp | wc -l)" -gt "1" ]] ; then echo "Overlaps exist!" && false ; fi
 
-topside:config_testing:
+detector:config_testing:
   stage: test
   needs: 
     - ["compile"]
   script:
-    - checkOverlaps -c topside.xml  | tee doc/overlap_check.out | wc -l
+    - checkOverlaps -c detector_template.xml  | tee doc/overlap_check.out | wc -l
     - cat doc/overlap_check.out
   allow_failure: true
 

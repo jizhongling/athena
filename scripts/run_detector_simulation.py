@@ -6,13 +6,13 @@ import logging
 
 import argparse
 parser = argparse.ArgumentParser(
-     prog='run_topside',
+     prog='run_detector_simulation',
      description='''This runs the simulation  the but that is okay''',
      epilog='''
      This program should be run in the "compact" directory.
          ''')
 parser.add_argument("-v","--verbose", help="increase output verbosity", type=int, default=0)
-parser.add_argument("--compact", help="compact detector file",default="topside.xml")
+parser.add_argument("--compact", help="compact detector file",default="detector_template.xml")
 parser.add_argument("--vis", help="vis true/false", action="store_true",default=False)
 parser.add_argument("--ui", help="ui setting tcsh or qt; default=qt", type=str,default="qt",dest="ui")
 parser.add_argument("-b","--batch", help="batch turns off vis/ui", action="store_true",default=False, dest="batch")
@@ -86,7 +86,7 @@ def run():
 
     outputfile = args.output
     if outputfile is None:
-        outputfile = 'data/topside_' + time.strftime('%Y-%m-%d_%H-%M')
+        outputfile = 'data/detector_template_' + time.strftime('%Y-%m-%d_%H-%M')
     #rootoutput = geant4.setupROOTOutput('RootOutput', outputfile)
     #rootoutput.HandleMCTruth = True
 
