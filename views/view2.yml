@@ -1,0 +1,17 @@
+dawn_view_02:detector:
+  extends: .views
+  script:
+    - ./bin/make_dawn_views -t view02 -d scripts/view2 -D
+dawn_view_02:ev002:
+  extends: .views
+  script:
+    - ./bin/make_dawn_views -t view02_ev002 -d scripts/view2 -s 2
+
+view_02:
+  stage: test
+  needs:
+    - ["dawn_view_02:detector", "dawn_view_02:ev002"]
+  script:
+    - ls -lrth *
+    - ls -lrth images/*
+
