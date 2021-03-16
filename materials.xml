@@ -2,7 +2,6 @@
 <materials>
   <!--
        Air by weight from
-
        http://www.engineeringtoolbox.com/air-composition-24_212.html
   -->
   <material name="Air">
