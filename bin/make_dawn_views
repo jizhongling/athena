@@ -35,7 +35,7 @@ SKIP_EVENTS=0
 DETECTOR_ONLY=0
 FILE_TAG="view"
 DAWN_RUN_DIR="scripts/view1"
-DETECTOR_FILE="detector_template.xml"
+DETECTOR_FILE="reference_detector.xml"
 
 POSITIONAL=()
 while [[ $# -gt 0 ]]
