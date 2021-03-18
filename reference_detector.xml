@@ -1,0 +1,71 @@
+<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0" 
+       xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+       xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
+
+  <!-- Some information about detector  -->
+  <info name="Test Detector" title="Test Detector"
+        author="Jihee Kim"
+	url="https://eicweb.phy.anl.gov/EIC/detectors/reference_detector.git"
+	status="development"
+	version="v1 2021-03-16">
+    <comment>Test Detector</comment>        
+  </info>
+
+  <!-- Use DD4hep elements and materials definitions -->
+  <includes>
+    <gdmlFile ref="elements.xml"/>
+    <gdmlFile ref="materials.xml"/>
+  </includes>
+
+  <!-- Define the dimensions of the world volume -->
+  <define>
+    <constant name="world_side" value="50*m"/>
+    <constant name="world_x"    value="world_side"/>
+    <constant name="world_y"    value="world_side"/>
+    <constant name="world_z"    value="world_side"/>
+
+    <constant name="tracker_region_zmax" value="6 * m"/>
+    <constant name="tracker_region_rmax" value="6 * m"/>
+
+    <constant name="TestDetector_ID"           value="999"/>
+    <constant name="TestDetector_inner_radius" value="10.0 * cm"/>
+    <constant name="TestDetector_rmin"         value="10.0 * cm"/>
+    <constant name="TestDetector_thickness"    value="100.0 * cm"/>
+    <constant name="TestDetector_inner_z"      value="40.0 * cm"/>
+    <constant name="TestDetector_angle"        value="0.0 * rad"/>
+  </define>
+
+  <limits>
+  </limits>
+
+  <regions>
+  </regions>
+
+  <!-- Common Generic visualization attributes -->
+  <comment>Common Generic visualization attributes</comment>
+  <display>
+    <vis name="TestDetectorVis" alpha="0.4"  r= "0.1"  g="0.0"  b="0.1"  showDaughters="true" visible="true"/>
+  </display>
+
+  <!-- Define detector -->
+  <detectors>
+    <comment>
+      Central Barrel Solenoid Magnet
+    </comment>
+    <detector id="TestDetector_ID" name="TestDetector" type="TestDetector" vis="TestDetectorVis">
+      <dimensions inner_radius="TestDetector_inner_radius" 
+	          rmin="TestDetector_rmin" 
+	          thickness="TestDetector_thickness" 
+	          inner_z="TestDetector_inner_z" 
+	          angle="TestDetector_angle"/>
+      <material name="Steel235"/>
+    </detector>
+  </detectors>
+
+  <plugins>
+  </plugins>
+
+  <fields>
+  </fields>
+
+</lccdd>

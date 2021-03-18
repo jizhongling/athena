@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.3 FATAL_ERROR)
-PROJECT(detector_template
+PROJECT(reference_detector
   VERSION 0.0.1
   LANGUAGES CXX
   DESCRIPTION "A template dd4hep+acts detector"
@@ -11,11 +11,11 @@ find_package( DD4hep REQUIRED COMPONENTS DDCore DDG4 )
 #find_package(Acts REQUIRED COMPONENTS Core PluginIdentification PluginTGeo PluginDD4hep )
 
 #-----------------------------------------------------------------------------------
-set(a_lib_name detector_template)
+set(a_lib_name reference_detector)
 
-if("${PROJECT_NAME}" STREQUAL "detector_template")
+if("${PROJECT_NAME}" STREQUAL "reference_detector")
   message(WARNING "
-  Current project and library is named detector_template!
+  Current project and library is named reference_detector!
   Please rename library to match corresponding detector implmentation.")
 endif()
 
