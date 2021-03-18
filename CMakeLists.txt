@@ -13,12 +13,6 @@ find_package( DD4hep REQUIRED COMPONENTS DDCore DDG4 )
 #-----------------------------------------------------------------------------------
 set(a_lib_name reference_detector)
 
-if("${PROJECT_NAME}" STREQUAL "reference_detector")
-  message(WARNING "
-  Current project and library is named reference_detector!
-  Please rename library to match corresponding detector implmentation.")
-endif()
-
 dd4hep_configure_output()
 
 dd4hep_add_plugin(${a_lib_name} SOURCES src/*.cpp
