@@ -5,6 +5,8 @@ Overview
 [Reference_Detector_doc] (https://escalate.readthedocs.io/projects/g4e/en/latest/detector_naming.html)
 [g4e] (https://gitlab.com/eic/escalate/g4e)
 
+[eic_tutorial] (https://argonne_eic.gitlab.io/tutorial/eic_tutorial/part2/adding_detectors/)
+
 [DD4hep](https://github.com/AIDAsoft/DD4hep)
 This library makes  full detector simulation
 by providing a set of flexible **parameterized detectors**.
