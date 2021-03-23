@@ -28,9 +28,9 @@
     <constant name="tracker_region_rmax" value="6 * m"/>
 
     <constant name="cb_Solenoid_ID"    value="1"/>
-    <constant name="cb_Solenoid_rmin"  value="0.0 * cm"/>
-    <constant name="cb_Solenoid_rmax"  value="137.0 * cm"/>
-    <constant name="cb_Solenoid_z"     value="400.0 * cm"/>
+    <constant name="cb_Solenoid_rmin"  value="0.0 * cm"/>   <!-- Central Barrel Solenoid Inner diameter -->
+    <constant name="cb_Solenoid_rmax"  value="137.0 * cm"/> <!-- Central Barrel Solenoid Outer diameter -->
+    <constant name="cb_Solenoid_z"     value="400.0 * cm"/> <!-- Central Barrel Solenoid Size in Z direction -->
     <constant name="cb_Solenoid_shift" value="0.0 * cm"/>
   </define>
 
@@ -51,9 +51,8 @@
     <comment>
       Central Barrel Solenoid Magnet
     </comment>
-    <!-- TODO: Add material -->
     <detector id="cb_Solenoid_ID" name="cb_Solenoid" type="cb_Solenoid" insideTrackingVolume="false" vis="cb_SolenoidVis">
-      <material name="Steel235"/>	    
+	    <material name="Vacuum"/>  <!-- G4_Galactic -->	    
       <dimensions rmin="cb_Solenoid_rmin" rmax="cb_Solenoid_rmax" z="cb_Solenoid_z" delta="cb_Solenoid_shift"/>
     </detector>
   </detectors>
@@ -61,7 +60,7 @@
   <plugins>
   </plugins>
 
-  <!-- TODO: Define field -->
+  <!-- TODO: Define field using field map-->
   <fields>
     <field type="solenoid" name="GlobalSolenoid" inner_field="1.5 * tesla" outer_field="0.5*tesla" 
            zmin="100.0 * cm" zmax="100.0 * cm" inner_radius="100.0 * cm" outer_radius="100.0 * cm"/>

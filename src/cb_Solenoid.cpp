@@ -12,12 +12,10 @@ static Ref_t createDetector(Detector& desc, xml_h handle, SensitiveDetector sens
   int             detID   = detElem.id();
 
   xml::Component dims = detElem.dimensions();
-  double SizeZ  = dims.z();    // Size in Z direction
-  double ROut   = dims.rmax(); // Outer diameter
-  double RIn    = dims.rmin(); // Inner diameter
+  double SizeZ  = dims.z();     // Size in Z direction
+  double ROut   = dims.rmax();  // Outer diameter
+  double RIn    = dims.rmin();  // Inner diameter
   double ShiftZ = dims.delta();
-  // TODO: Material
-  //Material mat  = desc.material("Steel235");
   Material mat = desc.material(detElem.materialStr());
 
   Tube   cb_Solenoid_GVol_Solid(RIn, ROut, SizeZ / 2., 0., 360 * deg);
