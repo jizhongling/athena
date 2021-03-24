@@ -12,7 +12,7 @@
   </info>
 
   <define>
-    <include ref="compact/reference_detector_defs.xml" />
+    <include ref="compact/definitions.xml" />
     <!--
     <include ref="eic/eic_defs.xml" />
     -->
