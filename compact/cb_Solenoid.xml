@@ -1,19 +1,7 @@
-<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0" 
-       xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-       xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
+<lccdd>
 
-  <!-- Some information about detector  -->
-  <info name="Central Barrel Solenoid" title="Central Barrel Solenoid"
-        author="Jihee Kim"
-        url="https://eicweb.phy.anl.gov/EIC/detectors/reference_detector.git"
-        status="development"
-        version="v1 2021-03-15">
-    <comment>Central Barrel Solenoid</comment>        
-  </info>
+  <comment>Central Barrel Solenoid</comment>        
 
-  <includes>
-  </includes>
-  
   <define>
   </define>
 
@@ -31,7 +19,7 @@
     <comment>
       Central Barrel Solenoid Magnet
     </comment>
-    <detector id="cb_Solenoid_ID" name="cb_Solenoid" type="cb_Solenoid" insideTrackingVolume="false" vis="cb_SolenoidVis">
+    <detector id="Solenoid_ID" name="cb_Solenoid" type="cb_Solenoid" insideTrackingVolume="false" vis="cb_SolenoidVis">
 	    <material name="Vacuum"/>  <!-- G4_Galactic -->	    
       <dimensions rmin="cb_Solenoid_rmin" rmax="cb_Solenoid_rmax" z="cb_Solenoid_z" delta="cb_Solenoid_shift"/>
     </detector>
