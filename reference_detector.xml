@@ -1,13 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<lccdd>
-  <info 
-    name="reference_detector" 
-    title="reference_detector" 
-    author="Whitney R. Armstrong" 
-    url="" 
-    status="development" 
-    version="$Id: 1$">
-    <comment> </comment>
+<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0" 
+       xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+       xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
+
+  <!-- Some information about detector  -->
+  <info name="Reference Detector" title="Reference Detector"
+        author="Jihee Kim, Whitney Armstrong"
+	url="https://eicweb.phy.anl.gov/EIC/detectors/reference_detector.git"
+	status="development"
+	version="v1 2021-03-16">
+    <comment>Test Detector</comment>        
   </info>
 
   <define>
@@ -88,6 +89,7 @@
       <property name="EFFICIENCY"              coldim="2" values="2.034*eV  0.8   4.136*eV  1.0"/>
       <property name="RINDEX"                  coldim="2" values="1.034*eV  1.5   4.136*eV  1.5"/>
     </opticalsurface>
+  <!-- Define the dimensions of the world volume -->
 
   </surfaces>
   <limits>
@@ -112,6 +114,7 @@
   <include ref="compact/beampipe.xml"/>
   <include ref="compact/silicon_tracker.xml"/>
   -->
+  <include ref="compact/cb_Solenoid.xml"/>
   <include ref="compact/ecal.xml"/>
   <!--
   <include ref="compact/solenoid.xml"/>
