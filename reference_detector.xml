@@ -114,9 +114,9 @@
   <include ref="compact/beampipe.xml"/>
   <include ref="compact/silicon_tracker.xml"/>
   -->
-  <include ref="compact/cb_Solenoid.xml"/>
-  <include ref="compact/ecal.xml"/>
+  <include ref="compact/solenoid.xml"/>
   <!--
+  <include ref="compact/ecal.xml"/>
   <include ref="compact/solenoid.xml"/>
   <include ref="compact/hcal.xml"/>
   <include ref="compact/reference_detector_rich.xml"/>

@@ -235,6 +235,15 @@
       Solenoid Magnet Parameters
       --------------------------
     </comment>
+
+    <comment>
+      These cb_ parameters don't make sense
+    </comment>
+    <constant name="cb_Solenoid_rmin"  value="0.0 * cm"/>   <comment> Central Barrel Solenoid Inner diameter </comment>
+    <constant name="cb_Solenoid_rmax"  value="137.0 * cm"/> <comment> Central Barrel Solenoid Outer diameter </comment>
+    <constant name="cb_Solenoid_z"     value="400.0 * cm"/> 
+    <constant name="cb_Solenoid_shift" value="0.0 * cm"/><comment> Central Barrel Solenoid Size in Z direction </comment>
+
     <constant name="Solenoid_thickness"      value="400*mm"/>
     <constant name="Solenoid_rmin"           value="2000.0*mm"/>
     <constant name="Solenoid_rmax"           value="Solenoid_rmin + Solenoid_thickness"/>

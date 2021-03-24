@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lccdd>
+  <define>
+    <comment>
+      --------------------------
+      Solenoid Magnet Parameters
+      --------------------------
+    </comment>
+  </define>
+
+  <detectors>
+    <comment>
+      ---------------
+      Solenoid Magnet
+      ---------------
+      The solenoid superconducting magnet and surrounding cryostat and
+      yoke endcaps.
+    </comment>
+    <detector 
+      id="Solenoid_ID"
+      name="SolenoidCoilBarrel" 
+      type="DD4hep_MultiLayerTracker" 
+      insideTrackingVolume="false">
+      <layer id="1" 
+        inner_r="Solenoid_rmin" 
+        outer_z="SolenoidBarrel_zmax" 
+        vis="SolenoidCryostatVis">
+        <slice material="Steel235" thickness="SolenoidBarrelCryostatThickness"/>
+        <slice material="Vacuum" thickness="SolenoidBarrelGapThickness"/>
+      </layer>
+      <layer id="2" 
+        inner_r="SolenoidCoilConductor_rmin" 
+        outer_z="SolenoidCoil_zmax" 
+        vis="SolenoidCoilVis">
+        <slice material="Aluminum" thickness="SolenoidBarrelAlConductorThickness"/>
+        <slice material="Aluminum" thickness="SolenoidBarrelQuenchbackThickness"/>
+      </layer>
+      <layer id="3" 
+        inner_r="SolenoidCoilConductor_rmax" 
+        outer_z="SolenoidBarrel_zmax" 
+        vis="SolenoidCryostatVis">
+        <slice material="Vacuum" thickness="SolenoidBarrelOuterGapThickness"/>
+        <slice material="Steel235" thickness="SolenoidBarrelOuterCryostatThickness"/>
+      </layer>
+    </detector>
+
+    <detector 
+      id="SolenoidSupport_ID"
+      name="SolenoidCoilEnds"
+      type="DD4hep_DiskTracker"
+      insideTrackingVolume="false"
+      reflect="true"
+      vis="SolenoidCryostatVis">
+      <layer id="1" 
+        inner_z="SolenoidCoil_zmax" 
+        inner_r="SolenoidCoilConductor_rmin" 
+        outer_r="SolenoidCoilConductor_rmax">
+        <slice material="Vacuum" thickness="SolenoidEndPlateGapThickness/2.0"/>
+      </layer>
+      <!--
+      <layer id="2" 
+        inner_z="SolenoidCoil_zmax + SolenoidEndPlateGapThickness" 
+        inner_r="Solenoid_rmin+SolenoidBarrelCryostatThickness" 
+        outer_r="SolenoidBarrel_rmax-SolenoidBarrelOuterCryostatThickness">
+        <slice material="Steel235" thickness="SolenoidEndPlateCryostatThickness"/>
+      </layer>
+      -->
+    </detector>
+
+    <detector 
+      id="SolenoidYoke_ID"
+      name="SolenoidYokeEndcaps"
+      type="DD4hep_DiskTracker"
+      insideTrackingVolume="false"
+      reflect="true"
+      vis="SolenoidYokeVis">
+      <layer id="1" 
+        vis="PurpleVis"
+        inner_z="SolenoidBarrel_zmax + SolenoidEndPlateGapThickness" 
+        inner_r="SolenoidYokeEndcapP_rmin" 
+        outer_r="SolenoidBarrel_rmax">
+        <slice material="Steel235" thickness="SolenoidYokeEndcapThickness/2.0" vis="SolenoidYokeVis" />
+      </layer>
+    </detector>
+    <!--
+    <detector name="SolenoidYoke" type="SiEIC_Yoke" vis="SolenoidYokeVis">
+      <material name="Steel235"/>
+      <dimensions inner_radius="SolenoidYokeInnerRadius" thickness="SolenoidYokeThickness" rmin="CaloInnerRadius + 10 * mm" angle="SolenoidYokeChamferAngle" inner_z="SolenoidYokeInnerZ"/>
+    </detector>
+    -->
+  </detectors>
+
+  <fields>
+    <field type="solenoid" name="GlobalSolenoid" inner_field="3.0 * tesla" outer_field="0.5*tesla" 
+           zmin="-SolenoidCoil_zmax" zmax="SolenoidCoil_zmax" 
+           inner_radius="SolenoidalFieldRadius" outer_radius="SolenoidalFieldRadius+20*cm"/>
+  </fields>
+
+</lccdd>
