@@ -1,71 +1,132 @@
-<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0" 
-       xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-       xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
-
-  <!-- Some information about detector  -->
-  <info name="Test Detector" title="Test Detector"
-        author="Jihee Kim"
-	url="https://eicweb.phy.anl.gov/EIC/detectors/reference_detector.git"
-	status="development"
-	version="v1 2021-03-16">
-    <comment>Test Detector</comment>        
+<?xml version="1.0" encoding="UTF-8"?>
+<lccdd>
+  <info 
+    name="reference_detector" 
+    title="reference_detector" 
+    author="Whitney R. Armstrong" 
+    url="" 
+    status="development" 
+    version="$Id: 1$">
+    <comment> </comment>
   </info>
 
-  <!-- Use DD4hep elements and materials definitions -->
-  <includes>
-    <gdmlFile ref="elements.xml"/>
-    <gdmlFile ref="materials.xml"/>
-  </includes>
-
-  <!-- Define the dimensions of the world volume -->
   <define>
-    <constant name="world_side" value="50*m"/>
-    <constant name="world_x"    value="world_side"/>
-    <constant name="world_y"    value="world_side"/>
-    <constant name="world_z"    value="world_side"/>
-
-    <constant name="tracker_region_zmax" value="6 * m"/>
-    <constant name="tracker_region_rmax" value="6 * m"/>
-
-    <constant name="TestDetector_ID"           value="999"/>
-    <constant name="TestDetector_inner_radius" value="10.0 * cm"/>
-    <constant name="TestDetector_rmin"         value="10.0 * cm"/>
-    <constant name="TestDetector_thickness"    value="100.0 * cm"/>
-    <constant name="TestDetector_inner_z"      value="40.0 * cm"/>
-    <constant name="TestDetector_angle"        value="0.0 * rad"/>
+    <include ref="compact/reference_detector_defs.xml" />
+    <!--
+    <include ref="eic/eic_defs.xml" />
+    -->
   </define>
 
+  <properties>
+    <matrix name="RINDEX__Vacuum" coldim="2" values="
+      1.0*eV 1.0
+      5.1*eV 1.0
+      "/>
+    <matrix name="RINDEX__Air" coldim="2" values="
+      1.0*eV 1.00029
+      5.1*eV 1.00029
+      "/>
+    <matrix name="RINDEX__Quartz" coldim="2" values="
+      1.0*eV 1.46
+      5.1*eV 1.46
+      "/>
+    <matrix name="RINDEX__N2" coldim="2" values="
+      1.0*eV 1.00033
+      4.0*eV 1.00033
+      5.1*eV 1.00033
+      "/>
+    <matrix name="RINDEX__Pyrex" coldim="2" values="
+      1.0*eV 1.5
+      4.0*eV 1.5
+      5.1*eV 1.5
+      "/>
+    <matrix name= "REFLECTIVITY_mirror" coldim="2" values="
+      1.0*eV  0.9
+      4.0*eV  0.9
+      5.1*eV  0.9
+    "/>
+  </properties>
+
+  <includes>
+    <gdmlFile ref="compact/elements.xml"/>
+    <gdmlFile ref="compact/materials.xml"/>
+  </includes>
+
+  <materials>
+    <material name="AirOptical">
+      <D type="density" unit="g/cm3" value="0.0012"/>
+      <fraction n="0.754" ref="N"/>
+      <fraction n="0.234" ref="O"/>
+      <fraction n="0.012" ref="Ar"/>
+      <property name="RINDEX" ref="RINDEX__Vacuum"/>
+    </material>
+    <material name="N2cherenkov">
+      <D type="density" value="0.00125" unit="g/cm3"/>
+      <composite n="1" ref="N"/>
+      <property name="RINDEX"  ref="RINDEX__N2"/>
+    </material>
+    <material name="PyrexGlass">
+      <D type="density" value="2.23" unit="g/cm3"/>
+      <fraction n="0.806" ref="SiliconOxide"/>
+      <fraction n="0.130" ref="BoronOxide"/>
+      <fraction n="0.040" ref="SodiumOxide"/>
+      <fraction n="0.023" ref="AluminumOxide"/>
+      <property name="RINDEX" ref="RINDEX__Pyrex"/>
+    </material>
+  </materials>
+
+  <surfaces>
+    <comment> For the values of "finish", model and type, see TGeoOpticalSurface.h !
+    </comment>
+    <opticalsurface finish="polished" model="glisur" name="MirrorOpticalSurface" type="dielectric_metal" value="0">
+      <property name="REFLECTIVITY" ref="REFLECTIVITY_mirror"/>
+      <property name="RINDEX"       coldim="2" values="1.034*eV  1.5   4.136*eV  1.5"/>
+      <!--<property name="EFFICIENCY"   ref="EFFICIENCY0x8b77240"/>-->
+    </opticalsurface>
+    <opticalsurface name="mirror2" finish="polished" model="glisur" type="dielectric_dielectric">
+      <property name="REFLECTIVITY"            coldim="2" values="1.034*eV  0.8   4.136*eV  0.9"/>
+      <property name="EFFICIENCY"              coldim="2" values="2.034*eV  0.8   4.136*eV  1.0"/>
+      <property name="RINDEX"                  coldim="2" values="1.034*eV  1.5   4.136*eV  1.5"/>
+    </opticalsurface>
+
+  </surfaces>
   <limits>
+    <limitset name="EICBeamlineLimits">
+      <limit name="step_length_max" particles="*" value="1.0" unit="mm" />
+      <limit name="track_length_max" particles="*" value="1.0" unit="mm" />
+      <limit name="time_max" particles="*" value="0.1" unit="ns" />
+      <limit name="ekin_min" particles="*" value="0.001" unit="MeV" />
+      <limit name="range_min" particles="*" value="0.1" unit="mm" />
+    </limitset>
+    <limitset name="cal_limits">
+      <limit name="step_length_max" particles="*" value="5.0" unit="mm"/>
+    </limitset>
   </limits>
 
-  <regions>
-  </regions>
-
-  <!-- Common Generic visualization attributes -->
-  <comment>Common Generic visualization attributes</comment>
   <display>
-    <vis name="TestDetectorVis" alpha="0.4"  r= "0.1"  g="0.0"  b="0.1"  showDaughters="true" visible="true"/>
+  <include ref="compact/display.xml" />
   </display>
 
-  <!-- Define detector -->
+  <!--
+  <include ref="reference_detector/vertex_tracker.xml"/>
+  <include ref="compact/beampipe.xml"/>
+  <include ref="compact/silicon_tracker.xml"/>
+  -->
+  <include ref="compact/ecal.xml"/>
+  <!--
+  <include ref="compact/solenoid.xml"/>
+  <include ref="compact/hcal.xml"/>
+  <include ref="compact/reference_detector_rich.xml"/>
+  <include ref="compact/roman_pots.xml"/>
+  -->
+  <!--
+  <include ref="eic/forward_ion_beamline.xml"/>
+  -->
+
   <detectors>
-    <comment>
-      Central Barrel Solenoid Magnet
-    </comment>
-    <detector id="TestDetector_ID" name="TestDetector" type="TestDetector" vis="TestDetectorVis">
-      <dimensions inner_radius="TestDetector_inner_radius" 
-	          rmin="TestDetector_rmin" 
-	          thickness="TestDetector_thickness" 
-	          inner_z="TestDetector_inner_z" 
-	          angle="TestDetector_angle"/>
-      <material name="Steel235"/>
-    </detector>
   </detectors>
+  <readouts>
+  </readouts>
 
-  <plugins>
-  </plugins>
-
-  <fields>
-  </fields>
 
 </lccdd>
