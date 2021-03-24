@@ -1,0 +1,184 @@
+<lccdd>
+
+  <define>
+    <constant name="CrystalEndcap_rmin"  value="VertexTrackerInnerRadius"/>
+    <constant name="CrystalEndcap_rmax"  value="EcalEndcapN_rmin"/>
+    <constant name="CrystalBox_x_length" value="20.0*mm"/>
+    <constant name="CrystalBox_y_length" value="20.0*mm"/>
+    <constant name="CrystalBox_z_length" value="200.0*mm"/>
+    <constant name="CrystalBox_offset"   value="0.000001*mm"/>
+    <constant name="CrystalEndcap_x_pos" value="0.0*m"/>
+    <constant name="CrystalEndcap_y_pos" value="0.0*m"/>
+    <constant name="CrystalEndcap_z_pos" value="-EcalEndcap_zmin"/>
+  </define>
+
+
+  <limits>
+  </limits>
+
+  <regions>
+  </regions>
+
+  <!-- Common Generic visualization attributes -->
+  <comment>Common Generic visualization attributes</comment>
+  <display>
+  </display>
+
+
+  <detectors>
+
+    <comment>
+      ---------------------
+      Barrel EM Calorimeter
+      ---------------------
+      A layered EM calorimeter with tungsten and silicon (or scintillator) strips
+    </comment>
+    <detector 
+      id="ECalBarrel_ID"
+      name="EcalBarrel"
+      type="DD4hep_EcalBarrel"
+      readout="EcalBarrelHits"
+      calorimeterType="EM_BARREL">
+      <dimensions 
+        numsides="CaloSides" 
+        rmin="EcalBarrel_rmin" 
+        z="EcalBarrelLength"/>
+      <staves vis="EcalBarrelVis"/>
+      <layer repeat="1">
+        <slice material="Silicon" thickness="EcalSiliconThickness" sensitive="yes" limits="cal_limits"/>
+        <slice material="Copper" thickness="EcalCopperThickness"/>
+        <slice material="Kapton" thickness="EcalKaptonThickness"/>
+        <slice material="Air" thickness="EcalAir1Thickness"/>
+      </layer>
+      <layer repeat="EcalBarrelThinLayers">
+        <slice material="TungstenDens24" thickness="EcalThinTungstenThickness"/>
+        <slice material="Air" thickness="EcalAir2Thickness"/>
+        <slice material="Silicon" thickness="EcalSiliconThickness" sensitive="yes" limits="cal_limits"/>
+        <slice material="Copper" thickness="EcalCopperThickness"/>
+        <slice material="Kapton" thickness="EcalKaptonThickness"/>
+        <slice material="Air" thickness="EcalAir1Thickness"/>
+      </layer>
+      <layer repeat="EcalBarrelThickLayers">
+        <slice material="TungstenDens24" thickness="EcalThickTungstenThickness"/>
+        <slice material="Air" thickness="EcalAir2Thickness"/>
+        <slice material="Silicon" thickness="EcalSiliconThickness" sensitive="yes" limits="cal_limits"/>
+        <slice material="Copper" thickness="EcalCopperThickness"/>
+        <slice material="Kapton" thickness="EcalKaptonThickness"/>
+        <slice material="Air" thickness="EcalAir1Thickness"/>
+      </layer>
+    </detector>
+
+    <comment>
+      -----------------------------
+      Forward Endcap EM Calorimeter
+      -----------------------------
+      A layered EM calorimeter with tungsten and silicon (or scintillator) strips
+    </comment>
+    <detector id="ECalEndcapP_ID" 
+      name="EcalEndcapP" 
+      reflect="false" 
+      type="DD4hep_PolyhedraEndcapCalorimeter2" 
+      readout="EcalEndcapHits" 
+      vis="EcalEndcapVis" 
+      calorimeterType="EM_ENDCAP" >
+      <dimensions 
+        numsides="CaloSides" 
+        zmin="EcalEndcap_zmin" 
+        rmin="EcalEndcapP_rmin" 
+        rmax="EcalBarrel_rmax " />
+      <layer repeat="1">
+        <slice material="Silicon" thickness="EcalSiliconThickness" sensitive="yes" limits="cal_limits"/>
+        <slice material="Copper" thickness="EcalCopperThickness"/>
+        <slice material="Kapton" thickness="EcalKaptonThickness"/>
+        <slice material="Air" thickness="EcalAir1Thickness"/>
+      </layer>
+      <layer repeat="EcalEndcapThinLayers">
+        <slice material="TungstenDens24" thickness="EcalThinTungstenThickness"/>
+        <slice material="Air" thickness="EcalAir2Thickness"/>
+        <slice material="Silicon" thickness="EcalSiliconThickness" sensitive="yes" limits="cal_limits"/>
+        <slice material="Copper" thickness="EcalCopperThickness"/>
+        <slice material="Kapton" thickness="EcalKaptonThickness"/>
+        <slice material="Air" thickness="EcalAir1Thickness"/>
+      </layer>
+      <layer repeat="EcalEndcapThickLayers">
+        <slice material="TungstenDens24" thickness="EcalThickTungstenThickness"/>
+        <slice material="Air" thickness="EcalAir2Thickness"/>
+        <slice material="Silicon" thickness="EcalSiliconThickness" sensitive="yes" limits="cal_limits"/>
+        <slice material="Copper" thickness="EcalCopperThickness"/>
+        <slice material="Kapton" thickness="EcalKaptonThickness"/>
+        <slice material="Air" thickness="EcalAir1Thickness"/>
+      </layer>
+    </detector>
+
+
+    <comment>
+      -------------------------------
+      Backwards Endcap EM Calorimeter
+      -------------------------------
+      A layered EM calorimeter with tungsten and silicon (or scintillator) strips
+    </comment>
+    <detector id="ECalEndcapN_ID" 
+      name="EcalEndcapN" 
+      type="refdet_PolyhedraEndcapCalorimeter2" 
+      reflect="true" 
+      readout="EcalEndcapHits" 
+      vis="EcalEndcapVis" 
+      calorimeterType="EM_ENDCAP">
+      <dimensions 
+        numsides="CaloSides" 
+        zmin="EcalEndcap_zmin" 
+        rmin="EcalEndcapN_rmin" 
+        rmax="EcalBarrel_rmax " />
+      <layer repeat="1">
+        <slice material="Silicon" thickness="EcalSiliconThickness" sensitive="yes" limits="cal_limits"/>
+        <slice material="Copper" thickness="EcalCopperThickness"/>
+        <slice material="Kapton" thickness="EcalKaptonThickness"/>
+        <slice material="Air" thickness="EcalAir1Thickness"/>
+      </layer>
+      <layer repeat="EcalEndcapThinLayers">
+        <slice material="TungstenDens24" thickness="EcalThinTungstenThickness"/>
+        <slice material="Air" thickness="EcalAir2Thickness"/>
+        <slice material="Silicon" thickness="EcalSiliconThickness" sensitive="yes" limits="cal_limits"/>
+        <slice material="Copper" thickness="EcalCopperThickness"/>
+        <slice material="Kapton" thickness="EcalKaptonThickness"/>
+        <slice material="Air" thickness="EcalAir1Thickness"/>
+      </layer>
+      <layer repeat="EcalEndcapThickLayers">
+        <slice material="TungstenDens24" thickness="EcalThickTungstenThickness"/>
+        <slice material="Air" thickness="EcalAir2Thickness"/>
+        <slice material="Silicon" thickness="EcalSiliconThickness" sensitive="yes" limits="cal_limits"/>
+        <slice material="Copper" thickness="EcalCopperThickness"/>
+        <slice material="Kapton" thickness="EcalKaptonThickness"/>
+        <slice material="Air" thickness="EcalAir1Thickness"/>
+      </layer>
+    </detector>
+  </detectors>
+
+  <!--  Definition of the readout segmentation/definition  -->
+  <readouts>
+    <!--  
+    <readout name="PlaneTrackerHits">
+      <segmentation type="CartesianGridXY" grid_size_x="20.0*mm" grid_size_y="20.0*mm" />
+      <id>system:5,module:4,x:32:-16,y:-16</id>
+    </readout>
+    <readout name="CrystalEcalHits">
+      <segmentation type="CartesianGridXY" grid_size_x="CrystalBox_x_length" grid_size_y="CrystalBox_y_length" />
+      <id>system:8,sector:4,module:20,x:48:-8,y:-8</id>
+    </readout>
+    -->
+    <readout name="EcalBarrelHits">
+      <segmentation type="CartesianGridXY" grid_size_x="3.5 * mm" grid_size_y="3.5 * mm"/>
+      <id>system:8,barrel:3,module:4,layer:6,slice:5,x:32:-16,y:-16</id>
+    </readout>
+    <readout name="EcalEndcapHits">
+      <segmentation type="CartesianGridXY" grid_size_x="3.5 * mm" grid_size_y="3.5 * mm"/>
+      <id>system:8,barrel:3,module:4,layer:6,slice:5,x:32:-16,y:-16</id>
+    </readout>
+  </readouts>
+
+  <plugins>
+  </plugins>
+
+<fields>
+</fields>
+</lccdd>
