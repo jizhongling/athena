@@ -423,6 +423,7 @@
     </comment>
     <constant name="RICHZMin" value="SolenoidYokeEndcap_zmin + 1 * cm"/>
     <constant name="RICHRMin" value="15 * cm"/>
+    <constant name="RICHRMax" value="60 * cm"/>
     <constant name="RICHDepth" value="1 * m"/>
 
 
