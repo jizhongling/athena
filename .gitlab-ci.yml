@@ -36,6 +36,8 @@ env:
     - |
       if [[ "x${CI_PIPELINE_SOURCE}" == "xmerge_request_event"  || "$CI_COMMIT_BRANCH" == "master" ]]; then
         export JUGGLER_DETECTOR_VERSION="${CI_COMMIT_REF_NAME}"
+        echo "BEAMLINE_CONFIG          = ${BEAMLINE_CONFIG}"
+        echo "BEAMLINE_CONFIG_VERSION  = ${BEAMLINE_CONFIG_VERSION}"
         echo "JUGGLER_DETECTOR         = ${JUGGLER_DETECTOR}"
         echo "JUGGLER_DETECTOR_VERSION = ${CI_COMMIT_REF_NAME}"
         echo "JUGGLER_DETECTOR_VERSION=$CI_COMMIT_REF_NAME" >> juggler.env
