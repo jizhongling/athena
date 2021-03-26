@@ -13,8 +13,9 @@
 
   <define>
     <include ref="compact/definitions.xml" />
-    <!--
     <include ref="eic/eic_defs.xml" />
+    <include ref="ip6/ip6_defs.xml" />
+    <!--
     -->
   </define>
 
@@ -110,10 +111,10 @@
   </display>
 
   <!--
-  <include ref="ip6/beampipe.xml"/>
   <include ref="reference_detector/vertex_tracker.xml"/>
   <include ref="compact/silicon_tracker.xml"/>
   -->
+  <include ref="ip6/beampipe.xml"/>
   <include ref="compact/solenoid.xml"/>
   <include ref="compact/ecal.xml"/>
   <include ref="compact/hcal.xml"/>
@@ -121,8 +122,8 @@
   <!--
   <include ref="compact/roman_pots.xml"/>
   -->
-  <!--
   <include ref="eic/forward_ion_beamline.xml"/>
+  <!--
   -->
 
   <detectors>
