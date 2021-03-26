@@ -51,6 +51,7 @@ compile:
   needs:
     - ["env"]
   script:
+    - mkdir -p build && cd build && cmake ../. -DCMAKE_INSTALL_PREFIX=/usr/local && make -j20 && make install  && cd ..
     - echo "Build successful."
 
 .views:
@@ -103,24 +104,24 @@ detector:config_testing:
     - cat doc/overlap_check.out
   allow_failure: true
 
-benchmarks:reconstruction:
-  stage: deploy
-  variables:
-    JUGGLER_DETECTOR: "$JUGGLER_DETECTOR"
-    JUGGLER_DETECTOR_VERSION: "$JUGGLER_DETECTOR_VERSION"
-  trigger:
-    project: EIC/benchmarks/reconstruction_benchmarks
-    strategy: depend
-  needs: ["env","overlap_check","report"]
-  
-
-benchmarks:physics:
-  stage: deploy
-  variables:
-    JUGGLER_DETECTOR: "$JUGGLER_DETECTOR"
-    JUGGLER_DETECTOR_VERSION: "$JUGGLER_DETECTOR_VERSION"
-  trigger:
-    project: EIC/benchmarks/physics_benchmarks
-    strategy: depend
-  needs: ["env","overlap_check","report"]
+    #benchmarks:reconstruction:
+    #  stage: deploy
+    #  variables:
+    #    JUGGLER_DETECTOR: "$JUGGLER_DETECTOR"
+    #    JUGGLER_DETECTOR_VERSION: "$JUGGLER_DETECTOR_VERSION"
+    #  trigger:
+    #    project: EIC/benchmarks/reconstruction_benchmarks
+    #    strategy: depend
+    #  needs: ["env","overlap_check","report"]
+    #  
+    #
+    #benchmarks:physics:
+    #  stage: deploy
+    #  variables:
+    #    JUGGLER_DETECTOR: "$JUGGLER_DETECTOR"
+    #    JUGGLER_DETECTOR_VERSION: "$JUGGLER_DETECTOR_VERSION"
+    #  trigger:
+    #    project: EIC/benchmarks/physics_benchmarks
+    #    strategy: depend
+    #  needs: ["env","overlap_check","report"]
 
