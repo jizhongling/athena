@@ -176,7 +176,7 @@
       Forwardtracking ID: 120
       Forward RICH    ID: 121
 
-      Unused IDs: 122-129
+      Unused IDs: 123-129
     </comment>
     <constant name="ForwardTracking_ID" value="120"/>
     <constant name="ForwardRICH_ID"     value="121"/>
@@ -186,9 +186,11 @@
       (130-139) Backward reserved
       =====================================
 
-      TBD
+      Modular RICH ID: 130
+      Unused IDs: 131-139
 
     </comment>
+    <constant name="ce_MRICH_ID"        value="130"/>
 
     <comment> 
       =====================================
@@ -453,6 +455,17 @@
       Forward HCal Parameters
       --------------------------
     </comment>
+
+
+    <comment>
+      --------------------------
+      ce_MRICH Parameters
+      --------------------------
+    </comment>
+    <constant name="ce_MRICHRMin" value="15*cm"/>
+    <constant name="ce_MRICHRMax" value="100*cm"/>
+    <constant name="ce_MRICHLength" value="15*cm"/>
+    <constant name="ce_MRICHZMin" value="-EcalEndcap_zmin+10.*cm"/>
 
 
 

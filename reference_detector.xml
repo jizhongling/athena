@@ -119,6 +119,7 @@
   <include ref="compact/ecal.xml"/>
   <include ref="compact/hcal.xml"/>
   <include ref="compact/forward_rich.xml"/>
+  <include ref="compact/ce_mrich.xml"/>
   <!--
   <include ref="compact/roman_pots.xml"/>
   -->
