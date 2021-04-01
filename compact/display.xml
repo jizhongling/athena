@@ -48,7 +48,9 @@
     <vis name="RICHVis" alpha="0.5" r="1" g="0" b="1" showDaughters="false"/>
     <vis name="BeamPipeVis"    alpha="1"  r= "0.75" g="0.75" b="0.75" showDaughters="true" visible="true"/>
 
-    <vis name="cb_SolenoidVis" alpha="0.4"  r= "0.1"  g="0.0"  b="0.1"  showDaughters="true" visible="true"/>
+    <vis name="cb_SolenoidVis"   alpha="0.4"  r= "0.1"  g="0.0"  b="0.1"  showDaughters="true" visible="true"/>
+    <vis name="ffi_ZDCVis"       alpha="0.1"  r= "0.1"  g="0.0"  b="1.0"  showDaughters="true" visible="true"/>
+    <vis name="ffi_ZDCmoduleVis" alpha="1.0"  r= "0.1"  g="1.0"  b="0.9"  showDaughters="true" visible="true"/>
 
     <comment>
       Deprecated colors.

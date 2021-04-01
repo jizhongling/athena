@@ -115,6 +115,7 @@
   <include ref="compact/silicon_tracker.xml"/>
   -->
   <include ref="ip6/beampipe.xml"/>
+  <include ref="compact/ffi_ZDC.xml"/>
   <include ref="compact/solenoid.xml"/>
   <include ref="compact/ecal.xml"/>
   <include ref="compact/hcal.xml"/>
