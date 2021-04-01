@@ -218,7 +218,7 @@
 
     </comment>
     <constant name="ForwardRomanPot_ID" value="150"/>
-    <constant name="ZDC_ID"             value="160"/>
+    <constant name="ffi_ZDC_ID"         value="160"/>
 
     <comment> 
       =====================================
@@ -244,7 +244,7 @@
     <constant name="cb_Solenoid_rmin"  value="0.0 * cm"/>   <comment> Central Barrel Solenoid Inner diameter </comment>
     <constant name="cb_Solenoid_rmax"  value="137.0 * cm"/> <comment> Central Barrel Solenoid Outer diameter </comment>
     <constant name="cb_Solenoid_z"     value="400.0 * cm"/> 
-    <constant name="cb_Solenoid_shift" value="0.0 * cm"/><comment> Central Barrel Solenoid Size in Z direction </comment>
+    <constant name="cb_Solenoid_shift" value="0.0 * cm"/>   <comment> Central Barrel Solenoid Size in Z direction </comment>
 
     <constant name="Solenoid_thickness"      value="400*mm"/>
     <constant name="Solenoid_rmin"           value="2000.0*mm"/>
@@ -417,6 +417,47 @@
     <comment> H Endcap Layers and Thickness </comment>
     <constant name="HcalEndcapLayers" value="floor(HcalEndcapAvailThickness / HcalOneLayerThickness)"/>
     <constant name="HcalEndcapThickness" value="HcalEndcapLayers * HcalOneLayerThickness"/>
+
+    <comment>
+      ----------------------
+      Zero Degree Parameters
+      ----------------------
+    </comment>
+    <comment> BeamLines: IP6 </comment>
+    <constant name="ffi_ZDC_x_pos"         value="90.0 * cm"/>
+    <constant name="ffi_ZDC_y_pos"         value="0.0 * cm"/>
+    <constant name="ffi_ZDC_z_pos"         value="3800.0 * cm"/>
+    <constant name="ffi_ZDC_rotateX_angle" value="0.0 * rad"/>
+    <constant name="ffi_ZDC_rotateY_angle" value="-0.0125 * rad"/>
+    <constant name="ffi_ZDC_rotateZ_angle" value="0.0 * rad"/>
+
+    <comment> BeamLines: IP8 </comment>
+    <!--
+    <constant name="ffi_ZDC_x_pos"     value="127.0 * cm"/>
+    <constant name="ffi_ZDC_y_pos"         value="0.0 * cm"/>
+    <constant name="ffi_ZDC_z_pos"         value="3600.0 * cm"/>
+    <constant name="ffi_ZDC_rotateX_angle" value="0.0 * rad"/>
+    <constant name="ffi_ZDC_rotateY_angle" value="-0.025 * rad"/>
+    <constant name="ffi_ZDC_rotateZ_angle" value="0.0 * rad"/>
+    -->
+
+    <comment> Global parameters </comment>
+    <constant name="ffi_ZDC_width"             value="60.0 * cm"/>
+    <constant name="ffi_ZDC_thickness"         value="200.0 * cm"/>
+    <comment> Original Global parameters </comment>	    
+    <!--
+    <constant name="ffi_ZDC_thickness"         value="250.0 * cm"/>
+    -->	    
+    <constant name="ffi_ZDC_ECAL_thickness"    value="30.0 * cm"/>
+    <constant name="ffi_ZDC_ECAL_inner_radius" value="0.0 * cm"/>
+    <constant name="ffi_ZDC_ECAL_outer_radius" value="60.0 * cm"/>
+    <constant name="ffi_ZDC_ECAL_width"        value="5.0 * cm"/>
+    <constant name="ffi_ZDC_ECAL_gap"          value="5.0 * mm"/>
+    <constant name="ffi_ZDC_ECAL_ntower"       value="10"/>
+    <comment> Original number of towers parameter  </comment>	
+    <!--
+    <constant name="ffi_ZDC_ECAL_ntower"       value="20"/>
+    -->
 
     <comment>
       -----------------------
