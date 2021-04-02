@@ -122,6 +122,8 @@
     <constant name="SiTrackerEndcapP_Layer5_ID"     value="69"/>
     <constant name="SiTrackerEndcapN_Layer5_ID"     value="70"/>
 
+    <constant name="cb_CTD_Si_ID"                   value="74"/>
+
     <comment> 
     ===================
     (75-99 Reserved IDs
@@ -243,8 +245,8 @@
     </comment>
     <constant name="cb_Solenoid_rmin"  value="0.0 * cm"/>   <comment> Central Barrel Solenoid Inner diameter </comment>
     <constant name="cb_Solenoid_rmax"  value="137.0 * cm"/> <comment> Central Barrel Solenoid Outer diameter </comment>
-    <constant name="cb_Solenoid_z"     value="400.0 * cm"/> 
-    <constant name="cb_Solenoid_shift" value="0.0 * cm"/>   <comment> Central Barrel Solenoid Size in Z direction </comment>
+    <constant name="cb_Solenoid_z"     value="400.0 * cm"/> <comment> Central Barrel Solenoid Size in Z direction </comment> 
+    <constant name="cb_Solenoid_shift" value="0.0 * cm"/>
 
     <constant name="Solenoid_thickness"      value="400*mm"/>
     <constant name="Solenoid_rmin"           value="2000.0*mm"/>
@@ -317,6 +319,27 @@
     <constant name="SiliconTrackerInnerBarrelLength" value="400.0*mm"/>
     <constant name="SiliconTrackerOuterRadius"       value="Solenoid_rmax/2.0"/>
     <constant name="SiliconTrackerOuterBarrelLength" value="SolenoidLength/2.0"/>
+
+    <comment>
+      -------------------------------
+      Central Barrel Tracker - Global
+      -------------------------------
+    </comment>
+    <constant name="cb_CTD_rmin"   value="21.0 * cm"/>
+    <constant name="cb_CTD_rmax"   value="80.0 * cm"/>
+    <constant name="cb_CTD_zmax"   value="200.0 * cm"/>
+    <comment> Original Global parameter </comment>	    
+    <!--
+    <constant name="cb_CTD_zmax"   value="120.0 * cm"/>
+    -->	    
+    <constant name="cb_CTD_length" value="SolenoidLength - cb_CTD_zmax"/>
+    <comment> After fix cb_Solenoid parameters  </comment>
+    <!--	    
+    <constant name="cb_CTD_length" value="cb_Solenoid_z - cb_CTD_zmax"/>
+    -->
+    <comment> Si layer opiton </comment>
+    <constant name="cb_CTD_Si_gap"    value="5.0 * cm"/>
+    <constant name="cb_CTD_Si_layer"  value="15"/>
 
     <comment>
       ------------

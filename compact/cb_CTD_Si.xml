@@ -1,0 +1,38 @@
+<lccdd>
+
+  <comment> Central Barrel Tracker Silicon </comment>        
+
+  <define>
+  </define>
+
+  <limits>
+  </limits>
+
+  <regions>
+  </regions>
+
+  <display>
+  </display>
+
+  <detectors>
+    <detector id="cb_CTD_Si_ID" name="cb_CTD_Si" type="cb_CTD_Si" readout="cb_CTD_Si_Hits" vis="cb_CTDVis" insideTrackingVloume="true">
+      <dimensions rmin="cb_CTD_rmin" rmax="cb_CTD_rmax" length="cb_CTD_length" zmax="cb_CTD_zmax" gap="cb_CTD_Si_gap"/>
+      <layer repeat="cb_CTD_Si_layer" vis="cb_CTD_Si_layerVis">
+        <slice name="Silicon_slice" material="Si" sensitive="true"/>
+      </layer>
+    </detector>
+  </detectors>
+
+  <readouts>
+    <readout name="cb_CTD_Si_Hits">
+      <segmentation type="CartesianGridXY" grid_size_x="1.0*mm" grid_size_y="1.0*mm" />
+      <id>system:8,barrel:3,layer:4,x:32:-16,y:-16</id>  
+    </readout>
+  </readouts>
+
+  <plugins>
+  </plugins>
+
+  <fields>
+  </fields>
+</lccdd>

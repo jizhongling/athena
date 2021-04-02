@@ -114,6 +114,7 @@
   <include ref="reference_detector/vertex_tracker.xml"/>
   <include ref="compact/silicon_tracker.xml"/>
   -->
+  <include ref="compact/cb_CTD_Si.xml"/>
   <include ref="ip6/beampipe.xml"/>
   <include ref="compact/ffi_ZDC.xml"/>
   <include ref="compact/solenoid.xml"/>
