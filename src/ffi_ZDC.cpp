@@ -70,7 +70,7 @@ static Ref_t createDetector(Detector& desc, xml_h e, SensitiveDetector sens)
       k++;
       string module_name = detName + _toString(k,"_ECAL_Phys_%d"); 
       PlacedVolume pv_mod = detVol.placeVolume(modVol, Position(mod_x,mod_y,mod_z));
-      pv_mod.addPhysVolID("sector", 1).addPhysVolID("module",k);
+      pv_mod.addPhysVolID("sector", 1).addPhysVolID("module",k+1);
     }
   }
 
