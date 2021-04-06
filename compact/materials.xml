@@ -186,4 +186,12 @@
     <composite n="4" ref="O"/>
   </material>
 
+  <material name="Ar10CO2">
+    <D type="density" value="1.802" unit="mg / cm3"/>
+    <composite n="0.891" ref="Argon"/>
+    <!--<composite n="0.109" ref="CarbonDioxide"/>-->
+    <composite n="0.036" ref="C"/>	    
+    <composite n="0.073" ref="O"/>	    
+  </material>
+
 </materials>

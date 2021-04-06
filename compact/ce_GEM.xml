@@ -1,0 +1,39 @@
+<lccdd>
+
+  <comment> Electron endcap GEM tracking </comment>        
+
+  <define>
+  </define>
+
+  <limits>
+  </limits>
+
+  <regions>
+  </regions>
+
+  <display>
+  </display>
+
+  <detectors>
+    <detector id="ce_GEM_ID" name="ce_GEM" type="ce_GEM" readout="ce_GEM_Hits" vis="ce_GEMVis" insideTrackingVloume="true">
+      <dimensions rmin="ce_GEM_rmin" rmax="ce_GEM_rmax" length="ce_GEM_length"/>
+      <position x="ce_GEM_x_pos" y="ce_GEM_y_pos" z="ce_GEM_z_pos"/>
+      <layer repeat="ce_GEM_layer" vis="ce_GEM_layerVis">
+        <slice name="Ar10CO2_slice" material="Ar10CO2" thickness="ce_GEM_layer_thickness" sensitive="true"/>
+      </layer>
+    </detector>
+  </detectors>
+
+  <readouts>
+    <readout name="ce_GEM_Hits">
+      <segmentation type="CartesianGridXY" grid_size_x="1.0*mm" grid_size_y="1.0*mm" />
+      <id>system:8,layer:8,x:32:-16,y:-16</id>  
+    </readout>
+  </readouts>
+
+  <plugins>
+  </plugins>
+
+  <fields>
+  </fields>
+</lccdd>
