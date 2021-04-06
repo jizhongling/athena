@@ -26,7 +26,7 @@
   <readouts>
     <readout name="ffi_ZDC_Hits">
       <segmentation type="CartesianGridXY" grid_size_x="1.0*mm" grid_size_y="1.0*mm" />
-      <id>system:8,sector:6,module:6,x:32:-16,y:-16</id>  
+      <id>system:8,sector:8,module:14,x:32:-16,y:-16</id>  
     </readout>
   </readouts>
 
