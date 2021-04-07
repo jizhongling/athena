@@ -1,3 +1,8 @@
+#include "DDRec/Surface.h"
+#include "DDRec/DetectorData.h"
+#include "DD4hep/OpticalSurfaces.h"
+#include "DD4hep/DetFactoryHelper.h"
+#include "DD4hep/Printout.h"
 #include <XML/Helper.h>
 //////////////////////////////////
 // Electron Endcap GEM Tracking

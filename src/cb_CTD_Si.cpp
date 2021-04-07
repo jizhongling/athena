@@ -1,4 +1,9 @@
 #include <XML/Helper.h>
+#include "DDRec/Surface.h"
+#include "DDRec/DetectorData.h"
+#include "DD4hep/OpticalSurfaces.h"
+#include "DD4hep/DetFactoryHelper.h"
+#include "DD4hep/Printout.h"
 //////////////////////////////////
 // Central Barrel Tracker Silicon
 //////////////////////////////////

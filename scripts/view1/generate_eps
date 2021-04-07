@@ -47,6 +47,7 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 # Side  view
 dawncut 1 0 0 1 ${INPUT_FILE} ${FILE_TAG}_temp0.prim 
 dawncut -1 0 0 1 ${FILE_TAG}_temp0.prim  ${FILE_TAG}.prim
+../../bin/dawn_tweak --mag 10 
 dawn -d ${FILE_TAG}.prim 
 ps2pdf ${FILE_TAG}.eps ${FILE_TAG}_full.pdf
 gs -o ${FILE_TAG}.pdf -sDEVICE=pdfwrite \
@@ -59,7 +60,7 @@ pdftoppm ${FILE_TAG}.pdf ${FILE_TAG} -png -singlefile -cropbox
 # Top view
 dawncut 0 1 0 1 ${INPUT_FILE} ${FILE_TAG}_temp0.prim 
 dawncut 0 -1 0 1 ${FILE_TAG}_temp0.prim  ${FILE_TAG}.prim
-../../bin/dawn_tweak --theta 270
+../../bin/dawn_tweak --theta 270 --mag 20
 dawn -d ${FILE_TAG}.prim 
 ps2pdf ${FILE_TAG}.eps ${FILE_TAG}_top_full.pdf
 gs -o ${FILE_TAG}_top.pdf -sDEVICE=pdfwrite \

@@ -3,6 +3,9 @@
   <comment> Central Barrel Tracker Silicon </comment>        
 
   <define>
+    <comment> Si layer opiton </comment>
+    <constant name="cb_CTD_Si_gap"    value="5.0 * cm"/>
+    <constant name="cb_CTD_Si_layer"  value="15"/>
   </define>
 
   <limits>
