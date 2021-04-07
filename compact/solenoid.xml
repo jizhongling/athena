@@ -79,7 +79,7 @@
         inner_z="SolenoidBarrel_zmax + SolenoidEndPlateGapThickness" 
         inner_r="SolenoidYokeEndcapP_rmin" 
         outer_r="SolenoidBarrel_rmax">
-        <slice material="Steel235" thickness="SolenoidYokeEndcapThickness/2.0" vis="SolenoidYokeVis" />
+        <slice material="Steel235" thickness="SolenoidYokeEndcap_thickness/2.0" vis="SolenoidYokeVis" />
       </layer>
     </detector>
     <!--

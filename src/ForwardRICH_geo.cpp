@@ -36,17 +36,20 @@ static Ref_t createDetector(Detector& desc, xml::Handle_t handle, SensitiveDetec
     xml::Component rads = detElem.child(_Unicode(radiator));
     xml::Component mir = detElem.child(_Unicode(mirror));
     xml::Component mcp = detElem.child(_Unicode(mcppmt));
+    xml::Component tank = detElem.child(_Unicode(tank));
 
     // dimensions
     double z0 = dims.z0();
     double length = dims.length();
     double rmin = dims.rmin();
+    double rmax0 = dims.attr<double>(_Unicode(rmax0));
     double rmax1 = dims.attr<double>(_Unicode(rmax1));
     double rmax2 = dims.attr<double>(_Unicode(rmax2));
+    double snout_length = dims.attr<double>(_Unicode(snout_length));
 
     // mirror setting
     auto mThick = mir.thickness();
-    auto mirZ = mir.attr<double>(_Unicode(zdiff));
+    auto mirZ = mir.attr<double>(_Unicode(z0));
 
     // mcppmt setting
     auto pRmin = mcp.rmin();
@@ -55,27 +58,32 @@ static Ref_t createDetector(Detector& desc, xml::Handle_t handle, SensitiveDetec
     auto pSize = mcp.attr<double>(_Unicode(module_size));
     auto pGap = mcp.attr<double>(_Unicode(module_gap));
     auto pTol = mcp.attr<double>(_Unicode(rtol));
-    auto pZ = mcp.attr<double>(_Unicode(zdiff));
+    auto pZ = mcp.attr<double>(_Unicode(z0));
+
+    // tank parameters
+    double tank_length = length - snout_length;
 
     // materials
     auto mirMat = desc.material(mir.materialStr());
     auto gasMat = desc.material(rads.materialStr());
     auto mcpMat = desc.material(mcp.materialStr());
 
+    double front_offset = snout_length+tank_length/2.0;
+
     // constants
-    auto richCenterAngle = std::atan((rmin + (rmax2 - rmin)/2.)/mirZ);
+    auto richCenterAngle = std::atan((rmin + (rmax1 - rmin)/2.)/(front_offset+mirZ));
     //std::cout << richCenterAngle*180./M_PI << std::endl;
 
     // an envelope for the detector
     // use a complicated shape to avoid conflict with the other parts
     // cone for radiator and the first set of mirrors
     double halfLength = length/2.;
-    Cone env1(halfLength, rmin, rmax1, rmin, rmax2);
+    Cone env1(snout_length/2.0, rmin, rmax0, rmin, rmax1);
     // envelope for detection plane
     // Cone env2(halfLength - pZ/2., rmin, pRmax, rmin, rmax2);
-    Tube env2(rmin, pRmax + pTol + pGap + 1.0*cm, (length - pZ)/2., 0., 2*M_PI);
+    Tube env2(rmin, pRmax + pTol + pGap + 1.0*cm, tank_length/2., 0., 2*M_PI);
 
-    UnionSolid envShape(env1, env2, Position(0., 0., pZ));
+    UnionSolid envShape(env2, env1, Position(0., 0., -tank_length/2.-snout_length/2));
 
     Volume envVol(detName + "_envelope", envShape, gasMat);
     envVol.setVisAttributes(desc.visAttributes(detElem.visStr()));
@@ -112,7 +120,7 @@ static Ref_t createDetector(Detector& desc, xml::Handle_t handle, SensitiveDetec
             double rotY = -std::asin(focus/curve);
             mirVol.setSolid(Sphere(curve, curve + mThick, mTheta1, mTheta2, 0., wphi));
             // action is in a reverse order
-            Transform3D tr = Translation3D(0., 0., mirZ - halfLength)   // move for z position
+            Transform3D tr = Translation3D(0., 0., mirZ - front_offset)   // move for z position
                            * RotationZ(rotZ)                            // rotate phi angle
                            * RotationY(rotY)                            // rotate for focus point
                            * RotationX(180*degree)
@@ -122,7 +130,7 @@ static Ref_t createDetector(Detector& desc, xml::Handle_t handle, SensitiveDetec
         // plane mirror
         } else {
             mirVol.setSolid(Tube(mRmin, mRmax, mThick/2.0, 0., wphi));
-            Transform3D tr = Translation3D(0., 0., mirZ - halfLength)   // move for z position
+            Transform3D tr = Translation3D(0., 0., mirZ - front_offset)   // move for z position
                            * RotationZ(rotZ)                            // rotate phi angle
                            * RotationZ(-wphi/2.);                       // center phi angle to 0. (-wphi/2., wphi/2.)
             mirPV = envVol.placeVolume(mirVol, tr);
@@ -152,11 +160,11 @@ static Ref_t createDetector(Detector& desc, xml::Handle_t handle, SensitiveDetec
 
     // photo-detector plane envelope
     for (size_t ipd = 0; ipd < 6; ++ipd) {
-        double phmin = -M_PI/6.;
-        double phmax = M_PI/6.;
+        double phmin = -M_PI/6.5; // added 0.5 to make it smaller
+        double phmax = M_PI/6.5;
         Tube pdEnvShape(pRmin - pTol - pGap, pRmax + pTol + pGap, pThick/2.0 + 0.1*cm, phmin, phmax);
         Volume pdVol("pd_envelope", pdEnvShape, desc.material("AirOptical"));
-        auto points = ref::utils::fillSquares({0., 0.}, pSize + pGap, pRmin - pTol - pGap, pRmax + pTol + pGap, phmin, phmax);
+        auto points = ref::utils::fillSquares({0., 0.}, pSize + pGap, pRmin + pTol + pGap, pRmax + pTol + pGap, phmin, phmax);
         for (size_t i = 0; i < points.size(); ++i) {
             auto pt = points[i];
             auto mcpPV = pdVol.placeVolume(mcpVol, Position(pt.x(), pt.y(), 0.));
@@ -164,7 +172,7 @@ static Ref_t createDetector(Detector& desc, xml::Handle_t handle, SensitiveDetec
             DetElement mcpDE(det, Form("MCPPMT_DE%d_%d", ipd + 1, i + 1), i + 1);
             mcpDE.setPlacement(mcpPV);
         }
-        Transform3D tr = Translation3D(0., 0., -halfLength + pZ + pThick/2.0)   // move for z position
+        Transform3D tr = Translation3D(0., 0., -front_offset + pZ + pThick/2.0)   // move for z position
                         * RotationZ(ipd*M_PI/3.)        // rotate phi angle
                         * RotationY(-richCenterAngle);  // rotate to perpendicular position
         auto pdPV = envVol.placeVolume(pdVol, tr);
