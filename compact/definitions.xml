@@ -580,7 +580,7 @@
       ce_GEM Parameters
       ------------------
     </comment>
-    <constant name="ce_GEM_rmin"            value="5.0 * cm"/> <comment> temporary number. Need beampipe radius  </comment>
+    <constant name="ce_GEM_rmin"            value="7.0 * cm"/> <comment> temporary number. Need beampipe radius  </comment>
     <!--<constant name="ce_GEM_rmin"        value="0.0 * cm"/>-->
     <constant name="ce_GEM_rmax"            value="HcalEndcapN_rmin + 8.0 * cm"/> <comment> temporary number to avoid overlaps  </comment>
     <!--<constant name="ce_GEM_rmax"        value="45.0 * cm + 50.0 * cm"/>-->
