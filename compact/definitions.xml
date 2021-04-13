@@ -373,7 +373,7 @@
     <constant name="SolenoidYokeEndcapN_zmin"  value="Solenoid_length/2.0 - Solenoid_offset+ExtraHcalEndcapN_length"/>
 
     <constant name="EcalBarrel_rmin"            value="SiliconTrackerOuterRadius + BarrelPIDThickness + 5.0 * mm"/>
-    <constant name="HcalBarrel_rmax"            value="Solenoid_rmin - 40.0 *mm "/>
+    <constant name="HcalBarrel_rmax"            value="Solenoid_rmin - 10.0 *cm "/>
     <constant name="Barrel_TotalCalThickness"   value="HcalBarrel_rmax - EcalBarrel_rmin"/>
     <constant name="CalBarrelDivider"           value="0.5"/> <comment> Ecal and Hcal have the same thickness </comment>
 
@@ -389,8 +389,8 @@
     <constant name="BarrelLength"               value="SiliconTrackerOuterBarrelLength + ForwardPIDLength + BackwardPIDLength"/>
     <constant name="Barrel_offset"              value="(EcalEndcapP_zmin-EcalEndcapN_zmin)/2.0"/>
 
-    <constant name="EndcapPTotalCal_length"  value="(SolenoidYokeEndcapP_zmin - 0.0 * mm) - (EcalEndcapP_zmin + 0.0 * mm)"/>
-    <constant name="EndcapNTotalCal_length"  value="(SolenoidYokeEndcapN_zmin - 0.0 * mm) - (EcalEndcapN_zmin + 0.0 * mm)"/>
+    <constant name="EndcapPTotalCal_length"  value="(SolenoidYokeEndcapP_zmin - 0.0 * mm) - (EcalEndcapP_zmin + 20.0 * mm)"/>
+    <constant name="EndcapNTotalCal_length"  value="(SolenoidYokeEndcapN_zmin - 0.0 * mm) - (EcalEndcapN_zmin + 20.0 * mm)"/>
 
     <constant name="EndcapP_CalDivide"          value="0.5"/> <comment> 0.5 means Ecal and Hcal have the same thickness </comment>
     <constant name="EndcapN_CalDivide"          value="0.5"/> <comment> 0.5 means Ecal and Hcal have the same thickness </comment>
@@ -593,7 +593,7 @@
       ce_GEM Parameters
       ------------------
     </comment>
-    <constant name="ce_GEM_rmin"            value="7.0 * cm"/> <comment> temporary number. Need beampipe radius  </comment>
+    <constant name="ce_GEM_rmin"            value="10.0 * cm"/> <comment> temporary number. Need beampipe radius  </comment>
     <!--<constant name="ce_GEM_rmin"        value="0.0 * cm"/>-->
     <constant name="ce_GEM_rmax"            value="HcalEndcapN_rmin + 8.0 * cm"/> <comment> temporary number to avoid overlaps  </comment>
     <!--<constant name="ce_GEM_rmax"        value="45.0 * cm + 50.0 * cm"/>-->
