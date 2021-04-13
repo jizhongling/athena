@@ -11,7 +11,7 @@
     <fraction n="0.234" ref="O"/>
     <fraction n="0.012" ref="Ar"/>
   </material>
-  <!-- We model vakuum just as very thin air -->
+  <!-- We model vacuum just as very thin air -->
   <material name="Vacuum">
     <D type="density" unit="g/cm3" value="0.0000000001"/>
     <fraction n="0.754" ref="N"/>
@@ -185,7 +185,6 @@
     <composite n="1" ref="W"/>
     <composite n="4" ref="O"/>
   </material>
-
   <material name="Ar10CO2">
     <D type="density" value="1.802" unit="mg / cm3"/>
     <composite n="0.891" ref="Argon"/>

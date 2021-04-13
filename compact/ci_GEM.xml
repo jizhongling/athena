@@ -1,0 +1,71 @@
+<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0" 
+       xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+       xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
+
+  <!-- Some information about detector  -->
+  <info name="Central Ion GEM" title="Central Ion GEM"
+        author="Marshall Scott"
+        url="https://eicweb.phy.anl.gov/EIC/detectors/reference_detector.git"
+        status="development"
+        version="v1 2021-03-23">
+    <comment>Central Ion GEM</comment>        
+  </info>
+
+  <!-- Use DD4hep elements and materials definitions -->
+  <includes>
+  </includes>
+
+  <define>
+  	<!--
+    <constant name="ci_GEM_id"      value="1">
+    <constant name="ci_GEM_rin"     value="10 * cm">
+    <constant name="ci_GEM_rout"    value="95 * cm">
+    <constant name="ci_GEM_sizez"   value="30 * cm">
+    <constant name="ci_GEM_shiftz"  value="0 * cm">
+    <constant name="ci_GEM_posz"    value="0 * cm">
+    <constant name="ci_GEM_posx"    value="0 * cm">
+    <constant name="ci_GEM_nlayers" value="8">
+    -->
+  </define>
+
+   <limits>
+  </limits>
+
+  <regions>
+  </regions>
+
+  <display>
+  </display>
+
+  <!-- Define detector -->
+  <detectors>
+    <comment>
+      Central Ion GEM
+    </comment>
+    <detector id="ci_GEM_id" name="ci_GEM" type="ci_GEM" insideTrackingVolume="false" vis="ci_GEMVis" readout="ci_GEM_Hits">
+      <material name="Ar10CO2"/>  
+      <comment> position of the front face of the detector </comment>
+      <position x="0" y="0" z="SiliconTrackerOuterBarrel_zmax"/>
+      <dimensions rmin="ci_GEM_rin" rmax="ci_GEM_rout" z_length="ci_GEM_sizez" z_offset="ci_GEM_shiftz"	z="ci_GEM_posz" x="ci_GEM_posx" number="ci_GEM_nlayers" rmax1="ci_HCAL_lay_rin -1. * cm"/>
+      <layer id="0" z="-ci_GEM_sizez * 0.5 + (5 + 3. * 0) * cm" inner_r="ci_GEM_rin + (1. + 0.5 * 0) * cm" outer_r="ci_GEM_rout + (-25. + 2. * 0) * cm" dz="1 * cm" />
+      <layer id="1" z="-ci_GEM_sizez * 0.5 + (5 + 3. * 1) * cm" inner_r="ci_GEM_rin + (1. + 0.5 * 1) * cm" outer_r="ci_GEM_rout + (-25. + 2. * 1) * cm" dz="1 * cm" />
+      <layer id="2" z="-ci_GEM_sizez * 0.5 + (5 + 3. * 2) * cm" inner_r="ci_GEM_rin + (1. + 0.5 * 2) * cm" outer_r="ci_GEM_rout + (-25. + 2. * 2) * cm" dz="1 * cm" />
+      <layer id="3" z="-ci_GEM_sizez * 0.5 + (5 + 3. * 3) * cm" inner_r="ci_GEM_rin + (1. + 0.5 * 3) * cm" outer_r="ci_GEM_rout + (-25. + 2. * 3) * cm" dz="1 * cm" />
+      <layer id="4" z="-ci_GEM_sizez * 0.5 + (5 + 3. * 4) * cm" inner_r="ci_GEM_rin + (1. + 0.5 * 4) * cm" outer_r="ci_GEM_rout + (-25. + 2. * 4) * cm" dz="1 * cm" />
+      <layer id="5" z="-ci_GEM_sizez * 0.5 + (5 + 3. * 5) * cm" inner_r="ci_GEM_rin + (1. + 0.5 * 5) * cm" outer_r="ci_GEM_rout + (-25. + 2. * 5) * cm" dz="1 * cm" />
+      <layer id="6" z="-ci_GEM_sizez * 0.5 + (5 + 3. * 6) * cm" inner_r="ci_GEM_rin + (1. + 0.5 * 6) * cm" outer_r="ci_GEM_rout + (-25. + 2. * 6) * cm" dz="1 * cm" />
+      <layer id="7" z="-ci_GEM_sizez * 0.5 + (5 + 3. * 7) * cm" inner_r="ci_GEM_rin + (1. + 0.5 * 7) * cm" outer_r="ci_GEM_rout + (-25. + 2. * 7) * cm" dz="1 * cm" />
+    </detector>
+  </detectors>
+  <readouts>
+    <readout name="ci_GEM_Hits">
+      <segmentation type="CartesianGridXY" grid_size_x="1.0*mm" grid_size_y="1.0*mm" />
+      <id>system:8,layer:8,x:32:-16,y:-16</id>  
+    </readout>
+  </readouts>
+
+
+  <plugins>
+  </plugins>
+
+</lccdd>

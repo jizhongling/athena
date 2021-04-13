@@ -1,0 +1,66 @@
+<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0" 
+       xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+       xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
+
+  <!-- Some information about detector-->  
+  <info name="Central Ion HCAL" title="Central Ion HCAL"
+        author="Marshall Scott"
+        url="https://eicweb.phy.anl.gov/EIC/detectors/reference_detector.git"
+        status="development"
+        version="v1 2021-03-31">
+    <comment>Central Ion HCAL</comment>        
+  </info>
+   
+  <includes>
+  </includes>
+
+  <limits>
+  </limits>
+
+  <regions>
+  </regions>
+
+  <display>
+  </display>
+
+  <!-- Define detector -->
+  <detectors>
+    <comment>
+      Central Ion HCAL
+    </comment>
+    <detector id="ci_HCAL_id" name="ci_HCAL" type="ci_HCAL" insideTrackingVolume="false" vis="ci_HCALVis" readout="ci_HCAL_Hits">
+	    <material name="Iron"/>	    
+      <dimensions rmin="ci_HCAL_rin" rmax="ci_HCAL_rout" z_length="ci_HCAL_sizez" z_offset="ci_HCAL_shiftz"	z="ci_HCAL_posz" x="ci_HCAL_posx" number="ci_HCAL_nlayers" rmin1="ci_HCAL_lay_rin" rmax1="ci_HCAL_lay_rout" dz="ci_HCAL_lay_thickness"/>
+      <layer id="0"  z="-ci_HCAL_sizez * 0.5 + (1 + 0) * ci_HCAL_lay_thickness + (1 + 0) * 5 * cm"   inner_r="ci_HCAL_lay_rin" outer_r="ci_HCAL_lay_rout" dz="ci_HCAL_lay_thickness" />
+      <layer id="1"  z="-ci_HCAL_sizez * 0.5 + (1 + 1) * ci_HCAL_lay_thickness + (1 + 1) * 5 * cm"   inner_r="ci_HCAL_lay_rin" outer_r="ci_HCAL_lay_rout" dz="ci_HCAL_lay_thickness" />
+      <layer id="2"  z="-ci_HCAL_sizez * 0.5 + (1 + 2) * ci_HCAL_lay_thickness + (1 + 2) * 5 * cm"   inner_r="ci_HCAL_lay_rin" outer_r="ci_HCAL_lay_rout" dz="ci_HCAL_lay_thickness" />
+      <layer id="3"  z="-ci_HCAL_sizez * 0.5 + (1 + 3) * ci_HCAL_lay_thickness + (1 + 3) * 5 * cm"   inner_r="ci_HCAL_lay_rin" outer_r="ci_HCAL_lay_rout" dz="ci_HCAL_lay_thickness" />
+      <layer id="4"  z="-ci_HCAL_sizez * 0.5 + (1 + 4) * ci_HCAL_lay_thickness + (1 + 4) * 5 * cm"   inner_r="ci_HCAL_lay_rin" outer_r="ci_HCAL_lay_rout" dz="ci_HCAL_lay_thickness" />
+      <layer id="5"  z="-ci_HCAL_sizez * 0.5 + (1 + 5) * ci_HCAL_lay_thickness + (1 + 5) * 5 * cm"   inner_r="ci_HCAL_lay_rin" outer_r="ci_HCAL_lay_rout" dz="ci_HCAL_lay_thickness" />
+      <layer id="6"  z="-ci_HCAL_sizez * 0.5 + (1 + 6) * ci_HCAL_lay_thickness + (1 + 6) * 5 * cm"   inner_r="ci_HCAL_lay_rin" outer_r="ci_HCAL_lay_rout" dz="ci_HCAL_lay_thickness" />
+      <layer id="7"  z="-ci_HCAL_sizez * 0.5 + (1 + 7) * ci_HCAL_lay_thickness + (1 + 7) * 5 * cm"   inner_r="ci_HCAL_lay_rin" outer_r="ci_HCAL_lay_rout" dz="ci_HCAL_lay_thickness" />
+      <layer id="8"  z="-ci_HCAL_sizez * 0.5 + (1 + 8) * ci_HCAL_lay_thickness + (1 + 8) * 5 * cm"   inner_r="ci_HCAL_lay_rin" outer_r="ci_HCAL_lay_rout" dz="ci_HCAL_lay_thickness" />
+      <layer id="9"  z="-ci_HCAL_sizez * 0.5 + (1 + 9) * ci_HCAL_lay_thickness + (1 + 9) * 5 * cm"   inner_r="ci_HCAL_lay_rin" outer_r="ci_HCAL_lay_rout" dz="ci_HCAL_lay_thickness" />
+      <layer id="10" z="-ci_HCAL_sizez * 0.5 + (1 + 10) * ci_HCAL_lay_thickness + (1 + 10) * 5 * cm" inner_r="ci_HCAL_lay_rin" outer_r="ci_HCAL_lay_rout" dz="ci_HCAL_lay_thickness" />
+      <layer id="11" z="-ci_HCAL_sizez * 0.5 + (1 + 11) * ci_HCAL_lay_thickness + (1 + 11) * 5 * cm" inner_r="ci_HCAL_lay_rin" outer_r="ci_HCAL_lay_rout" dz="ci_HCAL_lay_thickness" />
+      <layer id="12" z="-ci_HCAL_sizez * 0.5 + (1 + 12) * ci_HCAL_lay_thickness + (1 + 12) * 5 * cm" inner_r="ci_HCAL_lay_rin" outer_r="ci_HCAL_lay_rout" dz="ci_HCAL_lay_thickness" />
+      <layer id="13" z="-ci_HCAL_sizez * 0.5 + (1 + 13) * ci_HCAL_lay_thickness + (1 + 13) * 5 * cm" inner_r="ci_HCAL_lay_rin" outer_r="ci_HCAL_lay_rout" dz="ci_HCAL_lay_thickness" />
+      <layer id="14" z="-ci_HCAL_sizez * 0.5 + (1 + 14) * ci_HCAL_lay_thickness + (1 + 14) * 5 * cm" inner_r="ci_HCAL_lay_rin" outer_r="ci_HCAL_lay_rout" dz="ci_HCAL_lay_thickness" />
+      <layer id="15" z="-ci_HCAL_sizez * 0.5 + (1 + 15) * ci_HCAL_lay_thickness + (1 + 15) * 5 * cm" inner_r="ci_HCAL_lay_rin" outer_r="ci_HCAL_lay_rout" dz="ci_HCAL_lay_thickness" />
+      <layer id="16" z="-ci_HCAL_sizez * 0.5 + (1 + 16) * ci_HCAL_lay_thickness + (1 + 16) * 5 * cm" inner_r="ci_HCAL_lay_rin" outer_r="ci_HCAL_lay_rout" dz="ci_HCAL_lay_thickness" />
+      <layer id="17" z="-ci_HCAL_sizez * 0.5 + (1 + 17) * ci_HCAL_lay_thickness + (1 + 17) * 5 * cm" inner_r="ci_HCAL_lay_rin" outer_r="ci_HCAL_lay_rout" dz="ci_HCAL_lay_thickness" />
+      <layer id="18" z="-ci_HCAL_sizez * 0.5 + (1 + 18) * ci_HCAL_lay_thickness + (1 + 18) * 5 * cm" inner_r="ci_HCAL_lay_rin" outer_r="ci_HCAL_lay_rout" dz="ci_HCAL_lay_thickness" />
+      <layer id="19" z="-ci_HCAL_sizez * 0.5 + (1 + 19) * ci_HCAL_lay_thickness + (1 + 19) * 5 * cm" inner_r="ci_HCAL_lay_rin" outer_r="ci_HCAL_lay_rout" dz="ci_HCAL_lay_thickness" />
+    </detector>
+  </detectors>
+  <readouts>
+    <readout name="ci_HCAL_Hits">
+      <segmentation type="CartesianGridXY" grid_size_x="1.0*mm" grid_size_y="1.0*mm" />
+      <id>system:8,layer:8,x:32:-16,y:-16</id>  
+    </readout>
+  </readouts>
+
+
+  <plugins>
+  </plugins>
+</lccdd>

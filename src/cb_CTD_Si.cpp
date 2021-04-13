@@ -48,8 +48,9 @@ static Ref_t createDetector(Detector& desc, xml_h e, SensitiveDetector sens)
 
     if (layerROut[i] > ROut)
       continue; 
-
+    
     string logic_layer_name = detName + _toString(i, "_Logic_lay_%d");
+    if (i==7){logic_layer_name = detName + _toString(20, "_Logic_lay_%d");}
     Volume layerVol(logic_layer_name,Tube(layerRIn[i], layerROut[i], SizeZ / 2.0, 0.0, 360.0 * deg), slice_mat);
     layerVol.setVisAttributes(desc,x_layer.visStr());
     sens.setType("tracker");

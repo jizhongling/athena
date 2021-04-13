@@ -26,7 +26,7 @@
       endcapP/endcapN are the endcaps at positive/negative z values. 
       See https://acts.readthedocs.io/en/latest/plugins/dd4hep.html for more details.
 
-      The tracking geometry needs to beconstructed from cylinders from the inside out. For this reason
+      The tracking geometry needs to be constructed from cylinders from the inside out. For this reason
       each layer needs its own subsystem assembly. This increases the number of top level system IDs. 
       For example the silicon tracker needs 3 IDs for each area (endcap+barrel+endcap) and a subassembly for each
       layer. Therefore it needs a minimum of 20 IDs. Therefore we will allocate blocks of ~25 for each major subsystem.
@@ -127,7 +127,7 @@
 
     <comment> 
     ===================
-    (75-99 Reserved IDs
+    (75-99) Reserved IDs
     ===================
 
     Unused IDs: 75-99 
@@ -156,7 +156,7 @@
 
     <comment> 
       =====================================
-      (110-119Hadronic Calorimeter
+      (110-119) Hadronic Calorimeter
       =====================================
 
       HCal     subsystem  ID:  110
@@ -164,13 +164,13 @@
       EndcapP  subassembly ID: 112
       EndcapN  subassembly ID: 113
 
-      Unused IDs: 114-119
+      Unused IDs: 115-119
     </comment>
     <constant name="HCalSubAssembly_ID" value="110"/>
     <constant name="HCalBarrel_ID"      value="111"/>
     <constant name="HCalEndcapP_ID"     value="112"/>
     <constant name="HCalEndcapN_ID"     value="113"/>
-
+    <constant name="ci_HCAL_id"         value="200"/>
     <comment> 
       =====================================
       (120-129) (near) Forward reserved
@@ -183,6 +183,7 @@
     </comment>
     <constant name="ForwardTracking_ID" value="120"/>
     <constant name="ForwardRICH_ID"     value="121"/>
+    <constant name="ci_GEM_id"          value="122"/>
 
     <comment> 
       =====================================
@@ -319,6 +320,9 @@
       Tracking Parameters
       ============================
     </comment>
+
+    <constant name="ForwardTrackingGEMLength" value="30.0*cm"/>
+
     <constant name="tracker_region_rmax"            value="Solenoid_rmax/2.0"/>
     <constant name="tracker_region_zmax"            value="Solenoid_length/2.0"/>
 
@@ -340,7 +344,7 @@
     <constant name="SiliconTrackerInnerRadius"       value="95.0*mm"/>
     <constant name="SiliconTrackerInnerBarrelLength" value="300.0*mm"/>
     <constant name="SiliconTrackerOuterRadius"       value="Solenoid_rmax/3.0"/>
-    <constant name="SiliconTrackerOuterBarrelLength" value="Solenoid_length/2.5"/>
+    <constant name="SiliconTrackerOuterBarrelLength" value="Solenoid_length/2.5 - ForwardTrackingGEMLength"/>
     <constant name="SiliconTrackerOuterBarrel_zmax"  value="SiliconTrackerOuterBarrelLength/2.0"/>
 
     <comment>
@@ -413,7 +417,7 @@
 
     </comment>
     <constant name="CaloSides"                  value="12"/>
-	    
+      
     <comment>Material Thickness</comment>
     <constant name="EcalSiliconThickness"       value="9.00 * mm" />
     <constant name="EcalCopperThickness"        value="0.05 * mm" />
@@ -422,32 +426,32 @@
     <constant name="EcalAir2Thickness"          value="0.25 * mm" />
     <constant name="EcalThinTungstenThickness"  value="2.50 * mm" />
     <constant name="EcalThickTungstenThickness" value="5.00 * mm" />
-	    
+      
     <comment> Layer Thickness  </comment>
     <constant name="EcalLayer1_thickness"
-	      value="EcalSiliconThickness + EcalCopperThickness + EcalKaptonThickness + EcalAir1Thickness"/>
+        value="EcalSiliconThickness + EcalCopperThickness + EcalKaptonThickness + EcalAir1Thickness"/>
     <constant name="EcalLayer2_thickness"   
-	      value="EcalThinTungstenThickness + EcalAir2Thickness + EcalSiliconThickness + EcalCopperThickness + EcalKaptonThickness + EcalAir1Thickness"/>
+        value="EcalThinTungstenThickness + EcalAir2Thickness + EcalSiliconThickness + EcalCopperThickness + EcalKaptonThickness + EcalAir1Thickness"/>
     <constant name="EcalLayer3_thickness"   
-	      value="EcalThickTungstenThickness + EcalAir2Thickness + EcalSiliconThickness + EcalCopperThickness + EcalKaptonThickness + EcalAir1Thickness"/>
-	    
+        value="EcalThickTungstenThickness + EcalAir2Thickness + EcalSiliconThickness + EcalCopperThickness + EcalKaptonThickness + EcalAir1Thickness"/>
+      
     <comment> EM Barrel N Layer; same number of layers for EcalThin and EcalThick</comment>
     <constant name="EcalBarrelLayers" 
-	      value="floor((EcalBarrel_TotalThickness - EcalLayer1_thickness) / (EcalLayer2_thickness + EcalLayer3_thickness))"/>
+        value="floor((EcalBarrel_TotalThickness - EcalLayer1_thickness) / (EcalLayer2_thickness + EcalLayer3_thickness))"/>
     <constant name="EcalBarrelLayer1_NRepeat"       value="1"/>
     <constant name="EcalBarrelLayer2_NRepeat"       value="EcalBarrelLayers"/>
     <constant name="EcalBarrelLayer3_NRepeat"       value="EcalBarrelLayers"/>
 
     <comment> EM Barrel Thickness </comment>
     <constant name="EcalBarrelThickness"
-	      value="EcalBarrelLayer1_NRepeat*EcalLayer1_thickness + EcalBarrelLayer2_NRepeat * EcalLayer2_thickness + EcalBarrelLayer3_NRepeat * EcalLayer3_thickness"/>
+        value="EcalBarrelLayer1_NRepeat*EcalLayer1_thickness + EcalBarrelLayer2_NRepeat * EcalLayer2_thickness + EcalBarrelLayer3_NRepeat * EcalLayer3_thickness"/>
     <constant name="EcalBarrel_rmax"            value="EcalBarrel_rmin + EcalBarrelThickness"/>
 
     <comment> EM Endcap N Layer; same number of layers for EcalThin and EcalThick </comment>
     <constant name="EcalEndcapPLayers" 
-	      value="floor((EcalEndcapP_TotalThickness - EcalLayer1_thickness) / (EcalLayer2_thickness + EcalLayer3_thickness))"/>
+        value="floor((EcalEndcapP_TotalThickness - EcalLayer1_thickness) / (EcalLayer2_thickness + EcalLayer3_thickness))"/>
     <constant name="EcalEndcapNLayers" 
-	      value="floor((EcalEndcapN_TotalThickness - EcalLayer1_thickness) / (EcalLayer2_thickness + EcalLayer3_thickness))"/>
+        value="floor((EcalEndcapN_TotalThickness - EcalLayer1_thickness) / (EcalLayer2_thickness + EcalLayer3_thickness))"/>
     <constant name="EcalEndcapPLayer1_NRepeat"      value="1"/>
     <constant name="EcalEndcapNLayer1_NRepeat"      value="1"/>
     <constant name="EcalEndcapPLayer2_NRepeat"      value="EcalEndcapPLayers"/>
@@ -457,9 +461,9 @@
 
     <comment> EM Endcap Thickness </comment>
     <constant name="EcalEndcapPThickness"        
-	      value="EcalEndcapPLayer1_NRepeat*EcalLayer1_thickness + EcalEndcapPLayer2_NRepeat*EcalLayer2_thickness + EcalEndcapPLayer3_NRepeat*EcalLayer3_thickness "/>
+        value="EcalEndcapPLayer1_NRepeat*EcalLayer1_thickness + EcalEndcapPLayer2_NRepeat*EcalLayer2_thickness + EcalEndcapPLayer3_NRepeat*EcalLayer3_thickness "/>
     <constant name="EcalEndcapNThickness"        
-	      value="EcalEndcapNLayer1_NRepeat*EcalLayer1_thickness + EcalEndcapNLayer2_NRepeat*EcalLayer2_thickness + EcalEndcapNLayer3_NRepeat*EcalLayer3_thickness"/>
+        value="EcalEndcapNLayer1_NRepeat*EcalLayer1_thickness + EcalEndcapNLayer2_NRepeat*EcalLayer2_thickness + EcalEndcapNLayer3_NRepeat*EcalLayer3_thickness"/>
 
 
     <comment>
@@ -482,8 +486,8 @@
 
     <comment> Layer Thickness </comment>
     <constant name="HcalOneLayerThickness"
-	    value="HcalSteelThickness + (2 * HcalPyrexThickness) + HcalRPCGasThickness + HcalG10Thickness + HcalAirThickness"/>
-	    
+      value="HcalSteelThickness + (2 * HcalPyrexThickness) + HcalRPCGasThickness + HcalG10Thickness + HcalAirThickness"/>
+      
     <comment> H Barrel Layers and Thickness </comment>
     <constant name="HcalBarrelLayers" value="floor(HcalBarrelAvailThickness / HcalOneLayerThickness)"/>
     <constant name="HcalBarrelThickness" value="HcalBarrelLayers * HcalOneLayerThickness"/>
@@ -518,17 +522,17 @@
     <comment> Global parameters </comment>
     <constant name="ffi_ZDC_width"             value="60.0 * cm"/>
     <constant name="ffi_ZDC_thickness"         value="200.0 * cm"/>
-    <comment> Original Global parameters </comment>	    
+    <comment> Original Global parameters </comment>     
     <!--
     <constant name="ffi_ZDC_thickness"         value="250.0 * cm"/>
-    -->	    
+    -->     
     <constant name="ffi_ZDC_ECAL_thickness"    value="30.0 * cm"/>
     <constant name="ffi_ZDC_ECAL_inner_radius" value="0.0 * cm"/>
     <constant name="ffi_ZDC_ECAL_outer_radius" value="60.0 * cm"/>
     <constant name="ffi_ZDC_ECAL_width"        value="5.0 * cm"/>
     <constant name="ffi_ZDC_ECAL_gap"          value="5.0 * mm"/>
     <constant name="ffi_ZDC_ECAL_ntower"       value="10"/>
-    <comment> Original number of towers parameter  </comment>	
+    <comment> Original number of towers parameter  </comment> 
     <!--
     <constant name="ffi_ZDC_ECAL_ntower"       value="20"/>
     -->
@@ -575,6 +579,7 @@
     <constant name="ce_MRICHLength" value="BackwardCherenkovLength"/>
     <constant name="ce_MRICHZMin"   value="-EcalEndcapN_zmin+ce_MRICHLength"/>
 
+
     <comment>
       ------------------
       ce_GEM Parameters
@@ -590,6 +595,36 @@
     <constant name="ce_GEM_z_pos"           value="-Solenoid_length/2.0 + ce_GEM_length/2.0"/>
     <constant name="ce_GEM_layer"           value="8"/>
     <constant name="ce_GEM_layer_thickness" value="1.0 * cm"/>
+
+    <comment>
+      --------------------------
+      Central Ion HCal Parameters
+      --------------------------
+    </comment>
+    <constant name="ci_HCAL_rin"     value="90 * cm"/><comment> Orginally 0, changed to not overlap solenoid </comment>
+    <constant name="ci_HCAL_rout"    value="300 * cm"/>
+    <constant name="ci_HCAL_sizez"   value="160 * cm"/>
+    <constant name="ci_HCAL_shiftz"  value="5 * cm"/>
+    <constant name="ci_HCAL_posz"    value="0 * cm"/>
+   
+    <constant name="ci_HCAL_nlayers"       value="20"/>
+    <constant name="ci_HCAL_lay_rin"       value="ci_HCAL_rin"/> <comment> Orginally 80cm, changed to not overlap solenoid </comment>
+    <constant name="ci_HCAL_lay_rout"      value="ci_HCAL_rout - 1 * cm"/>
+    <constant name="ci_HCAL_lay_thickness" value="2* cm"/>
+    <constant name="ci_HCAL_lay_gapz"      value="2* cm"/>
+
+    <comment>
+      --------------------------
+      Central Ion GEM Parameters
+      --------------------------
+    </comment>
+    <constant name="ci_GEM_rin"     value="10 * cm"/>
+    <constant name="ci_GEM_rout"    value="95 * cm"/>
+    <constant name="ci_GEM_sizez"   value="30 * cm"/>
+    <constant name="ci_GEM_shiftz"  value="0 * cm"/>
+    <constant name="ci_GEM_posz"    value="0 * cm"/>
+    <constant name="ci_GEM_posx"    value="0 * cm"/>
+    <constant name="ci_GEM_nlayers" value="8"/>
 
   </define>
 
