@@ -18,9 +18,10 @@
     <detector 
       id="HCalBarrel_ID" 
       name="HcalBarrel"
-      type="DD4hep_PolyhedraBarrelCalorimeter2"
+      type="refdet_EcalBarrel"
       readout="HcalBarrelHits"
       calorimeterType="HAD_BARREL"
+      offset="Barrel_offset"
       gap="0.*cm"
       material="Steel235">
       <dimensions 
@@ -28,7 +29,7 @@
         rmin="HcalBarrel_rmin" 
         z="HcalBarrelLength"/>
       <staves vis="HcalBarrelVis"/>
-      <layer repeat="HcalBarrelLayers">
+      <layer repeat="HcalBarrelLayer_NRepeat">
         <slice material="Steel235" thickness="HcalSteelThickness"/>
         <slice material="PyrexGlass" thickness="HcalPyrexThickness"/>
         <slice material="RPCGasDefault" thickness="HcalRPCGasThickness" sensitive="yes" limits="cal_limits"/>
@@ -46,12 +47,13 @@
       vis="HcalEndcapVis" 
       calorimeterType="HAD_ENDCAP"
       reflect="false">
+      <position x="0" y="0" z="0"/>
       <dimensions 
         numsides="CaloSides" 
-        zmin="HcalEndcap_zmin" 
+        zmin="HcalEndcapP_zmin" 
         rmin="HcalEndcapP_rmin"
         rmax="HcalBarrel_rmax"/>
-      <layer repeat="HcalEndcapLayers" vis="HcalEndcapVis" >
+      <layer repeat="HcalEndcapPLayer_NRepeat" vis="HcalEndcapVis" >
         <slice material="Steel235" thickness="HcalSteelThickness"/>
         <slice material="PyrexGlass" thickness="HcalPyrexThickness"/>
         <slice material="RPCGasDefault" thickness="HcalRPCGasThickness" sensitive="yes" limits="cal_limits"/>
@@ -68,12 +70,13 @@
       readout="HcalEndcapHits" 
       vis="HcalEndcapVis" 
       calorimeterType="HAD_ENDCAP" reflect="true">
+      <position x="0" y="0" z="0"/>
       <dimensions 
         numsides="CaloSides" 
-        zmin="HcalEndcap_zmin" 
+        zmin="HcalEndcapN_zmin" 
         rmin="HcalEndcapN_rmin" 
         rmax="HcalBarrel_rmax"/>
-      <layer repeat="HcalEndcapLayers" vis="HcalEndcapVis" >
+      <layer repeat="HcalEndcapNLayer_NRepeat" vis="HcalEndcapVis" >
         <slice material="Steel235" thickness="HcalSteelThickness"/>
         <slice material="PyrexGlass" thickness="HcalPyrexThickness"/>
         <slice material="RPCGasDefault" thickness="HcalRPCGasThickness" sensitive="yes" limits="cal_limits"/>

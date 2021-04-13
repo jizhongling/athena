@@ -83,6 +83,7 @@
       readout="EcalEndcapHits" 
       vis="EcalEndcapVis" 
       calorimeterType="EM_ENDCAP" >
+      <position x="0" y="0" z="0"/>
       <dimensions 
         numsides="CaloSides" 
         zmin="EcalEndcapP_zmin" 
@@ -125,6 +126,7 @@
       readout="EcalEndcapHits" 
       vis="EcalEndcapVis" 
       calorimeterType="EM_ENDCAP">
+      <position x="0" y="0" z="0"/>
       <dimensions 
         numsides="CaloSides" 
         zmin="EcalEndcapN_zmin" 

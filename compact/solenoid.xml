@@ -6,6 +6,39 @@
       Solenoid Magnet Parameters
       --------------------------
     </comment>
+    <comment>Solenoid Barrel Parameters</comment>
+    <constant name="SolenoidBarrelCryostatThickness"      value=" 1.0 * cm"/>
+    <constant name="SolenoidBarrelGapThickness"           value=" 3.3 * cm"/>
+    <constant name="SolenoidBarrelAlConductorThickness"   value="12.0 * cm"/>
+    <constant name="SolenoidBarrelQuenchbackThickness"    value=" 1.5 * cm"/>
+    <constant name="SolenoidBarrelOuterGapThickness"      value=" 5.6 * cm"/>
+    <constant name="SolenoidBarrelOuterCryostatThickness" value=" 1.2 * cm"/>
+    <constant name="SolenoidEndPlateGapThickness"           value=" 5.7 * cm"/>
+    <constant name="SolenoidEndPlateCryostatThickness"      value=" 1.5 * cm"/>
+
+    <comment> Solenoid Yoke Endcap </comment>
+    <constant name="SolenoidYokeEndcap_thickness"  value="0.2 * m"/>
+
+
+    <constant name="SolenoidCoilConductor_rmin" value="SolenoidBarrel_rmin + SolenoidBarrelCryostatThickness + SolenoidBarrelGapThickness"/>
+    <constant name="SolenoidCoilConductor_rmax" value="SolenoidCoilConductor_rmin + SolenoidBarrelAlConductorThickness + SolenoidBarrelQuenchbackThickness"/>
+
+    <constant name="SolenoidBarrel_rmax" value="SolenoidCoilConductor_rmax + SolenoidBarrelOuterGapThickness + SolenoidBarrelOuterCryostatThickness"/>
+
+    <constant name="SolenoidCoil_zmax" 
+              value="SolenoidBarrel_zmax - SolenoidEndPlateCryostatThickness - SolenoidEndPlateGapThickness"/>
+
+    <constant name="SolenoidalFieldRadius" 
+              value="SolenoidCoilConductor_rmin + SolenoidBarrelAlConductorThickness / 2.0"/>
+
+    <constant name="SolenoidCoil_length" value="SolenoidCoil_zmax*2.0"/>
+
+    <constant name="SolenoidYokeEndcapP_rmin"     value="SolenoidBarrel_rmin"/>
+    <constant name="SolenoidYokeEndcapN_rmin"     value="SolenoidBarrel_rmin"/>
+    <constant name="SolenoidYokeEndcapP_zmax"      value="SolenoidYokeEndcapP_zmin + SolenoidYokeEndcap_thickness"/>
+    <constant name="SolenoidYokeEndcapN_zmax"      value="SolenoidYokeEndcapN_zmin + SolenoidYokeEndcap_thickness"/>
+
+    <constant name="SolenoidYokeChamferAngle"    value="0.2"/>
   </define>
 
   <detectors>
@@ -19,8 +52,9 @@
     <detector 
       id="Solenoid_ID"
       name="SolenoidCoilBarrel" 
-      type="DD4hep_MultiLayerTracker" 
+      type="refdet_SolenoidCoil" 
       insideTrackingVolume="false">
+      <position x="0" y="0" z="Solenoid_offset"/>
       <layer id="1" 
         inner_r="Solenoid_rmin" 
         outer_z="SolenoidBarrel_zmax" 
@@ -47,10 +81,11 @@
     <detector 
       id="SolenoidSupport_ID"
       name="SolenoidCoilEnds"
-      type="DD4hep_DiskTracker"
+      type="ref_SolenoidEndcap"
       insideTrackingVolume="false"
       reflect="true"
       vis="SolenoidCryostatVis">
+      <position x="0" y="0" z="Solenoid_offset"/>
       <layer id="1" 
         inner_z="SolenoidCoil_zmax" 
         inner_r="SolenoidCoilConductor_rmin" 
@@ -70,10 +105,11 @@
     <detector 
       id="SolenoidYoke_ID"
       name="SolenoidYokeEndcaps"
-      type="DD4hep_DiskTracker"
+      type="ref_SolenoidEndcap"
       insideTrackingVolume="false"
       reflect="true"
       vis="SolenoidYokeVis">
+      <position x="0" y="0" z="Solenoid_offset"/>
       <layer id="1" 
         vis="PurpleVis"
         inner_z="SolenoidBarrel_zmax + SolenoidEndPlateGapThickness" 
