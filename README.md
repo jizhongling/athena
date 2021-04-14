@@ -1,7 +1,12 @@
 
 Overview
 --------
-A collection of reference detector geometry for Electron-Ion Collider experiment.
+The reference detector at IP6 for Electron-Ion Collider experiment.
+
+<a href="https://eicweb.phy.anl.gov/api/v4/projects/447/jobs/artifacts/master/raw/images/view01.pdf?job=report">
+<img src="https://eicweb.phy.anl.gov/api/v4/projects/447/jobs/artifacts/master/raw/images/view01.png?job=report" width="600px" />
+</a>
+
 
 Related useful links
 --------------------
