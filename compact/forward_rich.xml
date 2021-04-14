@@ -6,26 +6,26 @@
   <detectors>
     <detector id="ForwardRICH_ID" name="ForwardRICH" type="refdet_ForwardRICH" readout="ForwardRICHHits" vis="BlueVis">
       <dimensions 
-        z0="RICHZMin" 
-        snout_length="RICHLength - RICHDepth"
-        length="RICHLength" 
-        rmin="RICHRMin" 
-        rmax0="RICH_rmax0" 
-        rmax1="RICH_rmax1" 
-        rmax2="RICH_rmax2"/>
+        z0="ForwardRICH_zmin" 
+        snout_length="ForwardRICH_length - ForwardRICHDepth"
+        length="ForwardRICH_length" 
+        rmin="ForwardRICH_rmin" 
+        rmax0="ForwardRICH_rmax0" 
+        rmax1="ForwardRICH_rmax1" 
+        rmax2="ForwardRICH_rmax2"/>
       <radiator material="N2cherenkov" />
       <tank 
-        length="RICHDepth" 
+        length="ForwardRICHDepth" 
         gas="N2cherenkov"
         vis="GreenVis"
-        rmin="RICHRMin"
-        rmax1="RICH_rmax1"
-        rmax2="RICH_rmax2" />
+        rmin="ForwardRICH_rmin"
+        rmax1="ForwardRICH_rmax1"
+        rmax2="ForwardRICH_rmax2" />
       <comment> What are the following MCP-PMT parameters?</comment>
       <mcppmt 
         z0="-20.0*cm" 
-        rmin="RICH_rmax1" 
-        rmax="RICH_rmax2" 
+        rmin="ForwardRICH_rmax1" 
+        rmax="ForwardRICH_rmax2" 
         rtol="1.0*cm" 
         vis="BlueVis"
         module_size="10*cm" 
@@ -33,16 +33,16 @@
         thickness="1.0*cm" 
         material="Quartz" />
       <mirror 
-        z0="RICHLength - 40*cm" 
+        z0="ForwardRICH_length - 40*cm" 
         thickness="1*mm" 
         material="PyrexGlass" 
         vis="GrayVis">
-        <slice focus="10*cm" curve="300*cm" rmin="RICHRMin" rmax="RICH_rmax1" phiw="59*degree" rotz="0*degree" />
-        <slice focus="10*cm" curve="300*cm" rmin="RICHRMin" rmax="RICH_rmax1" phiw="59*degree" rotz="60*degree" />
-        <slice focus="10*cm" curve="300*cm" rmin="RICHRMin" rmax="RICH_rmax1" phiw="59*degree" rotz="120*degree" />
-        <slice focus="10*cm" curve="300*cm" rmin="RICHRMin" rmax="RICH_rmax1" phiw="59*degree" rotz="180*degree" />
-        <slice focus="10*cm" curve="300*cm" rmin="RICHRMin" rmax="RICH_rmax1" phiw="59*degree" rotz="240*degree" />
-        <slice focus="10*cm" curve="300*cm" rmin="RICHRMin" rmax="RICH_rmax1" phiw="59*degree" rotz="300*degree" />
+        <slice focus="10*cm" curve="300*cm" rmin="ForwardRICH_rmin" rmax="ForwardRICH_rmax1" phiw="59*degree" rotz="0*degree" />
+        <slice focus="10*cm" curve="300*cm" rmin="ForwardRICH_rmin" rmax="ForwardRICH_rmax1" phiw="59*degree" rotz="60*degree" />
+        <slice focus="10*cm" curve="300*cm" rmin="ForwardRICH_rmin" rmax="ForwardRICH_rmax1" phiw="59*degree" rotz="120*degree" />
+        <slice focus="10*cm" curve="300*cm" rmin="ForwardRICH_rmin" rmax="ForwardRICH_rmax1" phiw="59*degree" rotz="180*degree" />
+        <slice focus="10*cm" curve="300*cm" rmin="ForwardRICH_rmin" rmax="ForwardRICH_rmax1" phiw="59*degree" rotz="240*degree" />
+        <slice focus="10*cm" curve="300*cm" rmin="ForwardRICH_rmin" rmax="ForwardRICH_rmax1" phiw="59*degree" rotz="300*degree" />
       </mirror>
     </detector>
   </detectors>

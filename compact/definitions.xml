@@ -130,9 +130,24 @@
     (75-99) Reserved IDs
     ===================
 
-    Unused IDs: 75-99 
+    Unused IDs: 75-89 
     TBD
     </comment>
+    <comment> 
+    ======================
+    (90-99) Barrel PID IDs
+    ======================
+
+    DIRC subsystem       ID: 90
+    Barrel TRD subsystem ID: 91
+    Barrel TOF subsystem ID: 92
+
+    Unused IDs: 93-99 
+    </comment>
+    <constant name="BarrelDIRC_ID" value="90"/>
+    <constant name="BarrelTRD_ID"  value="91"/>
+    <constant name="BarrelTOF_ID"  value="92"/>
+
 
     <comment> 
       =====================================
@@ -179,11 +194,12 @@
       Forwardtracking ID: 120
       Forward RICH    ID: 121
 
-      Unused IDs: 123-129
+      Unused IDs: 124-129
     </comment>
     <constant name="ForwardTracking_ID" value="120"/>
     <constant name="ForwardRICH_ID"     value="121"/>
     <constant name="ci_GEM_id"          value="122"/>
+    <constant name="ForwardTRD_ID"      value="123"/>
 
     <comment> 
       =====================================
@@ -281,18 +297,21 @@
       These are needed here to compute the dependent parameters.
     </comment>
 
-    <constant name="RICHLength"       value="1.1*m"/>
-    <constant name="TRDLength"        value="20.0*cm"/>
-    <constant name="ForwardTOFLength" value="10.0*cm"/>
+    <constant name="ForwardRICH_length"       value="1.1*m"/>
+    <constant name="ForwardTRD_length"        value="20.0*cm"/>
+    <constant name="ForwardTOF_length" value="10.0*cm"/>
     
     <constant name="BackwardCherenkovLength"   value="15.0*cm"/>
     <constant name="BackwardTOFLength"         value="10.0*cm"/>
 
     <comment> Total length of PID detectors above</comment>
-    <constant name="ForwardPIDLength"    value="RICHLength + TRDLength + ForwardTOFLength"/>
+    <constant name="ForwardPIDLength"    value="ForwardRICH_length + ForwardTRD_length + ForwardTOF_length"/>
     <constant name="BackwardPIDLength"   value="BackwardCherenkovLength + BackwardTOFLength"/>
 
-    <constant name="BarrelPIDThickness"  value="25.0 * cm"/>
+    <comment> Barrel PID thicknesses</comment>
+    <constant name="BarrelExtraPIDThickness"  value="25.0 * cm"/>
+    <constant name="BarrelTRDThickness"  value="25.0 * cm"/>
+    <constant name="BarrelTOFThickness"  value="1.0 * cm"/>
 
     <comment>
       ============================
@@ -372,7 +391,7 @@
     <constant name="SolenoidYokeEndcapP_zmin"  value="Solenoid_length/2.0 + Solenoid_offset+ExtraHcalEndcapP_length"/>
     <constant name="SolenoidYokeEndcapN_zmin"  value="Solenoid_length/2.0 - Solenoid_offset+ExtraHcalEndcapN_length"/>
 
-    <constant name="EcalBarrel_rmin"            value="SiliconTrackerOuterRadius + BarrelPIDThickness + 5.0 * mm"/>
+    <constant name="EcalBarrel_rmin"            value="SiliconTrackerOuterRadius + BarrelExtraPIDThickness + 5.0 * mm"/>
     <constant name="HcalBarrel_rmax"            value="Solenoid_rmin - 10.0 *cm "/>
     <constant name="Barrel_TotalCalThickness"   value="HcalBarrel_rmax - EcalBarrel_rmin"/>
     <constant name="CalBarrelDivider"           value="0.5"/> <comment> Ecal and Hcal have the same thickness </comment>
@@ -550,12 +569,12 @@
       Gaseous RICH Parameters
       -----------------------
     </comment>
-    <constant name="RICHZMin"  value="SiliconTrackerOuterBarrel_zmax + 1 * cm"/>
-    <constant name="RICHRMin"  value="15 * cm"/>
-    <constant name="RICH_rmax0"  value="SiliconTrackerOuterRadius"/>
-    <constant name="RICH_rmax1"  value="EcalBarrel_rmin"/>
-    <constant name="RICH_rmax2"  value="SolenoidBarrel_rmin-2*cm"/>
-    <constant name="RICHDepth" value="0.9*m"/>
+    <constant name="ForwardRICH_zmin"  value="SiliconTrackerOuterBarrel_zmax + 1 * cm"/>
+    <constant name="ForwardRICH_rmin"  value="15 * cm"/>
+    <constant name="ForwardRICH_rmax0"  value="SiliconTrackerOuterRadius"/>
+    <constant name="ForwardRICH_rmax1"  value="EcalBarrel_rmin"/>
+    <constant name="ForwardRICH_rmax2"  value="SolenoidBarrel_rmin-2*cm"/>
+    <constant name="ForwardRICHDepth" value="0.9*m"/>
 
 
     <comment>

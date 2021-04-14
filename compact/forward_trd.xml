@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lccdd>
+  <define>
+    <comment>
+      --------------------------
+      Forward TRD Parameters
+      --------------------------
+    </comment>
+    <constant name="ForwardTRD_zmin" value="ForwardRICH_zmin + ForwardRICH_length+ 1*cm"/>
+    <constant name="ForwardTRD_rmin" value="ForwardRICH_rmin"/>
+    <constant name="ForwardTRD_rmax" value="EcalBarrel_rmax - 5*cm"/>
+  </define>
+
+  <detectors>
+    <detector 
+      id="ForwardTRD_ID"
+      name="ForwardTRD"
+      type="ref_DiskTracker"
+      insideTrackingVolume="true"
+      reflect="false"
+      vis="Argonne_Red">
+      <position x="0" y="0" z="0"/>
+      <layer id="1" 
+        vis="Argonne_Blue"
+        inner_z="ForwardTRD_zmin" 
+        inner_r="ForwardTRD_rmin" 
+        outer_r="ForwardTRD_rmax">
+        <slice material="Air" thickness="ForwardTRD_length/2.0" vis="Argonne_Blue" />
+      </layer>
+    </detector>
+  </detectors>
+
+</lccdd>
