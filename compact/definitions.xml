@@ -531,9 +531,9 @@
       ----------------------
     </comment>
     <comment> BeamLines: IP6 </comment>
-    <constant name="ffi_ZDC_x_pos"         value="90.0 * cm"/>
-    <constant name="ffi_ZDC_y_pos"         value="0.0 * cm"/>
     <constant name="ffi_ZDC_z_pos"         value="3800.0 * cm"/>
+    <constant name="ffi_ZDC_x_pos"         value="ffi_ZDC_z_pos * ionCrossingAngle"/> <comment> original value="90.0 * cm" </comment>
+    <constant name="ffi_ZDC_y_pos"         value="0.0 * cm"/>
     <constant name="ffi_ZDC_rotateX_angle" value="0.0 * rad"/>
     <constant name="ffi_ZDC_rotateY_angle" value="-0.0125 * rad"/>
     <constant name="ffi_ZDC_rotateZ_angle" value="0.0 * rad"/>
