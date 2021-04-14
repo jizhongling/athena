@@ -124,6 +124,7 @@
   <include ref="compact/ci_GEM.xml"/>
   <include ref="compact/hcal.xml"/>
   <include ref="compact/forward_trd.xml"/>
+  <include ref="compact/B0_tracker.xml"/>
   <!--
   <include ref="compact/ci_HCAL.xml"/>
   <include ref="compact/forward_rich.xml"/>

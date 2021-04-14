@@ -235,11 +235,13 @@
       (150-169) Far Forward  Detectors
       =====================================
 
-      Forward Roman Pot ID: 150
-      Zero Degree Cal.  ID: 160
+      Forward Roman Pot  ID: 150
+      Forward B0 Tracker ID: 151
+      Zero Degree Cal.   ID: 160
 
     </comment>
     <constant name="ForwardRomanPot_ID" value="150"/>
+    <constant name="B0Tracker_ID"       value="151"/>
     <constant name="ffi_ZDC_ID"         value="160"/>
 
     <comment> 
