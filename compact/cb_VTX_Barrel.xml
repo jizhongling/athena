@@ -1,0 +1,39 @@
+<lccdd>
+
+  <comment> Central Barrel Vertex Detector </comment>        
+
+  <define>
+  </define>
+
+  <limits>
+  </limits>
+
+  <regions>
+  </regions>
+
+  <display>
+  </display>
+
+  <detectors>
+    <detector id="cb_VTX_Barrel_ID" name="cb_VTX_Barrel" type="cb_VTX_Barrel" readout="cb_VTX_Barrel_Hits" vis="cb_VTX_BarrelVis" insideTrackingVloume="true">
+      <dimensions rmin="cb_VTX_Barrel_rmin" rmax="cb_VTX_Barrel_rmax" length="cb_VTX_Barrel_length"/>
+      <position x="cb_VTX_Barrel_x_pos" y="cb_VTX_Barrel_y_pos" z="cb_VTX_Barrel_z_pos"/>
+      <layer repeat="cb_VTX_Barrel_layer" vis="cb_VTX_Barrel_layerVis">
+	<slice name="Silicon_slice" material="Si" sensitive="true"/>
+      </layer>
+    </detector>
+  </detectors>
+
+  <readouts>
+    <readout name="cb_VTX_Barrel_Hits">
+      <segmentation type="CartesianGridXY" grid_size_x="1.0*mm" grid_size_y="1.0*mm" />
+      <id>system:8,barrel:3,layer:4,module:8,x:32:-16,y:-16</id>  
+    </readout>
+  </readouts>
+
+  <plugins>
+  </plugins>
+
+  <fields>
+  </fields>
+</lccdd>

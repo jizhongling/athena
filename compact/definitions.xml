@@ -68,7 +68,7 @@
       Layer 4 subassembly ID: 29
       Layer 5 subassembly ID: 30
     </comment>
-    <constant name="SiVertexSubAssembly_ID" value="25"/>
+    <constant name="cb_VTX_Barrel_ID" value="25"/>
     <comment>
       Unused values reserved for vertex:
       constant name="SiVertexSubAssemblyLayer1_ID" value="121"
@@ -337,7 +337,16 @@
     <constant name="VertexTrackerOuterRadius"       value="90.0*mm"/>
     <constant name="VertexTrackerOuterBarrelLength" value="400.0*mm"/>
 
+    
+    <constant name="cb_VTX_Barrel_rmin"   value="33.0*mm"/>
+    <constant name="cb_VTX_Barrel_rmax"   value="165.0*mm"/>
+    <constant name="cb_VTX_Barrel_length" value="740.0*mm"/>
 
+    <constant name="cb_VTX_Barrel_x_pos"   value="0.0*mm"/>
+    <constant name="cb_VTX_Barrel_y_pos"   value="0.0*mm"/>
+    <constant name="cb_VTX_Barrel_z_pos"   value="0.0*mm"/>
+
+    <constant name="cb_VTX_Barrel_layer"   value="6"/>
     <comment>
       --------------------------
       Silicon Tracker Parameters
@@ -370,7 +379,7 @@
 
       The cb_CTD_* parameters can probably be moved to the detector specific xml file.
     </comment>
-    <constant name="cb_CTD_rmin"   value="SiliconTrackerInnerRadius"/>
+    <constant name="cb_CTD_rmin"   value="SiliconTrackerInnerRadius + 70.0 * mm"/>
     <constant name="cb_CTD_rmax"   value="SiliconTrackerOuterRadius"/>
     <constant name="cb_CTD_zmax"   value="SiliconTrackerOuterBarrel_zmax"/>
     <constant name="cb_CTD_length" value="SiliconTrackerOuterBarrelLength"/>
