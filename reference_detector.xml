@@ -126,6 +126,7 @@
   <include ref="compact/forward_trd.xml"/>
   <include ref="compact/B0_tracker.xml"/>
   <include ref="compact/forward_romanpot.xml"/>
+  <include ref="compact/forward_offM_tracker.xml"/>
   <include ref="compact/cb_VTX_Barrel.xml"/>
   <!--
   <include ref="compact/ci_HCAL.xml"/>
