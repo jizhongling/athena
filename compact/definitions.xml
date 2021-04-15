@@ -69,6 +69,11 @@
       Layer 5 subassembly ID: 30
     </comment>
     <constant name="cb_VTX_Barrel_ID" value="25"/>
+    <constant name="SiVertexBarrel_ID" value="cb_VTX_Barrel_ID"/>
+    <constant name="SiVertexSubAssembly_ID" value="26"/>
+    <constant name="SiVertexEndcapP_ID" value="30"/>
+    <constant name="SiVertexEndcapN_ID" value="40"/>
+    
     <comment>
       Unused values reserved for vertex:
       constant name="SiVertexSubAssemblyLayer1_ID" value="121"
@@ -338,19 +343,9 @@
       -------------------------
     </comment>
     <constant name="VertexTrackerInnerRadius"       value="30.0*mm"/>
-    <constant name="VertexTrackerOuterRadius"       value="90.0*mm"/>
+    <constant name="VertexTrackerOuterRadius"       value="150.0*mm"/>
     <constant name="VertexTrackerOuterBarrelLength" value="400.0*mm"/>
 
-    
-    <constant name="cb_VTX_Barrel_rmin"   value="33.0*mm"/>
-    <constant name="cb_VTX_Barrel_rmax"   value="165.0*mm"/>
-    <constant name="cb_VTX_Barrel_length" value="740.0*mm"/>
-
-    <constant name="cb_VTX_Barrel_x_pos"   value="0.0*mm"/>
-    <constant name="cb_VTX_Barrel_y_pos"   value="0.0*mm"/>
-    <constant name="cb_VTX_Barrel_z_pos"   value="0.0*mm"/>
-
-    <constant name="cb_VTX_Barrel_layer"   value="6"/>
     <comment>
       --------------------------
       Silicon Tracker Parameters
@@ -368,8 +363,9 @@
       The central tracking detectors are assumed to be symmtric about the origin.
       
     </comment>
-    <constant name="CentralTracking_rmax"    value="SiliconTrackerOuterRadius"/>
-    <constant name="CentralTracking_length"  value="SiliconTrackerOuterBarrelLength + ForwardTrackingGEMLength"/>
+    <constant name="CentralTracking_rmax"        value="SiliconTrackerOuterRadius"/>
+    <constant name="CentralTracking_length"      value="SiliconTrackerOuterBarrelLength + ForwardTrackingGEMLength"/>
+    <constant name="VertexTrackingRegion_length" value="SiliconTrackerOuterBarrelLength"/>
 
     <comment> These are used by ddsim </comment>
     <constant name="tracker_region_rmax"   value="Solenoid_rmax/2.0"/>

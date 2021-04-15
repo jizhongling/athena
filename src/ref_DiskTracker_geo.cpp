@@ -63,17 +63,20 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
       pv.addPhysVolID("slice",s_num);
     }
 
-    DetElement layer(sdet,l_nam+"_pos",l_num);
-    pv = assembly.placeVolume(l_vol,Position(0,0,zmin+layerWidth/2.));
-    pv.addPhysVolID("layer",l_num);
-    pv.addPhysVolID("barrel",1);
-    layer.setPlacement(pv);
-    if ( reflect )  {
+    if (!reflect) {
+      DetElement layer(sdet, l_nam + "_pos", l_num);
+      pv = assembly.placeVolume(l_vol, Position(0, 0, zmin + layerWidth / 2.));
+      pv.addPhysVolID("layer", l_num);
+      pv.addPhysVolID("barrel", 1);
+      layer.setPlacement(pv);
+    } else {
+      DetElement layer(sdet, l_nam + "_neg", l_num);
       pv = assembly.placeVolume(l_vol,Transform3D(RotationY(M_PI),Position(0,0,-zmin-layerWidth/2)));
       pv.addPhysVolID("layer",l_num);
-      pv.addPhysVolID("barrel",2);
-      DetElement layerR = layer.clone(l_nam+"_neg");
-      sdet.add(layerR.setPlacement(pv));
+      pv.addPhysVolID("barrel",1);
+      layer.setPlacement(pv);
+      // DetElement layerR = layer.clone(l_nam+"_neg");
+      // sdet.add(layerR.setPlacement(pv));
     }
   }
   if ( x_det.hasAttr(_U(combineHits)) ) {

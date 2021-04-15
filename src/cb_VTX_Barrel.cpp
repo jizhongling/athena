@@ -52,12 +52,12 @@ static Ref_t createDetector(Detector& desc, xml_h e, SensitiveDetector sens)
   double lay_Dy[6];
   double lay_Dz[6];
   double lay_Rin[6];
-  lay_Dx[0] = 0.050 * mm; lay_Dy[0] = 2.0 * cm; lay_Dz[0] = 10.0 * cm; lay_Rin[0] = 3.5 * cm;
-  lay_Dx[1] = 0.050 * mm; lay_Dy[1] = 2.0 * cm; lay_Dz[1] = 11.0 * cm; lay_Rin[1] = 4.5 * cm;
-  lay_Dx[2] = 0.150 * mm; lay_Dy[2] = 4.0 * cm; lay_Dz[2] = 18.0 * cm; lay_Rin[2] = 6.5 * cm;
-  lay_Dx[3] = 0.150 * mm; lay_Dy[3] = 4.0 * cm; lay_Dz[3] = 24.0 * cm; lay_Rin[3] = 10.5 * cm;
-  lay_Dx[4] = 0.150 * mm; lay_Dy[4] = 4.0 * cm; lay_Dz[4] = 36.0 * cm; lay_Rin[4] = 13.5 * cm;
-  lay_Dx[5] = 0.150 * mm; lay_Dy[5] = 4.0 * cm; lay_Dz[5] = 48.0 * cm; lay_Rin[5] = 15.5 * cm;
+  lay_Dx[0] = 0.050 * mm; lay_Dy[0] = 1.0 * cm; lay_Dz[0] = 10.0 * cm; lay_Rin[0] = 3.5 * cm;
+  lay_Dx[1] = 0.050 * mm; lay_Dy[1] = 1.0 * cm; lay_Dz[1] = 11.0 * cm; lay_Rin[1] = 4.5 * cm;
+  lay_Dx[2] = 0.150 * mm; lay_Dy[2] = 2.0 * cm; lay_Dz[2] = 18.0 * cm; lay_Rin[2] = 6.5 * cm;
+  lay_Dx[3] = 0.150 * mm; lay_Dy[3] = 2.0 * cm; lay_Dz[3] = 24.0 * cm; lay_Rin[3] = 10.5 * cm;
+  lay_Dx[4] = 0.150 * mm; lay_Dy[4] = 3.0 * cm; lay_Dz[4] = 36.0 * cm; lay_Rin[4] = 13.5 * cm;
+  lay_Dx[5] = 0.150 * mm; lay_Dy[5] = 3.0 * cm; lay_Dz[5] = 48.0 * cm; lay_Rin[5] = 15.5 * cm;
 
   int i_layer = 0;
   int i_module = 0;
