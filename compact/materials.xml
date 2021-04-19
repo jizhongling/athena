@@ -192,5 +192,11 @@
     <composite n="0.036" ref="C"/>	    
     <composite n="0.073" ref="O"/>	    
   </material>
+  <material name="Mylar">
+    <D type="density" value="1.39" unit="g/cm3" />
+    <fraction n="0.62502108" ref="C"/>
+    <fraction n="0.041960452" ref="H"/>
+    <fraction n="0.33301847" ref="O"/>
+  </material>
 
 </materials>

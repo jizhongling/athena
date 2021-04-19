@@ -205,6 +205,7 @@
     <constant name="ForwardRICH_ID"     value="121"/>
     <constant name="ci_GEM_id"          value="122"/>
     <constant name="ForwardTRD_ID"      value="123"/>
+    <constant name="GEMTrackerEndcap_ID" value="124"/>
 
     <comment> 
       =====================================
