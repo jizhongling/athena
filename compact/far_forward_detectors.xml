@@ -1,0 +1,30 @@
+<lccdd>
+
+  <comment>Far Forward Hadron Detectors</comment>        
+
+  <define>
+  </define>
+
+  <limits>
+  </limits>
+
+  <regions>
+  </regions>
+
+  <display>
+  </display>
+
+
+  <include ref="compact/ffi_ZDC.xml" />
+  <detectors>
+  </detectors>
+
+  <readouts>
+  </readouts>
+
+  <plugins>
+  </plugins>
+
+  <fields>
+  </fields>
+</lccdd>
