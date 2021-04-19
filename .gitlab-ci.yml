@@ -79,6 +79,7 @@ report:
     - view_01
     - dawn_view_02:detector
     - dawn_view_03:detector
+    - dump_constants
   artifacts:
     paths:
       - images/
@@ -87,6 +88,12 @@ report:
     - pip3 install jinja2 &&  ls -lrth
     - ./bin/make_images > doc/dawn_views.md
 
+dump_constants:
+  stage: test
+  needs: 
+    - ["compile"]
+  script:
+    - npdet_info dump reference_detector.xml  | tee doc/constants.out 
 
 overlap_check:
   stage: test
