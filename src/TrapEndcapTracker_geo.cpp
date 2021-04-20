@@ -59,9 +59,13 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
         for (ci.reset(), n_sensor = 1, c_id = 0, posY = -y1; ci; ++ci, ++c_id) {
             xml_comp_t c = ci;
             double c_thick = c.thickness();
+            auto comp_x1   = getAttrOrDefault(c, _Unicode(x1), x1);
+            auto comp_x2   = getAttrOrDefault(c, _Unicode(x2), x2);
+            auto comp_height   = getAttrOrDefault(c, _Unicode(height), z);
+
             Material c_mat = description.material(c.materialStr());
             string c_name = _toString(c_id, "component%d");
-            Volume c_vol(c_name, Trapezoid(x1, x2, c_thick / 2e0, c_thick / 2e0, z), c_mat);
+            Volume c_vol(c_name, Trapezoid(comp_x1, comp_x2, c_thick / 2e0, c_thick / 2e0, comp_height), c_mat);
 
             c_vol.setVisAttributes(description.visAttributes(c.visStr()));
             pv = m_volume.placeVolume(c_vol, Position(0, posY + c_thick / 2, 0));
