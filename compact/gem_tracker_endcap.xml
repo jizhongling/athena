@@ -1,9 +1,8 @@
 <lccdd>
 
-  <comment> Central Barrel Tracker Silicon </comment>        
+  <comment> Endcap Tracker  </comment>        
 
   <define>
-    <comment> Si layer opiton </comment>
     <constant name="GEMTrackerEndcapFoilX1"           value="43.0 * mm"/>
     <constant name="GEMTrackerEndcapFoilY"            value="1020.0 * mm"/>
     <constant name="GEMTrackerEndcapFoilOpeningAngle" value="30.1*degree"/>

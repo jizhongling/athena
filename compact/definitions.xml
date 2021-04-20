@@ -130,12 +130,23 @@
 
     <constant name="cb_CTD_Si_ID"                   value="74"/>
 
-    <comment> 
+    <comment>
     ===================
-    (75-99) Reserved IDs
+    (75-84) Barrel Tracker IDs
+    ===================
+    MMTrackerBarrel ID: 75
+
+    Unused IDs: 76-89
+
+    </comment>
+    <constant name="MMTrackerBarrel_ID" value="75"/>
+
+    <comment>
+    ===================
+    (85-99) Reserved IDs
     ===================
 
-    Unused IDs: 75-89 
+    Unused IDs: 85-89 
     TBD
     </comment>
     <comment> 
@@ -364,8 +375,10 @@
       The central tracking detectors are assumed to be symmtric about the origin.
       
     </comment>
+    <constant name="BarrelTracking_length"       value="SiliconTrackerOuterBarrelLength"/>
+    <constant name="BarrelTracking_rmax"         value="SiliconTrackerOuterRadius"/>
     <constant name="CentralTracking_rmax"        value="SiliconTrackerOuterRadius"/>
-    <constant name="CentralTracking_length"      value="SiliconTrackerOuterBarrelLength + ForwardTrackingGEMLength"/>
+    <constant name="CentralTracking_length"      value="BarrelTracking_length + ForwardTrackingGEMLength"/>
     <constant name="VertexTrackingRegion_length" value="SiliconTrackerOuterBarrelLength"/>
 
     <comment> These are used by ddsim </comment>

@@ -118,7 +118,6 @@
   <include ref="compact/solenoid.xml"/>
   <include ref="compact/ecal.xml"/>
   <include ref="compact/far_forward_detectors.xml"/>
-  <include ref="compact/cb_CTD_Si.xml"/>
   <include ref="compact/ce_mrich.xml"/>
   <include ref="compact/ce_GEM.xml"/>
   <include ref="compact/hcal.xml"/>
@@ -128,8 +127,10 @@
   <include ref="compact/forward_offM_tracker.xml"/>
   <include ref="compact/vertex_tracker.xml"/>
   <include ref="compact/gem_tracker_endcap.xml"/>
+  <include ref="compact/mm_tracker_barrel.xml"/>
   <!--
   <include ref="compact/ci_GEM.xml"/>
+  <include ref="compact/cb_CTD_Si.xml"/>
   <include ref="compact/cb_VTX_Barrel.xml"/>
   <include ref="compact/ci_HCAL.xml"/>
   <include ref="compact/forward_rich.xml"/>
