@@ -11,9 +11,22 @@ workflow:
 default:
   before_script:
     - mkdir -p images && mkdir -p doc/
-    - git clone https://eicweb.phy.anl.gov/EIC/detectors/accelerator.git && ln -s accelerator/eic 
-    - git clone https://eicweb.phy.anl.gov/EIC/detectors/ip6.git  eic_ip6 && mkdir ip6_build && cd ip6_build && cmake ../eic_ip6/. -DCMAKE_INSTALL_PREFIX=/usr/local && make -j20 && make install  && cd .. && ln -s eic_ip6/ip6 
-    - mkdir build && cd build && cmake ../. -DCMAKE_INSTALL_PREFIX=/usr/local && make -j20 && make install  && cd ..
+    - git clone https://eicweb.phy.anl.gov/EIC/detectors/accelerator.git 
+      && ln -s accelerator/eic 
+    - git clone https://eicweb.phy.anl.gov/EIC/detectors/ip6.git eic_ip6 
+      && mkdir ip6_build 
+      && cd ip6_build 
+      && cmake ../eic_ip6/. -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=/usr/local 
+      && make -j20 
+      && make install 
+      && cd .. 
+      && ln -s eic_ip6/ip6 || exit 1
+    - mkdir build 
+      && cd build 
+      && cmake ../. -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_CXX_STANDARD=17
+      && make -j20 
+      && make install 
+      && cd .. || exit 1
   artifacts:
     paths:
       - images/

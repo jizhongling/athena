@@ -1,3 +1,8 @@
+#include "DD4hep/DetFactoryHelper.h"
+#include "DD4hep/OpticalSurfaces.h"
+#include "DD4hep/Printout.h"
+#include "DDRec/DetectorData.h"
+#include "DDRec/Surface.h"
 #include <XML/Helper.h>
 ///////////////////////////
 // Central Ion GEM
