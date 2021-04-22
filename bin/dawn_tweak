@@ -8,12 +8,13 @@ OUT_FILE=".DAWN_1.history"
 function print_the_help {
   echo "USAGE: ${0} [-s <skip_events>] -d <dawn_run_dir> "
   echo "  OPTIONS: "
-  echo "            -x      targeted x coordinate position"
-  echo "            -y      targeted x coordinate position"
-  echo "            -z      targeted x coordinate position"
-  echo "            --theta viewing angle"
-  echo "            --phi   viewing angle"
-  echo "            -m,--mag  magnification"
+  echo "            -x         targeted x coordinate position"
+  echo "            -y         targeted x coordinate position"
+  echo "            -z         targeted x coordinate position"
+  echo "            --theta    viewing angle"
+  echo "            --phi      viewing angle"
+  echo "            -m,--mag   magnification"
+  echo "            --draw     draw style "
   echo "            -d,--dawn-dir <dawn_run_dir>  Directory with the .DAWN files and a generate script "
   exit 
 }
@@ -88,6 +89,13 @@ do
       echo "updating magnification to ${2}"
       sed -i '8d' ${DAWN_RUN_DIR}/${OUT_FILE}
       sed -i '8i'${2} ${DAWN_RUN_DIR}/${OUT_FILE}
+      shift # past argument
+      shift # past value
+      ;;
+    --draw)
+      echo "updating drawing to ${2}"
+      sed -i '9d' ${DAWN_RUN_DIR}/${OUT_FILE}
+      sed -i '9i'${2} ${DAWN_RUN_DIR}/${OUT_FILE}
       shift # past argument
       shift # past value
       ;;
