@@ -1,6 +1,7 @@
 <lccdd>
 
   <define>
+    <constant name="HcalBarrel_offset"              value="(HcalEndcapP_zmin-HcalEndcapN_zmin)/2.0" />
   </define>
 
   <limits>
@@ -21,7 +22,7 @@
       type="refdet_EcalBarrel"
       readout="HcalBarrelHits"
       calorimeterType="HAD_BARREL"
-      offset="Barrel_offset"
+      offset="HcalBarrel_offset"
       gap="0.*cm"
       material="Steel235">
       <dimensions 

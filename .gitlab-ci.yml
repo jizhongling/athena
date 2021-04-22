@@ -90,8 +90,10 @@ report:
   stage: finalize
   needs: 
     - view_01
-    - dawn_view_02:detector
-    - dawn_view_03:detector
+    - view_02
+    - view_03
+    - view_06
+    - view_07
     - dump_constants
   artifacts:
     paths:

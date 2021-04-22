@@ -118,7 +118,7 @@ static Ref_t createDetector(Detector& desc, xml::Handle_t handle, SensitiveDetec
             double mTheta1 = std::asin(mRmin/curve);
             double mTheta2 = std::asin(mRmax/curve);
             double rotY = -std::asin(focus/curve);
-            mirVol.setSolid(Sphere(curve, curve + mThick, mTheta1, mTheta2, 0., wphi));
+            mirVol.setSolid(Sphere(curve, curve + mThick, mTheta1*1.01, mTheta2*0.99, 0., wphi));
             // action is in a reverse order
             Transform3D tr = Translation3D(0., 0., mirZ - front_offset)   // move for z position
                            * RotationZ(rotZ)                            // rotate phi angle
@@ -179,7 +179,7 @@ static Ref_t createDetector(Detector& desc, xml::Handle_t handle, SensitiveDetec
         pdPV.addPhysVolID("layer", ilayer).addPhysVolID("piece", ipd + 1);
     }
     Volume motherVol = desc.pickMotherVolume(det);
-    PlacedVolume envPV = motherVol.placeVolume(envVol, Position(0, 0, z0 + halfLength));
+    PlacedVolume envPV = motherVol.placeVolume(envVol, Position(0, 0, z0 + front_offset));
     envPV.addPhysVolID("system", detID);
     det.setPlacement(envPV);
 

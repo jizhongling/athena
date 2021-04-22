@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lccdd>
   <define>
+    <constant name="ForwardRICH_zmin"   value="BarrelTracking_length/2.0 + ForwardTrackingLength "/>
+    <constant name="ForwardRICH_rmin"   value="ForwardPID_rmin1"/>
+    <constant name="ForwardRICH_rmax0"  value="SiliconTrackerOuterRadius"/>
+    <constant name="ForwardRICH_rmax1"  value="EcalBarrel_rmin"/>
+    <constant name="ForwardRICH_rmax2"  value="Solenoid_rmin-6*cm"/>
+    <constant name="ForwardRICHDepth"   value="0.9*m"/>
   </define>
 
   <detectors>
-    <detector id="ForwardRICH_ID" name="ForwardRICH" type="refdet_ForwardRICH" readout="ForwardRICHHits" vis="BlueVis">
+    <detector id="ForwardRICH_ID" name="ForwardRICH" type="refdet_ForwardRICH" readout="ForwardRICHHits" vis="RICHVis">
       <dimensions 
         z0="ForwardRICH_zmin" 
         snout_length="ForwardRICH_length - ForwardRICHDepth"
@@ -22,8 +28,8 @@
         rmax1="ForwardRICH_rmax1"
         rmax2="ForwardRICH_rmax2" />
       <comment> What are the following MCP-PMT parameters?</comment>
-      <mcppmt 
-        z0="-20.0*cm" 
+      <mcppmt
+        z0="0.0*cm"
         rmin="ForwardRICH_rmax1" 
         rmax="ForwardRICH_rmax2" 
         rtol="1.0*cm" 

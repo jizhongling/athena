@@ -1,28 +1,3 @@
-
-#dawn_view_03:detector:
-#  extends: .views
-#  script:
-#    - ./bin/make_dawn_views -t view03 -d scripts/view3 -D
-#dawn_view_03:ev001:
-#  extends: .views
-#  script:
-#    - ./bin/make_dawn_views -t view03_ev001 -d scripts/view3 -s 2
-#dawn_view_03:ev003:
-#  extends: .views
-#  script:
-#    - ./bin/make_dawn_views -t view03_ev100 -d scripts/view3 -s 3
-#dawn_view_03:ev004:
-#  extends: .views
-#  script:
-#    - ./bin/make_dawn_views -t view03_ev001 -d scripts/view3 -s 4
-#dawn_view_06:detector:
-#  extends: .views
-#  script:
-#    - ./bin/make_dawn_views -t view06 -d scripts/view6 -D
-#dawn_view_07:detector:
-#  extends: .views
-#  script:
-#    - ./bin/make_dawn_views -t view07 -d scripts/view7 -D
 dawn_view_11:detector:
   extends: .views
   script:

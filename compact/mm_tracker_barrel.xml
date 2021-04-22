@@ -3,12 +3,11 @@
   <comment>Micromegas tracker barrel</comment>        
 
   <define>
-    <constant name="MMTrackerBarrelLayer1_rmin"      value="800.0 * mm"/>
-    <constant name="MMTrackerBarrelLayer1_length"    value="500.0 * mm"/>
-    <constant name="MMTrackerBarrelLayer1_thickness" value="10.0 * mm"/>
-    <constant name="MMTrackerBarrel_NZModules"       value="floor(BarrelTracking_length/MMTrackerBarrelLayer1_length)"/>
-
-    <constant name="MMTrackerBarrelModulesTotal_length"       value="MMTrackerBarrel_NZModules*MMTrackerBarrelLayer1_length"/>
+    <constant name="MMTrackerBarrelLayer1_rmin"          value="800.0 * mm"/>
+    <constant name="MMTrackerBarrelLayer1_length"        value="100.0 * mm"/>
+    <constant name="MMTrackerBarrelLayer1_thickness"     value="10.0 * mm"/>
+    <constant name="MMTrackerBarrel_NZModules"           value="floor(BarrelTracking_length/MMTrackerBarrelLayer1_length)"/>
+    <constant name="MMTrackerBarrelModulesTotal_length"  value="MMTrackerBarrel_NZModules*MMTrackerBarrelLayer1_length"/>
 
 
   </define>

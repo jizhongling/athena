@@ -5,6 +5,7 @@ PROJECT(reference_detector
   DESCRIPTION "A template dd4hep+acts detector"
   )
 
+set(CMAKE_CXX_STANDARD 17)
 find_package( DD4hep REQUIRED COMPONENTS DDCore DDG4 )
 
 #find_package(Acts REQUIRED COMPONENTS Core IdentificationPlugin TGeoPlugin DD4hepPlugin PATHS /home/whit/lib/cmake NO_DEFAULT_PATH)

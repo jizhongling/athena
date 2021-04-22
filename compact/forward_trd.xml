@@ -6,9 +6,9 @@
       Forward TRD Parameters
       --------------------------
     </comment>
-    <constant name="ForwardTRD_zmin" value="ForwardRICH_zmin + ForwardRICH_length+ 1*cm"/>
-    <constant name="ForwardTRD_rmin" value="ForwardRICH_rmin"/>
-    <constant name="ForwardTRD_rmax" value="EcalBarrel_rmax - 5*cm"/>
+    <constant name="ForwardTRD_zmin" value="BarrelTracking_length/2.0 + ForwardTrackingLength + ForwardRICH_length"/>
+    <constant name="ForwardTRD_rmin" value="ForwardPID_rmin1"/>
+    <constant name="ForwardTRD_rmax" value="Solenoid_rmin"/>
   </define>
 
   <detectors>
@@ -19,7 +19,7 @@
       insideTrackingVolume="true"
       reflect="false"
       vis="Argonne_Red">
-      <position x="0" y="0" z="0"/>
+      <position x="0" y="0" z="0.0"/>
       <layer id="1" 
         vis="Argonne_Blue"
         inner_z="ForwardTRD_zmin" 

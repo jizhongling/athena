@@ -3,6 +3,21 @@
   <comment> Electron endcap GEM tracking </comment>        
 
   <define>
+    <comment>
+      ------------------
+      ce_GEM Parameters
+      ------------------
+    </comment>
+    <constant name="ce_GEM_rmin"            value="10.0 * cm"/> <comment> temporary number. Need beampipe radius  </comment>
+    <!--<constant name="ce_GEM_rmin"        value="0.0 * cm"/>-->
+    <constant name="ce_GEM_rmax"            value="HcalEndcapN_rmin + 0.0 * cm"/> <comment> temporary number to avoid overlaps  </comment>
+    <!--<constant name="ce_GEM_rmax"        value="45.0 * cm + 50.0 * cm"/>-->
+    <constant name="ce_GEM_length"          value="30.0 * cm"/>
+    <constant name="ce_GEM_x_pos"           value="0.0 * cm"/>
+    <constant name="ce_GEM_y_pos"           value="0.0 * cm"/>
+    <constant name="ce_GEM_z_pos"           value="-Solenoid_length/2.0 + ce_GEM_length/2.0"/>
+    <constant name="ce_GEM_layer"           value="8"/>
+    <constant name="ce_GEM_layer_thickness" value="1.0 * cm"/>
   </define>
 
   <limits>

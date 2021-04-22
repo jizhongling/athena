@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lccdd>
   <define>
+    <constant name="ce_MRICHRMin"   value="15*cm"/>
+    <constant name="ce_MRICHRMax"   value="BarrelTrackingAndPID_rmax"/>
+    <constant name="ce_MRICHLength" value="BackwardCherenkovLength"/>
+    <constant name="ce_MRICHZMin"   value="-EcalEndcapN_zmin+ce_MRICHLength"/>
+
   </define>
 
   <detectors>

@@ -304,7 +304,7 @@
     <constant name="Solenoid_length"           value="3600.0*mm"/>
     <constant name="Solenoid_rmin"             value="1600.0*mm"/>
     <constant name="Solenoid_thickness"        value="400*mm"/>
-    <constant name="Solenoid_offset"           value="600.0*mm"/>
+    <constant name="Solenoid_offset"           value="0.0*mm"/>
 
     <constant name="Solenoid_rmax"             value="Solenoid_rmin + Solenoid_thickness"/>
     <constant name="SolenoidBarrel_rmin"       value="Solenoid_rmin"/>
@@ -321,8 +321,8 @@
     </comment>
 
     <constant name="ForwardRICH_length"       value="1.1*m"/>
-    <constant name="ForwardTRD_length"        value="20.0*cm"/>
-    <constant name="ForwardTOF_length" value="10.0*cm"/>
+    <constant name="ForwardTRD_length"        value="10.0*cm"/>
+    <constant name="ForwardTOF_length"        value="10.0*mm"/>
     
     <constant name="BackwardCherenkovLength"   value="15.0*cm"/>
     <constant name="BackwardTOFLength"         value="10.0*cm"/>
@@ -331,10 +331,17 @@
     <constant name="ForwardPIDLength"    value="ForwardRICH_length + ForwardTRD_length + ForwardTOF_length"/>
     <constant name="BackwardPIDLength"   value="BackwardCherenkovLength + BackwardTOFLength"/>
 
+    <comment> For detectors adjacent to beam pipe.</comment>
+    <constant name="ForwardPID_rmin"  value="Beampipe_rmax + 10*mm"/>
+    <constant name="ForwardPID_rmin1"  value="Beampipe_rmax + 80*mm"/>
+
     <comment> Barrel PID thicknesses</comment>
     <constant name="BarrelExtraPIDThickness"  value="25.0 * cm"/>
-    <constant name="BarrelTRDThickness"  value="25.0 * cm"/>
+    <constant name="BarrelTRDThickness"  value="1.0 * cm"/>
     <constant name="BarrelTOFThickness"  value="1.0 * cm"/>
+
+
+
 
     <comment>
       ============================
@@ -342,12 +349,16 @@
       ============================
     </comment>
 
+    <constant name="ForwardTrackingLength" value="30.0*cm"/>
+    <constant name="BackwardTrackingLength" value="30.0*cm"/>
+
     <comment>
       -------------------------
       GEM Tracker Parameters
       -------------------------
     </comment>
-    <constant name="ForwardTrackingGEMLength" value="30.0*cm"/>
+    <constant name="ForwardTrackingGEMLength" value="ForwardTrackingLength"/>
+    <constant name="BackwardTrackingGEMLength" value="BackwardTrackingLength"/>
 
     <comment>
       -------------------------
@@ -362,11 +373,12 @@
       --------------------------
       Silicon Tracker Parameters
       --------------------------
+      Note current values should be updated
     </comment>
     <constant name="SiliconTrackerInnerRadius"       value="95.0*mm"/>
     <constant name="SiliconTrackerInnerBarrelLength" value="300.0*mm"/>
-    <constant name="SiliconTrackerOuterRadius"       value="Solenoid_rmin-70*cm"/>
-    <constant name="SiliconTrackerOuterBarrelLength" value="Solenoid_length/2.5"/>
+    <constant name="SiliconTrackerOuterRadius"       value="Solenoid_rmax/3.0"/>
+    <constant name="SiliconTrackerOuterBarrelLength" value="1600.0*mm"/>
     <constant name="SiliconTrackerOuterBarrel_zmax"  value="SiliconTrackerOuterBarrelLength/2.0"/>
 
     <comment>
@@ -377,8 +389,11 @@
     </comment>
     <constant name="BarrelTracking_length"       value="SiliconTrackerOuterBarrelLength"/>
     <constant name="BarrelTracking_rmax"         value="SiliconTrackerOuterRadius"/>
+    <constant name="BarrelTrackingAndPID_rmax"   value="BarrelTracking_rmax+BarrelExtraPIDThickness"/>
+
+    <constant name="CentralTracking_length"      value="BarrelTracking_length + ForwardTrackingLength + BackwardTrackingLength"/>
     <constant name="CentralTracking_rmax"        value="SiliconTrackerOuterRadius"/>
-    <constant name="CentralTracking_length"      value="BarrelTracking_length + ForwardTrackingGEMLength"/>
+
     <constant name="VertexTrackingRegion_length" value="SiliconTrackerOuterBarrelLength"/>
 
     <comment> These are used by ddsim </comment>
@@ -386,40 +401,44 @@
     <constant name="tracker_region_zmax"   value="Solenoid_length/2.0"/>
 
 
-    <comment>
-      -------------------------------
-      Central Barrel Tracker - Global
-      -------------------------------
-
-      The cb_CTD_* parameters can probably be moved to the detector specific xml file.
-    </comment>
-    <constant name="cb_CTD_rmin"   value="SiliconTrackerInnerRadius + 70.0 * mm"/>
-    <constant name="cb_CTD_rmax"   value="SiliconTrackerOuterRadius"/>
-    <constant name="cb_CTD_zmax"   value="SiliconTrackerOuterBarrel_zmax"/>
-    <constant name="cb_CTD_length" value="SiliconTrackerOuterBarrelLength"/>
 
     <comment>
-      ------------
-      Calorimeters
-      ------------
-      ======================
+      ----------------------
       Calorimeter Parameters
-      ======================
+      ----------------------
+
+       Note on paramaeterization 
+
+      The HCal Barrel is outside of the solenoid magnet.  However,
+      there is an option to add some HCal barrel inside the magnet but this
+      is turned off below.
+
+      The space for the calorimeters inside the solenoid is assumed to be fixed by 
+      the solenoid inner diameter/length and by the central tracking and PID outer diameter/length.
+
+       Endcaps
+
+      The extra HCal endcap lengths are for offsetting the outside endcap surface (zmax) from the
+      end of the solenoid coils.
 
     </comment>
-    <comment>
-      Ecal and Hcal Barrel/Endcap 
-    </comment>
 
-    <constant name="ExtraHcalEndcapP_length"   value="0.0*cm"/>
-    <constant name="ExtraHcalEndcapN_length"   value="0.0*cm"/>
-    <constant name="SolenoidYokeEndcapP_zmin"  value="Solenoid_length/2.0 + Solenoid_offset+ExtraHcalEndcapP_length"/>
-    <constant name="SolenoidYokeEndcapN_zmin"  value="Solenoid_length/2.0 - Solenoid_offset+ExtraHcalEndcapN_length"/>
+    <comment> these offesets could be implemented differently for clarity. </comment>
+    <constant name="EcalEndcapPSolenoid_offset" value="800.0*mm" />
+    <constant name="EcalEndcapNSolenoid_offset" value="0.0*mm" />
+
+    <constant name="HcalEndcapPExtra_length"    value="40.0*cm"/>
+    <constant name="HcalEndcapNExtra_length"    value="40.0*cm"/>
+
+    <constant name="SolenoidYokeEndcapP_zmin"  value="Solenoid_length/2.0 + Solenoid_offset + HcalEndcapPExtra_length"/>
+    <constant name="SolenoidYokeEndcapN_zmin"  value="Solenoid_length/2.0 - Solenoid_offset + HcalEndcapNExtra_length"/>
 
     <constant name="EcalBarrel_rmin"            value="SiliconTrackerOuterRadius + BarrelExtraPIDThickness + 5.0 * mm"/>
-    <constant name="HcalBarrel_rmax"            value="Solenoid_rmin - 10.0 *cm "/>
-    <constant name="Barrel_TotalCalThickness"   value="HcalBarrel_rmax - EcalBarrel_rmin"/>
-    <constant name="CalBarrelDivider"           value="1.0"/> <comment> 100% Ecal, no HCAL inside of the solenoid for now </comment>
+    <constant name="Barrel_rmax"                value="Solenoid_rmin - 10.0 *cm "/>
+    <constant name="Barrel_TotalCalThickness"   value="Barrel_rmax - EcalBarrel_rmin"/>
+
+    <constant name="CalBarrelDivider"           value="0.8"/>
+    <comment> Leave room for TRD </comment>
 
     <constant name="EcalBarrel_TotalThickness"  value="Barrel_TotalCalThickness * CalBarrelDivider"/>
     <constant name="HcalBarrel_TotalThickness"  value="Barrel_TotalCalThickness * (1.0 - CalBarrelDivider)"/>
@@ -430,20 +449,22 @@
     <constant name="EcalEndcapP_zmin"           value="CentralTracking_length/2.0 + ForwardPIDLength"/>
     <constant name="EcalEndcapN_zmin"           value="CentralTracking_length/2.0 + BackwardPIDLength"/>
 
-    <constant name="BarrelLength"               value="SiliconTrackerOuterBarrelLength + ForwardPIDLength + BackwardPIDLength"/>
-    <constant name="Barrel_offset"              value="(EcalEndcapP_zmin-EcalEndcapN_zmin)/2.0"/>
+    <constant name="BarrelLength"               value="SiliconTrackerOuterBarrelLength + ForwardPIDLength + BackwardPIDLength" />
+    <constant name="Barrel_offset"              value="(EcalEndcapP_zmin-EcalEndcapN_zmin)/2.0" />
 
-    <constant name="EndcapPTotalCal_length"  value="(SolenoidYokeEndcapP_zmin - 0.0 * mm) - (EcalEndcapP_zmin + 20.0 * mm)"/>
-    <constant name="EndcapNTotalCal_length"  value="(SolenoidYokeEndcapN_zmin - 0.0 * mm) - (EcalEndcapN_zmin + 20.0 * mm)"/>
+    <comment>
+      Endcaps
+    </comment>
 
-    <constant name="EndcapP_CalDivide"          value="0.5"/> <comment> 0.5 means Ecal and Hcal have the same thickness </comment>
-    <constant name="EndcapN_CalDivide"          value="0.5"/> <comment> 0.5 means Ecal and Hcal have the same thickness </comment>
+    <constant name="EndcapPTotalCal_length"  value="(SolenoidYokeEndcapP_zmin + EcalEndcapPSolenoid_offset) - (EcalEndcapP_zmin)"/>
+    <constant name="EndcapNTotalCal_length"  value="(SolenoidYokeEndcapN_zmin + EcalEndcapNSolenoid_offset) - (EcalEndcapN_zmin)"/>
+
+    <constant name="EndcapP_CalDivide"          value="0.8"/> <comment> 0.5 means Ecal and Hcal have the same thickness </comment>
+    <constant name="EndcapN_CalDivide"          value="0.8"/> <comment> 0.5 means Ecal and Hcal have the same thickness </comment>
 
     <constant name="EcalEndcapP_length" value="EndcapPTotalCal_length * EndcapP_CalDivide"/>
     <constant name="EcalEndcapN_length" value="EndcapNTotalCal_length * EndcapN_CalDivide"/>
 
-    <constant name="HcalEndcapP_length" value="EndcapPTotalCal_length * (1.0 - EndcapP_CalDivide)"/>
-    <constant name="HcalEndcapN_length" value="EndcapNTotalCal_length * (1.0 - EndcapN_CalDivide)"/>
 
     <comment> These need to be set in sync with the forward and backward  detectors </comment>
     <constant name="EcalEndcapP_rmin"                      value="200.0*mm"/>
@@ -520,12 +541,19 @@
       Hadronic Calorimeter Parameters
       -------------------------------
     </comment>
-    <constant name="HcalBarrel_rmin"          value="EcalBarrel_rmax"/>
-    <constant name="HcalBarrelAvailThickness" value="HcalBarrel_rmax - HcalBarrel_rmin"/>
-    <constant name="HcalBarrelLength"         value="Solenoid_length + ExtraHcalEndcapP_length + ExtraHcalEndcapN_length- HcalEndcapP_length- HcalEndcapN_length - 10*cm"/>
-                                                                     
-    <constant name="HcalEndcapP_zmin"          value="SolenoidYokeEndcapP_zmin - HcalEndcapP_length "/>
-    <constant name="HcalEndcapN_zmin"          value="SolenoidYokeEndcapN_zmin - HcalEndcapN_length "/>
+
+    <constant name="HcalEndcapP_length" value="50.0*cm"/>
+    <constant name="HcalEndcapN_length" value="50.0*cm"/>
+    <constant name="HcalBarrel_thickness" value="50.0*cm "/>
+
+    <constant name="HcalBarrel_rmin"          value="Solenoid_rmax"/>
+    <constant name="HcalBarrel_rmax"          value="HcalBarrel_rmin + HcalBarrel_thickness"/>
+
+    <constant name="HcalBarrelAvailThickness" value="HcalBarrel_thickness"/>
+
+    <constant name="HcalEndcapP_zmin"          value="EcalEndcapP_zmin + EcalEndcapP_length "/>
+    <constant name="HcalEndcapN_zmin"          value="EcalEndcapN_zmin + EcalEndcapN_length "/>
+    <constant name="HcalBarrelLength"          value="HcalEndcapP_zmin + HcalEndcapN_zmin "/>
 
     <comment> Material Thickness </comment>
     <constant name="HcalSteelThickness"       value="1.89 * cm"/>
@@ -594,12 +622,6 @@
       Gaseous RICH Parameters
       -----------------------
     </comment>
-    <constant name="ForwardRICH_zmin"  value="SiliconTrackerOuterBarrel_zmax + 1 * cm"/>
-    <constant name="ForwardRICH_rmin"  value="15 * cm"/>
-    <constant name="ForwardRICH_rmax0"  value="SiliconTrackerOuterRadius"/>
-    <constant name="ForwardRICH_rmax1"  value="EcalBarrel_rmin"/>
-    <constant name="ForwardRICH_rmax2"  value="SolenoidBarrel_rmin-2*cm"/>
-    <constant name="ForwardRICHDepth" value="0.9*m"/>
 
 
     <comment>
@@ -621,32 +643,7 @@
     </comment>
 
 
-    <comment>
-      --------------------------
-      ce_MRICH Parameters
-      --------------------------
-    </comment>
-    <constant name="ce_MRICHRMin"   value="15*cm"/>
-    <constant name="ce_MRICHRMax"   value="100*cm"/>
-    <constant name="ce_MRICHLength" value="BackwardCherenkovLength"/>
-    <constant name="ce_MRICHZMin"   value="-EcalEndcapN_zmin+ce_MRICHLength"/>
 
-
-    <comment>
-      ------------------
-      ce_GEM Parameters
-      ------------------
-    </comment>
-    <constant name="ce_GEM_rmin"            value="10.0 * cm"/> <comment> temporary number. Need beampipe radius  </comment>
-    <!--<constant name="ce_GEM_rmin"        value="0.0 * cm"/>-->
-    <constant name="ce_GEM_rmax"            value="HcalEndcapN_rmin + 8.0 * cm"/> <comment> temporary number to avoid overlaps  </comment>
-    <!--<constant name="ce_GEM_rmax"        value="45.0 * cm + 50.0 * cm"/>-->
-    <constant name="ce_GEM_length"          value="30.0 * cm"/>
-    <constant name="ce_GEM_x_pos"           value="0.0 * cm"/>
-    <constant name="ce_GEM_y_pos"           value="0.0 * cm"/>
-    <constant name="ce_GEM_z_pos"           value="-Solenoid_length/2.0 + ce_GEM_length/2.0"/>
-    <constant name="ce_GEM_layer"           value="8"/>
-    <constant name="ce_GEM_layer_thickness" value="1.0 * cm"/>
 
     <comment>
       --------------------------

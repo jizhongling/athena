@@ -3,6 +3,10 @@
   <comment> Central Barrel Tracker Silicon </comment>        
 
   <define>
+    <constant name="cb_CTD_rmin"   value="SiliconTrackerInnerRadius + 70.0 * mm"/>
+    <constant name="cb_CTD_rmax"   value="SiliconTrackerOuterRadius"/>
+    <constant name="cb_CTD_zmax"   value="SiliconTrackerOuterBarrel_zmax"/>
+    <constant name="cb_CTD_length" value="SiliconTrackerOuterBarrelLength"/>
     <comment> Si layer opiton </comment>
     <constant name="cb_CTD_Si_gap"    value="5.0 * cm"/>
     <constant name="cb_CTD_Si_layer"  value="15"/>

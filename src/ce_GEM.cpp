@@ -44,7 +44,7 @@ static Ref_t createDetector(Detector& desc, xml_h e, SensitiveDetector sens)
   // Loop over layers
   for(int i = 0; i < repeat; i++) {
     layerRIn  = RIn + 1.0 * cm + ((double)i * 0.5) * cm;
-    layerROut = ROut - 25.0 * cm + ((double)i * 2.0) * cm;
+    layerROut = ROut;//RIn + ((double)i * 0.5) * cm;
     layerPosZ = SizeZ / 2.0 - 5.0 * cm - ((double)i * 3.0) * cm;
     layerSizeZ = 1.0 * cm;
 
