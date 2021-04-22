@@ -2,14 +2,14 @@
 <lccdd>
   <define>
 
-    <constant name="VertexTrackerRadius1" value="30*mm"/>
-    <constant name="VertexTrackerRadius2" value="38*mm"/>
-    <constant name="VertexTrackerRadius3" value="46*mm"/>
-    <constant name="VertexTrackerRadius4" value="54*mm"/>
-    <constant name="VertexTrackerRadius5" value="62*mm"/>
-    <constant name="VertexTrackerRadius6" value="70*mm"/>
-    <constant name="VertexTrackerRadius7" value="78*mm"/>
-    <constant name="VertexTrackerRadius8" value="86*mm"/>
+    <constant name="VertexTrackerRadius1" value="46*mm"/>
+    <constant name="VertexTrackerRadius2" value="54*mm"/>
+    <constant name="VertexTrackerRadius3" value="62*mm"/>
+    <constant name="VertexTrackerRadius4" value="70*mm"/>
+    <constant name="VertexTrackerRadius5" value="80*mm"/>
+    <constant name="VertexTrackerRadius6" value="95*mm"/>
+    <constant name="VertexTrackerRadius7" value="110*mm"/>
+    <constant name="VertexTrackerRadius8" value="125*mm"/>
     <constant name="VertexTrackerNModules1" value="14"/>
     <constant name="VertexTrackerNModules2" value="18"/>
     <constant name="VertexTrackerNModules3" value="22"/>
@@ -19,20 +19,21 @@
     <constant name="VertexTrackerNModules7" value="36"/>
     <constant name="VertexTrackerNModules8" value="40"/>
 
-    <constant name="VertexTrackerBarrelLength" value="400.0*mm"/>
 
-    <constant name="SiVertexEndcapP_rmin" value="VertexTrackerInnerRadius"/>
-    <constant name="SiVertexEndcapP_rmax" value="VertexTrackerOuterRadius"/>
-    <constant name="SiVertexEndcapP_zmin" value="VertexTrackerBarrelLength + 5*mm"/>
+    <!--
+    <constant name="VertexTrackerEndcapP_rmin" value="VertexTrackerInnerRadius"/>
+    <constant name="VertexTrackerEndcapP_rmax" value="VertexTrackerOuterRadius"/>
+    <constant name="VertexTrackerEndcapP_zmin" value="VertexTrackerBarrel_length + 5*mm"/>
 
-    <constant name="SiVertexEndcapN_rmin" value="VertexTrackerInnerRadius"/>
-    <constant name="SiVertexEndcapN_rmax" value="VertexTrackerOuterRadius"/>
-    <constant name="SiVertexEndcapN_zmin" value="VertexTrackerBarrelLength + 5*mm"/>
+    <constant name="VertexTrackerEndcapN_rmin" value="VertexTrackerInnerRadius"/>
+    <constant name="VertexTrackerEndcapN_rmax" value="VertexTrackerOuterRadius"/>
+    <constant name="VertexTrackerEndcapN_zmin" value="VertexTrackerBarrelLength + 5*mm"/>
+    -->
+    <constant name="VertexTrackerEndcapN_zmin" value="VertexTrackerBarrel_zmax"/>
+    <constant name="VertexTrackerEndcapP_zmin" value="VertexTrackerBarrel_zmax"/>
 
-    <constant name="SiVertexEndcap_NLayers" value="5"/>
-    <constant name="SiVertexEndcapP_zmax" value="VertexTrackingRegion_length/2 - SiVertexEndcapN_zmin"/>
-    <constant name="SiVertexEndcapP_zmax" value="VertexTrackingRegion_length/2 - SiVertexEndcapN_zmin"/>
-    <constant name="SiVertexEndcap_delta" value="(SiVertexEndcapP_zmax - SiVertexEndcapP_zmin)/SiVertexEndcap_NLayers"/>
+    <constant name="VertexEndcap_NLayers" value="5"/>
+    <constant name="VertexTrackerEndcap_delta" value="(VertexTrackerEndcapP_zmax - VertexTrackerEndcapP_zmin)/VertexEndcap_NLayers"/>
 
   
 </define>
@@ -48,141 +49,144 @@
       name="SiVertexSubAssembly" 
       type="DD4hep_SubdetectorAssembly" 
       vis="SiTrackerSubAssemblyVis">
-      <composite name="SiVertexEndcapN"/>
-      <composite name="SiVertexEndcapP"/> 
+      <composite name="VertexTrackerEndcapN"/>
+      <composite name="VertexTrackerEndcapP"/> 
       <composite name="SiVertexBarrel"/>
     </detector>
 
 
     <detector id="SiVertexBarrel_ID" name="SiVertexBarrel" type="refdet_SiVertexBarrel"
       readout="SiVertexBarrelHits" insideTrackingVolume="true" >
-      <dimensions rmin="VertexTrackerRadius1-5*mm" rmax="VertexTrackerRadius8+5*mm" length="VertexTrackerBarrelLength+1.0*mm"/>
+      <dimensions rmin="VertexTrackerBarrel_rmin" rmax="VertexTrackerBarrel_rmax" length="VertexTrackerBarrel_length"/>
+
       <comment> Define available modules </comment>
       <module name="SOIPIXD" vis="PurpleVis">
-        <frame width="15*mm"  height="3.0*mm" length="VertexTrackerBarrelLength" thickness="0.1 * mm" material="CarbonFiber_25percent" vis="BlueGreenVis" />
-        <module_component name="silicon" width="14.0*mm" length="VertexTrackerBarrelLength-0.1*mm" 
+        <frame width="15*mm"  height="3.0*mm" length="VertexTrackerBarrel_length" thickness="0.1 * mm" material="CarbonFiber_25percent" vis="BlueGreenVis" />
+        <module_component name="silicon" width="14.0*mm" length="VertexTrackerBarrel_length-0.1*mm" 
           thickness="0.05*mm" material="Silicon" sensitive="true">
           <position z="-0.025*mm" y="0*mm"/>
         </module_component>
       </module>
+
       <module name="UFSD">
-        <frame width="15*mm"  height="3.0*mm" length="VertexTrackerBarrelLength" thickness="0.1 * mm" material="CarbonFiber_25percent" vis="BlueGreenVis" />
-        <module_component name="silicon" width="14.0*mm" length="VertexTrackerBarrelLength-0.1*mm" 
+        <frame width="15*mm"  height="3.0*mm" length="VertexTrackerBarrel_length" thickness="0.1 * mm" material="CarbonFiber_25percent" vis="BlueGreenVis" />
+        <module_component name="silicon" width="14.0*mm" length="VertexTrackerBarrel_length-0.1*mm" 
           thickness="0.05*mm" material="Silicon" sensitive="true">
           <position z="-0.025*mm" y="0*mm"/>
         </module_component>
       </module>
+
       <comment> Layers composed of many arrayed modules  </comment>
-      <layer module="SOIPIXD" id="2" vis="InvisibleWithDaughters">
+      <layer module="SOIPIXD" id="2" vis="SiVertexVis">
         <barrel_envelope inner_r="(VertexTrackerRadius1+VertexTrackerRadius2)/2" 
-                         outer_r="(VertexTrackerRadius2+VertexTrackerRadius3)/2" z_length="VertexTrackerBarrelLength+0.1*mm"/>
+                         outer_r="(VertexTrackerRadius2+VertexTrackerRadius3)/2" z_length="VertexTrackerBarrel_length"/>
         <rphi_layout phi_tilt="10.0*degree" nphi="VertexTrackerNModules2" phi0="0.0" rc="VertexTrackerRadius2" dr="0.0 * mm"/>
         <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
       </layer>
-      <layer module="UFSD" id="3" vis="InvisibleWithDaughters">
+      <layer module="UFSD" id="3" vis="SiVertexVis">
         <barrel_envelope inner_r="(VertexTrackerRadius2+VertexTrackerRadius3)/2" 
-                         outer_r="(VertexTrackerRadius3+VertexTrackerRadius4)/2" z_length="VertexTrackerBarrelLength+0.1*mm"/>
+                         outer_r="(VertexTrackerRadius3+VertexTrackerRadius4)/2" z_length="VertexTrackerBarrel_length"/>
         <rphi_layout phi_tilt="10.0*degree" nphi="VertexTrackerNModules3" phi0="0.0" rc="VertexTrackerRadius3" dr="0.0 * mm"/>
         <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
       </layer>
-      <layer module="UFSD" id="4" vis="InvisibleWithDaughters">
+      <layer module="UFSD" id="4" vis="SiVertexVis">
         <barrel_envelope inner_r="(VertexTrackerRadius3+VertexTrackerRadius4)/2" 
-                         outer_r="(VertexTrackerRadius4+VertexTrackerRadius5)/2" z_length="VertexTrackerBarrelLength+0.1*mm"/>
+                         outer_r="(VertexTrackerRadius4+VertexTrackerRadius5)/2" z_length="VertexTrackerBarrel_length"/>
         <rphi_layout phi_tilt="10.0*degree" nphi="VertexTrackerNModules4" phi0="0.0" rc="VertexTrackerRadius4" dr="0.0 * mm"/>
         <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
       </layer>
-      <layer module="UFSD" id="5" vis="InvisibleWithDaughters">
+      <layer module="UFSD" id="5" vis="SiVertexVis">
         <barrel_envelope inner_r="(VertexTrackerRadius4+VertexTrackerRadius5)/2" 
-                         outer_r="(VertexTrackerRadius5+VertexTrackerRadius6)/2" z_length="VertexTrackerBarrelLength+0.1*mm"/>
+                         outer_r="(VertexTrackerRadius5+VertexTrackerRadius6)/2" z_length="VertexTrackerBarrel_length"/>
         <rphi_layout phi_tilt="10.0*degree" nphi="VertexTrackerNModules5" phi0="0.0" rc="VertexTrackerRadius5" dr="0.0 * mm"/>
         <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
       </layer>
-      <layer module="UFSD" id="6" vis="InvisibleWithDaughters">
+      <layer module="UFSD" id="6" vis="SiVertexVis">
         <barrel_envelope inner_r="(VertexTrackerRadius5+VertexTrackerRadius6)/2" 
-                         outer_r="(VertexTrackerRadius6+VertexTrackerRadius7)/2" z_length="VertexTrackerBarrelLength+0.1*mm"/>
+                         outer_r="(VertexTrackerRadius6+VertexTrackerRadius7)/2" z_length="VertexTrackerBarrel_length"/>
         <rphi_layout phi_tilt="10.0*degree" nphi="VertexTrackerNModules6" phi0="0.0" rc="VertexTrackerRadius6" dr="0.0 * mm"/>
         <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
       </layer>
-      <layer module="SOIPIXD" id="7" vis="InvisibleWithDaughters">
+      <layer module="SOIPIXD" id="7" vis="SiVertexVis">
         <barrel_envelope inner_r="(VertexTrackerRadius6+VertexTrackerRadius7)/2" 
-                         outer_r="(VertexTrackerRadius7+VertexTrackerRadius8)/2" z_length="VertexTrackerBarrelLength+0.1*mm"/>
+                         outer_r="(VertexTrackerRadius7+VertexTrackerRadius8)/2" z_length="VertexTrackerBarrel_length"/>
         <rphi_layout phi_tilt="10.0*degree" nphi="VertexTrackerNModules7" phi0="0.0" rc="VertexTrackerRadius7" dr="0.0 * mm"/>
         <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
       </layer>
-      <layer module="SOIPIXD" id="8" vis="InvisibleWithDaughters">
+      <layer module="SOIPIXD" id="8" vis="SiVertexVis">
         <barrel_envelope inner_r="(VertexTrackerRadius7+VertexTrackerRadius8)/2" 
-                         outer_r="VertexTrackerRadius8+5*mm" z_length="VertexTrackerBarrelLength+0.1*mm"/>
+                         outer_r="VertexTrackerRadius8+5*mm" z_length="VertexTrackerBarrel_length"/>
         <rphi_layout phi_tilt="10.0*degree" nphi="VertexTrackerNModules8" phi0="0.0" rc="VertexTrackerRadius8" dr="0.0 * mm"/>
         <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
       </layer>
     </detector>
 
-    <detector id="SiVertexEndcapP_ID" name="SiVertexEndcapP" type="ref_DiskTracker"
+    <detector id="SiVertexEndcapP_ID" name="VertexTrackerEndcapP" type="ref_DiskTracker"
       insideTrackingVolume="true" reflect="false" vis="Argonne_Red">
       <position x="0" y="0" z="0"/>
       <layer id="1" vis="Argonne_Orange"
-        inner_z="SiVertexEndcapP_zmin + 0*SiVertexEndcap_delta" 
-        inner_r="SiVertexEndcapP_rmin" 
-        outer_r="SiVertexEndcapP_rmax">
+        inner_z="VertexTrackerEndcapP_zmin + 0*VertexTrackerEndcap_delta" 
+        inner_r="VertexTrackerEndcapP_rmin" 
+        outer_r="VertexTrackerEndcapP_rmax">
         <slice material="Air" thickness="1.0*mm" vis="Argonne_Orange" />
       </layer>
       <layer id="2" vis="Argonne_Orange"
-        inner_z="SiVertexEndcapP_zmin + 1*SiVertexEndcap_delta" 
-        inner_r="SiVertexEndcapP_rmin" 
-        outer_r="SiVertexEndcapP_rmax">
+        inner_z="VertexTrackerEndcapP_zmin + 1*VertexTrackerEndcap_delta" 
+        inner_r="VertexTrackerEndcapP_rmin" 
+        outer_r="VertexTrackerEndcapP_rmax">
         <slice material="Air" thickness="1.0*mm" vis="Argonne_Orange" />
       </layer>
       <layer id="3" vis="Argonne_Orange"
-        inner_z="SiVertexEndcapP_zmin + 2*SiVertexEndcap_delta" 
-        inner_r="SiVertexEndcapP_rmin" 
-        outer_r="SiVertexEndcapP_rmax">
+        inner_z="VertexTrackerEndcapP_zmin + 2*VertexTrackerEndcap_delta" 
+        inner_r="VertexTrackerEndcapP_rmin" 
+        outer_r="VertexTrackerEndcapP_rmax">
         <slice material="Air" thickness="1.0*mm" vis="Argonne_Orange" />
       </layer>
       <layer id="4" vis="Argonne_Orange"
-        inner_z="SiVertexEndcapP_zmin + 3*SiVertexEndcap_delta" 
-        inner_r="SiVertexEndcapP_rmin" 
-        outer_r="SiVertexEndcapP_rmax">
+        inner_z="VertexTrackerEndcapP_zmin + 3*VertexTrackerEndcap_delta" 
+        inner_r="VertexTrackerEndcapP_rmin" 
+        outer_r="VertexTrackerEndcapP_rmax">
         <slice material="Air" thickness="1.0*mm" vis="Argonne_Orange" />
       </layer>
       <layer id="5" vis="Argonne_Orange"
-        inner_z="SiVertexEndcapP_zmin + 4*SiVertexEndcap_delta" 
-        inner_r="SiVertexEndcapP_rmin" 
-        outer_r="SiVertexEndcapP_rmax">
+        inner_z="VertexTrackerEndcapP_zmin + 4*VertexTrackerEndcap_delta" 
+        inner_r="VertexTrackerEndcapP_rmin" 
+        outer_r="VertexTrackerEndcapP_rmax">
         <slice material="Air" thickness="1.0*mm" vis="Argonne_Orange" />
       </layer>
     </detector>
 
-    <detector id="SiVertexEndcapN_ID" name="SiVertexEndcapN" type="ref_DiskTracker"
+    <detector id="SiVertexEndcapN_ID" name="VertexTrackerEndcapN" type="ref_DiskTracker"
       insideTrackingVolume="true" reflect="true" vis="Argonne_Red">
       <position x="0" y="0" z="0"/>
       <layer id="1" vis="Argonne_Orange"
-        inner_z="SiVertexEndcapN_zmin + 0*SiVertexEndcap_delta" 
-        inner_r="SiVertexEndcapN_rmin" 
-        outer_r="SiVertexEndcapN_rmax">
+        inner_z="VertexTrackerEndcapN_zmin + 0*VertexTrackerEndcap_delta" 
+        inner_r="VertexTrackerEndcapN_rmin" 
+        outer_r="VertexTrackerEndcapN_rmax">
         <slice material="Air" thickness="1.0*mm" vis="Argonne_Orange" />
       </layer>
       <layer id="2" vis="Argonne_Orange"
-        inner_z="SiVertexEndcapN_zmin + 1*SiVertexEndcap_delta" 
-        inner_r="SiVertexEndcapN_rmin" 
-        outer_r="SiVertexEndcapN_rmax">
+        inner_z="VertexTrackerEndcapN_zmin + 1*VertexTrackerEndcap_delta" 
+        inner_r="VertexTrackerEndcapN_rmin" 
+        outer_r="VertexTrackerEndcapN_rmax">
         <slice material="Air" thickness="1.0*mm" vis="Argonne_Orange" />
       </layer>
       <layer id="3" vis="Argonne_Orange"
-        inner_z="SiVertexEndcapN_zmin + 2*SiVertexEndcap_delta" 
-        inner_r="SiVertexEndcapN_rmin" 
-        outer_r="SiVertexEndcapN_rmax">
+        inner_z="VertexTrackerEndcapN_zmin + 2*VertexTrackerEndcap_delta" 
+        inner_r="VertexTrackerEndcapN_rmin" 
+        outer_r="VertexTrackerEndcapN_rmax">
         <slice material="Air" thickness="1.0*mm" vis="Argonne_Orange" />
       </layer>
       <layer id="4" vis="Argonne_Orange"
-        inner_z="SiVertexEndcapN_zmin + 3*SiVertexEndcap_delta" 
-        inner_r="SiVertexEndcapN_rmin" 
-        outer_r="SiVertexEndcapN_rmax">
+        inner_z="VertexTrackerEndcapN_zmin + 3*VertexTrackerEndcap_delta" 
+        inner_r="VertexTrackerEndcapN_rmin" 
+        outer_r="VertexTrackerEndcapN_rmax">
         <slice material="Air" thickness="1.0*mm" vis="Argonne_Orange" />
       </layer>
       <layer id="5" vis="Argonne_Orange"
-        inner_z="SiVertexEndcapN_zmin + 4*SiVertexEndcap_delta" 
-        inner_r="SiVertexEndcapN_rmin" 
-        outer_r="SiVertexEndcapN_rmax">
+        inner_z="VertexTrackerEndcapN_zmin + 4*VertexTrackerEndcap_delta" 
+        inner_r="VertexTrackerEndcapN_rmin" 
+        outer_r="VertexTrackerEndcapN_rmax">
         <slice material="Air" thickness="1.0*mm" vis="Argonne_Orange" />
       </layer>
     </detector>
@@ -194,7 +198,7 @@
       <segmentation type="CartesianGridXY" grid_size_x="0.20*mm" grid_size_y="0.20*mm" />
       <id>system:8,barrel:2,layer:4,module:12,sensor:2,x:32:-16,y:-16</id>
     </readout>
-    <readout name="SiVertexEndcapHits">
+    <readout name="VertexTrackerEndcapHits">
       <segmentation type="CartesianGridXY" grid_size_x="0.20*mm" grid_size_y="0.20*mm" />
       <id>system:8,barrel:2,layer:4,module:12,sensor:2,x:32:-16,y:-16</id>
     </readout>

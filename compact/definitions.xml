@@ -217,6 +217,7 @@
     <constant name="ci_GEM_id"          value="122"/>
     <constant name="ForwardTRD_ID"      value="123"/>
     <constant name="GEMTrackerEndcap_ID" value="124"/>
+    <constant name="GEMTrackerEndcapN_ID" value="125"/>
 
     <comment> 
       =====================================
@@ -365,21 +366,47 @@
       Vertex Tracker Parameters
       -------------------------
     </comment>
-    <constant name="VertexTrackerInnerRadius"       value="30.0*mm"/>
-    <constant name="VertexTrackerOuterRadius"       value="150.0*mm"/>
-    <constant name="VertexTrackerOuterBarrelLength" value="400.0*mm"/>
+    <constant name="VertexTrackerBarrel_rmin"       value="Beampipe_rmax+5.0*mm"/>
+    <constant name="VertexTrackerBarrel_rmax"       value="150.0*mm"/>
+    <constant name="VertexTrackerBarrel_length"     value="400.0*mm"/>
+    <constant name="VertexTrackerBarrel_zmax"       value="VertexTrackerBarrel_length/2.0"/>
+
+    <constant name="VertexTrackerEndcapP_rmax"       value="VertexTrackerBarrel_rmax"/>
+    <constant name="VertexTrackerEndcapN_rmax"       value="VertexTrackerBarrel_rmax"/>
+    <constant name="VertexTrackerEndcapP_rmin"      value="VertexTrackerBarrel_rmin"/>
+    <constant name="VertexTrackerEndcapN_rmin"      value="VertexTrackerBarrel_rmin"/>
+    <constant name="VertexTrackerEndcapP_zmax"      value="600.0*mm"/>
+    <constant name="VertexTrackerEndcapN_zmax"      value="600.0*mm"/>
+
+
+    <constant name="VertexTrackingRegion_length" value="VertexTrackerEndcapP_zmax + VertexTrackerEndcapN_zmax "/>
+    <constant name="VertexTrackingRegion_zmin"   value="VertexTrackingRegion_length/2.0"/>
+    <constant name="VertexTrackingRegion_rmax"   value="VertexTrackingRegion_length/2.0"/>
+
+    <comment>Deprecated</comment>
+    <constant name="VertexTrackerOuterRadius"       value="VertexTrackerBarrel_rmax"/>
+    <constant name="VertexTrackerInnerRadius"       value="VertexTrackerBarrel_rmin"/>
+    <constant name="VertexTrackerOuterBarrelLength" value="VertexTrackingRegion_length"/>
 
     <comment>
       --------------------------
-      Silicon Tracker Parameters
+      Tracker Detector Parameters
       --------------------------
-      Note current values should be updated
     </comment>
-    <constant name="SiliconTrackerInnerRadius"       value="95.0*mm"/>
-    <constant name="SiliconTrackerInnerBarrelLength" value="300.0*mm"/>
-    <constant name="SiliconTrackerOuterRadius"       value="Solenoid_rmax/3.0"/>
-    <constant name="SiliconTrackerOuterBarrelLength" value="1600.0*mm"/>
-    <constant name="SiliconTrackerOuterBarrel_zmax"  value="SiliconTrackerOuterBarrelLength/2.0"/>
+
+    <constant name="TrackerBarrel_rmin"        value="VertexTrackerBarrel_rmax"/>
+    <constant name="TrackerBarrel_rmax"        value="Solenoid_rmax/3.0"/>
+    <constant name="TrackerBarrelOuter_length" value="1600.0*mm"/>
+    <constant name="TrackerBarrelInner_length" value="VertexTrackingRegion_length"/>
+    <constant name="TrackerBarrelInner_zmax"   value="TrackerBarrelInner_length/2.0"/>
+    <constant name="TrackerBarrelOuter_zmax"   value="TrackerBarrelOuter_length/2.0"/>
+
+    <comment> Deprecated </comment>
+    <constant name="SiliconTrackerInnerRadius"       value="TrackerBarrel_rmin"/>
+    <constant name="SiliconTrackerInnerBarrelLength" value="TrackerBarrelInner_length"/>
+    <constant name="SiliconTrackerOuterRadius"       value="TrackerBarrel_rmax"/>
+    <constant name="SiliconTrackerOuterBarrelLength" value="TrackerBarrelOuter_length"/>
+    <constant name="SiliconTrackerOuterBarrel_zmax"  value="TrackerBarrelOuter_length/2.0"/>
 
     <comment>
       Central tracking boundaries
@@ -387,14 +414,14 @@
       The central tracking detectors are assumed to be symmtric about the origin.
       
     </comment>
-    <constant name="BarrelTracking_length"       value="SiliconTrackerOuterBarrelLength"/>
-    <constant name="BarrelTracking_rmax"         value="SiliconTrackerOuterRadius"/>
-    <constant name="BarrelTrackingAndPID_rmax"   value="BarrelTracking_rmax+BarrelExtraPIDThickness"/>
+    <constant name="BarrelTracking_length"       value="TrackerBarrelOuter_length"/>
+    <constant name="BarrelTracking_rmax"         value="TrackerBarrel_rmax"/>
+
+    <constant name="BarrelTrackingAndPID_length" value="BarrelTracking_length "/>
+    <constant name="BarrelTrackingAndPID_rmax"   value="BarrelTracking_rmax   + BarrelExtraPIDThickness"/>
 
     <constant name="CentralTracking_length"      value="BarrelTracking_length + ForwardTrackingLength + BackwardTrackingLength"/>
-    <constant name="CentralTracking_rmax"        value="SiliconTrackerOuterRadius"/>
-
-    <constant name="VertexTrackingRegion_length" value="SiliconTrackerOuterBarrelLength"/>
+    <constant name="CentralTracking_rmax"        value="TrackerBarrel_rmax"/>
 
     <comment> These are used by ddsim </comment>
     <constant name="tracker_region_rmax"   value="Solenoid_rmax/2.0"/>

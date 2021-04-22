@@ -3,12 +3,16 @@
   <comment>Micromegas tracker barrel</comment>        
 
   <define>
+
+    <constant name="MMTrackerBarrel_thickness" value="TrackerBarrel_rmax - TrackerBarrel_rmax"/>
+    <constant name="MMTrackerBarrel_NLayers" value="5"/>
+    <constant name="MMTrackerBarrel_delta" value="MMTrackerBarrel_thickness/MMTrackerBarrel_NLayers"/>
+
     <constant name="MMTrackerBarrelLayer1_rmin"          value="800.0 * mm"/>
     <constant name="MMTrackerBarrelLayer1_length"        value="100.0 * mm"/>
     <constant name="MMTrackerBarrelLayer1_thickness"     value="10.0 * mm"/>
     <constant name="MMTrackerBarrel_NZModules"           value="floor(BarrelTracking_length/MMTrackerBarrelLayer1_length)"/>
     <constant name="MMTrackerBarrelModulesTotal_length"  value="MMTrackerBarrel_NZModules*MMTrackerBarrelLayer1_length"/>
-
 
   </define>
 
@@ -25,9 +29,9 @@
     <detector id="MMTrackerBarrel_ID" name="MMTrackerBarrel" type="refdet_MMTrackerBarrel" readout="MMTrackerBarrelHits">
       <module name="Module1" vis="Argonne_Gold">
         <module_envelope
-          rmin="MMTrackerBarrelLayer1_rmin"
+          rmin="TrackerBarrel_rmax"
           length="MMTrackerBarrelLayer1_length"
-          thickness="MMTrackerBarrelLayer1_thickness" phi="90*degree" />
+          thickness="MMTrackerBarrel_delta" phi="90*degree" />
         <module_component thickness="1.0*mm" material="PEEK" sensitive="false">
           <position x="0" />
         </module_component>
