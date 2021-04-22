@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lccdd>
+  <define>
+    <comment>
+      --------------------------
+      Forward and backward TOF Parameters
+      --------------------------
+    </comment>
+    <constant name="ForwardTOF_zmin" value="BarrelTracking_length/2.0 + ForwardTracking_length + ForwardRICH_length + ForwardTRD_length"/>
+    <constant name="ForwardTOF_rmin" value="ForwardPID_rmin1"/>
+    <constant name="ForwardTOF_rmax" value="Solenoid_rmin"/>
+    <constant name="BackwardTOF_zmin" value="BarrelTracking_length/2.0 + BackwardTracking_length + BackwardCherenkov_length "/>
+    <constant name="BackwardTOF_rmin" value="ForwardPID_rmin1"/>
+    <constant name="BackwardTOF_rmax" value="EcalBarrel_rmin"/>
+  </define>
+
+  <detectors>
+    <detector 
+      id="ForwardTOF_ID"
+      name="ForwardTOF"
+      type="ref_DiskTracker"
+      insideTrackingVolume="true"
+      reflect="false"
+      vis="Argonne_Orange">
+      <position x="0" y="0" z="0.0"/>
+      <layer id="1" 
+        vis="Argonne_Orange"
+        inner_z="ForwardTOF_zmin" 
+        inner_r="ForwardTOF_rmin" 
+        outer_r="ForwardTOF_rmax">
+        <slice material="Air" thickness="ForwardTOF_length/2.0" vis="Argonne_Orange" />
+      </layer>
+    </detector>
+
+    <detector 
+      id="BackwardTOF_ID"
+      name="BackwardTOF"
+      type="ref_DiskTracker"
+      insideTrackingVolume="true"
+      reflect="true"
+      vis="Argonne_Orange">
+      <position x="0" y="0" z="0.0"/>
+      <layer id="1" 
+        vis="Argonne_Orange"
+        inner_z="BackwardTOF_zmin" 
+        inner_r="BackwardTOF_rmin" 
+        outer_r="BackwardTOF_rmax">
+        <slice material="Air" thickness="BackwardTOF_length/2.0" vis="Argonne_Orange" />
+      </layer>
+    </detector>
+
+  </detectors>
+
+</lccdd>

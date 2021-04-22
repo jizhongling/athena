@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lccdd>
   <define>
-    <constant name="ForwardRICH_zmin"   value="BarrelTracking_length/2.0 + ForwardTrackingLength "/>
+    <constant name="ForwardRICH_zmin"   value="BarrelTracking_length/2.0 + ForwardTracking_length "/>
     <constant name="ForwardRICH_rmin"   value="ForwardPID_rmin1"/>
     <constant name="ForwardRICH_rmax0"  value="SiliconTrackerOuterRadius"/>
     <constant name="ForwardRICH_rmax1"  value="EcalBarrel_rmin"/>

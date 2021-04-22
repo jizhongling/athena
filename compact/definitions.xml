@@ -218,6 +218,8 @@
     <constant name="ForwardTRD_ID"      value="123"/>
     <constant name="GEMTrackerEndcap_ID" value="124"/>
     <constant name="GEMTrackerEndcapN_ID" value="125"/>
+    <constant name="ForwardTOF_ID"      value="126"/>
+    <constant name="BackwardTOF_ID"      value="127"/>
 
     <comment> 
       =====================================
@@ -323,14 +325,14 @@
 
     <constant name="ForwardRICH_length"       value="1.1*m"/>
     <constant name="ForwardTRD_length"        value="10.0*cm"/>
-    <constant name="ForwardTOF_length"        value="10.0*mm"/>
+    <constant name="ForwardTOF_length"        value="5.0*cm"/>
     
-    <constant name="BackwardCherenkovLength"   value="15.0*cm"/>
-    <constant name="BackwardTOFLength"         value="10.0*cm"/>
+    <constant name="BackwardCherenkov_length"   value="20.0*cm"/>
+    <constant name="BackwardTOF_length"         value="10.0*cm"/>
 
     <comment> Total length of PID detectors above</comment>
     <constant name="ForwardPIDLength"    value="ForwardRICH_length + ForwardTRD_length + ForwardTOF_length"/>
-    <constant name="BackwardPIDLength"   value="BackwardCherenkovLength + BackwardTOFLength"/>
+    <constant name="BackwardPIDLength"   value="BackwardCherenkov_length + BackwardTOF_length"/>
 
     <comment> For detectors adjacent to beam pipe.</comment>
     <constant name="ForwardPID_rmin"  value="Beampipe_rmax + 10*mm"/>
@@ -350,16 +352,16 @@
       ============================
     </comment>
 
-    <constant name="ForwardTrackingLength" value="30.0*cm"/>
-    <constant name="BackwardTrackingLength" value="30.0*cm"/>
+    <constant name="ForwardTracking_length" value="30.0*cm"/>
+    <constant name="BackwardTracking_length" value="30.0*cm"/>
 
     <comment>
       -------------------------
       GEM Tracker Parameters
       -------------------------
     </comment>
-    <constant name="ForwardTrackingGEMLength" value="ForwardTrackingLength"/>
-    <constant name="BackwardTrackingGEMLength" value="BackwardTrackingLength"/>
+    <constant name="ForwardTrackingGEMLength" value="ForwardTracking_length"/>
+    <constant name="BackwardTrackingGEMLength" value="BackwardTracking_length"/>
 
     <comment>
       -------------------------
@@ -420,7 +422,7 @@
     <constant name="BarrelTrackingAndPID_length" value="BarrelTracking_length "/>
     <constant name="BarrelTrackingAndPID_rmax"   value="BarrelTracking_rmax   + BarrelExtraPIDThickness"/>
 
-    <constant name="CentralTracking_length"      value="BarrelTracking_length + ForwardTrackingLength + BackwardTrackingLength"/>
+    <constant name="CentralTracking_length"      value="BarrelTracking_length + ForwardTracking_length + BackwardTracking_length"/>
     <constant name="CentralTracking_rmax"        value="TrackerBarrel_rmax"/>
 
     <comment> These are used by ddsim </comment>
