@@ -301,8 +301,8 @@
       ==========================
     </comment>
 
-    <constant name="Solenoid_length"           value="7000.0*mm"/>
-    <constant name="Solenoid_rmin"             value="3000.0*mm"/>
+    <constant name="Solenoid_length"           value="3600.0*mm"/>
+    <constant name="Solenoid_rmin"             value="1600.0*mm"/>
     <constant name="Solenoid_thickness"        value="400*mm"/>
     <constant name="Solenoid_offset"           value="600.0*mm"/>
 
@@ -365,7 +365,7 @@
     </comment>
     <constant name="SiliconTrackerInnerRadius"       value="95.0*mm"/>
     <constant name="SiliconTrackerInnerBarrelLength" value="300.0*mm"/>
-    <constant name="SiliconTrackerOuterRadius"       value="Solenoid_rmax/3.0"/>
+    <constant name="SiliconTrackerOuterRadius"       value="Solenoid_rmin-70*cm"/>
     <constant name="SiliconTrackerOuterBarrelLength" value="Solenoid_length/2.5"/>
     <constant name="SiliconTrackerOuterBarrel_zmax"  value="SiliconTrackerOuterBarrelLength/2.0"/>
 
@@ -419,7 +419,7 @@
     <constant name="EcalBarrel_rmin"            value="SiliconTrackerOuterRadius + BarrelExtraPIDThickness + 5.0 * mm"/>
     <constant name="HcalBarrel_rmax"            value="Solenoid_rmin - 10.0 *cm "/>
     <constant name="Barrel_TotalCalThickness"   value="HcalBarrel_rmax - EcalBarrel_rmin"/>
-    <constant name="CalBarrelDivider"           value="0.5"/> <comment> Ecal and Hcal have the same thickness </comment>
+    <constant name="CalBarrelDivider"           value="1.0"/> <comment> 100% Ecal, no HCAL inside of the solenoid for now </comment>
 
     <constant name="EcalBarrel_TotalThickness"  value="Barrel_TotalCalThickness * CalBarrelDivider"/>
     <constant name="HcalBarrel_TotalThickness"  value="Barrel_TotalCalThickness * (1.0 - CalBarrelDivider)"/>

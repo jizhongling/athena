@@ -10,3 +10,15 @@ build/*
 .DAWN*
 */*.pyc
 **.pyc
+
+images/*
+doc/*
+
+accelerator
+eic_ip6
+eic
+ip6_build
+ip6
+
+*.swp
+
