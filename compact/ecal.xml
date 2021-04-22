@@ -159,6 +159,22 @@
         <slice material="Air" thickness="EcalAir1Thickness"/>
       </layer>
     </detector>
+
+    <comment>
+      -------------------
+      Crystal Calorimeter
+      -------------------
+      Backward (negative pseudorapidity) angle electron detector
+    </comment>
+    <detector 
+      id="CrystalEndcap_ID" 
+      name="ElectronECAL" 
+      type="CrystalCalorimeterEndcap" 
+      readout="CrystalEcalHits" 
+      vis="GreenVis">
+      <position x="CrystalEndcap_x_pos" y="CrystalEndcap_y_pos" z="CrystalEndcap_z_pos" />
+      <dimensions rmin="CrystalEndcap_rmin" rmax="CrystalEndcap_rmax" x="CrystalBox_x_length" y="CrystalBox_y_length" z="CrystalBox_z_length" delta="CrystalBox_offset"/>
+    </detector>
   </detectors>
 
   <!--  Definition of the readout segmentation/definition  -->
@@ -168,11 +184,11 @@
       <segmentation type="CartesianGridXY" grid_size_x="20.0*mm" grid_size_y="20.0*mm" />
       <id>system:5,module:4,x:32:-16,y:-16</id>
     </readout>
+    -->
     <readout name="CrystalEcalHits">
       <segmentation type="CartesianGridXY" grid_size_x="CrystalBox_x_length" grid_size_y="CrystalBox_y_length" />
       <id>system:8,sector:4,module:20,x:48:-8,y:-8</id>
     </readout>
-    -->
     <readout name="EcalBarrelHits">
       <segmentation type="CartesianGridXY" grid_size_x="3.5 * mm" grid_size_y="3.5 * mm"/>
       <id>system:8,barrel:3,module:4,layer:6,slice:5,x:32:-16,y:-16</id>

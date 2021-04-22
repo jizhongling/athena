@@ -15,7 +15,8 @@
     <constant name="ce_GEM_length"          value="30.0 * cm"/>
     <constant name="ce_GEM_x_pos"           value="0.0 * cm"/>
     <constant name="ce_GEM_y_pos"           value="0.0 * cm"/>
-    <constant name="ce_GEM_z_pos"           value="-Solenoid_length/2.0 + ce_GEM_length/2.0"/>
+    <!--<constant name="ce_GEM_z_pos"           value="-Solenoid_length/2.0 + ce_GEM_length/2.0"/>-->
+    <constant name="ce_GEM_z_pos"           value="-EcalEndcapN_zmin - CrystalBox_z_length - ce_GEM_length/2.0"/>
     <constant name="ce_GEM_layer"           value="8"/>
     <constant name="ce_GEM_layer_thickness" value="1.0 * cm"/>
   </define>
