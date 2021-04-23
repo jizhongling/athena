@@ -457,7 +457,7 @@
     <constant name="EcalEndcapNSolenoid_offset" value="0.0*mm" />
 
     <constant name="HcalEndcapPExtra_length"    value="40.0*cm"/>
-    <constant name="HcalEndcapNExtra_length"    value="40.0*cm"/>
+    <constant name="HcalEndcapNExtra_length"    value="0.0*cm"/>
 
     <constant name="SolenoidYokeEndcapP_zmin"  value="Solenoid_length/2.0 + Solenoid_offset + HcalEndcapPExtra_length"/>
     <constant name="SolenoidYokeEndcapN_zmin"  value="Solenoid_length/2.0 - Solenoid_offset + HcalEndcapNExtra_length"/>
@@ -489,7 +489,7 @@
     <constant name="EndcapNTotalCal_length"  value="(SolenoidYokeEndcapN_zmin + EcalEndcapNSolenoid_offset) - (EcalEndcapN_zmin)"/>
 
     <constant name="EndcapP_CalDivide"          value="0.8"/> <comment> 0.5 means Ecal and Hcal have the same thickness </comment>
-    <constant name="EndcapN_CalDivide"          value="0.8"/> <comment> 0.5 means Ecal and Hcal have the same thickness </comment>
+    <constant name="EndcapN_CalDivide"          value="1.0"/> <comment> 0.5 means Ecal and Hcal have the same thickness </comment>
 
     <constant name="EcalEndcapP_length" value="EndcapPTotalCal_length * EndcapP_CalDivide"/>
     <constant name="EcalEndcapN_length" value="EndcapNTotalCal_length * EndcapN_CalDivide"/>
