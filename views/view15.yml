@@ -1,0 +1,15 @@
+dawn_view_15:detector:
+  extends: .views
+  script:
+    - ./bin/make_dawn_views -t view15 -d scripts/view15 -D
+
+view_15:
+  stage: test
+  rules:
+    - if: '$CI_SERVER_HOST == "eicweb.phy.anl.gov"' 
+  needs:
+    - ["dawn_view_15:detector"]
+  script:
+    - ls -lrth *
+    - ls -lrth images/*
+

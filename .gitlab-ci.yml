@@ -84,7 +84,11 @@ include:
   - local: 'views/view3.yml'
   - local: 'views/view6.yml'
   - local: 'views/view7.yml'
-  - local: 'views/config.yml'
+  - local: 'views/view11.yml'
+  - local: 'views/view12.yml'
+  - local: 'views/view13.yml'
+  - local: 'views/view14.yml'
+  - local: 'views/view15.yml'
 
 report:
   stage: finalize

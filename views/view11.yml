@@ -1,0 +1,56 @@
+dawn_view_11:detector:
+  extends: .views
+  script:
+    - ./bin/make_dawn_views -t view11 -d scripts/view11 -D
+dawn_view_11:ev000:
+  rules:
+    - if: '$DETECTOR_EVENT_VIEWS == "ON"'
+  extends: .views
+  script:
+    - ./bin/make_dawn_views -t view11 -d scripts/view11
+dawn_view_11:ev001:
+  rules:
+    - if: '$DETECTOR_EVENT_VIEWS == "ON"'
+  extends: .views
+  script:
+    - ./bin/make_dawn_views -t view11 -d scripts/view11 -s 1
+dawn_view_11:ev002:
+  rules:
+    - if: '$DETECTOR_EVENT_VIEWS == "ON"'
+  extends: .views
+  script:
+    - ./bin/make_dawn_views -t view11 -d scripts/view11 -s 2
+dawn_view_11:ev003:
+  rules:
+    - if: '$DETECTOR_EVENT_VIEWS == "ON"'
+  extends: .views
+  script:
+    - ./bin/make_dawn_views -t view11 -d scripts/view11 -s 3
+dawn_view_11:ev004:
+  rules:
+    - if: '$DETECTOR_EVENT_VIEWS == "ON"'
+  extends: .views
+  script:
+    - ./bin/make_dawn_views -t view11 -d scripts/view11 -s 4
+
+view_11:
+  stage: test
+  rules:
+    - if: '$CI_SERVER_HOST == "eicweb.phy.anl.gov"' 
+  needs:
+    - job: compile
+      optional: false
+    - job: dawn_view_11:detector
+      optional: false
+    - job: dawn_view_11:ev001
+      optional: true
+    - job: dawn_view_11:ev002
+      optional: true
+    - job: dawn_view_11:ev003
+      optional: true
+    - job: dawn_view_11:ev004
+      optional: true
+  script:
+    - ls -lrth *
+    - ls -lrth images/*
+

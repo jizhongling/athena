@@ -2,15 +2,27 @@ dawn_view_03:detector:
   extends: .views
   script:
     - ./bin/make_dawn_views -t view02 -d scripts/view2 -D
+#dawn_view_03:ev001:
+#  extends: .views
+#  script:
+#    - ./bin/make_dawn_views -t view02_ev001 -d scripts/view2 -s 1
 dawn_view_03:ev002:
   extends: .views
+  rules:
+    - if: '$DETECTOR_EVENT_VIEWS == "ON"'
   script:
     - ./bin/make_dawn_views -t view02_ev002 -d scripts/view2 -s 2
 
 view_03:
   stage: test
+  rules:
+    - if: '$CI_SERVER_HOST == "eicweb.phy.anl.gov"' 
   needs:
-    - ["dawn_view_03:detector", "dawn_view_03:ev002"]
+    - job: dawn_view_03:detector
+      optional: false
+    - job: dawn_view_03:ev002
+      optional: true
+    #- ["dawn_view_03:detector", "dawn_view_03:ev001", "dawn_view_03:ev002"]
   script:
     - ls -lrth *
     - ls -lrth images/*

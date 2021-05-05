@@ -29,7 +29,7 @@ function print_the_help {
   exit 
 }
 
-FILE_TAG="view14"
+FILE_TAG="view15"
 INPUT_FILE="../../g4_0000.prim"
 
 
@@ -65,18 +65,18 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 
 # units are mm
 
-echo "view14 produces a series of slightly rotated XY slices a different z locations. Along beamline"
+echo "view15 produces a series of slightly rotated XY slices a different z locations. Along beamline"
 
 # slice at z = 2m
 # note the offset has to change with sign of the direction to cut in the opposite direction.
-dawncut 0  0  1  10005 ${INPUT_FILE} ${FILE_TAG}b_temp0.prim 
-dawncut 0  0 -1 -1000 ${FILE_TAG}b_temp0.prim  ${FILE_TAG}b.prim
-dawn -d ${FILE_TAG}b.prim 
-ps2pdf ${FILE_TAG}b.eps ${FILE_TAG}b_full.pdf
-gs -o ${FILE_TAG}b.pdf -sDEVICE=pdfwrite \
-  -c "[/CropBox [50 175 550 675] /PAGES pdfmark" \
-  -f ${FILE_TAG}b_full.pdf
-pdftoppm ${FILE_TAG}b.pdf ${FILE_TAG}b -png -singlefile -cropbox
+#dawncut 0  0  1  10005 ${INPUT_FILE} ${FILE_TAG}b_temp0.prim 
+#dawncut 0  0 -1 -1000 ${FILE_TAG}b_temp0.prim  ${FILE_TAG}b.prim
+#dawn  ${FILE_TAG}b.prim 
+#ps2pdf ${FILE_TAG}b.eps ${FILE_TAG}b_full.pdf
+#gs -o ${FILE_TAG}b.pdf -sDEVICE=pdfwrite \
+#  -c "[/CropBox [50 175 550 675] /PAGES pdfmark" \
+#  -f ${FILE_TAG}b_full.pdf
+#pdftoppm ${FILE_TAG}b.pdf ${FILE_TAG}b -png -singlefile -cropbox
 
 echo "done ..."
 
@@ -91,8 +91,9 @@ make_slice(){
   local z2=$(add ${zpos} -100)
   #dawncut 0 0 1 ${z1}1 ${INPUT_FILE} ${FILE_TAG}_temp0.prim 
   #dawncut 0 0 -1 -${z2}0  ${FILE_TAG}_temp0.prim  ${FILE_TAG}.prim
-  ../../bin/dawn_tweak -z ${zpos}0
-  cp ${INPUT_FILE} ${FILE_TAG}.prim
+  ../../bin/dawn_tweak -z ${zpos}0 --draw 5
+  #cp ${INPUT_FILE} ${FILE_TAG}.prim
+  dawncut -1 0 0 0 ${INPUT_FILE} ${FILE_TAG}.prim 
   dawn -d ${FILE_TAG}.prim 
   ps2pdf ${FILE_TAG}.eps ${FILE_TAG}_full.pdf
   gs -o ${FILE_TAG}.pdf -sDEVICE=pdfwrite \
@@ -102,6 +103,7 @@ make_slice(){
   rm "${FILE_TAG}_temp0.prim"
   rm "${FILE_TAG}.prim"
 }
+
 for zzz in $(seq 150 50 2000) ;
 do
   make_slice ${zzz} 

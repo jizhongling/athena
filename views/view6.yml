@@ -2,15 +2,43 @@ dawn_view_06:detector:
   extends: .views
   script:
     - ./bin/make_dawn_views -t view02 -d scripts/view2 -D
+#dawn_view_06:ev001:
+#  extends: .views
+#  script:
+#    - ./bin/make_dawn_views -t view02_ev001 -d scripts/view2 -s 1
+dawn_view_06:ev002:
+  extends: .views
+  rules:
+    - if: '$DETECTOR_EVENT_VIEWS == "ON"'
+  script:
+    - ./bin/make_dawn_views -t view02_ev002 -d scripts/view2 -s 2
+dawn_view_06:ev003:
+  extends: .views
+  rules:
+    - if: '$DETECTOR_EVENT_VIEWS == "ON"'
+  script:
+    - ./bin/make_dawn_views -t view02_ev003 -d scripts/view2 -s 3
 dawn_view_06:ev004:
   extends: .views
+  rules:
+    - if: '$DETECTOR_EVENT_VIEWS == "ON"'
   script:
     - ./bin/make_dawn_views -t view02_ev004 -d scripts/view2 -s 4
 
 view_06:
   stage: test
+  rules:
+    - if: '$CI_SERVER_HOST == "eicweb.phy.anl.gov"' 
   needs:
-    - ["dawn_view_06:detector", "dawn_view_06:ev004"]
+    - job: dawn_view_06:detector
+      optional: false
+    - job: dawn_view_06:ev002
+      optional: true
+    - job: dawn_view_06:ev003 
+      optional: true
+    - job: dawn_view_06:ev004
+      optional: true
+    #- ["dawn_view_06:detector", "dawn_view_06:ev001", "dawn_view_06:ev002", "dawn_view_06:ev003", "dawn_view_06:ev004"]
   script:
     - ls -lrth *
     - ls -lrth images/*
