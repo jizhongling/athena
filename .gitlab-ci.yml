@@ -117,7 +117,7 @@ overlap_check:
   script:
     - checkOverlaps -c reference_detector.xml  | tee doc/overlap_check.out 
     - echo "$(cat doc/overlap_check.out | grep ovlp | wc -l) overlaps..."
-    - if [[ "$(cat doc/overlap_check.out | grep ovlp | wc -l)" -gt "1" ]] ; then echo "Overlaps exist!" && false ; fi
+    - if [[ "$(cat doc/overlap_check.out | grep ovlp | wc -l)" -gt "0" ]] ; then echo "Overlaps exist!" && false ; fi
 
 detector:config_testing:
   stage: test

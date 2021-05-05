@@ -102,6 +102,8 @@
       -->
     </detector>
 
+    
+    <!--
     <detector 
       id="SolenoidYoke_ID"
       name="SolenoidYokeEndcaps"
@@ -118,7 +120,6 @@
         <slice material="Steel235" thickness="SolenoidYokeEndcap_thickness/2.0" vis="SolenoidYokeVis" />
       </layer>
     </detector>
-    <!--
     <detector name="SolenoidYoke" type="SiEIC_Yoke" vis="SolenoidYokeVis">
       <material name="Steel235"/>
       <dimensions inner_radius="SolenoidYokeInnerRadius" thickness="SolenoidYokeThickness" rmin="CaloInnerRadius + 10 * mm" angle="SolenoidYokeChamferAngle" inner_z="SolenoidYokeInnerZ"/>
