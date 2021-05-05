@@ -135,7 +135,8 @@
   <include ref="compact/mm_tracker_barrel.xml"/>
   <include ref="compact/cb_VTX_Barrel.xml"/>
   -->
-
+   
+  <include ref="compact/rwell_tracker_barrel.xml"/>
 
   <detectors>
   </detectors>

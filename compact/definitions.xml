@@ -135,11 +135,13 @@
     (75-84) Barrel Tracker IDs
     ===================
     MMTrackerBarrel ID: 75
+    RWellTrackerBarrel ID: 76
 
-    Unused IDs: 76-89
+    Unused IDs: 77-89
 
     </comment>
     <constant name="MMTrackerBarrel_ID" value="75"/>
+    <constant name="RWellTrackerBarrel_ID" value="76"/>
 
     <comment>
     ===================

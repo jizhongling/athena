@@ -191,3 +191,4 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
 // clang-format off
 DECLARE_DETELEMENT(refdet_CylinderTrackerBarrel, create_detector)
 DECLARE_DETELEMENT(refdet_MMTrackerBarrel, create_detector)
+DECLARE_DETELEMENT(refdet_RWellTrackerBarrel, create_detector)
