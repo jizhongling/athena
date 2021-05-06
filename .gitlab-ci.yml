@@ -10,40 +10,39 @@ workflow:
 
 default:
   before_script:
-    - mkdir -p images && mkdir -p doc/
-    - git clone https://eicweb.phy.anl.gov/EIC/detectors/accelerator.git 
-      && ln -s accelerator/eic 
-    - git clone https://eicweb.phy.anl.gov/EIC/detectors/ip6.git eic_ip6 
-      && mkdir ip6_build 
-      && cd ip6_build 
-      && cmake ../eic_ip6/. -DCMAKE_CXX_STANDARD=17 -DCMAKE_INSTALL_PREFIX=/usr/local 
-      && make -j20 
-      && make install 
-      && cd .. 
-      && ln -s eic_ip6/ip6 || exit 1
-    - mkdir build 
-      && cd build 
-      && cmake ../. -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_CXX_STANDARD=17
-      && make -j20 
-      && make install 
-      && cd .. || exit 1
+    - source .local/bin/env.sh
   artifacts:
+    expire_in: 1 week 
     paths:
-      - images/
-      - doc/
+      - .local/detector
+      - .local/lib
+      - .local/bin
+      - .local/include
+      - .local/share
+      - results
+      - config
+      - images
+      - doc
+      - juggler.env
     reports:
       dotenv: juggler.env
 
 stages:
   - config
+  - initialize
   - build
   - docs
   - test 
+  - collect
   - finalize 
   - deploy
 
-env:
-  stage: config 
+common:setup:
+  stage: config
+  rules:
+    - if: '$CI_SERVER_HOST == "eicweb.phy.anl.gov"' 
+  before_script:
+    - git clone https://eicweb.phy.anl.gov/EIC/benchmarks/common_bench.git setup 
   script:
     - export JUGGLER_DETECTOR="reference_detector"
     - |
@@ -56,15 +55,23 @@ env:
         echo "JUGGLER_DETECTOR_VERSION=$CI_COMMIT_REF_NAME" >> juggler.env
         echo "JUGGLER_DETECTOR=$JUGGLER_DETECTOR" >> juggler.env
       fi
-  artifacts:
-    reports:
-      dotenv: juggler.env
+    - source setup/bin/env.sh && ./setup/bin/install_common.sh
 
+common:detector:
+  stage: initialize
+  needs: ["common:setup"]
+  script:
+    - source .local/bin/env.sh && build_detector.sh
+    - mkdir_local_data_link sim_output
+    - mkdir -p results
+    - mkdir -p config
+    - mkdir -p doc
+    - print_env.sh
 
 compile:
   stage: build
   needs:
-    - ["env"]
+    - ["common:detector"]
   script:
     - mkdir -p build && cd build && cmake ../. -DCMAKE_INSTALL_PREFIX=/usr/local && make -j20 && make install  && cd ..
     - echo "Build successful."
@@ -72,11 +79,7 @@ compile:
 .views:
   stage: docs
   needs:
-    - ["compile"]
-  artifacts:
-    paths:
-      - images/
-      - doc/
+    - ["common:detector"]
 
 include:
   - local: 'views/view1.yml'
@@ -98,11 +101,12 @@ report:
     - view_03
     - view_06
     - view_07
+    - view_11
+    - view_12
+    - view_13
+    - view_14
+    - view_15
     - dump_constants
-  artifacts:
-    paths:
-      - images/
-      - doc/
   script:
     - pip3 install jinja2 &&  ls -lrth
     - ./bin/make_images > doc/dawn_views.md
@@ -110,28 +114,37 @@ report:
 dump_constants:
   stage: test
   needs: 
-    - ["compile"]
+    - ["common:detector"]
   script:
-    - npdet_info dump reference_detector.xml  | tee doc/constants.out 
+    - npdet_info dump ${DETECTOR_PATH}/reference_detector.xml  | tee doc/constants.out 
 
 overlap_check:
   stage: test
   needs: 
-    - ["compile"]
+    - ["common:detector"]
   script:
-    - checkOverlaps -c reference_detector.xml  | tee doc/overlap_check.out 
+    - checkOverlaps -c ${DETECTOR_PATH}/reference_detector.xml  | tee doc/overlap_check.out 
     - echo "$(cat doc/overlap_check.out | grep ovlp | wc -l) overlaps..."
     - if [[ "$(cat doc/overlap_check.out | grep ovlp | wc -l)" -gt "0" ]] ; then echo "Overlaps exist!" && false ; fi
 
 detector:config_testing:
   stage: test
   needs: 
-    - ["compile"]
+    - ["common:detector"]
   script:
-    - checkOverlaps -c reference_detector.xml  | tee doc/overlap_check.out | wc -l
+    - checkOverlaps -c ${DETECTOR_PATH}/reference_detector.xml  | tee doc/overlap_check.out | wc -l
     - cat doc/overlap_check.out
   allow_failure: true
 
+    #benchmarks:reconstruction:
+    #  stage: deploy
+    #  variables:
+    #    JUGGLER_DETECTOR: "$JUGGLER_DETECTOR"
+    #    JUGGLER_DETECTOR_VERSION: "$JUGGLER_DETECTOR_VERSION"
+    #  trigger:
+    #    project: EIC/benchmarks/reconstruction_benchmarks
+    #    strategy: depend
+    #  needs: ["env","overlap_check","report"]
     #benchmarks:reconstruction:
     #  stage: deploy
     #  variables:

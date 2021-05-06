@@ -30,18 +30,19 @@ Here is how to begin:
 3. Create a WIP (or draft) merge request and look at the CI output for debugging. Then go to back to 2 if changes are needed.
 4. Remove the WIP/Draft part of the merge request if you would like to see your changes merged into the master.
 
-### Compiling 
+See:
+
+- [Talk at computing round table](https://indico.jlab.org/event/420/#17-automated-workflow-for-end)
+
+### Compiling (avoid it)
 
 First, see if the use case above is best for you. It most likely is and can save a lot of time for newcomers.
 To run the simulation locally, we suggest using the singularity image.
 More details can be found at the links below: 
 
+- https://dd4hep.web.cern.ch/dd4hep/page/beginners-guide/
 - https://eic.phy.anl.gov/tutorials/eic_tutorial/
 - https://eicweb.phy.anl.gov/containers/eic_container/
-
-
-
-
 
 
 Related useful links

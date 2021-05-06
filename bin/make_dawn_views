@@ -35,7 +35,7 @@ SKIP_EVENTS=0
 DETECTOR_ONLY=0
 FILE_TAG="view"
 DAWN_RUN_DIR="scripts/view1"
-DETECTOR_FILE="reference_detector.xml"
+DETECTOR_FILE="${DETECTOR_PATH}/reference_detector.xml"
 
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -97,7 +97,9 @@ rm -f *.prim
 
 if [  "${DETECTOR_ONLY}" -eq "1" ] ; then
 
-  ./scripts/run_detector_simulation.py -i scripts/input_data/few_events.hepmc \
+  ./scripts/run_detector_simulation.py  \
+    --compact ${DETECTOR_PATH}/reference_detector.xml \
+  -i scripts/input_data/few_events.hepmc \
   -o derp.root -n 1 \
   --ui csh --vis -b -m macro/dawn_picture.mac & 
 
@@ -113,7 +115,9 @@ kill %1
 else 
 
   echo " Running simulation for tracks"
-./scripts/run_detector_simulation.py -i scripts/input_data/few_events.hepmc \
+./scripts/run_detector_simulation.py \
+    --compact ${DETECTOR_PATH}/reference_detector.xml \
+  -i scripts/input_data/few_events.hepmc \
   -o derp.root -s ${SKIP_EVENTS} -n 1 \
   --ui csh --vis -b -m macro/dawn_picture2.mac & 
 
