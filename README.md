@@ -12,6 +12,10 @@ The reference detector at IP6 for Electron-Ion Collider experiment.
 <img src="https://eicweb.phy.anl.gov/api/v4/projects/447/jobs/artifacts/master/raw/images/view01_top.png?job=report" width="400px" />
 </a>
 
+[Browse latest](https://eicweb.phy.anl.gov/EIC/detectors/reference_detector/-/jobs/artifacts/master/browse/images?job=report)
+
+[Detector views](views/detector_views.md)
+
 
 Getting Started
 ---------------

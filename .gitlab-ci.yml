@@ -132,19 +132,21 @@ detector:config_testing:
   needs: 
     - ["common:detector"]
   script:
-    - checkOverlaps -c ${DETECTOR_PATH}/reference_detector.xml  | tee doc/overlap_check.out | wc -l
+    - checkOverlaps -o 's' -c ${DETECTOR_PATH}/reference_detector.xml  | tee doc/overlap_check.out | wc -l
     - cat doc/overlap_check.out
+
+benchmarks:detector:
+  stage: deploy
+  variables:
+    JUGGLER_DETECTOR: "$JUGGLER_DETECTOR"
+    JUGGLER_DETECTOR_VERSION: "$JUGGLER_DETECTOR_VERSION"
+  trigger:
+    project: EIC/benchmarks/detector_benchmarks
+    strategy: depend
+  needs: ["overlap_check","report"]
   allow_failure: true
 
-    #benchmarks:reconstruction:
-    #  stage: deploy
-    #  variables:
-    #    JUGGLER_DETECTOR: "$JUGGLER_DETECTOR"
-    #    JUGGLER_DETECTOR_VERSION: "$JUGGLER_DETECTOR_VERSION"
-    #  trigger:
-    #    project: EIC/benchmarks/reconstruction_benchmarks
-    #    strategy: depend
-    #  needs: ["env","overlap_check","report"]
+
     #benchmarks:reconstruction:
     #  stage: deploy
     #  variables:
