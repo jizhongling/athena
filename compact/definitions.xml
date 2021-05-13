@@ -73,6 +73,7 @@
     <constant name="SiVertexSubAssembly_ID" value="26"/>
     <constant name="SiVertexEndcapP_ID" value="30"/>
     <constant name="SiVertexEndcapN_ID" value="40"/>
+    <constant name="AllSiliconVtx_ID" value="41"/>
     
     <comment>
       Unused values reserved for vertex:
@@ -129,6 +130,21 @@
     <constant name="SiTrackerEndcapN_Layer5_ID"     value="70"/>
 
     <constant name="cb_CTD_Si_ID"                   value="74"/>
+
+    <comment>
+      Start over the IDs for all-silicon, as these are mutually exclusive detectors
+    </comment>
+    <constant name="AllSiliconTrk1Assembly_ID"  value="50"/>
+    <constant name="AllSiliconTrkBarrel1_ID"    value="51"/>
+    <constant name="AllSiliconTrkDisk1N_ID"     value="52"/>
+    <constant name="AllSiliconTrkDisk1P_ID"     value="53"/>
+    <constant name="AllSiliconTrk2Assembly_ID"  value="54"/>
+    <constant name="AllSiliconTrkBarrel2_ID"    value="55"/>
+    <constant name="AllSiliconTrkDisk2N_ID"     value="56"/>
+    <constant name="AllSiliconTrkDisk2P_ID"     value="57"/>
+    <constant name="AllSiliconTrkOuterN_ID"     value="58"/>
+    <constant name="AllSiliconTrkOuterP_ID"     value="59"/>
+    <constant name="AllSiliconSupport_ID"     value="60"/>
 
     <comment>
     ===================
@@ -327,10 +343,10 @@
 
     <constant name="ForwardRICH_length"       value="1.1*m"/>
     <constant name="ForwardTRD_length"        value="10.0*cm"/>
-    <constant name="ForwardTOF_length"        value="5.0*cm"/>
+    <constant name="ForwardTOF_length"        value="3.0*cm"/>
     
-    <constant name="BackwardCherenkov_length"   value="20.0*cm"/>
-    <constant name="BackwardTOF_length"         value="10.0*cm"/>
+    <constant name="BackwardCherenkov_length"   value="15.0*cm"/>
+    <constant name="BackwardTOF_length"         value="3.0*cm"/>
 
     <comment> Total length of PID detectors above</comment>
     <constant name="ForwardPIDLength"    value="ForwardRICH_length + ForwardTRD_length + ForwardTOF_length"/>
@@ -355,8 +371,8 @@
       ============================
     </comment>
 
-    <constant name="ForwardTracking_length" value="6.0*cm"/>
-    <constant name="BackwardTracking_length" value="6.0*cm"/>
+    <constant name="ForwardTracking_length" value="0.0*cm"/>
+    <constant name="BackwardTracking_length" value="0.0*cm"/>
 
     <comment>
       -------------------------
@@ -402,7 +418,7 @@
     <constant name="TrackerBarrel_rmin"        value="VertexTrackerBarrel_rmax"/>
     <comment> This is just inside of the potential uRWEL detector hugging the DIRC from the inside </comment>
     <constant name="TrackerBarrel_rmax"        value="78*cm"/>
-    <constant name="TrackerBarrelOuter_length" value="2000.0*mm"/>
+    <constant name="TrackerBarrelOuter_length" value="2600.0*mm"/>
     <constant name="TrackerBarrelInner_length" value="VertexTrackingRegion_length"/>
     <constant name="TrackerBarrelInner_zmax"   value="TrackerBarrelInner_length/2.0"/>
     <constant name="TrackerBarrelOuter_zmax"   value="TrackerBarrelOuter_length/2.0"/>
@@ -458,7 +474,7 @@
 
     <comment> these offesets could be implemented differently for clarity. </comment>
     <constant name="EcalEndcapPSolenoid_offset" value="800.0*mm" />
-    <constant name="EcalEndcapNSolenoid_offset" value="0.0*mm" />
+    <constant name="EcalEndcapNSolenoid_offset" value="-100.0*mm" />
 
     <constant name="HcalEndcapPExtra_length"    value="40.0*cm"/>
     <constant name="HcalEndcapNExtra_length"    value="0.0*cm"/>
@@ -470,12 +486,7 @@
     <constant name="Barrel_rmax"                value="Solenoid_rmin - 1.0 *cm "/>
     <constant name="Barrel_TotalCalThickness"   value="Barrel_rmax - EcalBarrel_rmin"/>
 
-    <constant name="CalBarrelDivider"           value="0.8"/>
-    <comment> Leave room for TRD </comment>
-
-    <constant name="EcalBarrel_TotalThickness"  value="Barrel_TotalCalThickness * CalBarrelDivider"/>
-    <constant name="HcalBarrel_TotalThickness"  value="Barrel_TotalCalThickness * (1.0 - CalBarrelDivider)"/>
-
+    <constant name="EcalBarrel_TotalThickness"  value="40.0*cm"/>
 
     <constant name="EcalEndcapP_zmin"           value="CentralTracking_length/2.0 + ForwardPIDLength"/>
     <constant name="EcalEndcapN_zmin"           value="CentralTracking_length/2.0 + BackwardPIDLength"/>
@@ -494,7 +505,8 @@
     <constant name="EndcapN_CalDivide"          value="1.0"/> <comment> 0.5 means Ecal and Hcal have the same thickness </comment>
 
     <constant name="EcalEndcapP_length" value="EndcapPTotalCal_length * EndcapP_CalDivide"/>
-    <constant name="EcalEndcapN_length" value="EndcapNTotalCal_length * EndcapN_CalDivide"/>
+    <!--constant name="EcalEndcapN_length" value="EndcapNTotalCal_length * EndcapN_CalDivide"/-->
+    <constant name="EcalEndcapN_length" value="40*cm"/>
 
 
     <comment> These need to be set in sync with the forward and backward  detectors </comment>
@@ -575,9 +587,9 @@
       -------------------------------
     </comment>
 
-    <constant name="HcalEndcapP_length" value="50.0*cm"/>
-    <constant name="HcalEndcapN_length" value="50.0*cm"/>
-    <constant name="HcalBarrel_thickness" value="50.0*cm "/>
+    <constant name="HcalEndcapP_length" value="100.0*cm"/>
+    <constant name="HcalEndcapN_length" value="75.0*cm"/>
+    <constant name="HcalBarrel_thickness" value="100.0*cm "/>
 
     <constant name="HcalBarrel_rmin"          value="Solenoid_rmax"/>
     <constant name="HcalBarrel_rmax"          value="HcalBarrel_rmin + HcalBarrel_thickness"/>

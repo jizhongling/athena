@@ -221,5 +221,9 @@
     <composite n="6" ref="H"/>
     <composite n="1" ref="O"/>
   </material>
+  <material name="Graphite">
+    <D type="density" value="2.21" unit="g/cm3"/>
+    <composite n="1" ref="C"/>
+  </material>
 
 </materials>
