@@ -11,7 +11,7 @@
     <constant name="ForwardTOF_rmax" value="Solenoid_rmin"/>
     <constant name="BackwardTOF_zmin" value="BarrelTracking_length/2.0 + BackwardTracking_length + BackwardCherenkov_length "/>
     <constant name="BackwardTOF_rmin" value="ForwardPID_rmin1"/>
-    <constant name="BackwardTOF_rmax" value="EcalBarrel_rmin"/>
+    <constant name="BackwardTOF_rmax" value="BarrelTracking_rmax"/>
   </define>
 
   <detectors>

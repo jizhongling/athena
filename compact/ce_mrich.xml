@@ -2,7 +2,7 @@
 <lccdd>
   <define>
     <constant name="ce_MRICHRMin"   value="15*cm"/>
-    <constant name="ce_MRICHRMax"   value="BarrelTrackingAndPID_rmax"/>
+    <constant name="ce_MRICHRMax"   value="BarrelTracking_rmax"/>
     <constant name="ce_MRICHLength" value="BackwardCherenkov_length"/>
     <constant name="ce_MRICHZMin"   value="-EcalEndcapN_zmin+ce_MRICHLength"/>
 

@@ -4,13 +4,13 @@
 
   <define>
     <constant name="GEMTrackerEndcap_zmin"            value="BarrelTracking_length/2.0"/>
-    <constant name="GEMTrackerEndcap_NLayers"         value="5"/>
+    <constant name="GEMTrackerEndcap_NLayers"         value="1"/>
     <constant name="GEMTrackerEndcapFoilOpeningAngle" value="30.1*degree"/>
     <constant name="GEMTrackerEndcapFoilX1"           value="43.0 * mm"/>
 
     <constant name="GEMTrackerEndcapLayer_thickness"  value="ForwardTrackingGEMLength/GEMTrackerEndcap_NLayers"/>
     <constant name="GEMTrackerEndcapFoil_rmin"        value="GEMTrackerEndcapFoilX1/(tan(GEMTrackerEndcapFoilOpeningAngle/2.0)*2.0)"/>
-    <constant name="GEMTrackerEndcapFoilY"            value="BarrelTrackingAndPID_rmax- GEMTrackerEndcapFoil_rmin- 1.0*cm"/>
+    <constant name="GEMTrackerEndcapFoilY"            value="BarrelTracking_rmax- GEMTrackerEndcapFoil_rmin- 1.0*cm"/>
     <constant name="GEMTrackerEndcapFoilX2"           value="2*GEMTrackerEndcapFoilY*tan(GEMTrackerEndcapFoilOpeningAngle/2.0) +  GEMTrackerEndcapFoilX1"/>
     <constant name="GEMTrackerEndcapFoil_rmax"        value="(GEMTrackerEndcapFoilY+GEMTrackerEndcapFoil_rmin)/(cos(GEMTrackerEndcapFoilOpeningAngle/2.0))"/>
 
@@ -113,46 +113,6 @@
           zstart="GEMTrackerEndcap_zmin + 0.5*GEMTrackerEndcapLayer_thickness"
           nmodules="12" dz="0 * mm" module="GEMSupportModule2" />
       </layer>
-      <layer id="2" >
-        <ring vis="AnlRed"
-          r="GEMTrackerEndcapFoil_rmin+GEMTrackerEndcapFoilY/2.0"
-          zstart="GEMTrackerEndcap_zmin+1.5*GEMTrackerEndcapLayer_thickness"
-          nmodules="12" dz="10 * mm" module="GEMModule1" />
-        <ring vis="AnlBlue" phi0="15.0*degree"
-          r="GEMTrackerEndcapFoil_rmin+GEMTrackerEndcapFoilY/2.0"
-          zstart="GEMTrackerEndcap_zmin+1.5*GEMTrackerEndcapLayer_thickness"
-          nmodules="12" dz="0 * mm" module="GEMSupportModule2" />
-      </layer>
-      <layer id="3" >
-        <ring vis="AnlRed"
-          r="GEMTrackerEndcapFoil_rmin+GEMTrackerEndcapFoilY/2.0"
-          zstart="GEMTrackerEndcap_zmin+2.5*GEMTrackerEndcapLayer_thickness"
-          nmodules="12" dz="10 * mm" module="GEMModule1" />
-        <ring vis="AnlBlue" phi0="15.0*degree"
-          r="GEMTrackerEndcapFoil_rmin+GEMTrackerEndcapFoilY/2.0"
-          zstart="GEMTrackerEndcap_zmin+2.5*GEMTrackerEndcapLayer_thickness"
-          nmodules="12" dz="0 * mm" module="GEMSupportModule2" />
-      </layer>
-      <layer id="4" >
-        <ring vis="AnlRed"
-          r="GEMTrackerEndcapFoil_rmin+GEMTrackerEndcapFoilY/2.0"
-          zstart="GEMTrackerEndcap_zmin+3.5*GEMTrackerEndcapLayer_thickness"
-          nmodules="12" dz="10 * mm" module="GEMModule1" />
-        <ring vis="AnlBlue" phi0="15.0*degree"
-          r="GEMTrackerEndcapFoil_rmin+GEMTrackerEndcapFoilY/2.0"
-          zstart="GEMTrackerEndcap_zmin+3.5*GEMTrackerEndcapLayer_thickness"
-          nmodules="12" dz="0 * mm" module="GEMSupportModule2" />
-      </layer>
-      <layer id="5" >
-        <ring vis="AnlRed"
-          r="GEMTrackerEndcapFoil_rmin+GEMTrackerEndcapFoilY/2.0"
-          zstart="GEMTrackerEndcap_zmin+4.5*GEMTrackerEndcapLayer_thickness"
-          nmodules="12" dz="10 * mm" module="GEMModule1" />
-        <ring vis="AnlBlue" phi0="15.0*degree"
-          r="GEMTrackerEndcapFoil_rmin+GEMTrackerEndcapFoilY/2.0"
-          zstart="GEMTrackerEndcap_zmin+4.5*GEMTrackerEndcapLayer_thickness"
-          nmodules="12" dz="0 * mm" module="GEMSupportModule2" />
-      </layer>
     </detector>
 
     <detector
@@ -201,46 +161,6 @@
         <ring vis="AnlBlue" phi0="15.0*degree"
           r="GEMTrackerEndcapFoil_rmin+GEMTrackerEndcapFoilY/2.0"
           zstart="GEMTrackerEndcap_zmin + 0.5*GEMTrackerEndcapLayer_thickness"
-          nmodules="12" dz="0 * mm" module="GEMSupportModule2" />
-      </layer>
-      <layer id="2" >
-        <ring vis="AnlRed"
-          r="GEMTrackerEndcapFoil_rmin+GEMTrackerEndcapFoilY/2.0"
-          zstart="GEMTrackerEndcap_zmin+1.5*GEMTrackerEndcapLayer_thickness"
-          nmodules="12" dz="10 * mm" module="GEMModule1" />
-        <ring vis="AnlBlue" phi0="15.0*degree"
-          r="GEMTrackerEndcapFoil_rmin+GEMTrackerEndcapFoilY/2.0"
-          zstart="GEMTrackerEndcap_zmin+1.5*GEMTrackerEndcapLayer_thickness"
-          nmodules="12" dz="0 * mm" module="GEMSupportModule2" />
-      </layer>
-      <layer id="3" >
-        <ring vis="AnlRed"
-          r="GEMTrackerEndcapFoil_rmin+GEMTrackerEndcapFoilY/2.0"
-          zstart="GEMTrackerEndcap_zmin+2.5*GEMTrackerEndcapLayer_thickness"
-          nmodules="12" dz="10 * mm" module="GEMModule1" />
-        <ring vis="AnlBlue" phi0="15.0*degree"
-          r="GEMTrackerEndcapFoil_rmin+GEMTrackerEndcapFoilY/2.0"
-          zstart="GEMTrackerEndcap_zmin+2.5*GEMTrackerEndcapLayer_thickness"
-          nmodules="12" dz="0 * mm" module="GEMSupportModule2" />
-      </layer>
-      <layer id="4" >
-        <ring vis="AnlRed"
-          r="GEMTrackerEndcapFoil_rmin+GEMTrackerEndcapFoilY/2.0"
-          zstart="GEMTrackerEndcap_zmin+3.5*GEMTrackerEndcapLayer_thickness"
-          nmodules="12" dz="10 * mm" module="GEMModule1" />
-        <ring vis="AnlBlue" phi0="15.0*degree"
-          r="GEMTrackerEndcapFoil_rmin+GEMTrackerEndcapFoilY/2.0"
-          zstart="GEMTrackerEndcap_zmin+3.5*GEMTrackerEndcapLayer_thickness"
-          nmodules="12" dz="0 * mm" module="GEMSupportModule2" />
-      </layer>
-      <layer id="5" >
-        <ring vis="AnlRed"
-          r="GEMTrackerEndcapFoil_rmin+GEMTrackerEndcapFoilY/2.0"
-          zstart="GEMTrackerEndcap_zmin+4.5*GEMTrackerEndcapLayer_thickness"
-          nmodules="12" dz="10 * mm" module="GEMModule1" />
-        <ring vis="AnlBlue" phi0="15.0*degree"
-          r="GEMTrackerEndcapFoil_rmin+GEMTrackerEndcapFoilY/2.0"
-          zstart="GEMTrackerEndcap_zmin+4.5*GEMTrackerEndcapLayer_thickness"
           nmodules="12" dz="0 * mm" module="GEMSupportModule2" />
       </layer>
     </detector>

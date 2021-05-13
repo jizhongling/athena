@@ -341,8 +341,8 @@
     <constant name="ForwardPID_rmin1"  value="Beampipe_rmax + 80*mm"/>
 
     <comment> Barrel PID thicknesses</comment>
-    <comment> Note: ExtraPID set to zero, as we have potentially trackers past PID</comment>
-    <constant name="BarrelExtraPIDThickness"  value="0.0 * cm"/>
+    <comment> Note: ExtraPID has space for DIRC and optional uRWEL layers</comment>
+    <constant name="BarrelExtraPIDThickness"  value="14.0 * cm"/>
     <constant name="BarrelTRDThickness"  value="1.0 * cm"/>
     <constant name="BarrelTOFThickness"  value="1.0 * cm"/>
 
@@ -355,8 +355,8 @@
       ============================
     </comment>
 
-    <constant name="ForwardTracking_length" value="30.0*cm"/>
-    <constant name="BackwardTracking_length" value="30.0*cm"/>
+    <constant name="ForwardTracking_length" value="6.0*cm"/>
+    <constant name="BackwardTracking_length" value="6.0*cm"/>
 
     <comment>
       -------------------------
@@ -400,8 +400,9 @@
     </comment>
 
     <constant name="TrackerBarrel_rmin"        value="VertexTrackerBarrel_rmax"/>
-    <constant name="TrackerBarrel_rmax"        value="92*cm"/>
-    <constant name="TrackerBarrelOuter_length" value="1600.0*mm"/>
+    <comment> This is just inside of the potential uRWEL detector hugging the DIRC from the inside </comment>
+    <constant name="TrackerBarrel_rmax"        value="78*cm"/>
+    <constant name="TrackerBarrelOuter_length" value="2000.0*mm"/>
     <constant name="TrackerBarrelInner_length" value="VertexTrackingRegion_length"/>
     <constant name="TrackerBarrelInner_zmax"   value="TrackerBarrelInner_length/2.0"/>
     <constant name="TrackerBarrelOuter_zmax"   value="TrackerBarrelOuter_length/2.0"/>
@@ -465,7 +466,7 @@
     <constant name="SolenoidYokeEndcapP_zmin"  value="Solenoid_length/2.0 + Solenoid_offset + HcalEndcapPExtra_length"/>
     <constant name="SolenoidYokeEndcapN_zmin"  value="Solenoid_length/2.0 - Solenoid_offset + HcalEndcapNExtra_length"/>
 
-    <constant name="EcalBarrel_rmin"            value="TrackerBarrel_rmax + 35.0 * mm"/>
+    <constant name="EcalBarrel_rmin"            value="BarrelTrackingAndPID_rmax + 35.0 * mm"/>
     <constant name="Barrel_rmax"                value="Solenoid_rmin - 1.0 *cm "/>
     <constant name="Barrel_TotalCalThickness"   value="Barrel_rmax - EcalBarrel_rmin"/>
 
@@ -475,8 +476,6 @@
     <constant name="EcalBarrel_TotalThickness"  value="Barrel_TotalCalThickness * CalBarrelDivider"/>
     <constant name="HcalBarrel_TotalThickness"  value="Barrel_TotalCalThickness * (1.0 - CalBarrelDivider)"/>
 
-    <constant name="EcalBarrelLength"           value="CentralTracking_length + BackwardPIDLength"/>
-    <constant name="EcalBarrel_offset"          value="(CentralTracking_length -(CentralTracking_length+BackwardPIDLength))/2.0"/>
 
     <constant name="EcalEndcapP_zmin"           value="CentralTracking_length/2.0 + ForwardPIDLength"/>
     <constant name="EcalEndcapN_zmin"           value="CentralTracking_length/2.0 + BackwardPIDLength"/>
@@ -567,6 +566,8 @@
     <constant name="EcalEndcapNThickness"        
         value="EcalEndcapNLayer1_NRepeat*EcalLayer1_thickness + EcalEndcapNLayer2_NRepeat*EcalLayer2_thickness + EcalEndcapNLayer3_NRepeat*EcalLayer3_thickness"/>
 
+    <constant name="EcalBarrelLength"           value="CentralTracking_length + BackwardPIDLength + EcalEndcapNThickness - 10*cm"/>
+    <constant name="EcalBarrel_offset"          value="(CentralTracking_length - EcalBarrelLength)/2.0"/>
 
     <comment>
       -------------------------------
@@ -607,6 +608,14 @@
     <constant name="HcalEndcapNLayer_NRepeat" value="floor(HcalEndcapN_length / HcalSingleLayerThickness)"/>
     <constant name="HcalEndcapP_thickness" value="HcalEndcapPLayer_NRepeat * HcalSingleLayerThickness"/>
     <constant name="HcalEndcapN_thickness" value="HcalEndcapNLayer_NRepeat * HcalSingleLayerThickness"/>
+
+    <comment>
+      ----------------------
+      DIRC parameters
+      ----------------------
+    </comment>
+    <constant name="DIRCLength"           value="CentralTracking_length + BackwardPIDLength"/>
+    <constant name="DIRCOffset"           value="(CentralTracking_length - DIRCLength)/2.0"/>
 
     <comment>
       ----------------------

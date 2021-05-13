@@ -23,7 +23,7 @@
   </comment>
 
   <define>
-    <constant name="RWellTrackerBarrel_length"              value="TrackerBarrelOuter_length"/>
+    <constant name="RWellTrackerBarrel_length"              value="BarrelTracking_length"/>
     <constant name="RWellTrackerBarrel_NZModules"           value="1"/>
     <constant name="RWellTrackerBarrel_NZSupport"           value="2"/>
 
