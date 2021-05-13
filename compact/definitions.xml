@@ -341,7 +341,8 @@
     <constant name="ForwardPID_rmin1"  value="Beampipe_rmax + 80*mm"/>
 
     <comment> Barrel PID thicknesses</comment>
-    <constant name="BarrelExtraPIDThickness"  value="25.0 * cm"/>
+    <comment> Note: ExtraPID set to zero, as we have potentially trackers past PID</comment>
+    <constant name="BarrelExtraPIDThickness"  value="0.0 * cm"/>
     <constant name="BarrelTRDThickness"  value="1.0 * cm"/>
     <constant name="BarrelTOFThickness"  value="1.0 * cm"/>
 
@@ -399,7 +400,7 @@
     </comment>
 
     <constant name="TrackerBarrel_rmin"        value="VertexTrackerBarrel_rmax"/>
-    <constant name="TrackerBarrel_rmax"        value="Solenoid_rmax/3.0"/>
+    <constant name="TrackerBarrel_rmax"        value="92*cm"/>
     <constant name="TrackerBarrelOuter_length" value="1600.0*mm"/>
     <constant name="TrackerBarrelInner_length" value="VertexTrackingRegion_length"/>
     <constant name="TrackerBarrelInner_zmax"   value="TrackerBarrelInner_length/2.0"/>
@@ -464,8 +465,8 @@
     <constant name="SolenoidYokeEndcapP_zmin"  value="Solenoid_length/2.0 + Solenoid_offset + HcalEndcapPExtra_length"/>
     <constant name="SolenoidYokeEndcapN_zmin"  value="Solenoid_length/2.0 - Solenoid_offset + HcalEndcapNExtra_length"/>
 
-    <constant name="EcalBarrel_rmin"            value="SiliconTrackerOuterRadius + BarrelExtraPIDThickness + 5.0 * mm"/>
-    <constant name="Barrel_rmax"                value="Solenoid_rmin - 10.0 *cm "/>
+    <constant name="EcalBarrel_rmin"            value="TrackerBarrel_rmax + 35.0 * mm"/>
+    <constant name="Barrel_rmax"                value="Solenoid_rmin - 1.0 *cm "/>
     <constant name="Barrel_TotalCalThickness"   value="Barrel_rmax - EcalBarrel_rmin"/>
 
     <constant name="CalBarrelDivider"           value="0.8"/>

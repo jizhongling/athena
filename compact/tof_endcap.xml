@@ -21,14 +21,14 @@
       type="ref_DiskTracker"
       insideTrackingVolume="true"
       reflect="false"
-      vis="Argonne_Orange">
+      vis="AnlOrange">
       <position x="0" y="0" z="0.0"/>
       <layer id="1" 
-        vis="Argonne_Orange"
+        vis="AnlOrange"
         inner_z="ForwardTOF_zmin" 
         inner_r="ForwardTOF_rmin" 
         outer_r="ForwardTOF_rmax">
-        <slice material="Air" thickness="ForwardTOF_length/2.0" vis="Argonne_Orange" />
+        <slice material="Air" thickness="ForwardTOF_length/2.0" vis="AnlOrange" />
       </layer>
     </detector>
 
@@ -38,14 +38,14 @@
       type="ref_DiskTracker"
       insideTrackingVolume="true"
       reflect="true"
-      vis="Argonne_Orange">
+      vis="AnlOrange">
       <position x="0" y="0" z="0.0"/>
       <layer id="1" 
-        vis="Argonne_Orange"
+        vis="AnlOrange"
         inner_z="BackwardTOF_zmin" 
         inner_r="BackwardTOF_rmin" 
         outer_r="BackwardTOF_rmax">
-        <slice material="Air" thickness="BackwardTOF_length/2.0" vis="Argonne_Orange" />
+        <slice material="Air" thickness="BackwardTOF_length/2.0" vis="AnlOrange" />
       </layer>
     </detector>
 

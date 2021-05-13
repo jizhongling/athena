@@ -17,9 +17,9 @@
                //outer ring
                support_03_thickness = 0.50;
                support_03_length = 1.2;
-
-      modified R=(73.67, 85.0) cm  // to avoid conflict with EM Cal
+            
                Length=TrackerBarrelOuter_length=(160, 160) cm // to avoid conflict with GEM tracker
+               TODO: fix GEM geometry and restore length
   </comment>
 
   <define>
@@ -34,12 +34,12 @@
     <constant name="RWellTrackerBarrel_Pcb_thickness"       value="0.1*mm"/>
 
     <constant name="RWellTrackerBarrelLayer1_length"        value="RWellTrackerBarrel_length"/>
-    <constant name="RWellTrackerBarrelLayer1_gas_rmin"      value="736.7 * mm"/>
+    <constant name="RWellTrackerBarrelLayer1_gas_rmin"      value="786.7 * mm"/>
     <constant name="RWellTrackerBarrelLayer1_rmin"          value="RWellTrackerBarrelLayer1_gas_rmin - RWellTrackerBarrel_Kapton_thickness"/>
     <constant name="RWellTrackerBarrelLayer1_thickness"     value="RWellTrackerBarrel_Kapton_thickness + RWellTrackerBarrel_Gas_thickness + RWellTrackerBarrel_Cu_thickness + RWellTrackerBarrel_Prepreg_thickness + RWellTrackerBarrel_Pcb_thickness"/>
     
     <constant name="RWellTrackerBarrelLayer2_length"        value="RWellTrackerBarrel_length"/>
-    <constant name="RWellTrackerBarrelLayer2_gas_rmin"      value="850.0 * mm"/>
+    <constant name="RWellTrackerBarrelLayer2_gas_rmin"      value="900.0 * mm"/>
     <constant name="RWellTrackerBarrelLayer2_rmin"          value="RWellTrackerBarrelLayer2_gas_rmin - RWellTrackerBarrel_Kapton_thickness"/>
     <constant name="RWellTrackerBarrelLayer2_thickness"     value="RWellTrackerBarrel_Kapton_thickness + RWellTrackerBarrel_Gas_thickness + RWellTrackerBarrel_Cu_thickness + RWellTrackerBarrel_Prepreg_thickness + RWellTrackerBarrel_Pcb_thickness"/>
     

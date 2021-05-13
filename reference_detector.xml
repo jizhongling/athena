@@ -136,6 +136,7 @@
   -->
    
   <include ref="compact/rwell_tracker_barrel.xml"/>
+  <include ref="compact/cb_DIRC.xml"/>
 
   <detectors>
   </detectors>

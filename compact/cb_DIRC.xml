@@ -1,0 +1,43 @@
+<lccdd>
+
+  <comment>Initial implementation of the Reference Detector
+           DIRC (ported from g4e). Currently constructed around
+           a fixed radius of 83.65cm (between the uRWEL layers).
+           TODO: this needs to be properly parameterized.
+  </comment>
+
+  <define>
+    <constant name="cb_DIRC_length"            value="TrackerBarrelOuter_length"/>
+    <constant name="cb_DIRC_rmin"              value="82.00*cm"/>
+    <constant name="cb_DIRC_rmax"              value="88.00*cm"/>
+  </define>
+
+  <limits>
+  </limits>
+
+  <regions>
+  </regions>
+
+  <display>
+  </display>
+
+  <detectors>
+    <detector id="BarrelDIRC_ID" name="cb_DIRC" type="cb_DIRC" readout="DIRCHits" vis="AnlTeal">
+      <dimensions rmin="cb_DIRC_rmin" rmax="cb_DIRC_rmax" length="cb_DIRC_length"/>
+      <position x="0" y="0" z="0"/>
+    </detector>
+  </detectors>
+
+  <readouts>
+    <readout name="DIRCHits">
+      <segmentation type="CartesianGridXY" grid_size_x="3.0*mm" grid_size_y="3.0*mm" />
+      <id>system:8,barrel:3,module:12,x:32:-16,y:-16</id>
+    </readout>
+  </readouts>
+
+  <plugins>
+  </plugins>
+
+  <fields>
+  </fields>
+</lccdd>

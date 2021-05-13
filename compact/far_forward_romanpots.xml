@@ -20,16 +20,16 @@
       type="ref_RectangularTracker"
       insideTrackingVolume="true"
       reflect="false"
-      vis="Argonne_Red">
+      vis="AnlRed">
       <position x="ForwardRomanPotA_xpos" y="0" z="ForwardRomanPotA_zpos"/>
       <layer id="1" 
-        vis="Argonne_Blue"
+        vis="AnlBlue"
         x="20.0*cm" 
         y="10.0*cm" >
-        <slice material="Air" thickness="1.0*cm" vis="Argonne_Blue" sensitive="true" />
-        <slice material="Air" thickness="1.0*cm" vis="Argonne_Blue" sensitive="true" />
-        <slice material="Air" thickness="1.0*cm" vis="Argonne_Blue" sensitive="true" />
-        <slice material="Air" thickness="1.0*cm" vis="Argonne_Blue" sensitive="true" />
+        <slice material="Air" thickness="1.0*cm" vis="AnlBlue" sensitive="true" />
+        <slice material="Air" thickness="1.0*cm" vis="AnlBlue" sensitive="true" />
+        <slice material="Air" thickness="1.0*cm" vis="AnlBlue" sensitive="true" />
+        <slice material="Air" thickness="1.0*cm" vis="AnlBlue" sensitive="true" />
       </layer>
     </detector>
     <detector 
@@ -39,16 +39,16 @@
       type="ref_RectangularTracker"
       insideTrackingVolume="true"
       reflect="false"
-      vis="Argonne_Red">
+      vis="AnlRed">
       <position x="ForwardRomanPotB_xpos" y="0" z="ForwardRomanPotB_zpos"/>
       <layer id="1" 
-        vis="Argonne_Blue"
+        vis="AnlBlue"
         x="20.0*cm" 
         y="10.0*cm" >
-        <slice material="Air" thickness="1.0*cm" vis="Argonne_Blue" sensitive="true" />
-        <slice material="Air" thickness="1.0*cm" vis="Argonne_Blue" sensitive="true" />
-        <slice material="Air" thickness="1.0*cm" vis="Argonne_Blue" sensitive="true" />
-        <slice material="Air" thickness="1.0*cm" vis="Argonne_Blue" sensitive="true" />
+        <slice material="Air" thickness="1.0*cm" vis="AnlBlue" sensitive="true" />
+        <slice material="Air" thickness="1.0*cm" vis="AnlBlue" sensitive="true" />
+        <slice material="Air" thickness="1.0*cm" vis="AnlBlue" sensitive="true" />
+        <slice material="Air" thickness="1.0*cm" vis="AnlBlue" sensitive="true" />
       </layer>
     </detector>
   </detectors>

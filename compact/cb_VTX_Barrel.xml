@@ -60,72 +60,72 @@
     </detector>
 
     <detector id="SiVertexEndcapP_ID" name="SiVertexEndcapP" type="ref_DiskTracker"
-      insideTrackingVolume="true" reflect="false" vis="Argonne_Red">
+      insideTrackingVolume="true" reflect="false" vis="AnlRed">
       <position x="0" y="0" z="0"/>
-      <layer id="1" vis="Argonne_Orange"
+      <layer id="1" vis="AnlOrange"
         inner_z="SiVertexEndcapP_zmin + 0*SiVertexEndcap_delta" 
         inner_r="SiVertexEndcapP_rmin" 
         outer_r="SiVertexEndcapP_rmax">
-        <slice material="Air" thickness="1.0*mm" vis="Argonne_Orange" />
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
       </layer>
-      <layer id="2" vis="Argonne_Orange"
+      <layer id="2" vis="AnlOrange"
         inner_z="SiVertexEndcapP_zmin + 1*SiVertexEndcap_delta" 
         inner_r="SiVertexEndcapP_rmin" 
         outer_r="SiVertexEndcapP_rmax">
-        <slice material="Air" thickness="1.0*mm" vis="Argonne_Orange" />
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
       </layer>
-      <layer id="3" vis="Argonne_Orange"
+      <layer id="3" vis="AnlOrange"
         inner_z="SiVertexEndcapP_zmin + 2*SiVertexEndcap_delta" 
         inner_r="SiVertexEndcapP_rmin" 
         outer_r="SiVertexEndcapP_rmax">
-        <slice material="Air" thickness="1.0*mm" vis="Argonne_Orange" />
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
       </layer>
-      <layer id="4" vis="Argonne_Orange"
+      <layer id="4" vis="AnlOrange"
         inner_z="SiVertexEndcapP_zmin + 3*SiVertexEndcap_delta" 
         inner_r="SiVertexEndcapP_rmin" 
         outer_r="SiVertexEndcapP_rmax">
-        <slice material="Air" thickness="1.0*mm" vis="Argonne_Orange" />
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
       </layer>
-      <layer id="5" vis="Argonne_Orange"
+      <layer id="5" vis="AnlOrange"
         inner_z="SiVertexEndcapP_zmin + 4*SiVertexEndcap_delta" 
         inner_r="SiVertexEndcapP_rmin" 
         outer_r="SiVertexEndcapP_rmax">
-        <slice material="Air" thickness="1.0*mm" vis="Argonne_Orange" />
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
       </layer>
     </detector>
 
     <detector id="SiVertexEndcapN_ID" name="SiVertexEndcapN" type="ref_DiskTracker"
-      insideTrackingVolume="true" reflect="true" vis="Argonne_Red">
+      insideTrackingVolume="true" reflect="true" vis="AnlRed">
       <position x="0" y="0" z="0"/>
-      <layer id="1" vis="Argonne_Orange"
+      <layer id="1" vis="AnlOrange"
         inner_z="SiVertexEndcapN_zmin + 0*SiVertexEndcap_delta" 
         inner_r="SiVertexEndcapN_rmin" 
         outer_r="SiVertexEndcapN_rmax">
-        <slice material="Air" thickness="1.0*mm" vis="Argonne_Orange" />
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
       </layer>
-      <layer id="2" vis="Argonne_Orange"
+      <layer id="2" vis="AnlOrange"
         inner_z="SiVertexEndcapN_zmin + 1*SiVertexEndcap_delta" 
         inner_r="SiVertexEndcapN_rmin" 
         outer_r="SiVertexEndcapN_rmax">
-        <slice material="Air" thickness="1.0*mm" vis="Argonne_Orange" />
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
       </layer>
-      <layer id="3" vis="Argonne_Orange"
+      <layer id="3" vis="AnlOrange"
         inner_z="SiVertexEndcapN_zmin + 2*SiVertexEndcap_delta" 
         inner_r="SiVertexEndcapN_rmin" 
         outer_r="SiVertexEndcapN_rmax">
-        <slice material="Air" thickness="1.0*mm" vis="Argonne_Orange" />
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
       </layer>
-      <layer id="4" vis="Argonne_Orange"
+      <layer id="4" vis="AnlOrange"
         inner_z="SiVertexEndcapN_zmin + 3*SiVertexEndcap_delta" 
         inner_r="SiVertexEndcapN_rmin" 
         outer_r="SiVertexEndcapN_rmax">
-        <slice material="Air" thickness="1.0*mm" vis="Argonne_Orange" />
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
       </layer>
-      <layer id="5" vis="Argonne_Orange"
+      <layer id="5" vis="AnlOrange"
         inner_z="SiVertexEndcapN_zmin + 4*SiVertexEndcap_delta" 
         inner_r="SiVertexEndcapN_rmin" 
         outer_r="SiVertexEndcapN_rmax">
-        <slice material="Air" thickness="1.0*mm" vis="Argonne_Orange" />
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
       </layer>
     </detector>
   </detectors>

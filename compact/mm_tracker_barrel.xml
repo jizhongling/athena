@@ -27,7 +27,7 @@
 
   <detectors>
     <detector id="MMTrackerBarrel_ID" name="MMTrackerBarrel" type="refdet_MMTrackerBarrel" readout="MMTrackerBarrelHits">
-      <module name="Module1" vis="Argonne_Gold">
+      <module name="Module1" vis="AnlGold">
         <module_envelope
           rmin="TrackerBarrel_rmax"
           length="MMTrackerBarrelLayer1_length"
