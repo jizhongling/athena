@@ -24,6 +24,7 @@ default:
       - images
       - doc
       - juggler.env
+      - detector_geo.root
     reports:
       dotenv: juggler.env
 
@@ -92,6 +93,16 @@ include:
   - local: 'views/view13.yml'
   - local: 'views/view14.yml'
   - local: 'views/view15.yml'
+
+dump_geometry:
+  stage: test
+  needs:
+    - common:detector
+  script:
+   - echo "dumping geometry"
+   - mkdir -p images
+   - dd_web_display --output detector_geo.root ${DETECTOR_PATH}/reference_detector.xml
+
 
 report:
   stage: finalize
