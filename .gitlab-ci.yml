@@ -122,6 +122,7 @@ report:
     - view_14
     - view_15
     - dump_constants
+    - dump_geometry
   script:
     - pip3 install jinja2 &&  ls -lrth
     - ./bin/make_images > doc/dawn_views.md
