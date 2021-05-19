@@ -24,7 +24,7 @@ default:
       - images
       - doc
       - juggler.env
-      - detector_geo.root
+      - geo
     reports:
       dotenv: juggler.env
 
@@ -100,9 +100,13 @@ dump_geometry:
     - common:detector
   script:
    - echo "dumping geometry"
-   - mkdir -p images
-   - dd_web_display --output detector_geo.root ${DETECTOR_PATH}/reference_detector.xml
-
+   - mkdir -p geo
+   ## full geo with downstream beamline
+   - dd_web_display --output geo/detector_geo_full.root ${DETECTOR_PATH}/reference_detector.xml
+   ## only central detector geo
+   - sed -i '/forward_ion_beamline/d' ${DETECTOR_PATH}/reference_detector.xml
+   - sed -i '/far_forward/d' ${DETECTOR_PATH}/reference_detector.xml
+   - dd_web_display --output geo/detector_geo.root ${DETECTOR_PATH}/reference_detector.xml
 
 report:
   stage: finalize
