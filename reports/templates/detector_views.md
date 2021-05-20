@@ -1,4 +1,4 @@
-#ReferenceDetector
+#AthenaDetector
 
 
 {% for image_path in images %}

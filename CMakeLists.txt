@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.3 FATAL_ERROR)
-PROJECT(reference_detector
+PROJECT(athena
   VERSION 0.0.1
   LANGUAGES CXX
   DESCRIPTION "A template dd4hep+acts detector"
@@ -12,7 +12,7 @@ find_package( DD4hep REQUIRED COMPONENTS DDCore DDG4 )
 #find_package(Acts REQUIRED COMPONENTS Core PluginIdentification PluginTGeo PluginDD4hep )
 
 #-----------------------------------------------------------------------------------
-set(a_lib_name reference_detector)
+set(a_lib_name athena)
 
 dd4hep_configure_output()
 

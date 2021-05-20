@@ -1,6 +1,6 @@
 <lccdd>
 
-  <comment>Initial implementation of the Reference Detector
+  <comment>Initial implementation of the Athena Detector
            DIRC (ported from g4e). Currently constructed around
            a fixed radius of 83.65cm (between the uRWEL layers).
            TODO: this needs to be properly parameterized.

@@ -12,7 +12,7 @@ parser = argparse.ArgumentParser(
      This program should be run in the "compact" directory.
          ''')
 parser.add_argument("-v","--verbose", help="increase output verbosity", type=int, default=0)
-parser.add_argument("--compact", help="compact detector file",default="reference_detector.xml")
+parser.add_argument("--compact", help="compact detector file",default="athena.xml")
 parser.add_argument("--vis", help="vis true/false", action="store_true",default=False)
 parser.add_argument("--ui", help="ui setting tcsh or qt; default=qt", type=str,default="qt",dest="ui")
 parser.add_argument("-b","--batch", help="batch turns off vis/ui", action="store_true",default=False, dest="batch")
@@ -86,7 +86,7 @@ def run():
 
     outputfile = args.output
     if outputfile is None:
-        outputfile = 'data/reference_detector_' + time.strftime('%Y-%m-%d_%H-%M')
+        outputfile = 'data/athena_' + time.strftime('%Y-%m-%d_%H-%M')
     #rootoutput = geant4.setupROOTOutput('RootOutput', outputfile)
     #rootoutput.HandleMCTruth = True
 

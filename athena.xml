@@ -3,12 +3,12 @@
        xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
 
   <!-- Some information about detector  -->
-  <info name="Reference Detector" title="Reference Detector"
+  <info name="Athena Detector" title="Athena Detector"
         author="Jihee Kim, Whitney Armstrong"
-	url="https://eicweb.phy.anl.gov/EIC/detectors/reference_detector.git"
+	url="https://eicweb.phy.anl.gov/EIC/detectors/athena.git"
 	status="development"
 	version="v1 2021-03-16">
-    <comment>Reference Detector</comment>        
+    <comment>Athena Detector</comment>        
   </info>
 
   <define>

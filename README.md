@@ -1,7 +1,7 @@
 
 Overview
 --------
-The reference detector at IP6 for Electron-Ion Collider experiment.
+The Athena Detector at IP6 for Electron-Ion Collider experiment.
 
 **Detector geometry viewer:**
 - [Central detector geometry](https://eic.phy.anl.gov/geoviewer/index.htm?nobrowser&file=https://eicweb.phy.anl.gov/api/v4/projects/447/jobs/artifacts/master/raw/geo/detector_geo.root?job=report&item=default;1&opt=clipxyz;transp30;zoom100;ROTY0;ROTZ0;trz100;trr0;ctrl;all&)
@@ -16,7 +16,7 @@ The reference detector at IP6 for Electron-Ion Collider experiment.
 <img src="https://eicweb.phy.anl.gov/api/v4/projects/447/jobs/artifacts/master/raw/images/view01_top.png?job=report" width="400px" />
 </a>
 
-[Browse latest](https://eicweb.phy.anl.gov/EIC/detectors/reference_detector/-/jobs/artifacts/master/browse/images?job=report)
+[Browse latest](https://eicweb.phy.anl.gov/EIC/detectors/athena/-/jobs/artifacts/master/browse/images?job=report)
 
 [Detector views](views/detector_views.md)
 
@@ -56,7 +56,7 @@ More details can be found at the links below:
 Related useful links
 --------------------
 
-- [Reference_Detector_doc] (https://escalate.readthedocs.io/projects/g4e/en/latest/detector_naming.html)
+- [Athena_Detector_doc] (https://escalate.readthedocs.io/projects/g4e/en/latest/detector_naming.html)
 - [g4e] (https://gitlab.com/eic/escalate/g4e)
 - [eic_tutorial] (https://argonne_eic.gitlab.io/tutorial/eic_tutorial/part2/adding_detectors/)
 - [DD4hep] (https://github.com/AIDAsoft/DD4hep)

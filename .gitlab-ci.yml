@@ -45,7 +45,7 @@ common:setup:
   before_script:
     - git clone https://eicweb.phy.anl.gov/EIC/benchmarks/common_bench.git setup 
   script:
-    - export JUGGLER_DETECTOR="reference_detector"
+    - export JUGGLER_DETECTOR="athena"
     - |
       if [[ "x${CI_PIPELINE_SOURCE}" == "xmerge_request_event"  || "$CI_COMMIT_BRANCH" == "master" ]]; then
         export JUGGLER_DETECTOR_VERSION="${CI_COMMIT_REF_NAME}"
@@ -102,11 +102,11 @@ dump_geometry:
    - echo "dumping geometry"
    - mkdir -p geo
    ## full geo with downstream beamline
-   - dd_web_display --output geo/detector_geo_full.root ${DETECTOR_PATH}/reference_detector.xml
+   - dd_web_display --output geo/detector_geo_full.root ${DETECTOR_PATH}/athena.xml
    ## only central detector geo
-   - sed -i '/forward_ion_beamline/d' ${DETECTOR_PATH}/reference_detector.xml
-   - sed -i '/far_forward/d' ${DETECTOR_PATH}/reference_detector.xml
-   - dd_web_display --output geo/detector_geo.root ${DETECTOR_PATH}/reference_detector.xml
+   - sed -i '/forward_ion_beamline/d' ${DETECTOR_PATH}/athena.xml
+   - sed -i '/far_forward/d' ${DETECTOR_PATH}/athena.xml
+   - dd_web_display --output geo/detector_geo.root ${DETECTOR_PATH}/athena.xml
 
 report:
   stage: finalize
@@ -132,14 +132,14 @@ dump_constants:
   needs: 
     - ["common:detector"]
   script:
-    - npdet_info dump ${DETECTOR_PATH}/reference_detector.xml  | tee doc/constants.out 
+    - npdet_info dump ${DETECTOR_PATH}/athena.xml  | tee doc/constants.out 
 
 overlap_check:
   stage: test
   needs: 
     - ["common:detector"]
   script:
-    - checkOverlaps -c ${DETECTOR_PATH}/reference_detector.xml  | tee doc/overlap_check.out 
+    - checkOverlaps -c ${DETECTOR_PATH}/athena.xml  | tee doc/overlap_check.out 
     - echo "$(cat doc/overlap_check.out | grep ovlp | wc -l) overlaps..."
     - if [[ "$(cat doc/overlap_check.out | grep ovlp | wc -l)" -gt "0" ]] ; then echo "Overlaps exist!" && false ; fi
 
@@ -148,7 +148,7 @@ detector:config_testing:
   needs: 
     - ["common:detector"]
   script:
-    - checkOverlaps -o 's' -c ${DETECTOR_PATH}/reference_detector.xml  | tee doc/overlap_check.out | wc -l
+    - checkOverlaps -o 's' -c ${DETECTOR_PATH}/athena.xml  | tee doc/overlap_check.out | wc -l
     - cat doc/overlap_check.out
 
 benchmarks:detector:
