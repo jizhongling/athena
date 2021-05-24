@@ -235,7 +235,7 @@
   <readouts>
     <readout name="ITS3Hits">
       <segmentation type="CartesianGridXY" grid_size_x="0.010*mm" grid_size_y="0.010*mm" />
-      <id>system:8,barrel:3,layer:4,module:7,sensor:2,x:32:-16,y:-16</id>  
+      <id>system:8,barrel:2,layer:4,module:7,sensor:2,x:30:-17,y:-17</id>  
     </readout>
   </readouts>
 
