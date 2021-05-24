@@ -11,6 +11,10 @@ using namespace std;
 using namespace dd4hep;
 using namespace dd4hep::detail;
 
+/** A barrel tracker with a module that is curved (not flat).
+ *
+ *
+ */
 static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector sens)
 {
   typedef vector<PlacedVolume> Placements;

@@ -15,7 +15,7 @@
   </display>
 
 
-  <include ref="compact/ffi_ZDC.xml" />
+  <include ref="ffi_ZDC.xml" />
   <detectors>
   </detectors>
 
