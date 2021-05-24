@@ -142,7 +142,7 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
     Volume module_env = volumes[m_nam];
     DetElement lay_elt(sdet, _toString(x_layer.id(), "layer%d"), lay_id);
     Placements& sensVols = sensitives[m_nam];
-    
+
     // the local coordinate systems of modules in dd4hep and acts differ
     // see http://acts.web.cern.ch/ACTS/latest/doc/group__DD4hepPlugins.html
     Acts::ActsExtension* layerExtension = new Acts::ActsExtension();
@@ -220,4 +220,7 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
 
 //@}
 // clang-format off
+DECLARE_DETELEMENT(BarrelTrackerWithFrame, create_detector)
+DECLARE_DETELEMENT(athena_SiVertexTracker, create_detector)
+DECLARE_DETELEMENT(athena_SiBarrelTracker, create_detector)
 DECLARE_DETELEMENT(refdet_SiVertexBarrel, create_detector)
