@@ -373,15 +373,15 @@
     </comment>
     <constant name="VertexTrackerBarrel_rmin"   value="Beampipe_rmax+5.0*mm"/>
     <constant name="VertexTrackerBarrel_rmax"   value="150.0*mm"/>
-    <constant name="VertexTrackerBarrel_length" value="400.0*mm"/>
+    <constant name="VertexTrackerBarrel_length" value="300.0*mm"/>
     <constant name="VertexTrackerBarrel_zmax"   value="VertexTrackerBarrel_length/2.0"/>
 
     <constant name="VertexTrackerEndcapP_rmax"  value="VertexTrackerBarrel_rmax"/>
     <constant name="VertexTrackerEndcapN_rmax"  value="VertexTrackerBarrel_rmax"/>
     <constant name="VertexTrackerEndcapP_rmin"  value="VertexTrackerBarrel_rmin"/>
     <constant name="VertexTrackerEndcapN_rmin"  value="VertexTrackerBarrel_rmin"/>
-    <constant name="VertexTrackerEndcapP_zmax"  value="600.0*mm"/>
-    <constant name="VertexTrackerEndcapN_zmax"  value="600.0*mm"/>
+    <constant name="VertexTrackerEndcapP_zmax"  value="500.0*mm/2.0"/>
+    <constant name="VertexTrackerEndcapN_zmax"  value="500.0*mm/2.0"/>
 
     <comment>
       Vertex Tracking Region

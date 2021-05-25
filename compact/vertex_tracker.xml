@@ -2,16 +2,16 @@
 <lccdd>
   <define>
 
-    <constant name="ITS3Thickness"                  value="0.03*mm"/>
-    <constant name="VertexBarrel_rmin1"             value="3.3*cm"/>
-    <constant name="VertexBarrel_rmin2"             value="5.7*cm"/>
+    <constant name="ITS3Thickness"                   value="0.03*mm"/>
+    <constant name="VertexBarrel_rmin1"              value="3.3*cm"/>
+    <constant name="VertexBarrel_rmin2"              value="5.7*cm"/>
     <constant name="VertexBarrelModule_maxThickness" value="VertexBarrel_rmin2 - VertexBarrel_rmin1"/>
-    <constant name="VertexBarrel_length"            value="30*cm"/>
-    <constant name="VertexBarrel_thickness"         value="0.05/100*9.37*cm"/>
-    <constant name="VertexBarrelService_thickness"  value="VertexBarrel_thickness-ITS3Thickness"/>
-    <constant name="VertexBarrel_rmin"              value="VertexBarrel_rmin1"/>
-    <constant name="VertexBarrel_rmax"              value="VertexBarrel_rmin2+VertexBarrelModule_maxThickness"/>
-    <constant name="VertexBarrelLayer_rOffset"      value="4.0*mm"/>
+    <constant name="VertexBarrel_length"             value="VertexTrackerBarrel_length"/>
+    <constant name="VertexBarrel_thickness"          value="0.05/100*9.37*cm"/>
+    <constant name="VertexBarrelService_thickness"   value="VertexBarrel_thickness-ITS3Thickness"/>
+    <constant name="VertexBarrel_rmin"               value="VertexBarrel_rmin1"/>
+    <constant name="VertexBarrel_rmax"               value="VertexBarrel_rmin2+VertexBarrelModule_maxThickness"/>
+    <constant name="VertexBarrelLayer_rOffset"       value="4.0*mm"/>
 
     <comment> TODO: These should be computed </comment>
     <constant name="VertexBarrel_NModules1" value="14"/>
@@ -30,7 +30,7 @@
     <constant name="VertexTrackerEndcapN_zmin" value="VertexTrackerBarrel_zmax"/>
     <constant name="VertexTrackerEndcapP_zmin" value="VertexTrackerBarrel_zmax"/>
 
-    <constant name="VertexEndcap_NLayers" value="5"/>
+    <constant name="VertexEndcap_NLayers" value="2"/>
     <constant name="VertexTrackerEndcap_delta" value="(VertexTrackerEndcapP_zmax - VertexTrackerEndcapP_zmin)/VertexEndcap_NLayers"/>
 
   
@@ -47,8 +47,8 @@
       name="VertexSubAssembly" 
       type="DD4hep_SubdetectorAssembly" 
       vis="TrackerSubAssemblyVis">
-      <composite name="VertexTrackerEndcapN"/>
-      <composite name="VertexTrackerEndcapP"/> 
+      <composite name="VertexEndcapN"/>
+      <composite name="VertexEndcapP"/> 
       <composite name="VertexBarrel"/>
     </detector>
 
@@ -59,17 +59,19 @@
       type="athena_VertexBarrel"
       readout="VertexBarrelHits"
       insideTrackingVolume="true">
-      <dimensions rmin="VertexBarrel_rmin-VertexBarrelLayer_rOffset" rmax="VertexBarrel_rmax-VertexBarrelLayer_rOffset" length="VertexBarrel_length"/>
-
+      <dimensions 
+        rmin="VertexBarrel_rmin-VertexBarrelLayer_rOffset" 
+        rmax="VertexBarrel_rmax-VertexBarrelLayer_rOffset" 
+        length="VertexBarrel_length"/>
       <comment> Define available modules </comment>
       <module name="Module1" vis="PurpleVis">
-        <frame width="15*mm"  height="10.0*mm" length="VertexBarrel_length" thickness="0.1 * mm" material="CarbonFiber_25percent" vis="BlueGreenVis" />
+        <frame width="15*mm"  height="10.0*mm" 
+          length="VertexBarrel_length" thickness="0.1 * mm" material="CarbonFiber_25percent" vis="BlueGreenVis" />
         <module_component name="silicon" 
           width="14.0*mm" length="VertexBarrel_length-0.1*mm" thickness="0.05*mm" material="Silicon" sensitive="true">
           <position z="-0.025*mm" y="0*mm"/>
         </module_component>
       </module>
-
       <module name="Module2">
         <frame width="15*mm"  height="10.0*mm" length="VertexBarrel_length" thickness="0.1 * mm" material="CarbonFiber_25percent" vis="BlueGreenVis" />
         <module_component name="silicon" 
@@ -77,7 +79,6 @@
           <position z="-0.025*mm" y="0*mm"/>
         </module_component>
       </module>
-
       <comment> Layers composed of many arrayed modules  </comment>
       <layer module="Module1" id="1" vis="VertexVis">
         <barrel_envelope 
@@ -95,12 +96,13 @@
         <rphi_layout phi_tilt="10.0*degree" nphi="VertexBarrel_NModules2" phi0="0.0" rc="VertexBarrel_rmin2" dr="0.0 * mm"/>
         <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
       </layer>
-
     </detector>
 
-    <!--
-    <detector id="VertexEndcapP_ID" name="VertexTrackerEndcapP" type="ref_DiskTracker"
-      insideTrackingVolume="true" reflect="false" vis="AnlRed">
+    <detector id="VertexEndcapP_ID" 
+      name="VertexEndcapP" 
+      type="athena_SimpleDiskTracker"
+      insideTrackingVolume="true" 
+      reflect="false" vis="AnlRed">
       <position x="0" y="0" z="0"/>
       <layer id="1" vis="AnlOrange"
         inner_z="VertexTrackerEndcapP_zmin + 0*VertexTrackerEndcap_delta" 
@@ -114,27 +116,11 @@
         outer_r="VertexTrackerEndcapP_rmax">
         <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
       </layer>
-      <layer id="3" vis="AnlOrange"
-        inner_z="VertexTrackerEndcapP_zmin + 2*VertexTrackerEndcap_delta" 
-        inner_r="VertexTrackerEndcapP_rmin" 
-        outer_r="VertexTrackerEndcapP_rmax">
-        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
-      </layer>
-      <layer id="4" vis="AnlOrange"
-        inner_z="VertexTrackerEndcapP_zmin + 3*VertexTrackerEndcap_delta" 
-        inner_r="VertexTrackerEndcapP_rmin" 
-        outer_r="VertexTrackerEndcapP_rmax">
-        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
-      </layer>
-      <layer id="5" vis="AnlOrange"
-        inner_z="VertexTrackerEndcapP_zmin + 4*VertexTrackerEndcap_delta" 
-        inner_r="VertexTrackerEndcapP_rmin" 
-        outer_r="VertexTrackerEndcapP_rmax">
-        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
-      </layer>
     </detector>
 
-    <detector id="VertexEndcapN_ID" name="VertexTrackerEndcapN" type="ref_DiskTracker"
+    <detector id="VertexEndcapN_ID" 
+      name="VertexEndcapN" 
+      type="ref_DiskTracker"
       insideTrackingVolume="true" reflect="true" vis="AnlRed">
       <position x="0" y="0" z="0"/>
       <layer id="1" vis="AnlOrange"
@@ -149,26 +135,7 @@
         outer_r="VertexTrackerEndcapN_rmax">
         <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
       </layer>
-      <layer id="3" vis="AnlOrange"
-        inner_z="VertexTrackerEndcapN_zmin + 2*VertexTrackerEndcap_delta" 
-        inner_r="VertexTrackerEndcapN_rmin" 
-        outer_r="VertexTrackerEndcapN_rmax">
-        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
-      </layer>
-      <layer id="4" vis="AnlOrange"
-        inner_z="VertexTrackerEndcapN_zmin + 3*VertexTrackerEndcap_delta" 
-        inner_r="VertexTrackerEndcapN_rmin" 
-        outer_r="VertexTrackerEndcapN_rmax">
-        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
-      </layer>
-      <layer id="5" vis="AnlOrange"
-        inner_z="VertexTrackerEndcapN_zmin + 4*VertexTrackerEndcap_delta" 
-        inner_r="VertexTrackerEndcapN_rmin" 
-        outer_r="VertexTrackerEndcapN_rmax">
-        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
-      </layer>
     </detector>
-    -->
 
   </detectors>
 

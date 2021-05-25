@@ -15,6 +15,8 @@
 //
 //==========================================================================
 #include "DD4hep/DetFactoryHelper.h"
+#include "Acts/Plugins/DD4hep/ActsExtension.hpp"
+#include "Acts/Plugins/DD4hep/ConvertDD4hepMaterial.hpp"
 
 using namespace std;
 using namespace dd4hep;
@@ -31,6 +33,10 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
   PlacedVolume   pv;
   int            l_num = 0;
   xml::Component pos   = x_det.position();
+
+  Acts::ActsExtension* detWorldExt = new Acts::ActsExtension();
+  detWorldExt->addType("endcap", "detector");
+  sdet.addExtension<Acts::ActsExtension>(detWorldExt);
 
   for (xml_coll_t i(x_det, _U(layer)); i; ++i, ++l_num) {
     xml_comp_t x_layer    = i;
@@ -49,37 +55,52 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
     Tube   l_tub(rmin, rmax, layerWidth/2.0, 2 * M_PI);
     Volume l_vol(l_nam, l_tub, air);
     l_vol.setVisAttributes(description, x_layer.visStr());
+    DetElement layer;
+    if (!reflect) {
+      layer = DetElement(sdet, l_nam + "_pos", l_num);
+      pv = assembly.placeVolume(l_vol, Position(0, 0, zmin + layerWidth / 2.));
+      pv.addPhysVolID("layer", l_num);
+      pv.addPhysVolID("barrel", 3);
+      layer.setPlacement(pv);
+    } else {
+      layer = DetElement(sdet, l_nam + "_neg", l_num);
+      (sdet, l_nam + "_pos", l_num);
+      pv = assembly.placeVolume(l_vol, Transform3D(RotationY(M_PI), Position(0, 0, -zmin - layerWidth / 2)));
+      pv.addPhysVolID("layer", l_num);
+      pv.addPhysVolID("barrel", 2);
+      layer.setPlacement(pv);
+      // DetElement layerR = layer.clone(l_nam+"_neg");
+      // sdet.add(layerR.setPlacement(pv));
+    }
+    Acts::ActsExtension* layerExtension = new Acts::ActsExtension();
+    layerExtension->addType("layer", "layer");
+    //layerExtension->addType("axes", "definitions", "XZY");
+    layer.addExtension<Acts::ActsExtension>(layerExtension);
+
     for (xml_coll_t j(x_layer, _U(slice)); j; ++j, ++s_num) {
       xml_comp_t x_slice = j;
       double     thick   = x_slice.thickness();
       Material   mat     = description.material(x_slice.materialStr());
       string     s_nam   = l_nam + _toString(s_num, "_slice%d");
       Volume     s_vol(s_nam, Tube(rmin, rmax, thick/2.0), mat);
-
+      if(!reflect){
+        s_nam += "_pos";
+      } else {
+        s_nam += "_neg";
+      }
+      DetElement slice_de(layer, s_nam , s_num);
       if (x_slice.isSensitive()) {
         sens.setType("tracker");
         s_vol.setSensitiveDetector(sens);
+        Acts::ActsExtension* moduleExtension = new Acts::ActsExtension("XZY");
+        slice_de.addExtension<Acts::ActsExtension>(moduleExtension);
       }
       s_vol.setAttributes(description, x_slice.regionStr(), x_slice.limitsStr(), x_slice.visStr());
       pv = l_vol.placeVolume(s_vol, Position(0, 0, z - zmin - layerWidth / 2 + thick / 2));
       pv.addPhysVolID("slice", s_num);
+      slice_de.setPlacement(pv);
     }
 
-    if (!reflect) {
-      DetElement layer(sdet, l_nam + "_pos", l_num);
-      pv = assembly.placeVolume(l_vol, Position(0, 0, zmin + layerWidth / 2.));
-      pv.addPhysVolID("layer", l_num);
-      pv.addPhysVolID("barrel", 1);
-      layer.setPlacement(pv);
-    } else {
-      DetElement layer(sdet, l_nam + "_neg", l_num);
-      pv = assembly.placeVolume(l_vol, Transform3D(RotationY(M_PI), Position(0, 0, -zmin - layerWidth / 2)));
-      pv.addPhysVolID("layer", l_num);
-      pv.addPhysVolID("barrel", 1);
-      layer.setPlacement(pv);
-      // DetElement layerR = layer.clone(l_nam+"_neg");
-      // sdet.add(layerR.setPlacement(pv));
-    }
   }
   if (x_det.hasAttr(_U(combineHits))) {
     sdet.setCombineHits(x_det.attr<bool>(_U(combineHits)), sens);
@@ -90,5 +111,6 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
   return sdet;
 }
 
+DECLARE_DETELEMENT(athena_SimpleDiskTracker, create_detector)
 DECLARE_DETELEMENT(ref_DiskTracker, create_detector)
 DECLARE_DETELEMENT(ref_SolenoidEndcap, create_detector)
