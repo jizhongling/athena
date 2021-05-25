@@ -1,7 +1,7 @@
 <lccdd>
 
   <define>
-    <constant name="CrystalEndcap_rmin"  value="VertexTrackerInnerRadius"/>
+    <constant name="CrystalEndcap_rmin"  value="VertexTrackerBarrel_rmin"/>
     <constant name="CrystalEndcap_rmax"  value="EcalEndcapN_rmin"/>
     <constant name="CrystalBox_x_length" value="20.0*mm"/>
     <constant name="CrystalBox_y_length" value="20.0*mm"/>

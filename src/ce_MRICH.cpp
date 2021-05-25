@@ -7,7 +7,7 @@
 #include "DD4hep/OpticalSurfaces.h"
 #include "DD4hep/DetFactoryHelper.h"
 #include "DD4hep/Printout.h"
-#include "ref_utils.h"
+#include "GeometryHelpers.h"
 
 using namespace std;
 using namespace dd4hep;

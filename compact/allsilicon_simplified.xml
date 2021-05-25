@@ -12,7 +12,6 @@
   </comment>
 
   <define>
-    <constant name="ITS3Thickness"              value=".03*mm"/>
 
     <constant name="VtxRadius1"                 value="3.3*cm"/>
     <constant name="VtxRadius2"                 value="5.7*cm"/>
@@ -22,7 +21,7 @@
 
     <constant name="TrkBarrelThickness"         value="0.55/100*9.37*cm"/>
     <constant name="TrkBarrelServiceThickness"  value="TrkBarrelThickness-ITS3Thickness"/>
-      
+
     <constant name="TrkBarrel1Radius1"          value="21.0*cm"/>
     <constant name="TrkBarrel1Radius2"          value="22.68*cm"/>
     <constant name="TrkBarrel1Length1"          value="54.0*cm"/>

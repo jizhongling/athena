@@ -68,12 +68,10 @@
       Layer 4 subassembly ID: 29
       Layer 5 subassembly ID: 30
     </comment>
-    <constant name="cb_VTX_Barrel_ID" value="25"/>
-    <constant name="SiVertexBarrel_ID" value="cb_VTX_Barrel_ID"/>
-    <constant name="SiVertexSubAssembly_ID" value="26"/>
-    <constant name="SiVertexEndcapP_ID" value="30"/>
-    <constant name="SiVertexEndcapN_ID" value="40"/>
-    <constant name="AllSiliconVtx_ID" value="41"/>
+    <constant name="VertexBarrel_ID" value="25"/>
+    <constant name="VertexSubAssembly_ID" value="26"/>
+    <constant name="VertexEndcapP_ID" value="30"/>
+    <constant name="VertexEndcapN_ID" value="40"/>
     
     <comment>
       Unused values reserved for vertex:
@@ -102,49 +100,34 @@
 
     </comment>
 
-    <constant name="SiTrackerSubAssembly_ID" value="50"/>
-    <constant name="SiTrackerSubAssemblyLayer1_ID" value="51"/>
-    <constant name="SiTrackerSubAssemblyLayer2_ID" value="52"/>
-    <constant name="SiTrackerSubAssemblyLayer3_ID" value="53"/>
-    <constant name="SiTrackerSubAssemblyLayer4_ID" value="54"/>
-    <constant name="SiTrackerSubAssemblyLayer5_ID" value="55"/>
+    <constant name="TrackerSubAssembly_ID" value="50"/>
+    <constant name="TrackerSubAssemblyLayer1_ID" value="51"/>
+    <constant name="TrackerSubAssemblyLayer2_ID" value="52"/>
+    <constant name="TrackerSubAssemblyLayer3_ID" value="53"/>
+    <constant name="TrackerSubAssemblyLayer4_ID" value="54"/>
+    <constant name="TrackerSubAssemblyLayer5_ID" value="55"/>
 
-    <constant name="SiTrackerBarrel_Layer1_ID"      value="56"/>
-    <constant name="SiTrackerEndcapP_Layer1_ID"     value="57"/>
-    <constant name="SiTrackerEndcapN_Layer1_ID"     value="58"/>
+    <constant name="TrackerBarrel_Layer1_ID"      value="56"/>
+    <constant name="TrackerEndcapP_Layer1_ID"     value="57"/>
+    <constant name="TrackerEndcapN_Layer1_ID"     value="58"/>
 
-    <constant name="SiTrackerBarrel_Layer2_ID"      value="59"/>
-    <constant name="SiTrackerEndcapP_Layer2_ID"     value="60"/>
-    <constant name="SiTrackerEndcapN_Layer2_ID"     value="61"/>
+    <constant name="TrackerBarrel_Layer2_ID"      value="59"/>
+    <constant name="TrackerEndcapP_Layer2_ID"     value="60"/>
+    <constant name="TrackerEndcapN_Layer2_ID"     value="61"/>
 
-    <constant name="SiTrackerBarrel_Layer3_ID"      value="62"/>
-    <constant name="SiTrackerEndcapP_Layer3_ID"     value="63"/>
-    <constant name="SiTrackerEndcapN_Layer3_ID"     value="64"/>
+    <constant name="TrackerBarrel_Layer3_ID"      value="62"/>
+    <constant name="TrackerEndcapP_Layer3_ID"     value="63"/>
+    <constant name="TrackerEndcapN_Layer3_ID"     value="64"/>
 
-    <constant name="SiTrackerBarrel_Layer4_ID"      value="65"/>
-    <constant name="SiTrackerEndcapP_Layer4_ID"     value="66"/>
-    <constant name="SiTrackerEndcapN_Layer4_ID"     value="67"/>
+    <constant name="TrackerBarrel_Layer4_ID"      value="65"/>
+    <constant name="TrackerEndcapP_Layer4_ID"     value="66"/>
+    <constant name="TrackerEndcapN_Layer4_ID"     value="67"/>
 
-    <constant name="SiTrackerBarrel_Layer5_ID"      value="68"/>
-    <constant name="SiTrackerEndcapP_Layer5_ID"     value="69"/>
-    <constant name="SiTrackerEndcapN_Layer5_ID"     value="70"/>
+    <constant name="TrackerBarrel_Layer5_ID"      value="68"/>
+    <constant name="TrackerEndcapP_Layer5_ID"     value="69"/>
+    <constant name="TrackerEndcapN_Layer5_ID"     value="70"/>
 
-    <constant name="cb_CTD_Si_ID"                   value="74"/>
 
-    <comment>
-      Start over the IDs for all-silicon, as these are mutually exclusive detectors
-    </comment>
-    <constant name="AllSiliconTrk1Assembly_ID"  value="50"/>
-    <constant name="AllSiliconTrkBarrel1_ID"    value="51"/>
-    <constant name="AllSiliconTrkDisk1N_ID"     value="52"/>
-    <constant name="AllSiliconTrkDisk1P_ID"     value="53"/>
-    <constant name="AllSiliconTrk2Assembly_ID"  value="54"/>
-    <constant name="AllSiliconTrkBarrel2_ID"    value="55"/>
-    <constant name="AllSiliconTrkDisk2N_ID"     value="56"/>
-    <constant name="AllSiliconTrkDisk2P_ID"     value="57"/>
-    <constant name="AllSiliconTrkOuterN_ID"     value="58"/>
-    <constant name="AllSiliconTrkOuterP_ID"     value="59"/>
-    <constant name="AllSiliconSupport_ID"     value="60"/>
 
     <comment>
     ===================
@@ -369,6 +352,7 @@
       ============================
       Tracking Detector Parameters
       ============================
+      Generic tracking space allocations
     </comment>
 
     <constant name="ForwardTracking_length" value="0.0*cm"/>
@@ -387,27 +371,30 @@
       Vertex Tracker Parameters
       -------------------------
     </comment>
-    <constant name="VertexTrackerBarrel_rmin"       value="Beampipe_rmax+5.0*mm"/>
-    <constant name="VertexTrackerBarrel_rmax"       value="150.0*mm"/>
-    <constant name="VertexTrackerBarrel_length"     value="400.0*mm"/>
-    <constant name="VertexTrackerBarrel_zmax"       value="VertexTrackerBarrel_length/2.0"/>
+    <constant name="VertexTrackerBarrel_rmin"   value="Beampipe_rmax+5.0*mm"/>
+    <constant name="VertexTrackerBarrel_rmax"   value="150.0*mm"/>
+    <constant name="VertexTrackerBarrel_length" value="400.0*mm"/>
+    <constant name="VertexTrackerBarrel_zmax"   value="VertexTrackerBarrel_length/2.0"/>
 
-    <constant name="VertexTrackerEndcapP_rmax"       value="VertexTrackerBarrel_rmax"/>
-    <constant name="VertexTrackerEndcapN_rmax"       value="VertexTrackerBarrel_rmax"/>
-    <constant name="VertexTrackerEndcapP_rmin"      value="VertexTrackerBarrel_rmin"/>
-    <constant name="VertexTrackerEndcapN_rmin"      value="VertexTrackerBarrel_rmin"/>
-    <constant name="VertexTrackerEndcapP_zmax"      value="600.0*mm"/>
-    <constant name="VertexTrackerEndcapN_zmax"      value="600.0*mm"/>
+    <constant name="VertexTrackerEndcapP_rmax"  value="VertexTrackerBarrel_rmax"/>
+    <constant name="VertexTrackerEndcapN_rmax"  value="VertexTrackerBarrel_rmax"/>
+    <constant name="VertexTrackerEndcapP_rmin"  value="VertexTrackerBarrel_rmin"/>
+    <constant name="VertexTrackerEndcapN_rmin"  value="VertexTrackerBarrel_rmin"/>
+    <constant name="VertexTrackerEndcapP_zmax"  value="600.0*mm"/>
+    <constant name="VertexTrackerEndcapN_zmax"  value="600.0*mm"/>
 
-
+    <comment>
+      Vertex Tracking Region
+    </comment>
     <constant name="VertexTrackingRegion_length" value="VertexTrackerEndcapP_zmax + VertexTrackerEndcapN_zmax "/>
     <constant name="VertexTrackingRegion_zmin"   value="VertexTrackingRegion_length/2.0"/>
     <constant name="VertexTrackingRegion_rmax"   value="VertexTrackingRegion_length/2.0"/>
 
-    <comment>Deprecated</comment>
-    <constant name="VertexTrackerOuterRadius"       value="VertexTrackerBarrel_rmax"/>
-    <constant name="VertexTrackerInnerRadius"       value="VertexTrackerBarrel_rmin"/>
-    <constant name="VertexTrackerOuterBarrelLength" value="VertexTrackingRegion_length"/>
+    <comment>Deprecated
+    name="VertexTrackerOuterRadius"       value="VertexTrackerBarrel_rmax"
+    name="VertexTrackerInnerRadius"       value="VertexTrackerBarrel_rmin"
+    name="VertexTrackerOuterBarrelLength" value="VertexTrackingRegion_length"
+    </comment>
 
     <comment>
       --------------------------
@@ -423,15 +410,18 @@
     <constant name="TrackerBarrelInner_zmax"   value="TrackerBarrelInner_length/2.0"/>
     <constant name="TrackerBarrelOuter_zmax"   value="TrackerBarrelOuter_length/2.0"/>
 
-    <comment> Deprecated </comment>
-    <constant name="SiliconTrackerInnerRadius"       value="TrackerBarrel_rmin"/>
-    <constant name="SiliconTrackerInnerBarrelLength" value="TrackerBarrelInner_length"/>
-    <constant name="SiliconTrackerOuterRadius"       value="TrackerBarrel_rmax"/>
-    <constant name="SiliconTrackerOuterBarrelLength" value="TrackerBarrelOuter_length"/>
-    <constant name="SiliconTrackerOuterBarrel_zmax"  value="TrackerBarrelOuter_length/2.0"/>
+    <comment> Deprecated
+    constant name="SiliconTrackerInnerRadius"       value="TrackerBarrel_rmin"
+    constant name="SiliconTrackerInnerBarrelLength" value="TrackerBarrelInner_length"
+    constant name="SiliconTrackerOuterRadius"       value="TrackerBarrel_rmax"
+    constant name="SiliconTrackerOuterBarrelLength" value="TrackerBarrelOuter_length"
+    constant name="SiliconTrackerOuterBarrel_zmax"  value="TrackerBarrelOuter_length/2.0"
+    </comment>
 
     <comment>
-      Central tracking boundaries
+      --------------------------------------------
+      Central tracking and PID detector boundaries
+      --------------------------------------------
 
       The central tracking detectors are assumed to be symmtric about the origin.
       
@@ -448,8 +438,6 @@
     <comment> These are used by ddsim </comment>
     <constant name="tracker_region_rmax"   value="Solenoid_rmax/2.0"/>
     <constant name="tracker_region_zmax"   value="Solenoid_length/2.0"/>
-
-
 
     <comment>
       ----------------------
@@ -491,7 +479,7 @@
     <constant name="EcalEndcapP_zmin"           value="CentralTracking_length/2.0 + ForwardPIDLength"/>
     <constant name="EcalEndcapN_zmin"           value="CentralTracking_length/2.0 + BackwardPIDLength"/>
 
-    <constant name="BarrelLength"               value="SiliconTrackerOuterBarrelLength + ForwardPIDLength + BackwardPIDLength" />
+    <constant name="BarrelLength"               value="TrackerBarrelOuter_length + ForwardPIDLength + BackwardPIDLength" />
     <constant name="Barrel_offset"              value="(EcalEndcapP_zmin-EcalEndcapN_zmin)/2.0" />
 
     <comment>

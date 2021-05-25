@@ -48,6 +48,35 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
   Volume assembly(det_name,topVolumeShape,air);
 
 
+//  The Cold Plate is approximately 30 mm wide and is based on the same carbon-ply layup
+//as for the IB Stave. Two pipes with an inner diameter of 2.67 mm and a wall thickness
+//of 64 μm have been used. The two pipes are interconnected at one end of the Cold Plate
+//providing a loop, whose inlet and outlet are on the same side and correspond to the
+//
+//requirements have led to an equilateral section of the frame with a 42 mm wide side, that
+//provides almost the same rigidity for all the possible Stave positions.
+//
+//                     module mat                um
+//
+//Aluminium                                      50
+//Polyimide                                      100
+//Carbon fibre                                   120
+//Silicon                                        50
+//Eccobond-45                                    100
+//
+//Metal layers                 Aluminium        200
+//Insulating layers            Polyimide        200
+//Glue Cooling tube wall       Eccobond-45      100
+//
+//Carbon fleece            40
+//Carbon paper             30
+//Polyimide                64
+//Water                    
+//Carbon fibre             120
+//Eccobond-45              100
+
+
+
   sens.setType("tracker");
 
   // loop over the modules
@@ -68,7 +97,7 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
     Trd1 moduleframe_part1(frame_width / 2, 0.001 * mm, m_env.length() / 2,
                            frame_height / 2);
     Trd1 moduleframe_part2(frame_width2/2, 0.001 * mm,
-                           m_env.length() / 2, frame_height2/2);
+                           m_env.length() / 2 + 0.01 * mm, frame_height2/2);
     SubtractionSolid moduleframe(moduleframe_part1, moduleframe_part2,Position(0.0,frame_thickness,0.0));
     Volume v_module(m_nam+"_vol", moduleframe, description.material(m_env.materialStr()));
     v_module.setVisAttributes(description, m_env.visStr());
@@ -126,7 +155,7 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
     int lay_id = x_layer.id();
     string m_nam = x_layer.moduleStr();
     string lay_nam = _toString(x_layer.id(), "layer%d");
-    Tube lay_tub(x_barrel.inner_r()+0.1*mm, x_barrel.outer_r()-0.1*mm, x_barrel.z_length() / 2);
+    Tube lay_tub(x_barrel.inner_r(), x_barrel.outer_r(), x_barrel.z_length()/2.0 );
     Volume lay_vol(lay_nam, lay_tub, air);  // Create the layer envelope volume.
     lay_vol.setVisAttributes(description.visAttributes(x_layer.visStr()));
     double phi0 = x_layout.phi0();          // Starting phi of first module.
@@ -221,6 +250,6 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
 //@}
 // clang-format off
 DECLARE_DETELEMENT(BarrelTrackerWithFrame, create_detector)
-DECLARE_DETELEMENT(athena_SiVertexTracker, create_detector)
-DECLARE_DETELEMENT(athena_SiBarrelTracker, create_detector)
+DECLARE_DETELEMENT(athena_VertexBarrel, create_detector)
+DECLARE_DETELEMENT(athena_TrackerBarrel, create_detector)
 DECLARE_DETELEMENT(refdet_SiVertexBarrel, create_detector)

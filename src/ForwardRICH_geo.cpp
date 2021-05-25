@@ -10,7 +10,7 @@
 #include <XML/Helper.h>
 #include "TMath.h"
 #include "TString.h"
-#include "ref_utils.h"
+#include "GeometryHelpers.h"
 #include "Math/Point2D.h"
 #include "DDRec/Surface.h"
 #include "DDRec/DetectorData.h"
