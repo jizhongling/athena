@@ -25,9 +25,9 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
   string     det_name = x_det.nameStr();
   DetElement sdet(det_name, det_id);
 
-  Acts::ActsExtension* barrelExtension = new Acts::ActsExtension();
-  barrelExtension->addType("barrel", "detector");
-  sdet.addExtension<Acts::ActsExtension>(barrelExtension);
+  //Acts::ActsExtension* barrelExtension = new Acts::ActsExtension();
+  //barrelExtension->addType("barrel", "detector");
+  //sdet.addExtension<Acts::ActsExtension>(barrelExtension);
 
   Assembly                assembly(det_name);
   map<string, Volume>     mod_volumes;
@@ -118,10 +118,10 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
     Volume     m_env    = mod_volumes[m_nam];
     DetElement lay_elt(sdet, _toString(x_layer.id(), "layer%d"), lay_id);
 
-    Acts::ActsExtension* layerExtension = new Acts::ActsExtension();
-    layerExtension->addType("sensitive cylinder", "layer");
-    // layerExtension->addValue(10. * Acts::UnitConstants::mm, "r", "envelope");
-    lay_elt.addExtension<Acts::ActsExtension>(layerExtension);
+    //Acts::ActsExtension* layerExtension = new Acts::ActsExtension();
+    //layerExtension->addType("sensitive cylinder", "layer");
+    //// layerExtension->addValue(10. * Acts::UnitConstants::mm, "r", "envelope");
+    //lay_elt.addExtension<Acts::ActsExtension>(layerExtension);
 
     Placements& sensVols = sensitives[m_nam];
 
@@ -158,8 +158,8 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
           PlacedVolume sens_pv = sensVols[ic];
           DetElement   comp_elt(mod_elt, sens_pv.volume().name(), module);
           comp_elt.setPlacement(sens_pv);
-          Acts::ActsExtension* moduleExtension = new Acts::ActsExtension("YZX");
-          comp_elt.addExtension<Acts::ActsExtension>(moduleExtension);
+          //Acts::ActsExtension* moduleExtension = new Acts::ActsExtension("YZX");
+          //comp_elt.addExtension<Acts::ActsExtension>(moduleExtension);
         }
 
         /// Increase counters etc.
