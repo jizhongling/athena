@@ -161,5 +161,5 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
   return sdet;
 }
 
-DECLARE_DETELEMENT(refdet_EcalBarrel,create_detector)
-DECLARE_DETELEMENT(refdet_HcalBarrel,create_detector)
+DECLARE_DETELEMENT(athena_EcalBarrel,create_detector)
+DECLARE_DETELEMENT(athena_HcalBarrel,create_detector)

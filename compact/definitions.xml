@@ -566,8 +566,8 @@
     <constant name="EcalEndcapNThickness"        
         value="EcalEndcapNLayer1_NRepeat*EcalLayer1_thickness + EcalEndcapNLayer2_NRepeat*EcalLayer2_thickness + EcalEndcapNLayer3_NRepeat*EcalLayer3_thickness"/>
 
-    <constant name="EcalBarrelLength"           value="CentralTracking_length + BackwardPIDLength + EcalEndcapNThickness - 10*cm"/>
-    <constant name="EcalBarrel_offset"          value="(CentralTracking_length - EcalBarrelLength)/2.0"/>
+    <constant name="EcalBarrel_length"           value="CentralTracking_length + BackwardPIDLength + EcalEndcapNThickness - 10*cm"/>
+    <constant name="EcalBarrel_offset"          value="(CentralTracking_length - EcalBarrel_length)/2.0"/>
 
     <comment>
       -------------------------------

@@ -19,7 +19,7 @@
     <detector 
       id="HCalBarrel_ID" 
       name="HcalBarrel"
-      type="refdet_EcalBarrel"
+      type="athena_EcalBarrel"
       readout="HcalBarrelHits"
       calorimeterType="HAD_BARREL"
       offset="HcalBarrel_offset"

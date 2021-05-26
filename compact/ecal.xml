@@ -28,51 +28,8 @@
   <display>
   </display>
 
-
+  <include ref="ecal_barrel.xml"/>
   <detectors>
-
-    <comment>
-      ---------------------
-      Barrel EM Calorimeter
-      ---------------------
-      A layered EM calorimeter with tungsten and silicon (or scintillator) strips
-    </comment>
-    <detector 
-      id="ECalBarrel_ID"
-      name="EcalBarrel"
-      type="refdet_EcalBarrel"
-      readout="EcalBarrelHits"
-      calorimeterType="EM_BARREL"
-      offset="EcalBarrel_offset"
-      >
-      <dimensions 
-        numsides="CaloSides" 
-        rmin="EcalBarrel_rmin" 
-        z="EcalBarrelLength"/>
-      <staves vis="EcalBarrelVis"/>
-      <layer repeat="EcalBarrelLayer1_NRepeat">
-        <slice material="Silicon" thickness="EcalSiliconThickness" sensitive="yes" limits="cal_limits"/>
-        <slice material="Copper" thickness="EcalCopperThickness"/>
-        <slice material="Kapton" thickness="EcalKaptonThickness"/>
-        <slice material="Air" thickness="EcalAir1Thickness"/>
-      </layer>
-      <layer repeat="EcalBarrelLayer2_NRepeat">
-        <slice material="TungstenDens24" thickness="EcalThinTungstenThickness"/>
-        <slice material="Air" thickness="EcalAir2Thickness"/>
-        <slice material="Silicon" thickness="EcalSiliconThickness" sensitive="yes" limits="cal_limits"/>
-        <slice material="Copper" thickness="EcalCopperThickness"/>
-        <slice material="Kapton" thickness="EcalKaptonThickness"/>
-        <slice material="Air" thickness="EcalAir1Thickness"/>
-      </layer>
-      <layer repeat="EcalBarrelLayer3_NRepeat">
-        <slice material="TungstenDens24" thickness="EcalThickTungstenThickness"/>
-        <slice material="Air" thickness="EcalAir2Thickness"/>
-        <slice material="Silicon" thickness="EcalSiliconThickness" sensitive="yes" limits="cal_limits"/>
-        <slice material="Copper" thickness="EcalCopperThickness"/>
-        <slice material="Kapton" thickness="EcalKaptonThickness"/>
-        <slice material="Air" thickness="EcalAir1Thickness"/>
-      </layer>
-    </detector>
 
     <comment>
       ------------------------------------------
@@ -188,10 +145,6 @@
     <readout name="CrystalEcalHits">
       <segmentation type="CartesianGridXY" grid_size_x="CrystalBox_x_length" grid_size_y="CrystalBox_y_length" />
       <id>system:8,sector:4,module:20,x:48:-8,y:-8</id>
-    </readout>
-    <readout name="EcalBarrelHits">
-      <segmentation type="CartesianGridXY" grid_size_x="3.5 * mm" grid_size_y="3.5 * mm"/>
-      <id>system:8,barrel:3,module:4,layer:6,slice:5,x:32:-16,y:-16</id>
     </readout>
     <readout name="EcalEndcapHits">
       <segmentation type="CartesianGridXY" grid_size_x="3.5 * mm" grid_size_y="3.5 * mm"/>

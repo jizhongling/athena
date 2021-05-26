@@ -1,0 +1,84 @@
+<lccdd>
+
+  <define>
+
+    <comment>
+      ---------------------------------------
+      EM Calorimeter Parameters with AstroPix
+      ---------------------------------------
+    </comment>
+    <constant name="EcalBarrel_SiliconThickness"     value="500*um"/>
+    <constant name="EcalBarrel_ElectronicsThickness" value="150*um"/>
+    <constant name="EcalBarrel_CopperThickness"      value="100*um"/>
+    <constant name="EcalBarrel_KaptonThickness"      value="200*um"/>
+    <constant name="EcalBarrel_EpoxyThickness"       value="100*um"/>
+    <constant name="EcalBarrel_CarbonThickness"      value="0.5*mm"/>
+    <constant name="EcalBarrel_CarbonSpacerWidth"    value="4*mm"/>
+    <constant name="EcalBarrel_LayerSpacing"         value="10.0*mm"/>
+    <constant name="EcalBarrel_TungstenThickness"    value="4.0*mm"/>
+    <constant name="EcalBarrel_ModRepeat"            value="CaloSides"/> 
+    <constant name="EcalBarrel_ModLength"            value="0.5*m"/>
+    <constant name="EcalBarrel_ModWidth"             value="0.5*m"/>
+    <constant name="EcalBarrel_AvailThickness"       value="EcalBarrel_TotalThickness"/>
+    <constant name="EcalBarrel_ReadoutLayerThickness"
+      value="EcalBarrel_SiliconThickness
+      + EcalBarrel_ElectronicsThickness
+      + EcalBarrel_CopperThickness
+      + EcalBarrel_KaptonThickness
+      + EcalBarrel_EpoxyThickness
+      + EcalBarrel_CarbonThickness
+      + EcalBarrel_LayerSpacing"/>
+    <constant name="EcalBarrel_ReadoutLayerNumber" value="floor(EcalBarrel_AvailThickness/EcalBarrel_ReadoutLayerThickness)"/>
+    <constant name="EcalBarrelLayers_nMax"  value="20"/>
+  </define>
+
+  <limits>
+  </limits>
+
+  <regions>
+  </regions>
+
+  <display>
+  </display>
+
+  <detectors>
+
+    <comment>
+      ---------------------
+      Barrel EM Calorimeter
+      ---------------------
+      A layered EM calorimeter with tungsten and silicon (AstroPix)
+    </comment>
+    <detector
+      id="ECalBarrel_ID"
+      name="EcalBarrel"
+      type="athena_EcalBarrel"
+      readout="EcalBarrelHits"
+      calorimeterType="EM_BARREL"
+      offset="EcalBarrel_offset">
+      <dimensions numsides="EcalBarrel_ModRepeat" 
+        rmin="EcalBarrel_rmin" 
+        z="EcalBarrel_length"/>
+      <staves vis="EcalBarrelVis"/>
+      <layer repeat="EcalBarrel_ReadoutLayerNumber">
+        <slice material="Silicon" thickness="EcalBarrel_SiliconThickness" sensitive="yes" limits="cal_limits"/>
+        <slice material="Silicon" thickness="EcalBarrel_ElectronicsThickness"/>
+        <slice material="Copper" thickness="EcalBarrel_CopperThickness"/>
+        <slice material="Kapton" thickness="EcalBarrel_KaptonThickness"/>
+        <slice material="Epoxy" thickness="EcalBarrel_EpoxyThickness"/>
+        <slice material="CarbonFiber" thickness="EcalBarrel_CarbonThickness"/>
+        <slice material="TungstenDens24" thickness="EcalBarrel_TungstenThickness"/>
+        <slice material="Air" thickness="EcalBarrel_LayerSpacing - EcalBarrel_TungstenThickness"/>
+      </layer>
+    </detector>
+  </detectors>
+
+  <readouts>
+    <readout name="EcalBarrelHits">
+      <segmentation type="CartesianGridXY" grid_size_x="0.5 * mm" grid_size_y="0.5 * mm"/>
+      <id>system:8,barrel:3,module:4,layer:10,slice:5,x:32:-16,y:-16</id>
+    </readout>
+  </readouts>
+
+
+</lccdd>
