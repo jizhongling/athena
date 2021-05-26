@@ -147,6 +147,7 @@
     <detector id="TrackerEndcapP_Layer1_ID" 
       name="TrackerEndcapP_Layer1" 
       type="athena_SimpleDiskTracker"
+      readout="TrackerEndcapHits"
       insideTrackingVolume="true" 
       reflect="false" vis="AnlRed">
       <position x="0" y="0" z="0"/>
@@ -154,33 +155,34 @@
         inner_z="TrackerEndcapInner_zmin + 0*TrackerEndcapInnerLayer_dz" 
         inner_r="TrackerEndcapInner_rmin1" 
         outer_r="TrackerEndcapInner_rmax1">
-        <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" />
+        <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" sensitive="true" />
       </layer>
       <layer id="2" vis="AnlOrange"
         inner_z="TrackerEndcapInner_zmin + 1*TrackerEndcapInnerLayer_dz" 
         inner_r="TrackerEndcapInner_rmin2" 
         outer_r="TrackerEndcapInner_rmax2">
-        <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" />
+        <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" sensitive="true" />
       </layer>
     </detector>
 
     <detector id="TrackerEndcapN_Layer1_ID" 
       name="TrackerEndcapN_Layer1" 
       type="athena_SimpleDiskTracker"
+      readout="TrackerEndcapHits"
       insideTrackingVolume="true" 
       reflect="true" vis="AnlRed">
-      <position x="0" y="0" z="0"/>
+      <position x="0" y="0" z="-1.0e-6*mm"/>
       <layer id="1" vis="AnlOrange"
         inner_z="TrackerEndcapInner_zmin + 0*TrackerEndcapInnerLayer_dz" 
         inner_r="TrackerEndcapInner_rmin1" 
         outer_r="TrackerEndcapInner_rmax1">
-        <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" />
+        <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" sensitive="true" />
       </layer>
       <layer id="2" vis="AnlOrange"
         inner_z="TrackerEndcapInner_zmin + 1*TrackerEndcapInnerLayer_dz" 
         inner_r="TrackerEndcapInner_rmin2" 
         outer_r="TrackerEndcapInner_rmax2">
-        <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" />
+        <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" sensitive="true" />
       </layer>
     </detector>
 
@@ -248,25 +250,26 @@
       name="TrackerEndcapP_Layer2" 
       type="athena_SimpleDiskTracker"
       insideTrackingVolume="true" 
+      readout="TrackerEndcapHits"
       reflect="false" vis="AnlRed">
       <position x="0" y="0" z="0"/>
       <layer id="1" vis="AnlOrange"
         inner_z="TrackerEndcapOuter_zmin + 0*TrackerEndcapOuterLayer_dz" 
         inner_r="TrackerEndcapOuter_rmin" 
         outer_r="TrackerEndcapOuter_rmax">
-        <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" />
+        <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" sensitive="true" />
       </layer>
       <layer id="2" vis="AnlOrange"
         inner_z="TrackerEndcapOuter_zmin + 1*TrackerEndcapOuterLayer_dz" 
         inner_r="TrackerEndcapOuter_rmin" 
         outer_r="TrackerEndcapOuter_rmax">
-        <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" />
+        <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" sensitive="true" />
       </layer>
       <layer id="3" vis="AnlOrange"
         inner_z="TrackerEndcapOuter_zmin + 2*TrackerEndcapOuterLayer_dz" 
         inner_r="TrackerEndcapOuter_rmin" 
         outer_r="TrackerEndcapOuter_rmax">
-        <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" />
+        <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" sensitive="true" />
       </layer>
     </detector>
 
@@ -274,25 +277,26 @@
       name="TrackerEndcapN_Layer2" 
       type="athena_SimpleDiskTracker"
       insideTrackingVolume="true" 
+      readout="TrackerEndcapHits"
       reflect="true" vis="AnlRed">
-      <position x="0" y="0" z="0"/>
+      <position x="0" y="0" z="-1.0e-6*mm"/>
       <layer id="1" vis="AnlOrange"
         inner_z="TrackerEndcapOuter_zmin + 0*TrackerEndcapOuterLayer_dz" 
         inner_r="TrackerEndcapOuter_rmin" 
         outer_r="TrackerEndcapOuter_rmax">
-        <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" />
+        <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" sensitive="true" />
       </layer>
       <layer id="2" vis="AnlOrange"
         inner_z="TrackerEndcapOuter_zmin + 1*TrackerEndcapOuterLayer_dz" 
         inner_r="TrackerEndcapOuter_rmin" 
         outer_r="TrackerEndcapOuter_rmax">
-        <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" />
+        <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" sensitive="true" />
       </layer>
       <layer id="3" vis="AnlOrange"
         inner_z="TrackerEndcapOuter_zmin + 2*TrackerEndcapOuterLayer_dz" 
         inner_r="TrackerEndcapOuter_rmin" 
         outer_r="TrackerEndcapOuter_rmax">
-        <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" />
+        <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" sensitive="true" />
       </layer>
     </detector>
 
@@ -305,7 +309,7 @@
     </readout>
     <readout name="TrackerEndcapHits">
       <segmentation type="CartesianGridXY" grid_size_x="0.20*mm" grid_size_y="0.20*mm" />
-      <id>system:8,barrel:2,layer:4,module:12,sensor:2,x:32:-16,y:-16</id>
+      <id>system:8,barrel:2,layer:8,slice:10,sensor:2,x:32:-16,y:-16</id>
     </readout>
   </readouts>
 

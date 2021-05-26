@@ -122,7 +122,7 @@
       name="VertexEndcapN" 
       type="ref_DiskTracker"
       insideTrackingVolume="true" reflect="true" vis="AnlRed">
-      <position x="0" y="0" z="0"/>
+      <position x="0" y="0" z="-1.0e-6*mm"/>
       <layer id="1" vis="AnlOrange"
         inner_z="VertexTrackerEndcapN_zmin + 0*VertexTrackerEndcap_delta" 
         inner_r="VertexTrackerEndcapN_rmin" 
