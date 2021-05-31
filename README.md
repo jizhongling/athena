@@ -1,4 +1,3 @@
-
 Overview
 --------
 The Athena Detector at IP6 for Electron-Ion Collider experiment.
@@ -23,6 +22,13 @@ The Athena Detector at IP6 for Electron-Ion Collider experiment.
 
 Getting Started
 ---------------
+
+You will  likely want to use this repository along with the IP6 repository:
+```bash
+git clone https://eicweb.phy.anl.gov/EIC/detectors/athena.git
+git clone https://eicweb.phy.anl.gov/EIC/detectors/ip6.git
+ln -s ../ip6/ip6 athena/ip6
+```
 
 ### Adding/changing detector geometry
 
