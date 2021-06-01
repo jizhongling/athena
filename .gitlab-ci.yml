@@ -146,6 +146,7 @@ overlap_check:
 
 tracking_geometry_debug:
   stage: test
+  allow_failure: true
   needs: 
     - ["common:detector"]
   script:
