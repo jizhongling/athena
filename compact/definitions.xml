@@ -305,9 +305,9 @@
       ==========================
     </comment>
 
-    <constant name="Solenoid_length"           value="3600.0*mm"/>
+    <constant name="Solenoid_length"           value="3840.0*mm"/>
     <constant name="Solenoid_rmin"             value="1600.0*mm"/>
-    <constant name="Solenoid_thickness"        value="400*mm"/>
+    <constant name="Solenoid_thickness"        value="640*mm"/>
     <constant name="Solenoid_offset"           value="0.0*mm"/>
 
     <constant name="Solenoid_rmax"             value="Solenoid_rmin + Solenoid_thickness"/>
@@ -584,8 +584,8 @@
 
     <constant name="HcalBarrelAvailThickness" value="HcalBarrel_thickness"/>
 
-    <constant name="HcalEndcapP_zmin"          value="EcalEndcapP_zmin + EcalEndcapP_length "/>
-    <constant name="HcalEndcapN_zmin"          value="EcalEndcapN_zmin + EcalEndcapN_length "/>
+    <constant name="HcalEndcapP_zmin"          value="max(EcalEndcapP_zmin + EcalEndcapP_length, Solenoid_length / 2.0 + Solenoid_offset) "/>
+    <constant name="HcalEndcapN_zmin"          value="max(EcalEndcapN_zmin + EcalEndcapN_length, Solenoid_length / 2.0 - Solenoid_offset) "/>
     <constant name="HcalBarrelLength"          value="HcalEndcapP_zmin + HcalEndcapN_zmin "/>
 
     <comment> Material Thickness </comment>
