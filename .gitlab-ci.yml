@@ -124,6 +124,7 @@ report:
     - view_15
     - dump_constants
     - dump_geometry
+    - convert_to_gdml
   script:
     - pip3 install jinja2 &&  ls -lrth
     - ./bin/make_images > doc/dawn_views.md
@@ -143,6 +144,14 @@ overlap_check:
     - checkOverlaps -c ${DETECTOR_PATH}/athena.xml  | tee doc/overlap_check.out 
     - echo "$(cat doc/overlap_check.out | grep ovlp | wc -l) overlaps..."
     - if [[ "$(cat doc/overlap_check.out | grep ovlp | wc -l)" -gt "0" ]] ; then echo "Overlaps exist!" && false ; fi
+
+convert_to_gdml:
+  stage: test
+  needs: 
+    - ["common:detector"]
+  script:
+    - mkdir -p geo
+    - python scripts/convert_to_gdml.py --compact ${DETECTOR_PATH}/athena.xml --output geo/athena.gdml
 
 tracking_geometry_debug:
   stage: test
