@@ -11,6 +11,11 @@
   </regions>
 
   <display>
+    <vis name="HcalVis" alpha="0.9" r="0.75" g="0.0" b="0.0" showDaughters="false"/>
+    <vis name="HcalBarrelVis" alpha="0.9" r="0.0" g="0.3" b="0.8" showDaughters="true" visible="true" />
+    <vis name="HcalEndcapVis" alpha="0.9" r="0.0" g="0.3" b="0.8" showDaughters="true" visible="true" />
+    <vis name="HcalSensorVis" alpha="0.9" r="1.0" g="0.0" b="0.2" showDaughters="true" visible="true" />
+    <vis name="HcalAbsorberVis" alpha="0.9" r="0.4" g="0.4" b="0.6" showDaughters="true" visible="true" />
   </display>
 
   <!-- Define detector -->
@@ -31,12 +36,8 @@
         z="HcalBarrelLength"/>
       <staves vis="HcalBarrelVis"/>
       <layer repeat="HcalBarrelLayer_NRepeat">
-        <slice material="Steel235" thickness="HcalSteelThickness"/>
-        <slice material="PyrexGlass" thickness="HcalPyrexThickness"/>
-        <slice material="RPCGasDefault" thickness="HcalRPCGasThickness" sensitive="yes" limits="cal_limits"/>
-        <slice material="PyrexGlass" thickness="HcalPyrexThickness"/>
-        <slice material="G10" thickness="HcalG10Thickness"/>
-        <slice material="Air" thickness="HcalAirThickness"/>
+        <slice material="Steel235" thickness="2.0*cm" vis="HcalAbsorberVis"/>
+        <slice material="Polystyrene" thickness="0.5*cm" vis="HcalSensorVis" sensitive="yes" limits="cal_limits"/>
       </layer>
     </detector>
 
@@ -54,13 +55,9 @@
         zmin="HcalEndcapP_zmin" 
         rmin="HcalEndcapP_rmin"
         rmax="HcalBarrel_rmax"/>
-      <layer repeat="HcalEndcapPLayer_NRepeat" vis="HcalEndcapVis" >
-        <slice material="Steel235" thickness="HcalSteelThickness"/>
-        <slice material="PyrexGlass" thickness="HcalPyrexThickness"/>
-        <slice material="RPCGasDefault" thickness="HcalRPCGasThickness" sensitive="yes" limits="cal_limits"/>
-        <slice material="PyrexGlass" thickness="HcalPyrexThickness"/>
-        <slice material="G10" thickness="HcalG10Thickness"/>
-        <slice material="Air" thickness="HcalAirThickness"/>
+      <layer repeat="51" vis="HcalEndcapVis" >
+        <slice material="Steel235" thickness="2.0" vis="HcalAbsorberVis"/>
+	<slice material="Polystyrene" thickness="0.3*cm" vis="HcalSensorVis" sensitive="yes" limits="cal_limits"/>
       </layer>
     </detector>
 
@@ -78,12 +75,8 @@
         rmin="HcalEndcapN_rmin" 
         rmax="HcalBarrel_rmax"/>
       <layer repeat="HcalEndcapNLayer_NRepeat" vis="HcalEndcapVis" >
-        <slice material="Steel235" thickness="HcalSteelThickness"/>
-        <slice material="PyrexGlass" thickness="HcalPyrexThickness"/>
-        <slice material="RPCGasDefault" thickness="HcalRPCGasThickness" sensitive="yes" limits="cal_limits"/>
-        <slice material="PyrexGlass" thickness="HcalPyrexThickness"/>
-        <slice material="G10" thickness="HcalG10Thickness"/>
-        <slice material="Air" thickness="HcalAirThickness"/>
+	<slice material="Steel235" thickness="HcalSteelThickness" vis="HcalAbsorberVis"/>
+	<slice material="Polystyrene" thickness="0.5*cm" vis="HcalSensorVis" sensitive="yes" limits="cal_limits"/>
       </layer>
     </detector>
 
@@ -91,11 +84,11 @@
   <!--  Definition of the readout segmentation/definition  -->
   <readouts>
     <readout name="HcalBarrelHits">
-      <segmentation type="CartesianGridXY" grid_size_x="10 * mm" grid_size_y="10 * mm"/>
+      <segmentation type="CartesianGridXY" grid_size_x="100* mm" grid_size_y="100 * mm"/>
       <id>system:6,barrel:3,module:4,layer:8,slice:5,x:32:-16,y:-16</id>
     </readout>
     <readout name="HcalEndcapHits">
-      <segmentation type="CartesianGridXY" grid_size_x="10 * mm" grid_size_y="10 * mm"/>
+      <segmentation type="CartesianGridXY" grid_size_x="100 * mm" grid_size_y="100 * mm"/>
       <id>system:6,barrel:3,module:4,layer:8,slice:5,x:32:-16,y:-16</id>
     </readout>
   </readouts>

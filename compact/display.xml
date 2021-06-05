@@ -38,9 +38,9 @@
     <vis name="EcalVis" alpha="0.1" r="0.0" g="0.75" b="0.1" showDaughters="false"/>
     <vis name="EcalEndcapVis" alpha="1.0" r="0.0" g="0.99" b="0.0" showDaughters="false" visible="true" />
     <vis name="EcalBarrelVis" alpha="1.0" r="0.0" g="0.99" b="0.0" showDaughters="false" visible="true" />
-    <vis name="HcalVis" alpha="0.9" r="0.75" g="0.0" b="0.0" showDaughters="false"/>
-    <vis name="HcalBarrelVis" alpha="1.0" r="0.0" g="0.0" b="0.99" showDaughters="false" visible="true" />
-    <vis name="HcalEndcapVis" alpha="1.0" r="0.0" g="0.0" b="0.99" showDaughters="false" visible="true" />
+   
+   
+    
 
     <vis name="SolenoidCoilVis" alpha="1.0" r="0.55" g="0.55" b="0.7" showDaughters="true" visible="true" lineStyle="solid" drawingStyle="solid" />
     <vis name="SolenoidCryostatVis" alpha="0.4" r="0.55" g="0.55" b="0.7" showDaughters="true" visible="true" lineStyle="solid" drawingStyle="solid" />
