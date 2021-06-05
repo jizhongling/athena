@@ -74,7 +74,8 @@
               value="(SolenoidBarrelCoil_rmin + SolenoidBarrelCoil_rmax) / 2.0"/>
 
     <comment> Solenoid Endcap </comment>
-    <constant name="SolenoidEndcapCoilEndSupport_rmin" value="SolenoidBarrelCoil_rmin"/>
+    <comment>At the center, the end caps are outside the barrels</comment>
+    <constant name="SolenoidEndcapCoilEndSupport_rmin" value="SolenoidBarrelCoilFormer_rmin"/>
     <constant name="SolenoidEndcapCoilEndSupport_rmax" value="SolenoidBarrelCoilOverbind_rmax"/>
     <constant name="SolenoidEndcapHelium_rmin"         value="SolenoidBarrelInnerHelium_rmin"/>
     <constant name="SolenoidEndcapHelium_rmax"         value="SolenoidBarrelOuterHelium_rmax"/>
@@ -82,12 +83,13 @@
     <constant name="SolenoidEndcapHeliumVessel_rmax"   value="SolenoidBarrelOuterHeliumVessel_rmax"/>
     <constant name="SolenoidEndcapFirstMLILayer_rmin"  value="SolenoidBarrelInnerFirstMLILayer_rmin"/>
     <constant name="SolenoidEndcapFirstMLILayer_rmax"  value="SolenoidBarrelOuterFirstMLILayer_rmax"/>
-    <constant name="SolenoidEndcapThermalShield_rmin"  value="SolenoidBarrelInnerThermalShield_rmin"/>
-    <constant name="SolenoidEndcapThermalShield_rmax"  value="SolenoidBarrelOuterThermalShield_rmax"/>
-    <constant name="SolenoidEndcapSecondMLILayer_rmin" value="SolenoidBarrelInnerSecondMLILayer_rmin"/>
-    <constant name="SolenoidEndcapSecondMLILayer_rmax" value="SolenoidBarrelOuterSecondMLILayer_rmax"/>
-    <constant name="SolenoidEndcapVacuumVessel_rmin"   value="SolenoidBarrelInnerVacuumVessel_rmin"/>
-    <constant name="SolenoidEndcapVacuumVessel_rmax"   value="SolenoidBarrelOuterVacuumVessel_rmax"/>
+    <comment>Below here, the end caps are inside the barrels</comment>
+    <constant name="SolenoidEndcapThermalShield_rmin"  value="SolenoidBarrelInnerThermalShield_rmax"/>
+    <constant name="SolenoidEndcapThermalShield_rmax"  value="SolenoidBarrelOuterThermalShield_rmin"/>
+    <constant name="SolenoidEndcapSecondMLILayer_rmin" value="SolenoidBarrelInnerSecondMLILayer_rmax"/>
+    <constant name="SolenoidEndcapSecondMLILayer_rmax" value="SolenoidBarrelOuterSecondMLILayer_rmin"/>
+    <constant name="SolenoidEndcapVacuumVessel_rmin"   value="SolenoidBarrelInnerVacuumVessel_rmax"/>
+    <constant name="SolenoidEndcapVacuumVessel_rmax"   value="SolenoidBarrelOuterVacuumVessel_rmin"/>
 
     <constant name="SolenoidEndcapCoilEndSupport_zmin"     value="1800.0 * mm"/>
     <constant name="SolenoidEndcapHelium_zmin"             value="1820.0 * mm"/>
