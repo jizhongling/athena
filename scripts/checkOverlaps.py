@@ -11,7 +11,9 @@ parser = argparse.ArgumentParser(
      This program converts the compact detector file to a single GDML file.
          ''')
 parser.add_argument("-c", "--compact", help="compact detector file",default="athena.xml")
-parser.add_argument("-o", "--output", help="gdml detector file",default="athena.gdml")
+parser.add_argument("-r", "--resolution", help="number of points on surface",default="10000")
+parser.add_argument("-t", "--tolerance", help="minimum distance (in mm) to report overlaps",default="0.1")
+parser.add_argument("-v", "--verbose", help="print output", action='store_true')
 
 args = parser.parse_args()
 
@@ -27,15 +29,11 @@ def run():
 
   geant4 = DDG4.Geant4(kernel)
   ui = geant4.setupCshUI(ui=None)
-  #
-  # Setup the GDML writer action
-  writer = DDG4.Action(kernel, 'Geant4GDMLWriteAction/Writer')
-  writer.enableUI()
-  kernel.registerGlobalAction(writer)
   ui.Commands = [
-      '/ddg4/Writer/Output {}'.format(args.output),
-      '/ddg4/Writer/OverWrite 1',
-      '/ddg4/Writer/write'
+      '/geometry/test/resolution {}'.format(args.resolution),
+      '/geometry/test/tolerance {}'.format(args.tolerance),
+      '/geometry/test/verbosity {}'.format(1 if args.verbose else 0),
+      '/geometry/test/run'
       ]
   kernel.configure()
   kernel.initialize()

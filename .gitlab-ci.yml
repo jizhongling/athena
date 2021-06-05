@@ -136,14 +136,23 @@ dump_constants:
   script:
     - npdet_info dump ${DETECTOR_PATH}/athena.xml  | tee doc/constants.out 
 
-overlap_check:
+overlap_check_tgeo:
   stage: test
   needs: 
     - ["common:detector"]
   script:
-    - checkOverlaps -c ${DETECTOR_PATH}/athena.xml  | tee doc/overlap_check.out 
-    - echo "$(cat doc/overlap_check.out | grep ovlp | wc -l) overlaps..."
-    - if [[ "$(cat doc/overlap_check.out | grep ovlp | wc -l)" -gt "0" ]] ; then echo "Overlaps exist!" && false ; fi
+    - checkOverlaps -c ${DETECTOR_PATH}/athena.xml  | tee doc/overlap_check_tgeo.out 
+    - echo "$(cat doc/overlap_check_tgeo.out | grep ovlp | wc -l) overlaps..."
+    - if [[ "$(cat doc/overlap_check_tgeo.out | grep ovlp | wc -l)" -gt "0" ]] ; then echo "Overlaps exist!" && false ; fi
+
+overlap_check_geant4:
+  stage: test
+  needs: 
+    - ["common:detector"]
+  script:
+    - python scripts/checkOverlaps.py -c ${DETECTOR_PATH}/athena.xml | tee doc/overlap_check_geant4.out
+    - echo "$(cat doc/overlap_check_geant4.out | grep GeomVol1002 | wc -l) overlaps..."
+    - if [[ "$(cat doc/overlap_check_geant4.out | grep GeomVol1002 | wc -l)" -gt "0" ]] ; then echo "Overlaps exist!" && false ; fi
 
 convert_to_gdml:
   stage: test
@@ -177,7 +186,7 @@ benchmarks:detector:
   trigger:
     project: EIC/benchmarks/detector_benchmarks
     strategy: depend
-  needs: ["overlap_check","report"]
+  needs: ["overlap_check_tgeo","overlap_check_geant4","report"]
   allow_failure: true
 
 
@@ -189,7 +198,7 @@ benchmarks:detector:
     #  trigger:
     #    project: EIC/benchmarks/reconstruction_benchmarks
     #    strategy: depend
-    #  needs: ["env","overlap_check","report"]
+    #  needs: ["env","overlap_check_tgeo","overlap_check_geant4","report"]
     #  
     #
     #benchmarks:physics:
@@ -200,5 +209,5 @@ benchmarks:detector:
     #  trigger:
     #    project: EIC/benchmarks/physics_benchmarks
     #    strategy: depend
-    #  needs: ["env","overlap_check","report"]
+    #  needs: ["env","overlap_check_tgeo","overlap_check_geant4","report"]
 
