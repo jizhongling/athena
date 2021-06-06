@@ -17,8 +17,8 @@
 
   <define>
 
-    <constant name="TrackerBarrelSpaceFrame_width"   value="42.0*mm"/>
-    <constant name="TrackerBarrelSpaceFrame_height"  value="sqrt(3.0)*42.0*mm/2.0"/>
+    <constant name="TrackerBarrelSpaceFrame_width"   value="40.0*mm"/>
+    <constant name="TrackerBarrelSpaceFrame_height"  value="sqrt(3.0)*32.0*mm/2.0"/>
     <constant name="TrackerSensor_thickness"   value="0.03*mm"/>
     <constant name="TrackerBarrel_thickness"         value="0.55/100*9.37*cm"/>
     <constant name="TrackerBarrelService_thickness"  value="TrackerBarrel_thickness-TrackerSensor_thickness"/>
@@ -64,16 +64,50 @@
 
     <constant name="TrackerEndcapInner_rmin1" value="Beampipe_rmax+1.0*cm"/>
     <constant name="TrackerEndcapInner_rmin2" value="Beampipe_rmax+1.0*cm"/>
+
     <constant name="TrackerEndcapOuter_rmin"  value="3.18*cm"/>
+    <constant name="TrackerEndcapOuter_rmin1" value="3.18*cm"/>
 
     <constant name="TrackerEndcapInner_rmax1" value="18.5*cm"/>
     <constant name="TrackerEndcapInner_rmax2" value="18.5*cm + TrackerBarrelInner_thickness"/>
-    <constant name="TrackerEndcapOuter_rmax"  value="43.23*cm"/>
 
+    <constant name="TrackerEndcapOuter_rmax"  value="43.23*cm"/>
+    <constant name="TrackerEndcapOuter_rmax1"  value="43.23*cm"/>
 
     <comment> TODO: These should be computed </comment>
     <constant name="TrackerBarrelInner_NModules" value="30"/>
     <constant name="TrackerBarrelOuter_NModules" value="56"/>
+
+    <constant name="TrackerEndcapInnerModOpeningAngle" value="30.0*degree"/>
+    <constant name="TrackerEndcapInnerMod1_x1"            value="2.0*TrackerEndcapInner_rmin1*sin(TrackerEndcapInnerModOpeningAngle/2.0)"/>
+    <constant name="TrackerEndcapInnerMod1_x2"            value="2.0*TrackerEndcapInner_rmax1*sin(TrackerEndcapInnerModOpeningAngle/2.0)"/>
+    <constant name="TrackerEndcapInnerMod1_y"             value="TrackerEndcapInner_rmax1*cos(TrackerEndcapInnerModOpeningAngle/2.0) - TrackerEndcapInner_rmin1"/>
+
+    <constant name="TrackerEndcapOuterModOpeningAngle" value="30.0*degree"/>
+    <constant name="TrackerEndcapOuterMod1_x1"            value="2.0*TrackerEndcapOuter_rmin1*sin(TrackerEndcapOuterModOpeningAngle/2.0)"/>
+    <constant name="TrackerEndcapOuterMod1_x2"            value="2.0*TrackerEndcapOuter_rmax1*sin(TrackerEndcapOuterModOpeningAngle/2.0)"/>
+    <constant name="TrackerEndcapOuterMod1_y"             value="TrackerEndcapOuter_rmax1*cos(TrackerEndcapOuterModOpeningAngle/2.0) - TrackerEndcapOuter_rmin1"/>
+
+
+    <!--
+    <constant name="GEMTrackerEndcap_zmin"            value="BarrelTracking_length/2.0"/>
+    <constant name="GEMTrackerEndcap_NLayers"         value="1"/>
+    <constant name="GEMTrackerEndcapFoilOpeningAngle" value="30.1*degree"/>
+    <constant name="GEMTrackerEndcapFoilX1"           value="43.0 * mm"/>
+
+    <constant name="GEMTrackerEndcapLayer_thickness"  value="ForwardTrackingGEMLength/GEMTrackerEndcap_NLayers"/>
+    <constant name="GEMTrackerEndcapFoil_rmin"        value="GEMTrackerEndcapFoilX1/(tan(GEMTrackerEndcapFoilOpeningAngle/2.0)*2.0)"/>
+    <constant name="GEMTrackerEndcapFoilY"            value="BarrelTracking_rmax- GEMTrackerEndcapFoil_rmin- 1.0*cm"/>
+    <constant name="GEMTrackerEndcapFoilX2"           value="2*GEMTrackerEndcapFoilY*tan(GEMTrackerEndcapFoilOpeningAngle/2.0) +  GEMTrackerEndcapFoilX1"/>
+    <constant name="GEMTrackerEndcapFoil_rmax"        value="(GEMTrackerEndcapFoilY+GEMTrackerEndcapFoil_rmin)/(cos(GEMTrackerEndcapFoilOpeningAngle/2.0))"/>
+
+
+      // Frame parameters accoring to Kondo's sbsCrossSection.pdf file),
+    <constant name="GEMTrackerEndcapFrame_thickness"     value="18.0 * mm"/>
+    <constant name="GEMTrackerEndcapFrameBotEdge_width"  value="30.0 * mm"/>
+    <constant name="GEMTrackerEndcapFrameTopEdge_width"  value="30.0 * mm"/>
+    <constant name="GEMTrackerEndcapFrameSideEdge_width" value=" 8.0 * mm"/>
+    -->
 
   </define>
 
@@ -82,6 +116,35 @@
 
   <detectors>
 
+
+    <!--
+    <detector id="TrackerBarrelSubAssembly_Inner_ID"
+      name="TrackerBarrelSubAssembly_Inner"
+      type="DD4hep_SubdetectorAssembly"
+      vis="TrackerSubAssemblyVis">
+      <composite name="TrackerBarrel_Inner"/>
+    </detector>
+    <detector id="TrackerEndcapSubAssembly_Inner_ID"
+      name="TrackerEndcapSubAssembly_Inner"
+      type="DD4hep_SubdetectorAssembly"
+      vis="TrackerSubAssemblyVis">
+      <composite name="TrackerEndcapN_Inner"/>
+      <composite name="TrackerEndcapP_Inner"/>
+    </detector>
+    <detector id="TrackerBarrelSubAssembly_Outer_ID"
+      name="TrackerBarrelSubAssembly_Outer"
+      type="DD4hep_SubdetectorAssembly"
+      vis="TrackerSubAssemblyVis">
+      <composite name="TrackerBarrel_Outer"/>
+    </detector>
+    <detector id="TrackerEndcapSubAssembly_Outer_ID"
+      name="TrackerEndcapSubAssembly_Outer"
+      type="DD4hep_SubdetectorAssembly"
+      vis="TrackerSubAssemblyVis">
+      <composite name="TrackerEndcapP_Outer"/>
+      <composite name="TrackerEndcapN_Outer"/>
+    </detector>
+    -->
     <comment>
       -----------------------------------
       Inner Tracker Subassembly (group 1)
@@ -89,18 +152,10 @@
       Note: Endcap trackers are using SimpleDiskTracker construction.
             This should be changed to something more detailed in the future.
     </comment>
-    <detector id="TrackerSubAssemblyLayer1_ID"
-      name="TrackerSubAssemblyLayer1"
-      type="DD4hep_SubdetectorAssembly"
-      vis="TrackerSubAssemblyVis">
-      <composite name="TrackerEndcapN_Layer1"/>
-      <composite name="TrackerEndcapP_Layer1"/>
-      <composite name="TrackerBarrel_Layer1"/>
-    </detector>
 
     <detector
-      id="TrackerBarrel_Layer1_ID"
-      name="TrackerBarrel_Layer1"
+      id="TrackerBarrel_Inner_ID"
+      name="TrackerBarrel_Inner"
       type="athena_TrackerBarrel"
       readout="TrackerBarrelHits"
       insideTrackingVolume="true">
@@ -112,16 +167,20 @@
         Tracker Barrel Modules
       </comment>
       <module name="TrackerBarrelInner_Module1" vis="PurpleVis">
-        <frame 
+        <frame material="CarbonFiber_25percent" vis="BlueGreenVis" 
           width="TrackerBarrelSpaceFrame_width"  
           height="TrackerBarrelSpaceFrame_height" 
           length="TrackerBarrelInner_length1"
-          thickness="0.1*mm" material="CarbonFiber_25percent" vis="BlueGreenVis" />
+          thickness="0.1*mm" />
+        <module_component name="peek1" material="PEEK" sensitive="false"
+          width="TrackerBarrelSpaceFrame_width" length="TrackerBarrelInner_length1-4*mm" thickness="2.0*mm" />
         <module_component name="silicon" 
           width="TrackerBarrelSpaceFrame_width"
-          length="TrackerBarrelInner_length1-0.1*mm" thickness="0.05*mm" material="Silicon" sensitive="true">
-          <position z="-0.025*mm" y="0*mm"/>
+          length="TrackerBarrelInner_length1-5*mm" thickness="0.05*mm" material="Silicon" sensitive="true">
+          <!--position z="-0.025*mm" y="0*mm"/-->
         </module_component>
+        <module_component name="peek1" material="PEEK" sensitive="false"
+          width="TrackerBarrelSpaceFrame_width" length="TrackerBarrelInner_length1-6*mm" thickness="2.0*mm" />
       </module>
       <comment>
         Tracker Barrel Inner Layers
@@ -129,7 +188,7 @@
       <layer module="TrackerBarrelInner_Module1" id="1" vis="VertexVis">
         <barrel_envelope
           inner_r="TrackerBarrelInner_rmin1-TrackerBarrelLayer_rOffset"
-          outer_r="TrackerBarrelInner_rmin1-TrackerBarrelLayer_rOffset + TrackerBarrelInner_thickness"
+          outer_r="TrackerBarrelInner_rmin1-TrackerBarrelLayer_rOffset + TrackerBarrelInner_thickness-1.0*mm"
           z_length="TrackerBarrelInner_length1"/>
         <rphi_layout phi_tilt="10.0*degree" nphi="TrackerBarrelInner_NModules" phi0="0.0" rc="TrackerBarrelInner_rmin1" dr="0.0 * mm"/>
         <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
@@ -144,64 +203,117 @@
       </layer>
     </detector>
 
-    <detector id="TrackerEndcapP_Layer1_ID" 
-      name="TrackerEndcapP_Layer1" 
+    <detector
+      id="TrackerEndcapP_Inner_ID"
+      name="TrackerEndcapP_Inner"
+      type="refdet_TrapEndcapTracker"
+      readout="TrackerEndcapHits"
+      vis="AnlRed"
+      reflect="false">
+      <module name="Module1" vis="AnlProcess_Blue">
+        <trd x1="TrackerEndcapInnerMod1_x1/2.0" x2="TrackerEndcapInnerMod1_x2/2.0" z="TrackerEndcapInnerMod1_y/2"/>
+        <module_component thickness="1.0*mm" material="PEEK"/>
+        <module_component thickness="500.0*um" material="Silicon" sensitive="true"/>
+        <module_component thickness="1.0*mm" material="PEEK"/>
+      </module>
+      <layer id="1">
+        <envelope  vis="AnlRed"
+          rmin="TrackerEndcapInner_rmin1"
+          rmax="TrackerEndcapInner_rmax2"
+          length="TrackerEndcapInnerLayer_dz"
+          zstart="TrackerEndcapInner_zmin" />
+        <ring vis="AnlRed"
+          r="TrackerEndcapInner_rmin1+TrackerEndcapInnerMod1_y/2.0"
+          zstart="5.0*mm"
+          nmodules="12" dz="5 * mm" module="Module1" />
+      </layer>
+    </detector>
+
+    <detector
+      id="TrackerEndcapN_Inner_ID"
+      name="TrackerEndcapN_Inner"
+      type="refdet_TrapEndcapTracker"
+      readout="TrackerEndcapHits"
+      vis="AnlRed"
+      reflect="true">
+      <module name="Module1" vis="AnlProcess_Blue">
+        <trd x1="TrackerEndcapInnerMod1_x1/2.0" x2="TrackerEndcapInnerMod1_x2/2.0" z="TrackerEndcapInnerMod1_y/2"/>
+        <module_component thickness="1.0*mm" material="PEEK"/>
+        <module_component thickness="500.0*um" material="Silicon" sensitive="true"/>
+        <module_component thickness="1.0*mm" material="PEEK"/>
+      </module>
+      <layer id="1">
+        <envelope  vis="AnlRed"
+          rmin="TrackerEndcapInner_rmin1"
+          rmax="TrackerEndcapInner_rmax2"
+          length="TrackerEndcapInnerLayer_dz"
+          zstart="TrackerEndcapInner_zmin" />
+        <ring vis="AnlRed"
+          r="TrackerEndcapInner_rmin1+TrackerEndcapInnerMod1_y/2.0" zstart="5.0*mm"
+          nmodules="12" dz="5 * mm" module="Module1" />
+      </layer>
+    </detector>
+
+    <!--
+    <detector id="TrackerEndcapP_Inner_ID" 
+      name="TrackerEndcapP_Inner" 
       type="athena_SimpleDiskTracker"
       readout="TrackerEndcapHits"
       insideTrackingVolume="true" 
       reflect="false" vis="AnlRed">
       <position x="0" y="0" z="0"/>
       <layer id="1" vis="AnlOrange"
-        inner_z="TrackerEndcapInner_zmin + 0*TrackerEndcapInnerLayer_dz" 
+        inner_z="TrackerEndcapInner_zmin + 0.5*TrackerEndcapInnerLayer_dz" 
         inner_r="TrackerEndcapInner_rmin1" 
         outer_r="TrackerEndcapInner_rmax1">
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
         <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" sensitive="true" />
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
       </layer>
       <layer id="2" vis="AnlOrange"
-        inner_z="TrackerEndcapInner_zmin + 1*TrackerEndcapInnerLayer_dz" 
+        inner_z="TrackerEndcapInner_zmin + 1.5*TrackerEndcapInnerLayer_dz" 
         inner_r="TrackerEndcapInner_rmin2" 
         outer_r="TrackerEndcapInner_rmax2">
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
         <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" sensitive="true" />
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
       </layer>
     </detector>
 
-    <detector id="TrackerEndcapN_Layer1_ID" 
-      name="TrackerEndcapN_Layer1" 
+    <detector id="TrackerEndcapN_Inner_ID" 
+      name="TrackerEndcapN_Inner" 
       type="athena_SimpleDiskTracker"
       readout="TrackerEndcapHits"
       insideTrackingVolume="true" 
       reflect="true" vis="AnlRed">
       <position x="0" y="0" z="-1.0e-6*mm"/>
       <layer id="1" vis="AnlOrange"
-        inner_z="TrackerEndcapInner_zmin + 0*TrackerEndcapInnerLayer_dz" 
+        inner_z="TrackerEndcapInner_zmin + 0.5*TrackerEndcapInnerLayer_dz" 
         inner_r="TrackerEndcapInner_rmin1" 
         outer_r="TrackerEndcapInner_rmax1">
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
         <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" sensitive="true" />
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
       </layer>
       <layer id="2" vis="AnlOrange"
-        inner_z="TrackerEndcapInner_zmin + 1*TrackerEndcapInnerLayer_dz" 
+        inner_z="TrackerEndcapInner_zmin + 1.5*TrackerEndcapInnerLayer_dz" 
         inner_r="TrackerEndcapInner_rmin2" 
         outer_r="TrackerEndcapInner_rmax2">
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
         <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" sensitive="true" />
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
       </layer>
     </detector>
+    -->
 
     <comment>
       -----------------------------------
       Outer Tracker Subassembly (group 2)
       -----------------------------------
     </comment>
-    <detector id="TrackerSubAssemblyLayer2_ID"
-      name="TrackerSubAssemblyLayer2"
-      type="DD4hep_SubdetectorAssembly"
-      vis="TrackerSubAssemblyVis">
-      <composite name="TrackerEndcapN_Layer2"/>
-      <composite name="TrackerEndcapP_Layer2"/>
-      <composite name="TrackerBarrel_Layer2"/>
-    </detector>
     <detector
-      id="TrackerBarrel_Layer2_ID"
-      name="TrackerBarrel_Layer2"
+      id="TrackerBarrel_Outer_ID"
+      name="TrackerBarrel_Outer"
       type="athena_TrackerBarrel"
       readout="TrackerBarrelHits"
       insideTrackingVolume="true">
@@ -213,17 +325,20 @@
         Tracker Barrel Modules
       </comment>
       <module name="TrackerBarrelOuter_Module1" vis="PurpleVis">
-        <frame 
+        <frame  material="CarbonFiber_25percent" vis="BlueGreenVis"
           width="TrackerBarrelSpaceFrame_width"  
           height="TrackerBarrelSpaceFrame_height" 
           length="TrackerBarrelOuter_length1"
-          thickness="0.1*mm" material="CarbonFiber_25percent" vis="BlueGreenVis" />
+          thickness="0.1*mm" />
+        <module_component name="peek1" material="PEEK" sensitive="false"
+          width="TrackerBarrelSpaceFrame_width" length="TrackerBarrelOuter_length1-0.1*mm" thickness="2.0*mm" />
         <module_component name="silicon" 
           width="TrackerBarrelSpaceFrame_width"
           length="TrackerBarrelOuter_length1-0.1*mm" 
           thickness="0.05*mm" material="Silicon" sensitive="true">
-          <position z="-0.025*mm" y="0*mm"/>
         </module_component>
+        <module_component name="peek2" material="PEEK" sensitive="false"
+          width="TrackerBarrelSpaceFrame_width" length="TrackerBarrelOuter_length1-0.1*mm" thickness="2.0*mm" />
       </module>
       <comment>
         Tracker Barrel Inner Layers
@@ -231,7 +346,7 @@
       <layer module="TrackerBarrelOuter_Module1" id="1" vis="VertexVis">
         <barrel_envelope
           inner_r="TrackerBarrelOuter_rmin1-TrackerBarrelLayer_rOffset"
-          outer_r="TrackerBarrelOuter_rmin1-TrackerBarrelLayer_rOffset + TrackerBarrelOuter_thickness"
+          outer_r="TrackerBarrelOuter_rmin1-TrackerBarrelLayer_rOffset + TrackerBarrelOuter_thickness-1.0*mm"
           z_length="TrackerBarrelOuter_length"/>
         <rphi_layout phi_tilt="10.0*degree" nphi="TrackerBarrelOuter_NModules" phi0="0.0" rc="TrackerBarrelOuter_rmin1" dr="0.0 * mm"/>
         <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
@@ -246,59 +361,124 @@
       </layer>
     </detector>
 
-    <detector id="TrackerEndcapP_Layer2_ID" 
-      name="TrackerEndcapP_Layer2" 
+    <detector
+      id="TrackerEndcapP_Outer_ID"
+      name="TrackerEndcapP_Outer"
+      type="refdet_TrapEndcapTracker"
+      readout="TrackerEndcapHits"
+      vis="AnlRed"
+      reflect="false">
+      <module name="Module1" vis="AnlProcess_Blue">
+        <trd x1="TrackerEndcapOuterMod1_x1/2.0" x2="TrackerEndcapOuterMod1_x2/2.0" z="TrackerEndcapOuterMod1_y/2"/>
+        <module_component thickness="1.0*mm" material="PEEK"/>
+        <module_component thickness="500.0*um" material="Silicon" sensitive="true"/>
+        <module_component thickness="1.0*mm" material="PEEK"/>
+      </module>
+      <layer id="1">
+        <envelope  vis="AnlRed"
+          rmin="TrackerEndcapOuter_rmin1"
+          rmax="TrackerEndcapOuter_rmax"
+          length="TrackerEndcapOuterLayer_dz"
+          zstart="TrackerEndcapOuter_zmin" />
+        <ring vis="AnlRed"
+          r="TrackerEndcapOuter_rmin1+TrackerEndcapOuterMod1_y/2.0"
+          zstart="5.0*mm"
+          nmodules="12" dz="5 * mm" module="Module1" />
+      </layer>
+    </detector>
+
+    <detector
+      id="TrackerEndcapN_Outer_ID"
+      name="TrackerEndcapN_Outer"
+      type="refdet_TrapEndcapTracker"
+      readout="TrackerEndcapHits"
+      vis="AnlRed"
+      reflect="true">
+      <module name="Module1" vis="AnlProcess_Blue">
+        <trd x1="TrackerEndcapOuterMod1_x1/2.0" x2="TrackerEndcapOuterMod1_x2/2.0" z="TrackerEndcapOuterMod1_y/2"/>
+        <module_component thickness="1.0*mm" material="PEEK"/>
+        <module_component thickness="500.0*um" material="Silicon" sensitive="true"/>
+        <module_component thickness="1.0*mm" material="PEEK"/>
+      </module>
+      <layer id="1">
+        <envelope  vis="AnlRed"
+          rmin="TrackerEndcapOuter_rmin1"
+          rmax="TrackerEndcapOuter_rmax"
+          length="TrackerEndcapOuterLayer_dz"
+          zstart="TrackerEndcapOuter_zmin" />
+        <ring vis="AnlRed"
+          r="TrackerEndcapOuter_rmin1+TrackerEndcapOuterMod1_y/2.0"
+          zstart="5.0*mm"
+          nmodules="12" dz="5 * mm" module="Module1" />
+      </layer>
+    </detector>
+    <!--
+    <detector id="TrackerEndcapP_Outer_ID" 
+      name="TrackerEndcapP_Outer" 
       type="athena_SimpleDiskTracker"
       insideTrackingVolume="true" 
       readout="TrackerEndcapHits"
       reflect="false" vis="AnlRed">
       <position x="0" y="0" z="0"/>
       <layer id="1" vis="AnlOrange"
-        inner_z="TrackerEndcapOuter_zmin + 0*TrackerEndcapOuterLayer_dz" 
+        inner_z="TrackerEndcapOuter_zmin + 0.5*TrackerEndcapOuterLayer_dz" 
         inner_r="TrackerEndcapOuter_rmin" 
         outer_r="TrackerEndcapOuter_rmax">
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
         <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" sensitive="true" />
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
       </layer>
       <layer id="2" vis="AnlOrange"
-        inner_z="TrackerEndcapOuter_zmin + 1*TrackerEndcapOuterLayer_dz" 
+        inner_z="TrackerEndcapOuter_zmin + 1.5*TrackerEndcapOuterLayer_dz" 
         inner_r="TrackerEndcapOuter_rmin" 
         outer_r="TrackerEndcapOuter_rmax">
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
         <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" sensitive="true" />
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
       </layer>
       <layer id="3" vis="AnlOrange"
-        inner_z="TrackerEndcapOuter_zmin + 2*TrackerEndcapOuterLayer_dz" 
+        inner_z="TrackerEndcapOuter_zmin + 2.5*TrackerEndcapOuterLayer_dz" 
         inner_r="TrackerEndcapOuter_rmin" 
         outer_r="TrackerEndcapOuter_rmax">
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
         <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" sensitive="true" />
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
       </layer>
     </detector>
 
-    <detector id="TrackerEndcapN_Layer2_ID" 
-      name="TrackerEndcapN_Layer2" 
+    <detector id="TrackerEndcapN_Outer_ID" 
+      name="TrackerEndcapN_Outer" 
       type="athena_SimpleDiskTracker"
       insideTrackingVolume="true" 
       readout="TrackerEndcapHits"
       reflect="true" vis="AnlRed">
       <position x="0" y="0" z="-1.0e-6*mm"/>
       <layer id="1" vis="AnlOrange"
-        inner_z="TrackerEndcapOuter_zmin + 0*TrackerEndcapOuterLayer_dz" 
+        inner_z="TrackerEndcapOuter_zmin + 0.5*TrackerEndcapOuterLayer_dz" 
         inner_r="TrackerEndcapOuter_rmin" 
         outer_r="TrackerEndcapOuter_rmax">
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
         <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" sensitive="true" />
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
       </layer>
       <layer id="2" vis="AnlOrange"
-        inner_z="TrackerEndcapOuter_zmin + 1*TrackerEndcapOuterLayer_dz" 
+        inner_z="TrackerEndcapOuter_zmin + 1.5*TrackerEndcapOuterLayer_dz" 
         inner_r="TrackerEndcapOuter_rmin" 
         outer_r="TrackerEndcapOuter_rmax">
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
         <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" sensitive="true" />
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
       </layer>
       <layer id="3" vis="AnlOrange"
-        inner_z="TrackerEndcapOuter_zmin + 2*TrackerEndcapOuterLayer_dz" 
+        inner_z="TrackerEndcapOuter_zmin + 2.5*TrackerEndcapOuterLayer_dz" 
         inner_r="TrackerEndcapOuter_rmin" 
         outer_r="TrackerEndcapOuter_rmax">
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
         <slice material="Silicon" thickness="0.5*mm" vis="AnlOrange" sensitive="true" />
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
       </layer>
     </detector>
+    -->
 
   </detectors>
 
@@ -309,7 +489,7 @@
     </readout>
     <readout name="TrackerEndcapHits">
       <segmentation type="CartesianGridXY" grid_size_x="0.20*mm" grid_size_y="0.20*mm" />
-      <id>system:8,barrel:2,layer:8,slice:10,sensor:2,x:32:-16,y:-16</id>
+      <id>system:8,barrel:2,layer:4,module:12,sensor:2,x:32:-16,y:-16</id>
     </readout>
   </readouts>
 

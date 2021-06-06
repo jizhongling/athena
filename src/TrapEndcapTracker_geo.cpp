@@ -33,6 +33,9 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
   bool                         reflect  = x_det.reflect(false);
   DetElement                   sdet(det_name, det_id);
   Assembly                     assembly(det_name);
+
+
+  Material  air  = description.material("Air");
   // Volume      assembly    (det_name,Box(10000,10000,10000),vacuum);
   Volume                  motherVol = description.pickMotherVolume(sdet);
   int                     m_id = 0, c_id = 0, n_sensor = 0;
@@ -134,30 +137,32 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
     int        l_id    = x_layer.id();
     int        mod_num = 1;
 
-    //xml_comp_t l_env      = x_layer.child(_U(envelope));
+    xml_comp_t l_env      = x_layer.child(_U(envelope));
     string     layer_name = det_name + std::string("_layer") + std::to_string(l_id);
 
-    //std::string layer_vis    = l_env.attr<std::string>(_Unicode(vis));
-    //double      layer_rmin   = l_env.attr<double>(_Unicode(rmin));
-    //double      layer_rmax   = l_env.attr<double>(_Unicode(rmax));
-    //double      layer_length = l_env.attr<double>(_Unicode(length));
-    //double      layer_zstart = l_env.attr<double>(_Unicode(zstart));
+    std::string layer_vis    = l_env.attr<std::string>(_Unicode(vis));
+    double      layer_rmin   = l_env.attr<double>(_Unicode(rmin));
+    double      layer_rmax   = l_env.attr<double>(_Unicode(rmax));
+    double      layer_length = l_env.attr<double>(_Unicode(length));
+    double      layer_zstart = l_env.attr<double>(_Unicode(zstart));
+    double      layer_center_z =  layer_zstart + layer_length/2.0;
     //printout(INFO,"ROOTGDMLParse","+++ Read geometry from GDML file file:%s",input.c_str());
     //std::cout << "SiTracker Endcap layer " << l_id << " zstart = " << layer_zstart/dd4hep::mm << "mm ( " << layer_length/dd4hep::mm << " mm thick )\n";
 
-    Assembly    layer_assembly(layer_name);
+    //Assembly    layer_assembly(layer_name);
     //assembly.placeVolume(layer_assembly);
-    //Tube       layer_tub(layer_rmin, layer_rmax, layer_length / 2);
-    //Volume     layer_vol(layer_name, layer_tub, air); // Create the layer envelope volume.
-    //layer_assembly.setVisAttributes(description.visAttributes(layer_vis));
+    Tube       layer_tub(layer_rmin, layer_rmax, layer_length / 2);
+    Volume     layer_vol(layer_name, layer_tub, air); // Create the layer envelope volume.
+    layer_vol.setVisAttributes(description.visAttributes(layer_vis));
 
     PlacedVolume layer_pv;
     if (reflect) {
-      layer_pv = assembly.placeVolume(layer_assembly, Position(0,0,-1.0e-9));//-layer_zstart-layer_length/2));
+      layer_pv =
+          assembly.placeVolume(layer_vol, Transform3D(RotationZYX(0.0, -M_PI, 0.0), Position(0, 0, -layer_center_z)));
       layer_pv.addPhysVolID("barrel", 3).addPhysVolID("layer", l_id);
       layer_name += "_N";
     } else {
-      layer_pv = assembly.placeVolume(layer_assembly);//, Position(0, 0, +layer_zstart + layer_length / 2));
+      layer_pv = assembly.placeVolume(layer_vol, Position(0, 0, layer_center_z));
       layer_pv.addPhysVolID("barrel", 2).addPhysVolID("layer", l_id);
       layer_name += "_P";
     }
@@ -185,20 +190,23 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
         string     m_base = _toString(l_id, "layer%d") + _toString(mod_num, "_module%d");
         double     x      = -r * std::cos(phi);
         double     y      = -r * std::sin(phi);
-        DetElement module(sdet, m_base + "_pos", det_id);
-        pv = assembly.placeVolume(m_vol,
-                                  Transform3D(RotationZYX(0, -M_PI / 2 - phi, -M_PI / 2), Position(x, y, zstart + dz)));
-        pv.addPhysVolID("barrel", 1).addPhysVolID("layer", l_id).addPhysVolID("module", mod_num);
-        module.setPlacement(pv);
-        for (size_t ic = 0; ic < sensVols.size(); ++ic) {
-          PlacedVolume sens_pv = sensVols[ic];
-          DetElement   comp_elt(module, sens_pv.volume().name(), mod_num);
-          comp_elt.setPlacement(sens_pv);
-        }
 
-        if (reflect) {
-          pv = assembly.placeVolume(
-              m_vol, Transform3D(RotationZYX(M_PI, -M_PI / 2 - phi, -M_PI / 2), Position(x, y, -zstart - dz)));
+        if (!reflect) {
+          DetElement module(sdet, m_base + "_pos", det_id);
+          pv = layer_vol.placeVolume(
+              m_vol, Transform3D(RotationZYX(0, -M_PI / 2 - phi, -M_PI / 2), Position(x, y, zstart + dz)));
+          pv.addPhysVolID("barrel", 1).addPhysVolID("layer", l_id).addPhysVolID("module", mod_num);
+          module.setPlacement(pv);
+          for (size_t ic = 0; ic < sensVols.size(); ++ic) {
+            PlacedVolume sens_pv = sensVols[ic];
+            DetElement   comp_elt(module, sens_pv.volume().name(), mod_num);
+            comp_elt.setPlacement(sens_pv);
+            Acts::ActsExtension* moduleExtension = new Acts::ActsExtension();
+            comp_elt.addExtension<Acts::ActsExtension>(moduleExtension);
+          }
+        } else {
+          pv = layer_vol.placeVolume(
+              m_vol, Transform3D(RotationZYX(0, -M_PI / 2 - phi, -M_PI / 2), Position(x, y, -zstart - dz)));
           pv.addPhysVolID("barrel", 2).addPhysVolID("layer", l_id).addPhysVolID("module", mod_num);
           DetElement r_module(sdet, m_base + "_neg", det_id);
           r_module.setPlacement(pv);
@@ -206,7 +214,7 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
             PlacedVolume sens_pv = sensVols[ic];
             DetElement   comp_elt(r_module, sens_pv.volume().name(), mod_num);
             comp_elt.setPlacement(sens_pv);
-            Acts::ActsExtension* moduleExtension = new Acts::ActsExtension("XZY");
+            Acts::ActsExtension* moduleExtension = new Acts::ActsExtension();
             comp_elt.addExtension<Acts::ActsExtension>(moduleExtension);
           }
         }
@@ -216,7 +224,7 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
       }
     }
   }
-  pv = motherVol.placeVolume(assembly);
+  pv = motherVol.placeVolume(assembly,Position(0,0,(reflect?-1.0e-9:1.0e-9)) );
   pv.addPhysVolID("system", det_id);
   sdet.setPlacement(pv);
   return sdet;

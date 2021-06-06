@@ -35,14 +35,17 @@ void test_ACTS(const char* compact = "athena.xml"){
 
   //std::unique_ptr<const Acts::TrackingGeometry> 
   auto acts_tracking_geometry  = Acts::convertDD4hepDetector (detector.world(),Acts::Logging::Level::VERBOSE);
+  //acts_tracking_geometry  = Acts::convertDD4hepDetector (detector.world(),Acts::Logging::Level::INFO);
 
   if(acts_tracking_geometry) {
-    if(acts_tracking_geometry->highestTrackingVolume()) {
-      std::cout << " volume name \n ";
-      std::cout << acts_tracking_geometry->highestTrackingVolume()->volumeName() << std::endl;
-    } else {
-      std::cout << "derp\n";
-    }
+    std::cout << "success?\n";
   }
+  //  if(acts_tracking_geometry->highestTrackingVolume()) {
+  //    std::cout << " volume name \n ";
+  //    std::cout << acts_tracking_geometry->highestTrackingVolume()->volumeName() << std::endl;
+  //  } else {
+  //    std::cout << "derp\n";
+  //  }
+  //}
 
 }

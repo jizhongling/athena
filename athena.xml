@@ -111,10 +111,76 @@
   <include ref="ip6/forward_ion_beamline.xml"/>
   <include ref="ip6/beampipe.xml"/>
 
+  <detectors>
+    <detector id="VertexBarrelSubAssembly_ID" 
+      name="VertexBarrelSubAssembly" 
+      type="DD4hep_SubdetectorAssembly" 
+      vis="TrackerSubAssemblyVis">
+      <composite name="VertexBarrel" />
+    </detector>
+    <detector id="VertexEndcapSubAssembly_ID" 
+      name="VertexEndcapSubAssembly" 
+      type="DD4hep_SubdetectorAssembly" 
+      vis="TrackerSubAssemblyVis">
+      <composite name="VertexEndcapN" />
+      <composite name="VertexEndcapP" />
+    </detector>
+
+    <detector id="TrackerEndcapSubAssembly_Inner_ID"
+      name="TrackerSubAssembly_Inner"
+      type="DD4hep_SubdetectorAssembly"
+      vis="TrackerSubAssemblyVis">
+      <composite name="TrackerEndcapN_Inner"/>
+      <composite name="TrackerBarrel_Inner"/>
+      <composite name="TrackerEndcapP_Inner"/>
+    </detector>
+    <detector id="TrackerBarrelSubAssembly_Outer_ID"
+      name="TrackerSubAssembly_Outer"
+      type="DD4hep_SubdetectorAssembly"
+      vis="TrackerSubAssemblyVis">
+      <composite name="TrackerBarrel_Outer"/>
+      <composite name="TrackerEndcapP_Outer"/>
+      <composite name="TrackerEndcapN_Outer"/>
+    </detector>
+    <!--
+    <detector id="TrackerBarrelSubAssembly_Inner_ID"
+      name="TrackerBarrelSubAssembly_Inner"
+      type="DD4hep_SubdetectorAssembly"
+      vis="TrackerSubAssemblyVis">
+      <composite name="TrackerBarrel_Inner"/>
+    </detector>
+    <detector id="TrackerEndcapSubAssembly_Inner_ID"
+      name="TrackerEndcapSubAssembly_Inner"
+      type="DD4hep_SubdetectorAssembly"
+      vis="TrackerSubAssemblyVis">
+      <composite name="TrackerEndcapN_Inner"/>
+      <composite name="TrackerBarrel_Inner"/>
+      <composite name="TrackerEndcapP_Inner"/>
+    </detector>
+    <detector id="TrackerBarrelSubAssembly_Outer_ID"
+      name="TrackerBarrelSubAssembly_Outer"
+      type="DD4hep_SubdetectorAssembly"
+      vis="TrackerSubAssemblyVis">
+      <composite name="TrackerBarrel_Outer"/>
+    </detector>
+    <detector id="TrackerEndcapSubAssembly_Outer_ID"
+      name="TrackerEndcapSubAssembly_Outer"
+      type="DD4hep_SubdetectorAssembly"
+      vis="TrackerSubAssemblyVis">
+      <composite name="TrackerEndcapP_Outer"/>
+      <composite name="TrackerEndcapN_Outer"/>
+    </detector>
+    -->
+  </detectors>
+
   <include ref="compact/vertex_tracker.xml"/>
+
   <include ref="compact/central_tracker.xml"/>
+
+  <!--
   <include ref="compact/rwell_tracker_barrel.xml"/>
   <include ref="compact/cb_DIRC.xml"/>
+  -->
 
   <include ref="compact/solenoid.xml"/>
   <include ref="compact/ecal.xml"/>
@@ -137,8 +203,6 @@
   -->
    
 
-  <detectors>
-  </detectors>
   <readouts>
   </readouts>
 

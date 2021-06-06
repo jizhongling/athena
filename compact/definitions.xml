@@ -69,7 +69,8 @@
       Layer 5 subassembly ID: 30
     </comment>
     <constant name="VertexBarrel_ID" value="25"/>
-    <constant name="VertexSubAssembly_ID" value="26"/>
+    <constant name="VertexBarrelSubAssembly_ID" value="26"/>
+    <constant name="VertexEndcapSubAssembly_ID" value="27"/>
     <constant name="VertexEndcapP_ID" value="30"/>
     <constant name="VertexEndcapN_ID" value="40"/>
     
@@ -100,20 +101,22 @@
 
     </comment>
 
-    <constant name="TrackerSubAssembly_ID" value="50"/>
-    <constant name="TrackerSubAssemblyLayer1_ID" value="51"/>
-    <constant name="TrackerSubAssemblyLayer2_ID" value="52"/>
-    <constant name="TrackerSubAssemblyLayer3_ID" value="53"/>
-    <constant name="TrackerSubAssemblyLayer4_ID" value="54"/>
-    <constant name="TrackerSubAssemblyLayer5_ID" value="55"/>
+    <constant name="TrackerBarrelSubAssembly_Inner_ID" value="50"/>
+    <constant name="TrackerEndcapSubAssembly_Inner_ID" value="51"/>
 
-    <constant name="TrackerBarrel_Layer1_ID"      value="56"/>
-    <constant name="TrackerEndcapP_Layer1_ID"     value="57"/>
-    <constant name="TrackerEndcapN_Layer1_ID"     value="58"/>
+    <constant name="TrackerBarrelSubAssembly_Outer_ID" value="52"/>
+    <constant name="TrackerEndcapSubAssembly_Outer_ID" value="53"/>
 
-    <constant name="TrackerBarrel_Layer2_ID"      value="59"/>
-    <constant name="TrackerEndcapP_Layer2_ID"     value="60"/>
-    <constant name="TrackerEndcapN_Layer2_ID"     value="61"/>
+    <!--constant name="TrackerSubAssemblyLayer4_ID" value="54"/-->
+    <!--constant name="TrackerSubAssemblyLayer5_ID" value="55"/-->
+
+    <constant name="TrackerBarrel_Inner_ID"      value="56"/>
+    <constant name="TrackerEndcapP_Inner_ID"     value="57"/>
+    <constant name="TrackerEndcapN_Inner_ID"     value="58"/>
+
+    <constant name="TrackerBarrel_Outer_ID"      value="59"/>
+    <constant name="TrackerEndcapP_Outer_ID"     value="60"/>
+    <constant name="TrackerEndcapN_Outer_ID"     value="61"/>
 
     <constant name="TrackerBarrel_Layer3_ID"      value="62"/>
     <constant name="TrackerEndcapP_Layer3_ID"     value="63"/>
@@ -378,8 +381,10 @@
 
     <constant name="VertexTrackerEndcapP_rmax"  value="VertexTrackerBarrel_rmax"/>
     <constant name="VertexTrackerEndcapN_rmax"  value="VertexTrackerBarrel_rmax"/>
-    <constant name="VertexTrackerEndcapP_rmin"  value="VertexTrackerBarrel_rmin"/>
-    <constant name="VertexTrackerEndcapN_rmin"  value="VertexTrackerBarrel_rmin"/>
+
+    <constant name="VertexTrackerEndcapP_rmin"  value="Beampipe_rmax+5.0*mm"/>
+    <constant name="VertexTrackerEndcapN_rmin"  value="Beampipe_rmax+5.0*mm"/>
+
     <constant name="VertexTrackerEndcapP_zmax"  value="500.0*mm/2.0"/>
     <constant name="VertexTrackerEndcapN_zmax"  value="500.0*mm/2.0"/>
 

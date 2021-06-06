@@ -56,27 +56,40 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
     Volume l_vol(l_nam, l_tub, air);
     l_vol.setVisAttributes(description, x_layer.visStr());
     DetElement layer;
+    PlacedVolume layer_pv;
     if (!reflect) {
       layer = DetElement(sdet, l_nam + "_pos", l_num);
-      pv = assembly.placeVolume(l_vol, Position(0, 0, zmin + layerWidth / 2.));
-      pv.addPhysVolID("layer", l_num);
-      pv.addPhysVolID("barrel", 3);
-      layer.setPlacement(pv);
+      layer_pv = assembly.placeVolume(l_vol, Position(0, 0, zmin + layerWidth / 2.));
+      layer_pv.addPhysVolID("barrel", 3).addPhysVolID("layer", l_num);
+      layer.setPlacement(layer_pv);
+      Acts::ActsExtension* layerExtension = new Acts::ActsExtension();
+      layerExtension->addType("sensitive disk", "layer");
+      //layerExtension->addType("axes", "definitions", "XzY");
+      // need all four of these or else it is ignored.
+      //layerExtension->addValue(0, "r_min", "envelope");
+      //layerExtension->addValue(0, "r_max", "envelope");
+      //layerExtension->addValue(0, "z_min", "envelope");
+      //layerExtension->addValue(0, "z_max", "envelope");
+      // layerExtension->addType("axes", "definitions", "XZY");
+
+      layer.addExtension<Acts::ActsExtension>(layerExtension);
     } else {
       layer = DetElement(sdet, l_nam + "_neg", l_num);
-      (sdet, l_nam + "_pos", l_num);
-      pv = assembly.placeVolume(l_vol, Transform3D(RotationY(M_PI), Position(0, 0, -zmin - layerWidth / 2)));
-      pv.addPhysVolID("layer", l_num);
-      pv.addPhysVolID("barrel", 2);
-      layer.setPlacement(pv);
+      layer_pv = assembly.placeVolume(l_vol, Transform3D(RotationY(M_PI), Position(0, 0, -zmin - layerWidth / 2)));
+      layer_pv.addPhysVolID("barrel", 2).addPhysVolID("layer", l_num);
+      layer.setPlacement(layer_pv);
       // DetElement layerR = layer.clone(l_nam+"_neg");
       // sdet.add(layerR.setPlacement(pv));
+      Acts::ActsExtension* layerExtension = new Acts::ActsExtension();
+      layerExtension->addType("sensitive disk", "layer");
+      //layerExtension->addValue(0, "r_min", "envelope");
+      //layerExtension->addValue(0, "r_max", "envelope");
+      //layerExtension->addValue(0, "z_min", "envelope");
+      //layerExtension->addValue(0, "z_max", "envelope");
+      layer.addExtension<Acts::ActsExtension>(layerExtension);
     }
-    Acts::ActsExtension* layerExtension = new Acts::ActsExtension();
-    layerExtension->addType("layer", "layer");
-    //layerExtension->addType("axes", "definitions", "XZY");
-    layer.addExtension<Acts::ActsExtension>(layerExtension);
 
+    double tot_thickness = -layerWidth / 2.0;
     for (xml_coll_t j(x_layer, _U(slice)); j; ++j, ++s_num) {
       xml_comp_t x_slice = j;
       double     thick   = x_slice.thickness();
@@ -92,13 +105,15 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
       if (x_slice.isSensitive()) {
         sens.setType("tracker");
         s_vol.setSensitiveDetector(sens);
-        Acts::ActsExtension* moduleExtension = new Acts::ActsExtension("XZY");
-        slice_de.addExtension<Acts::ActsExtension>(moduleExtension);
+        Acts::ActsExtension* sensorExtension = new Acts::ActsExtension();
+        //sensorExtension->addType("sensor", "detector");
+        slice_de.addExtension<Acts::ActsExtension>(sensorExtension);
       }
       s_vol.setAttributes(description, x_slice.regionStr(), x_slice.limitsStr(), x_slice.visStr());
-      pv = l_vol.placeVolume(s_vol, Position(0, 0, z - zmin - layerWidth / 2 + thick / 2));
+      pv = l_vol.placeVolume(s_vol, Position(0, 0, tot_thickness + thick / 2));
       pv.addPhysVolID("slice", s_num);
       slice_de.setPlacement(pv);
+      tot_thickness = tot_thickness + thick;
     }
 
   }
