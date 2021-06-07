@@ -187,7 +187,6 @@ benchmarks:detector:
     project: EIC/benchmarks/detector_benchmarks
     strategy: depend
   needs: ["overlap_check_tgeo","overlap_check_geant4","report"]
-  allow_failure: true
 
 
     #benchmarks:reconstruction:
