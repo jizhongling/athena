@@ -7,6 +7,7 @@
       EM Calorimeter Parameters with AstroPix
       ---------------------------------------
     </comment>
+    <constant name="EcalBarrel_Support_thickness"    value="5*cm"/>
     <constant name="EcalBarrel_SiliconThickness"     value="500*um"/>
     <constant name="EcalBarrel_ElectronicsThickness" value="150*um"/>
     <constant name="EcalBarrel_CopperThickness"      value="100*um"/>
@@ -19,7 +20,7 @@
     <constant name="EcalBarrel_ModRepeat"            value="CaloSides"/> 
     <constant name="EcalBarrel_ModLength"            value="0.5*m"/>
     <constant name="EcalBarrel_ModWidth"             value="0.5*m"/>
-    <constant name="EcalBarrel_AvailThickness"       value="EcalBarrel_TotalThickness"/>
+    <constant name="EcalBarrel_AvailThickness"       value="EcalBarrel_TotalThickness-EcalBarrel_Support_thickness"/>
     <constant name="EcalBarrel_ReadoutLayerThickness"
       value="EcalBarrel_SiliconThickness
       + EcalBarrel_ElectronicsThickness
@@ -59,7 +60,12 @@
       <dimensions numsides="EcalBarrel_ModRepeat" 
         rmin="EcalBarrel_rmin" 
         z="EcalBarrel_length"/>
-      <staves vis="EcalBarrelVis"/>
+      <staves vis="EcalBarrelVis">
+        <support inside="true"  material="Aluminum"
+          thickness="EcalBarrel_Support_thickness"
+          n_beams="3" grid_size="25.0*cm" >
+        </support>
+      </staves>
       <layer repeat="EcalBarrel_ReadoutLayerNumber">
         <slice material="Silicon" thickness="EcalBarrel_SiliconThickness" sensitive="yes" limits="cal_limits"/>
         <slice material="Silicon" thickness="EcalBarrel_ElectronicsThickness"/>

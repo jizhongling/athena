@@ -34,7 +34,11 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
   double        inner_r   = x_dim.rmin();
   double        dphi      = (2*M_PI/nsides);
   double        hphi      = dphi/2;
-  double        mod_z     = layering.totalThickness();
+  double        support_thickness = 0.0;
+  if(x_staves.hasChild("support")){
+    support_thickness = getAttrOrDefault(x_staves.child(_U(support)), _U(thickness), 5.0 * cm);
+  }
+  double        mod_z     = layering.totalThickness() + support_thickness;
   double        outer_r   = inner_r + mod_z;
   double        totThick  = mod_z;
   double        offset    = x_det.attr<double>(_Unicode(offset));
@@ -66,14 +70,67 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
                 trd_z); // Thickness, in Y for top stave, when rotated.
 
   Volume mod_vol("stave",trd,air);
+  double l_pos_z = -(layering.totalThickness() / 2) - support_thickness/2.0;
+
+  double trd_x2_support = trd_x1;
+  Solid  support_frame_s;
+  // optional stave support
+  if(x_staves.hasChild("support")){
+    xml_comp_t x_support         = x_staves.child(_U(support));
+    // is the support on the inside surface?
+    bool       is_inside_support = getAttrOrDefault<bool>(x_support, _Unicode(inside), true);
+    // number of "beams" running the length of the stave.
+    int    n_beams           = getAttrOrDefault<int>(x_support, _Unicode(n_beams), 3);
+    trd_x2_support    = (2 * std::tan(hphi) * (inner_r + support_thickness)) / 2 - tolerance;
+    double grid_size         = getAttrOrDefault(x_support, _Unicode(grid_size), 25.0 * cm);
+    double beam_width        = 2.0*trd_x2_support/(n_beams+1); // quick hack to make some gap between T beams
+    double beam_thickness    = support_thickness/4.0;
+    double cross_beam_thickness    = support_thickness/4.0;
+    double trd_x1_support    = (2 * std::tan(hphi) * (inner_r + beam_thickness)) / 2 - tolerance;
+
+    int n_cross_supports = std::floor((trd_y1-cross_beam_thickness)/grid_size);
+
+    Box        beam_vert_s(beam_thickness / 2.0 - tolerance, trd_y1, support_thickness / 2.0 - tolerance);
+    Box        beam_hori_s(beam_width / 2.0 - tolerance, trd_y1, beam_thickness / 2.0 - tolerance);
+    UnionSolid T_beam_s(beam_vert_s, beam_hori_s, Position(0, 0, -support_thickness / 2.0 + beam_thickness / 2.0));
+
+    // cross supports
+    Trapezoid  trd_support(trd_x1_support,trd_x2_support,
+                           beam_thickness / 2.0 - tolerance, beam_thickness / 2.0 - tolerance,
+                          support_thickness / 2.0 - tolerance - cross_beam_thickness/2.0);
+    UnionSolid support_array_start_s(T_beam_s,trd_support,Position(0,0,cross_beam_thickness/2.0));
+    for (int isup = 0; isup < n_cross_supports; isup++) {
+      support_array_start_s = UnionSolid(support_array_start_s, trd_support, Position(0, -1.0 * isup * grid_size, cross_beam_thickness/2.0));
+      support_array_start_s = UnionSolid(support_array_start_s, trd_support, Position(0, 1.0 * isup * grid_size, cross_beam_thickness/2.0));
+    }
+    support_array_start_s =
+        UnionSolid(support_array_start_s, beam_hori_s,
+                   Position(-1.5 * 0.5*(trd_x1+trd_x2_support) / n_beams, 0, -support_thickness / 2.0 + beam_thickness / 2.0));
+    support_array_start_s =
+        UnionSolid(support_array_start_s, beam_hori_s,
+                   Position(1.5 * 0.5*(trd_x1+trd_x2_support) / n_beams, 0, -support_thickness / 2.0 + beam_thickness / 2.0));
+    support_array_start_s =
+        UnionSolid(support_array_start_s, beam_vert_s, Position(-1.5 * 0.5*(trd_x1+trd_x2_support) / n_beams, 0, 0));
+    support_array_start_s =
+        UnionSolid(support_array_start_s, beam_vert_s, Position(1.5 * 0.5*(trd_x1+trd_x2_support) / n_beams, 0, 0));
+
+    support_frame_s = support_array_start_s;
+
+    Material support_mat = description.material(x_support.materialStr());
+    Volume   support_vol("support_frame_v", support_frame_s, support_mat);
+    support_vol.setVisAttributes(description.visAttributes(x_support.visStr()));
+
+    // figure out how to best place
+    auto pv = mod_vol.placeVolume(support_vol, Position(0.0, 0.0, l_pos_z + support_thickness / 2.0));
+  }
+  l_pos_z += support_thickness;
 
   sens.setType("calorimeter");
   { // =====  buildBarrelStave(description, sens, module_volume) =====
     // Parameters for computing the layer X dimension:
     double stave_z  = trd_y1;
     double tan_hphi = std::tan(hphi);
-    double l_dim_x  = trd_x1; // Starting X dimension for the layer.
-    double l_pos_z  = -(layering.totalThickness() / 2);
+    double l_dim_x  = trd_x2_support; // Starting X dimension for the layer.
 
     // Loop over the sets of layer elements in the detector.
     int l_num = 1;
@@ -135,6 +192,7 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
   // Set stave visualization.
   if ( x_staves )   {
     mod_vol.setVisAttributes(description.visAttributes(x_staves.visStr()));
+
   }
   // Phi start for a stave.
   double phi = M_PI / nsides;
