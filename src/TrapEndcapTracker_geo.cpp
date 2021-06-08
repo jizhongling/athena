@@ -80,12 +80,6 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
       double     frame_x1        = frame_trd.x1();
       double     frame_x2        = frame_trd.x2();
       double     frame_z         = frame_trd.z();
-      std::cout <<  "      x1  = " <<       x1 << "\n";
-      std::cout <<  "      x2  = " <<       x2 << "\n";
-      std::cout <<  "      z   = " <<       z << "\n";
-      std::cout <<  "frame_x1  = " << frame_x1 << "\n";
-      std::cout <<  "frame_x2  = " << frame_x2 << "\n";
-      std::cout <<  "frame_z   = " << frame_z << "\n";
       // make the frame match the total thickness if thickness attribute is not given
       Trapezoid        f_solid1(x1, x2,frame_thickness / 2.0, frame_thickness / 2.0, z);
       Trapezoid        f_solid(frame_x1, frame_x2, frame_thickness / 2.0, frame_thickness / 2.0, frame_z) ;
@@ -98,7 +92,6 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
 
       // figure out how to best place
       pv = m_volume.placeVolume(f_vol, Position(f_pos.x(), f_pos.y(),  f_pos.z()));
-      std::cout << "Frame thickness : " << frame_thickness << "\n";
     }
 
     for (ci.reset(), n_sensor = 1, c_id = 0, posY = -y1; ci; ++ci, ++c_id) {
