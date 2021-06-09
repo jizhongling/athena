@@ -294,9 +294,10 @@
        - "rmin", "rmax", "thickness" all refer to the radial direction.
        - "zmin", "zmax", "length", "offset" all refer to the z direction.
        - Positive and Negative are  "EndcapP" and "EndcapN", respectively.
-       - All values are positive. When refering to a negative endcap z position, the values are
+       - All values are positive (except offsets, which are positive in the hadron direction, i.e. towards EndCapP).
+           When refering to a negative endcap z position, the values are
            also positive then negated when required. (Many endcap constructions are mirrored, 
-           hence a postive value.
+           hence a postive value.)
        - We will try to keep the subsystem component name first and the parameter after an "_" (eg, EcalBarrel_length").
            TODO: fix parameter naming to be uniform in the above convention.
 
@@ -311,7 +312,7 @@
     <constant name="Solenoid_length"           value="3840.0*mm"/>
     <constant name="Solenoid_rmin"             value="1600.0*mm"/>
     <constant name="Solenoid_thickness"        value="640*mm"/>
-    <constant name="Solenoid_offset"           value="0.0*mm"/>
+    <constant name="Solenoid_offset"           value="10*mm"/>
 
     <constant name="Solenoid_rmax"             value="Solenoid_rmin + Solenoid_thickness"/>
     <constant name="SolenoidBarrel_rmin"       value="Solenoid_rmin"/>
