@@ -2,7 +2,7 @@
 <lccdd>
   <define>
 
-    <constant name="ITS3Thickness"                   value="0.03*mm"/>
+    <constant name="ITS3Thickness"                   value="30*um"/>
     <constant name="VertexBarrel_rmin1"              value="3.3*cm"/>
     <constant name="VertexBarrel_rmin2"              value="5.7*cm"/>
     <constant name="VertexBarrelModule_maxThickness" value="VertexBarrel_rmin2 - VertexBarrel_rmin1"/>
@@ -29,7 +29,7 @@
     <constant name="VertexTrackerEndcapN_zmin" value="VertexTrackerBarrel_zmax"/>
     <constant name="VertexTrackerEndcapP_zmin" value="VertexTrackerBarrel_zmax"/>
 
-    <constant name="VertexEndcap_NLayers" value="2"/>
+    <constant name="VertexEndcap_NLayers" value="1"/>
     <constant name="VertexTrackerEndcap_delta" value="(VertexTrackerEndcapP_zmax - VertexTrackerEndcapP_zmin)/VertexEndcap_NLayers"/>
     <constant name="VertexEndcapLayer_dz" value="(VertexTrackerEndcapP_zmax - VertexTrackerEndcapP_zmin)/VertexEndcap_NLayers"/>
 
@@ -132,9 +132,8 @@
       reflect="false">
       <module name="Module1" vis="AnlProcess_Blue">
         <trd x1="VertexEndcapMod1_x1/2.0" x2="VertexEndcapMod1_x2/2.0" z="VertexEndcapMod1_y/2"/>
-        <module_component thickness="1.0*mm" material="PEEK"/>
-        <module_component thickness="500.0*um" material="Silicon" sensitive="true"/>
-        <module_component thickness="1.0*mm" material="PEEK"/>
+        <module_component thickness="ITS3Thickness" material="Silicon" sensitive="true"/>
+        <module_component thickness="0.25/100*9.37*cm-ITS3Thickness" material="Silicon"/>
       </module>
       <layer id="1">
         <envelope  vis="AnlRed"
@@ -144,8 +143,8 @@
           zstart="VertexTrackerEndcapP_zmin" />
         <ring vis="AnlRed"
           r="VertexTrackerEndcapP_rmin+VertexEndcapMod1_y/2.0"
-          zstart="5.0*mm"
-          nmodules="12" dz="5 * mm" module="Module1" />
+          zstart="25.0*mm"
+          nmodules="12" dz="2.5 * mm" module="Module1" />
       </layer>
     </detector>
 
@@ -159,9 +158,8 @@
       reflect="true">
       <module name="Module1" vis="AnlProcess_Blue">
         <trd x1="VertexEndcapMod1_x1/2.0" x2="VertexEndcapMod1_x2/2.0" z="VertexEndcapMod1_y/2"/>
-        <module_component thickness="1.0*mm" material="PEEK"/>
-        <module_component thickness="500.0*um" material="Silicon" sensitive="true"/>
-        <module_component thickness="1.0*mm" material="PEEK"/>
+        <module_component thickness="ITS3Thickness" material="Silicon" sensitive="true"/>
+        <module_component thickness="0.25/100*9.37*cm-ITS3Thickness" material="Silicon"/>
       </module>
       <layer id="1">
         <envelope  vis="AnlRed"
@@ -171,8 +169,8 @@
           zstart="VertexTrackerEndcapN_zmin" />
         <ring vis="AnlRed"
           r="VertexTrackerEndcapN_rmin+VertexEndcapMod1_y/2.0"
-          zstart="5.0*mm"
-          nmodules="12" dz="5 * mm" module="Module1" />
+          zstart="-25.0*mm"
+          nmodules="12" dz="2.5 * mm" module="Module1" />
       </layer>
     </detector>
 

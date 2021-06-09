@@ -359,7 +359,8 @@
     </comment>
 
     <constant name="ForwardTracking_length" value="0.0*cm"/>
-    <constant name="BackwardTracking_length" value="0.0*cm"/>
+    <comment>This compensates for the asymmetry of the setup</comment>
+    <constant name="BackwardTracking_length" value="7.5*cm"/>
 
     <comment>
       -------------------------
@@ -375,7 +376,7 @@
       -------------------------
     </comment>
     <constant name="VertexTrackerBarrel_rmin"   value="Beampipe_rmax+5.0*mm"/>
-    <constant name="VertexTrackerBarrel_rmax"   value="150.0*mm"/>
+    <constant name="VertexTrackerBarrel_rmax"   value="200.0*mm"/>
     <constant name="VertexTrackerBarrel_length" value="300.0*mm"/>
     <constant name="VertexTrackerBarrel_zmax"   value="VertexTrackerBarrel_length/2.0"/>
 
@@ -385,8 +386,8 @@
     <constant name="VertexTrackerEndcapP_rmin"  value="Beampipe_rmax+5.0*mm"/>
     <constant name="VertexTrackerEndcapN_rmin"  value="Beampipe_rmax+5.0*mm"/>
 
-    <constant name="VertexTrackerEndcapP_zmax"  value="500.0*mm/2.0"/>
-    <constant name="VertexTrackerEndcapN_zmax"  value="500.0*mm/2.0"/>
+    <constant name="VertexTrackerEndcapP_zmax"  value="600.0*mm/2.0"/>
+    <constant name="VertexTrackerEndcapN_zmax"  value="600.0*mm/2.0"/>
 
     <comment>
       Vertex Tracking Region
@@ -482,8 +483,8 @@
 
     <constant name="EcalBarrel_TotalThickness"  value="40.0*cm"/>
 
-    <constant name="EcalEndcapP_zmin"           value="CentralTracking_length/2.0 + ForwardPIDLength"/>
-    <constant name="EcalEndcapN_zmin"           value="CentralTracking_length/2.0 + BackwardPIDLength"/>
+    <constant name="EcalEndcapP_zmin"           value="BarrelTracking_length/2.0 + ForwardTracking_length + ForwardPIDLength"/>
+    <constant name="EcalEndcapN_zmin"           value="BarrelTracking_length/2.0 + BackwardTracking_length + BackwardPIDLength"/>
 
     <constant name="BarrelLength"               value="TrackerBarrelOuter_length + ForwardPIDLength + BackwardPIDLength" />
     <constant name="Barrel_offset"              value="(EcalEndcapP_zmin-EcalEndcapN_zmin)/2.0" />

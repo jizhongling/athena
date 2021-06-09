@@ -4,7 +4,7 @@
     <constant name="ce_MRICHRMin"   value="15*cm"/>
     <constant name="ce_MRICHRMax"   value="BarrelTracking_rmax"/>
     <constant name="ce_MRICHLength" value="BackwardCherenkov_length"/>
-    <constant name="ce_MRICHZMin"   value="-EcalEndcapN_zmin+ce_MRICHLength"/>
+    <constant name="ce_MRICHZMin"   value="-BarrelTracking_length/2.0 - BackwardTracking_length"/>
 
   </define>
 
