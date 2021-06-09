@@ -80,6 +80,12 @@ compile:
 
 .views:
   stage: docs
+  before_script:
+    - source .local/bin/env.sh
+    - sed -i "s?<support inside?<\!--support inside?" compact/ecal_barrel.xml
+    - sed -i "s?</support>?</support-->?" compact/ecal_barrel.xml
+    - echo $DETECTOR_PATH
+    - cp compact/ecal_barrel.xml ${DETECTOR_PATH}/compact/ecal_barrel.xml
   needs:
     - ["common:detector"]
 
