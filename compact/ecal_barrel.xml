@@ -1,7 +1,10 @@
 <lccdd>
 
+    <display>
+    <vis name="EcalBarrelEnvelope_vis" alpha="0.9" r="0.99" g="0.5" b="0" showDaughters="true" visible="false" />
+    <vis name="EcalBarrelStave_vis"    alpha="0.9" r="0.99" g="0.5" b="0" showDaughters="true" visible="false" />
+    </display>
   <define>
-
     <comment>
       ---------------------------------------
       EM Calorimeter Parameters with AstroPix
@@ -56,25 +59,26 @@
       type="athena_EcalBarrel"
       readout="EcalBarrelHits"
       calorimeterType="EM_BARREL"
+      vis="EcalBarrelEnvelope_vis"
       offset="EcalBarrel_offset">
       <dimensions numsides="EcalBarrel_ModRepeat" 
         rmin="EcalBarrel_rmin" 
         z="EcalBarrel_length"/>
-      <staves vis="EcalBarrelVis">
-        <support inside="true"  material="Aluminum"
+      <staves vis="EcalBarrelStave_vis">
+        <support inside="true"  material="Aluminum" vis="AnlOrange"
           thickness="EcalBarrel_Support_thickness"
           n_beams="3" grid_size="25.0*cm" >
         </support>
       </staves>
-      <layer repeat="EcalBarrel_ReadoutLayerNumber">
-        <slice material="Silicon" thickness="EcalBarrel_SiliconThickness" sensitive="yes" limits="cal_limits"/>
-        <slice material="Silicon" thickness="EcalBarrel_ElectronicsThickness"/>
-        <slice material="Copper" thickness="EcalBarrel_CopperThickness"/>
-        <slice material="Kapton" thickness="EcalBarrel_KaptonThickness"/>
-        <slice material="Epoxy" thickness="EcalBarrel_EpoxyThickness"/>
-        <slice material="CarbonFiber" thickness="EcalBarrel_CarbonThickness"/>
-        <slice material="TungstenDens24" thickness="EcalBarrel_TungstenThickness"/>
-        <slice material="Air" thickness="EcalBarrel_LayerSpacing - EcalBarrel_TungstenThickness"/>
+      <layer repeat="EcalBarrel_ReadoutLayerNumber" vis="AnlBlue">
+        <slice material="Silicon" thickness="EcalBarrel_SiliconThickness" sensitive="yes" limits="cal_limits" vis="AnlGray"/>
+        <slice material="Silicon" thickness="EcalBarrel_ElectronicsThickness" vis="AnlGold"/>
+        <slice material="Copper" thickness="EcalBarrel_CopperThickness" vis="AnlGray"/>
+        <slice material="Kapton" thickness="EcalBarrel_KaptonThickness" vis="AnlGold"/>
+        <slice material="Epoxy" thickness="EcalBarrel_EpoxyThickness" vis="AnlGray"/>
+        <slice material="CarbonFiber" thickness="EcalBarrel_CarbonThickness" vis="AnlGold"/>
+        <slice material="TungstenDens24" thickness="EcalBarrel_TungstenThickness" vis="AnlGray"/>
+        <slice material="Air" thickness="EcalBarrel_LayerSpacing - EcalBarrel_TungstenThickness" vis="AnlGold"/>
       </layer>
     </detector>
   </detectors>

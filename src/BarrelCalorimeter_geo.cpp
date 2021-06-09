@@ -72,7 +72,9 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
   Volume mod_vol("stave",trd,air);
   double l_pos_z = -(layering.totalThickness() / 2) - support_thickness/2.0;
 
-  double trd_x2_support = trd_x1;
+  //double trd_x2_support = trd_x1;
+  double trd_x1_support = (2 * std::tan(hphi) * outer_r - dx- support_thickness)/2 - tolerance;
+
   Solid  support_frame_s;
   // optional stave support
   if(x_staves.hasChild("support")){
@@ -80,13 +82,15 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
     // is the support on the inside surface?
     bool       is_inside_support = getAttrOrDefault<bool>(x_support, _Unicode(inside), true);
     // number of "beams" running the length of the stave.
-    int    n_beams           = getAttrOrDefault<int>(x_support, _Unicode(n_beams), 3);
-    trd_x2_support    = (2 * std::tan(hphi) * (inner_r + support_thickness)) / 2 - tolerance;
-    double grid_size         = getAttrOrDefault(x_support, _Unicode(grid_size), 25.0 * cm);
-    double beam_width        = 2.0*trd_x2_support/(n_beams+1); // quick hack to make some gap between T beams
-    double beam_thickness    = support_thickness/4.0;
+    int    n_beams        = getAttrOrDefault<int>(x_support, _Unicode(n_beams), 3);
+    double beam_thickness = support_thickness / 4.0; // maybe a parameter later...
+    trd_x1_support        = (2 * std::tan(hphi) * (outer_r - support_thickness + beam_thickness)) / 2 - tolerance;
+    double grid_size      = getAttrOrDefault(x_support, _Unicode(grid_size), 25.0 * cm);
+    double beam_width     = 2.0 * trd_x1_support / (n_beams + 1); // quick hack to make some gap between T beams
+
     double cross_beam_thickness    = support_thickness/4.0;
-    double trd_x1_support    = (2 * std::tan(hphi) * (inner_r + beam_thickness)) / 2 - tolerance;
+    //double trd_x1_support    = (2 * std::tan(hphi) * (inner_r + beam_thickness)) / 2 - tolerance;
+    double trd_x2_support = trd_x2;
 
     int n_cross_supports = std::floor((trd_y1-cross_beam_thickness)/grid_size);
 
@@ -105,32 +109,33 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
     }
     support_array_start_s =
         UnionSolid(support_array_start_s, beam_hori_s,
-                   Position(-1.5 * 0.5*(trd_x1+trd_x2_support) / n_beams, 0, -support_thickness / 2.0 + beam_thickness / 2.0));
+                   Position(-1.8 * 0.5*(trd_x1+trd_x2_support) / n_beams, 0, -support_thickness / 2.0 + beam_thickness / 2.0));
     support_array_start_s =
         UnionSolid(support_array_start_s, beam_hori_s,
-                   Position(1.5 * 0.5*(trd_x1+trd_x2_support) / n_beams, 0, -support_thickness / 2.0 + beam_thickness / 2.0));
+                   Position(1.8 * 0.5*(trd_x1+trd_x2_support) / n_beams, 0, -support_thickness / 2.0 + beam_thickness / 2.0));
     support_array_start_s =
-        UnionSolid(support_array_start_s, beam_vert_s, Position(-1.5 * 0.5*(trd_x1+trd_x2_support) / n_beams, 0, 0));
+        UnionSolid(support_array_start_s, beam_vert_s, Position(-1.8 * 0.5*(trd_x1+trd_x2_support) / n_beams, 0, 0));
     support_array_start_s =
-        UnionSolid(support_array_start_s, beam_vert_s, Position(1.5 * 0.5*(trd_x1+trd_x2_support) / n_beams, 0, 0));
+        UnionSolid(support_array_start_s, beam_vert_s, Position(1.8 * 0.5*(trd_x1+trd_x2_support) / n_beams, 0, 0));
 
     support_frame_s = support_array_start_s;
 
     Material support_mat = description.material(x_support.materialStr());
     Volume   support_vol("support_frame_v", support_frame_s, support_mat);
-    support_vol.setVisAttributes(description.visAttributes(x_support.visStr()));
+    support_vol.setVisAttributes(description,x_support.visStr());
 
     // figure out how to best place
-    auto pv = mod_vol.placeVolume(support_vol, Position(0.0, 0.0, l_pos_z + support_thickness / 2.0));
+    //auto pv = mod_vol.placeVolume(support_vol, Position(0.0, 0.0, l_pos_z + support_thickness / 2.0));
+    auto pv = mod_vol.placeVolume(support_vol, Position(0.0, 0.0, -l_pos_z - support_thickness / 2.0));
   }
-  l_pos_z += support_thickness;
+  //l_pos_z += support_thickness;
 
   sens.setType("calorimeter");
   { // =====  buildBarrelStave(description, sens, module_volume) =====
     // Parameters for computing the layer X dimension:
     double stave_z  = trd_y1;
     double tan_hphi = std::tan(hphi);
-    double l_dim_x  = trd_x2_support; // Starting X dimension for the layer.
+    double l_dim_x  = trd_x1; // Starting X dimension for the layer.
 
     // Loop over the sets of layer elements in the detector.
     int l_num = 1;
