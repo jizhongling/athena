@@ -60,6 +60,11 @@ void add_square(Point p, std::vector<Point> &res, double lside, double rmin, dou
 // fill squares
 std::vector<Point> fillSquares(Point ref, double lside, double rmin, double rmax, double phmin, double phmax)
 {
+    // convert (0, 2pi) to (-pi, pi)
+    if (phmax > M_PI) {
+        phmin -= M_PI;
+        phmax -= M_PI;
+    }
     // start with a seed square and find one in the ring
     // move to center
     ref = ref - Point(int(ref.x()/lside)*lside, int(ref.y()/lside)*lside);
