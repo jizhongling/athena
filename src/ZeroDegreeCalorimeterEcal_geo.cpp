@@ -4,9 +4,9 @@
 #include "DD4hep/DetFactoryHelper.h"
 #include "DD4hep/Printout.h"
 #include <XML/Helper.h>
-///////////////////////////////////////////
-// Far Forward Ion Zero Degree Calorimeter
-///////////////////////////////////////////
+//////////////////////////////////////////////////
+// Far Forward Ion Zero Degree Calorimeter - Ecal
+//////////////////////////////////////////////////
 
 using namespace std;
 using namespace dd4hep;
@@ -30,8 +30,6 @@ static Ref_t createDetector(Detector& desc, xml_h e, SensitiveDetector sens)
   string     modName    = mod.nameStr();
   Material   mPbWO4     = desc.material(mod.materialStr());
   double     mThickness = mod.attr<double>(_Unicode(thickness));
-  double     mRmin      = mod.attr<double>(_Unicode(rmin));
-  double     mRmax      = mod.attr<double>(_Unicode(rmax));
   double     mWidth     = mod.attr<double>(_Unicode(width));
   double     mGap       = mod.attr<double>(_Unicode(gap));
   int        mNTowers   = mod.attr<double>(_Unicode(ntower));
@@ -75,7 +73,7 @@ static Ref_t createDetector(Detector& desc, xml_h e, SensitiveDetector sens)
       k++;
       string module_name = detName + _toString(k,"_ECAL_Phys_%d"); 
       PlacedVolume pv_mod = detVol.placeVolume(modVol, Position(mod_x,mod_y,mod_z));
-      pv_mod.addPhysVolID("sector", 1).addPhysVolID("module",k+1);
+      pv_mod.addPhysVolID("module",k+1);
     }
   }
 
@@ -87,5 +85,4 @@ static Ref_t createDetector(Detector& desc, xml_h e, SensitiveDetector sens)
   det.setPlacement(detPV);
   return det;
 }
-
-DECLARE_DETELEMENT(ffi_ZDC, createDetector)
+DECLARE_DETELEMENT(ffi_ZDC_ECAL, createDetector)
