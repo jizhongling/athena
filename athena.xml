@@ -192,10 +192,10 @@
   <include ref="compact/forward_trd.xml"/>
   <include ref="compact/forward_rich.xml"/>
 
-  <include ref="compact/B0_tracker.xml"/>
-  <include ref="compact/far_forward_offM_tracker.xml"/>
-  <include ref="compact/far_forward_romanpots.xml"/>
-  <include ref="compact/far_forward_detectors.xml"/>
+  <include ref="ip6/B0_tracker.xml"/>
+  <include ref="ip6/far_forward_offM_tracker.xml"/>
+  <include ref="ip6/far_forward_romanpots.xml"/>
+  <include ref="ip6/far_forward_detectors.xml"/>
 
   <!--
   <include ref="compact/mm_tracker_barrel.xml"/>
