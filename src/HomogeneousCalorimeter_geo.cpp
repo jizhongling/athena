@@ -1,13 +1,16 @@
 //==========================================================================
 //  A general implementation for homogeneous calorimeter
 //  it supports three types of placements
-//  1. Module placement with module dimensions and positions
+//  1. Individual module placement with module dimensions and positions
 //  2. Array placement with module dimensions and numbers of row and columns
 //  3. Disk placement with module dimensions and (Rmin, Rmax), and (Phimin, Phimax)
+//  4. Lines placement with module dimensions and (mirrorx, mirrory)
+//     (NOTE: anchor point is the 0th block of the line instead of line center)
 //--------------------------------------------------------------------------
 //  Author: Chao Peng (ANL)
 //  Date: 06/09/2021
 //==========================================================================
+
 #include "GeometryHelpers.h"
 #include "DD4hep/DetFactoryHelper.h"
 #include <XML/Helper.h>
@@ -28,8 +31,7 @@ using namespace dd4hep::detail;
  *
  *
  * \code
- *   <detector id="1" name="HyCal" type="HomogeneousCalorimeter" readout="EcalHits" vis="GreenVis">
- *     <dimensions shape="box" sizex="120*cm" sizey="120*cm" sizez="46*cm"/>
+ *   <detector id="1" name="HyCal" type="HomogeneousCalorimeter" readout="EcalHits">
  *     <position x="0" y="0" z="0"/>
  *     <rotation x="0" y="0" z="0"/>
  *     <placements>
@@ -65,24 +67,22 @@ using namespace dd4hep::detail;
  *     </placements>
  *   </detector>
  *
- *   <detector id="2" name="SomeBlocks" type="HomogeneousCalorimeter" readout="EcalHits" vis="GreenVis">
- *     <dimensions shape="box" sizex="100*cm" sizey="100*cm" sizez="20.5*cm"/>
+ *   <detector id="2" name="SomeBlocks" type="HomogeneousCalorimeter" readout="EcalHits">
  *     <position x="0" y="0" z="30*cm"/>
  *     <rotation x="0" y="0" z="0"/>
  *     <placements>
- *       <blocks sector="1"/>
+ *       <individuals sector="1"/>
  *         <module sizex="2.05*cm" sizey="2.05*cm" sizez="20*cm" vis="GreenVis" material="PbWO4"/>
  *         <wrapper thickness="0.015*cm" material="Epoxy" vis="WhiteVis"/>
- *         <placement x="1*cm" y="1*cm" z="0"/>
- *         <placement x="-1*cm" y="1*cm" z="0"/>
- *         <placement x="1*cm" y="-1*cm" z="0"/>
- *         <placement x="-1*cm" y="-1*cm" z="0"/>
- *       </blocks>
+ *         <placement x="1*cm" y="1*cm" z="0" id="1"/>
+ *         <placement x="-1*cm" y="1*cm" z="0" id="2"/>
+ *         <placement x="1*cm" y="-1*cm" z="0" id="3"/>
+ *         <placement x="-1*cm" y="-1*cm" z="0" id="4"/>
+ *       </individuals>
  *     </placements>
  *   </detector>
  *
- *   <detector id="2" name="DiskShapeCalorimeter" type="HomogeneousCalorimeter" readout="EcalHits" vis="GreenVis">
- *     <dimensions shape="disk" rmin="25*cm" rmax="125*cm" length="20.5*cm" phimin="0" phimax="360*degree"/>
+ *   <detector id="2" name="DiskShapeCalorimeter" type="HomogeneousCalorimeter" readout="EcalHits">
  *     <position x="0" y="0" z="-30*cm"/>
  *     <rotation x="0" y="0" z="0"/>
  *     <placements>
@@ -91,15 +91,30 @@ using namespace dd4hep::detail;
  *         <wrapper thickness="0.015*cm" material="Epoxy" vis="WhiteVis"/>
  *     </placements>
  *   </detector>
+ *
+ *   <detector id="3" name="SomeLines" type="HomogeneousCalorimeter" readout="EcalHits">
+ *     <position x="0" y="0" z="60*cm"/>
+ *     <rotation x="0" y="0" z="0"/>
+ *     <placements>
+ *       <lines sector="1" mirrorx="true" mirrory="true"/>
+ *         <module sizex="2.05*cm" sizey="2.05*cm" sizez="20*cm" vis="GreenVis" material="PbWO4"/>
+ *         <wrapper thickness="0.015*cm" material="Epoxy" vis="WhiteVis"/>
+ *         <line x="10.25*mm" y="10.25*mm" begin="8" nmods="16"/>
+ *         <line x="10.25*mm" y="30.75*mm" begin="8" nmods="16"/>
+ *         <line x="10.25*mm" y="51.25*mm" begin="8" nmods="16"/>
+ *       </individuals>
+ *     </placements>
+ *   </detector>
  * \endcode
  *
  * @{
  */
 
 // headers
-static void add_blocks(Detector& desc, Volume &env, xml::Collection_t &plm, SensitiveDetector &sens, int id);
-static void add_array(Detector& desc, Volume &env, xml::Collection_t &plm, SensitiveDetector &sens, int id);
-static void add_disk(Detector& desc, Volume &env, xml::Collection_t &plm, SensitiveDetector &sens, int id);
+static void add_individuals(Detector& desc, Assembly &env, xml::Collection_t &plm, SensitiveDetector &sens, int id);
+static void add_array(Detector& desc, Assembly &env, xml::Collection_t &plm, SensitiveDetector &sens, int id);
+static void add_disk(Detector& desc, Assembly &env, xml::Collection_t &plm, SensitiveDetector &sens, int id);
+static void add_lines(Detector& desc, Assembly &env, xml::Collection_t &plm, SensitiveDetector &sens, int id);
 
 // helper function to get x, y, z if defined in a xml component
 template<class XmlComp>
@@ -124,61 +139,23 @@ static Ref_t create_detector(Detector& desc, xml::Handle_t handle, SensitiveDete
     int detID = detElem.id();
     DetElement det(detName, detID);
     sens.setType("calorimeter");
-
-    // top-level children
-    xml::Component dims = detElem.dimensions();
-
-    // build envelop from dimensions
-    std::string shape = dd4hep::getAttrOrDefault(dims, _Unicode(shape), "");
-    // no shape input, try to determine shape from dimension variables
-    if (shape.empty()) {
-        if (dims.hasAttr(_Unicode(rmin)) && dims.hasAttr(_Unicode(rmax)) && dims.hasAttr(_Unicode(length))) {
-            shape = "disk";
-        } else if (dims.hasAttr(_Unicode(sizex)) && dims.hasAttr(_Unicode(sizey)) && dims.hasAttr(_Unicode(sizez))) {
-            shape = "box";
-        } else {
-            std::cerr << func << " Error: Cannot determine shape of the calorimeter. "
-                                 "Add shape (box, or disk) into dimensions\n";
-            return det;
-        }
-    }
-
-    Volume envVol(detName + "_envelope");
-    std::string filler = dd4hep::getAttrOrDefault(detElem, _Unicode(filler), "Air");
-    envVol.setMaterial(desc.material(filler));
-    envVol.setVisAttributes(desc.visAttributes(detElem.visStr()));
-
-    // convert to lower case
-    std::transform(shape.begin(), shape.end(), shape.begin(), [](unsigned char c){ return std::tolower(c); });
-
-    if (shape == "box") {
-        double sx = dims.attr<double>(_Unicode(sizex));
-        double sy = dims.attr<double>(_Unicode(sizey));
-        double sz = dims.attr<double>(_Unicode(sizez));
-        envVol.setSolid(Box(sx/2., sy/2., sz/2.));
-    } else if (shape == "disk") {
-        double rmin = dims.rmin();
-        double rmax = dims.rmax();
-        double length = dims.length();
-        double phimin = dd4hep::getAttrOrDefault<double>(dims, _Unicode(phimin), 0.);
-        double phimax = dd4hep::getAttrOrDefault<double>(dims, _Unicode(phimax), 2*M_PI);
-        envVol.setSolid(Tube(rmin, rmax, length/2., phimin, phimax));
-    } else {
-        std::cerr << func << " Error: Unsupported shape " << shape << ", use box or disk\n";
-        return det;
-    }
+    // envelope
+    Assembly assembly(detName);
 
     // module placement
     xml::Component plm = detElem.child(_Unicode(placements));
     int sector = 1;
-    for (xml::Collection_t arr(plm, _Unicode(array)); arr; ++arr) {
-        add_array(desc, envVol, arr, sens, sector++);
+    for (xml::Collection_t mod(plm, _Unicode(individuals)); mod; ++mod) {
+        add_individuals(desc, assembly, mod, sens, sector++);
     }
-    for (xml::Collection_t mod(plm, _Unicode(blocks)); mod; ++mod) {
-        add_blocks(desc, envVol, mod, sens, sector++);
+    for (xml::Collection_t arr(plm, _Unicode(array)); arr; ++arr) {
+        add_array(desc, assembly, arr, sens, sector++);
     }
     for (xml::Collection_t disk(plm, _Unicode(disk)); disk; ++disk) {
-        add_disk(desc, envVol, disk, sens, sector++);
+        add_disk(desc, assembly, disk, sens, sector++);
+    }
+    for (xml::Collection_t lines(plm, _Unicode(lines)); lines; ++lines) {
+        add_lines(desc, assembly, lines, sens, sector++);
     }
 
     // detector position and rotation
@@ -186,7 +163,7 @@ static Ref_t create_detector(Detector& desc, xml::Handle_t handle, SensitiveDete
     auto rot = get_xml_xyz(detElem, _Unicode(rotation));
     Volume motherVol = desc.pickMotherVolume(det);
     Transform3D tr = Translation3D(pos.x(), pos.y(), pos.z()) * RotationZYX(rot.z(), rot.y(), rot.x());
-    PlacedVolume envPV = motherVol.placeVolume(envVol, tr);
+    PlacedVolume envPV = motherVol.placeVolume(assembly, tr);
     envPV.addPhysVolID("system", detID);
     det.setPlacement(envPV);
     return det;
@@ -213,6 +190,9 @@ Volume build_module(Detector &desc, xml::Collection_t &plm, SensitiveDetector &s
     } else {
         auto wrp = plm.child(_Unicode(wrapper));
         auto thickness = wrp.attr<double>(_Unicode(thickness));
+        if (thickness == 0.) {
+            return modVol;
+        }
         auto wrpMat = desc.material(wrp.attr<std::string>(_Unicode(material)));
         Box wrpShape((sx + thickness)/2., (sy + thickness)/2., sz/2.);
         Volume wrpVol("wrapper_vol", wrpShape, wrpMat);
@@ -223,12 +203,35 @@ Volume build_module(Detector &desc, xml::Collection_t &plm, SensitiveDetector &s
     }
 }
 
-// place array of modules
-static void add_array(Detector& desc, Volume &env, xml::Collection_t &plm, SensitiveDetector &sens, int sid)
+// place modules, id must be provided
+static void add_individuals(Detector& desc, Assembly &env, xml::Collection_t &plm, SensitiveDetector &sens, int sid)
 {
     Position modSize;
     auto modVol = build_module(desc, plm, sens, modSize);
     int sector_id = dd4hep::getAttrOrDefault<int>(plm, _Unicode(sector), sid);
+
+    for (xml::Collection_t pl(plm, _Unicode(placement)); pl; ++pl) {
+        Position pos(dd4hep::getAttrOrDefault<double>(pl, _Unicode(x), 0.),
+                     dd4hep::getAttrOrDefault<double>(pl, _Unicode(y), 0.),
+                     dd4hep::getAttrOrDefault<double>(pl, _Unicode(z), 0.));
+        Position rot(dd4hep::getAttrOrDefault<double>(pl, _Unicode(rotx), 0.),
+                     dd4hep::getAttrOrDefault<double>(pl, _Unicode(roty), 0.),
+                     dd4hep::getAttrOrDefault<double>(pl, _Unicode(rotz), 0.));
+        auto mid = pl.attr<int>(_Unicode(id));
+        Transform3D tr = Translation3D(pos.x(), pos.y(), pos.z())
+                       * RotationZYX(rot.z(), rot.y(), rot.x());
+        auto modPV = env.placeVolume(modVol, tr);
+        modPV.addPhysVolID("sector", sector_id).addPhysVolID("module", mid);
+    }
+}
+
+// place array of modules
+static void add_array(Detector& desc, Assembly &env, xml::Collection_t &plm, SensitiveDetector &sens, int sid)
+{
+    Position modSize;
+    auto modVol = build_module(desc, plm, sens, modSize);
+    int sector_id = dd4hep::getAttrOrDefault<int>(plm, _Unicode(sector), sid);
+    int id_begin = dd4hep::getAttrOrDefault<int>(plm, _Unicode(id_begin), 1);
     int nrow = plm.attr<int>(_Unicode(nrow));
     int ncol = plm.attr<int>(_Unicode(ncol));
 
@@ -252,42 +255,21 @@ static void add_array(Detector& desc, Volume &env, xml::Collection_t &plm, Sensi
             }
             double px = begx + modSize.x()*j;
             double py = begy - modSize.y()*i;
-            Transform3D tr = Translation3D(pos.x() + px, pos.y() + py, pos.z())
-                           * RotationZYX(rot.z(), rot.y(), rot.x());
+            Transform3D tr = RotationZYX(rot.z(), rot.y(), rot.x())
+                           * Translation3D(pos.x() + px, pos.y() + py, pos.z());
             auto modPV = env.placeVolume(modVol, tr);
-            modPV.addPhysVolID("sector", sector_id).addPhysVolID("module", i*ncol + j);
+            modPV.addPhysVolID("sector", sector_id).addPhysVolID("module", i*ncol + j + id_begin);
         }
     }
 }
 
-// place modules
-static void add_blocks(Detector& desc, Volume &env, xml::Collection_t &plm, SensitiveDetector &sens, int sid)
-{
-    Position modSize;
-    auto modVol = build_module(desc, plm, sens, modSize);
-    int sector_id = dd4hep::getAttrOrDefault<int>(plm, _Unicode(sector), sid);
-
-    int mid = 1;
-    for (xml::Collection_t pl(plm, _Unicode(placement)); pl; ++pl, ++mid) {
-        Position pos(dd4hep::getAttrOrDefault<double>(pl, _Unicode(x), 0.),
-                     dd4hep::getAttrOrDefault<double>(pl, _Unicode(y), 0.),
-                     dd4hep::getAttrOrDefault<double>(pl, _Unicode(z), 0.));
-        Position rot(dd4hep::getAttrOrDefault<double>(pl, _Unicode(rotx), 0.),
-                     dd4hep::getAttrOrDefault<double>(pl, _Unicode(roty), 0.),
-                     dd4hep::getAttrOrDefault<double>(pl, _Unicode(rotz), 0.));
-        Transform3D tr = Translation3D(pos.x(), pos.y(), pos.z())
-                       * RotationZYX(rot.z(), rot.y(), rot.x());
-        auto modPV = env.placeVolume(modVol, tr);
-        modPV.addPhysVolID("sector", sector_id).addPhysVolID("module", mid);
-    }
-}
-
 // place disk of modules
-static void add_disk(Detector& desc, Volume &env, xml::Collection_t &plm, SensitiveDetector &sens, int sid)
+static void add_disk(Detector& desc, Assembly &env, xml::Collection_t &plm, SensitiveDetector &sens, int sid)
 {
     Position modSize;
     auto modVol = build_module(desc, plm, sens, modSize);
     int sector_id = dd4hep::getAttrOrDefault<int>(plm, _Unicode(sector), sid);
+    int id_begin = dd4hep::getAttrOrDefault<int>(plm, _Unicode(id_begin), 1);
     double rmin = plm.attr<double>(_Unicode(rmin));
     double rmax = plm.attr<double>(_Unicode(rmax));
     double phimin = dd4hep::getAttrOrDefault<double>(plm, _Unicode(phimin), 0.);
@@ -297,12 +279,57 @@ static void add_disk(Detector& desc, Volume &env, xml::Collection_t &plm, Sensit
     // placement to mother
     auto pos = get_xml_xyz(plm, _Unicode(position));
     auto rot = get_xml_xyz(plm, _Unicode(rotation));
-    int mid = 1;
+    int mid = 0;
     for (auto &p : points) {
-        Transform3D tr = Translation3D(pos.x() + p.x(), pos.y() + p.y(), pos.z())
-                       * RotationZYX(rot.z(), rot.y(), rot.x());
+        Transform3D tr = RotationZYX(rot.z(), rot.y(), rot.x())
+                       * Translation3D(pos.x() + p.x(), pos.y() + p.y(), pos.z());
         auto modPV = env.placeVolume(modVol, tr);
-        modPV.addPhysVolID("sector", sector_id).addPhysVolID("module", mid++);
+        modPV.addPhysVolID("sector", sector_id).addPhysVolID("module", id_begin + mid++);
+    }
+}
+
+// place lines of modules (anchor point is the 0th module of this line)
+static void add_lines(Detector& desc, Assembly &env, xml::Collection_t &plm, SensitiveDetector &sens, int sid)
+{
+    Position modSize;
+    auto modVol = build_module(desc, plm, sens, modSize);
+    int sector_id = dd4hep::getAttrOrDefault<int>(plm, _Unicode(sector), sid);
+    int id_begin = dd4hep::getAttrOrDefault<int>(plm, _Unicode(id_begin), 1);
+    bool mirrorx = dd4hep::getAttrOrDefault<bool>(plm, _Unicode(mirrorx), false);
+    bool mirrory = dd4hep::getAttrOrDefault<bool>(plm, _Unicode(mirrory), false);
+
+    // line placement
+    int mid = 1;
+    for (xml::Collection_t pl(plm, _Unicode(line)); pl; ++pl) {
+        Position pos(dd4hep::getAttrOrDefault<double>(pl, _Unicode(x), 0.),
+                     dd4hep::getAttrOrDefault<double>(pl, _Unicode(y), 0.),
+                     dd4hep::getAttrOrDefault<double>(pl, _Unicode(z), 0.));
+        Position rot(dd4hep::getAttrOrDefault<double>(pl, _Unicode(rotx), 0.),
+                     dd4hep::getAttrOrDefault<double>(pl, _Unicode(roty), 0.),
+                     dd4hep::getAttrOrDefault<double>(pl, _Unicode(rotz), 0.));
+        int begin = dd4hep::getAttrOrDefault<int>(pl, _Unicode(begin), 0);
+        int nmods = pl.attr<int>(_Unicode(nmods));
+
+        std::vector<std::pair<double, double>> translations;
+        for (int i = 0; i < nmods; ++i) {
+            translations.push_back(std::pair<double, double>{pos.x() + (begin + i)*modSize.x(), pos.y()});
+            if (mirrorx) {
+                translations.push_back(std::pair<double, double>{-pos.x() - (begin + i)*modSize.x(), pos.y()});
+            }
+            if (mirrory) {
+                translations.push_back(std::pair<double, double>{pos.x() + (begin + i)*modSize.x(), -pos.y()});
+            }
+            if (mirrorx && mirrory) {
+                translations.push_back(std::pair<double, double>{-pos.x() - (begin + i)*modSize.x(), -pos.y()});
+            }
+        }
+
+        for (auto &p : translations) {
+            Transform3D tr = RotationZYX(rot.z(), rot.y(), rot.x())
+                           * Translation3D(p.first, p.second, pos.z());
+            auto modPV = env.placeVolume(modVol, tr);
+            modPV.addPhysVolID("sector", sector_id).addPhysVolID("module", id_begin + mid++);
+        }
     }
 }
 //@}
