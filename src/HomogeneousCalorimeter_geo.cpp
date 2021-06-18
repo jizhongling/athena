@@ -99,9 +99,9 @@ using namespace dd4hep::detail;
  *       <lines sector="1" mirrorx="true" mirrory="true"/>
  *         <module sizex="2.05*cm" sizey="2.05*cm" sizez="20*cm" vis="GreenVis" material="PbWO4"/>
  *         <wrapper thickness="0.015*cm" material="Epoxy" vis="WhiteVis"/>
- *         <line x="10.25*mm" y="10.25*mm" begin="8" nmods="16"/>
- *         <line x="10.25*mm" y="30.75*mm" begin="8" nmods="16"/>
- *         <line x="10.25*mm" y="51.25*mm" begin="8" nmods="16"/>
+ *         <line x="10.25*mm" y="10.25*mm" axis="x" begin="8" nmods="16"/>
+ *         <line x="10.25*mm" y="30.75*mm" axis="y" begin="8" nmods="16"/>
+ *         <line x="10.25*mm" y="51.25*mm" axis="z" begin="8" nmods="16"/>
  *       </individuals>
  *     </placements>
  *   </detector>
@@ -297,6 +297,7 @@ static void add_lines(Detector& desc, Assembly &env, xml::Collection_t &plm, Sen
     int id_begin = dd4hep::getAttrOrDefault<int>(plm, _Unicode(id_begin), 1);
     bool mirrorx = dd4hep::getAttrOrDefault<bool>(plm, _Unicode(mirrorx), false);
     bool mirrory = dd4hep::getAttrOrDefault<bool>(plm, _Unicode(mirrory), false);
+    bool mirrorz = dd4hep::getAttrOrDefault<bool>(plm, _Unicode(mirrorz), false);
 
     // line placement
     int mid = 1;
@@ -307,26 +308,50 @@ static void add_lines(Detector& desc, Assembly &env, xml::Collection_t &plm, Sen
         Position rot(dd4hep::getAttrOrDefault<double>(pl, _Unicode(rotx), 0.),
                      dd4hep::getAttrOrDefault<double>(pl, _Unicode(roty), 0.),
                      dd4hep::getAttrOrDefault<double>(pl, _Unicode(rotz), 0.));
+        // determine axis
+        std::string axis = dd4hep::getAttrOrDefault(pl, _Unicode(axis), "x");
+        std::transform(axis.begin(), axis.end(), axis.begin(), [](char c) { return std::tolower(c); });
+        if ((axis != "x") && (axis != "y") && (axis != "z")) {
+            std::cerr << "HomogeneousCalorimeter Error: cannot determine axis of line " << axis
+                      << ", abort placement of this line." << std::endl;
+            continue;
+        }
+
         int begin = dd4hep::getAttrOrDefault<int>(pl, _Unicode(begin), 0);
         int nmods = pl.attr<int>(_Unicode(nmods));
 
-        std::vector<std::pair<double, double>> translations;
+        std::vector<Position> trans;
         for (int i = 0; i < nmods; ++i) {
-            translations.push_back(std::pair<double, double>{pos.x() + (begin + i)*modSize.x(), pos.y()});
-            if (mirrorx) {
-                translations.push_back(std::pair<double, double>{-pos.x() - (begin + i)*modSize.x(), pos.y()});
+            Position tran{ (axis == "x") ? pos.x() + (begin + i)*modSize.x() : pos.x(),
+                           (axis == "y") ? pos.y() + (begin + i)*modSize.y() : pos.y(),
+                           (axis == "z") ? pos.z() + (begin + i)*modSize.z() : pos.z() };
+            trans.push_back(tran);
+        }
+
+        // mirror placement
+        if (mirrorx) {
+            int curr_size = trans.size();
+            for (size_t i = 0; i < curr_size; ++i) {
+                trans.push_back(Position{-trans[i].x(), trans[i].y(), trans[i].z()});
             }
-            if (mirrory) {
-                translations.push_back(std::pair<double, double>{pos.x() + (begin + i)*modSize.x(), -pos.y()});
+        }
+        if (mirrory) {
+            int curr_size = trans.size();
+            for (size_t i = 0; i < curr_size; ++i) {
+                trans.push_back(Position{trans[i].x(), -trans[i].y(), trans[i].z()});
             }
-            if (mirrorx && mirrory) {
-                translations.push_back(std::pair<double, double>{-pos.x() - (begin + i)*modSize.x(), -pos.y()});
+        }
+        if (mirrorz) {
+            int curr_size = trans.size();
+            for (size_t i = 0; i < curr_size; ++i) {
+                trans.push_back(Position{trans[i].x(), trans[i].y(), -trans[i].z()});
             }
         }
 
-        for (auto &p : translations) {
+        // place volume
+        for (auto &p : trans) {
             Transform3D tr = RotationZYX(rot.z(), rot.y(), rot.x())
-                           * Translation3D(p.first, p.second, pos.z());
+                           * Translation3D(p.x(), p.y(), p.z());
             auto modPV = env.placeVolume(modVol, tr);
             modPV.addPhysVolID("sector", sector_id).addPhysVolID("module", id_begin + mid++);
         }
