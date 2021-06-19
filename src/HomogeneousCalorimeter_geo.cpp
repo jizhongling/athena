@@ -275,7 +275,7 @@ static void add_disk(Detector& desc, Assembly &env, xml::Collection_t &plm, Sens
     double phimin = dd4hep::getAttrOrDefault<double>(plm, _Unicode(phimin), 0.);
     double phimax = dd4hep::getAttrOrDefault<double>(plm, _Unicode(phimax), 2.*M_PI);
 
-    auto points = ref::utils::fillSquares({0., 0.}, modSize.x(), rmin, rmax, phimin, phimax);
+    auto points = ref::utils::fillRectangles({0., 0.}, modSize.x(), modSize.y(), rmin, rmax, phimin, phimax);
     // placement to mother
     auto pos = get_xml_xyz(plm, _Unicode(position));
     auto rot = get_xml_xyz(plm, _Unicode(rotation));

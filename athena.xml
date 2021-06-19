@@ -190,7 +190,7 @@
   <include ref="compact/ce_mrich.xml"/>
   <include ref="compact/tof_endcap.xml"/>
   <include ref="compact/forward_trd.xml"/>
-  <include ref="compact/forward_rich.xml"/>
+  <include ref="compact/gaseous_rich.xml"/>
 
   <include ref="ip6/B0_tracker.xml"/>
   <include ref="ip6/far_forward_offM_tracker.xml"/>
