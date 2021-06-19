@@ -1,13 +1,13 @@
 <lccdd>
   <define>
-    <constant name="CrystalModule_sx" value="20.0*mm"/>
-    <constant name="CrystalModule_sy" value="20.0*mm"/>
-    <constant name="CrystalModule_sz" value="20.0*cm"/>
-    <constant name="CrystalModule_wrap" value="0.5*mm"/>
-    <constant name="GlassModule_sx" value="40.0*mm"/>
-    <constant name="GlassModule_sy" value="40.0*mm"/>
-    <constant name="GlassModule_sz" value="40.0*cm"/>
-    <constant name="GlassModule_wrap" value="1.0*mm"/>
+    <constant name="CrystalModule_sx" value="20.00*mm"/>
+    <constant name="CrystalModule_sy" value="20.00*mm"/>
+    <constant name="CrystalModule_sz" value="200.00*mm"/>
+    <constant name="CrystalModule_wrap" value="0.50*mm"/>
+    <constant name="GlassModule_sx" value="40.00*mm"/>
+    <constant name="GlassModule_sy" value="40.00*mm"/>
+    <constant name="GlassModule_sz" value="400.00*mm"/>
+    <constant name="GlassModule_wrap" value="1.00*mm"/>
     <constant name="CrystalModule_z0" value="10.*cm"/>
     <constant name="GlassModule_z0" value="0.0*cm"/>
     <constant name="EcalEndcapN_z0" value="-EcalEndcapN_zmin-max(CrystalModule_sz,GlassModule_sz)/2."/>

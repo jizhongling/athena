@@ -5,31 +5,18 @@
     Date: 06/17/2021
 '''
 
+import os
 import numpy as np
 import argparse
+import DDG4
 from lxml import etree as ET
+from matplotlib import pyplot as plt
+from matplotlib.collections import PatchCollection
+from matplotlib.patches import Rectangle, Circle
 
 
-# constants: name, value
-CONSTANTS = [
-    ('CrystalModule_sx', '20.0*mm'),
-    ('CrystalModule_sy', '20.0*mm'),
-    ('CrystalModule_sz', '20.0*cm'),
-    ('CrystalModule_wrap', '0.5*mm'),
-    ('GlassModule_sx', '40.0*mm'),
-    ('GlassModule_sy', '40.0*mm'),
-    ('GlassModule_sz', '40.0*cm'),
-    ('GlassModule_wrap', '1.0*mm'),
-    ('CrystalModule_z0', '10.*cm'),
-    ('GlassModule_z0', '0.0*cm'),
-    ('EcalEndcapN_z0', '-EcalEndcapN_zmin-max(CrystalModule_sz,GlassModule_sz)/2.'),
-    ('CrystalModule_dx', 'CrystalModule_sx + CrystalModule_wrap'),
-    ('CrystalModule_dy', 'CrystalModule_sy + CrystalModule_wrap'),
-    ('GlassModule_dx', 'GlassModule_sx + GlassModule_wrap'),
-    ('GlassModule_dy', 'GlassModule_sy + GlassModule_wrap'),
-]
-
-# line-by-line alignment start pos, total number of blocks
+CRYSTAL_SIZE = (20., 20., 200.) # mm
+CRYSTAL_GAP = 0.5 # mm
 CRYSTAL_ALIGNMENT = [
     (7, 17), (7, 17), (7, 17), (6, 18),
     (6, 18), (5, 19), (3, 19), (0, 22),
@@ -39,6 +26,8 @@ CRYSTAL_ALIGNMENT = [
     (0, 12), (0, 12), (0, 6),  (0, 6),
 ]
 
+GLASS_SIZE = (40., 40., 400.) # mm
+GLASS_GAP = 1.0 # mm
 GLASS_ALIGNMENT = [
     (12, 11), (12, 11), (12, 11), (11, 12),
     (11, 12), (11, 12), (10, 12), (9, 13),
@@ -49,11 +38,11 @@ GLASS_ALIGNMENT = [
 ]
 
 # calculate positions of modules with a quad-alignment and module size
-def individual_placement(alignment, module_x=20.5, module_y=20.5):
+def individual_placement(alignment, module_x, module_y, gap=0.):
     placements = []
     for row, (start, num) in enumerate(alignment):
         for col in np.arange(start, start + num):
-            placements.append(((col + 0.5)*module_y, (row + 0.5)*module_x))
+            placements.append(((col + 0.5)*(module_y + gap), (row + 0.5)*(module_x + gap)))
     placements = np.asarray(placements)
     return np.vstack((placements,
             np.vstack((placements.T[0]*-1., placements.T[1])).T,
@@ -61,11 +50,50 @@ def individual_placement(alignment, module_x=20.5, module_y=20.5):
             np.vstack((placements.T[0]*-1., placements.T[1]*-1.)).T))
 
 
+def draw_placement(axis, colors=('teal'), module_alignment=((CRYSTAL_SIZE, CRYSTAL_GAP, CRYSTAL_ALIGNMENT))):
+    xmin, ymin, xmax, ymax = 0., 0., 0., 0.
+    for color, (mod_size, mod_gap, alignment) in zip(colors, module_alignment):
+        placements = individual_placement(alignment, *mod_size[:2], mod_gap)
+        boxes = [Rectangle((x - (mod_size[0] + mod_gap)/2., y - (mod_size[1] + mod_gap)/2.), mod_size[0], mod_size[1])
+                 for x, y in placements]
+        pc = PatchCollection(boxes, facecolor=color, alpha=0.5, edgecolor='k')
+
+        xmin = min(xmin, placements.T[0].min() - 3.*(mod_size[0] + mod_gap))
+        ymin = min(ymin, placements.T[1].min() - 3.*(mod_size[1] + mod_gap))
+        xmax = max(xmax, placements.T[0].max() + 3.*(mod_size[0] + mod_gap))
+        ymax = max(ymax, placements.T[1].max() + 3.*(mod_size[1] + mod_gap))
+
+        # Add collection to axes
+        axis.add_collection(pc)
+    axis.set_xlim(xmin, xmax)
+    axis.set_ylim(ymin, ymax)
+    return axis
+
+
+def compact_constants(path, names):
+    if not os.path.exists(path):
+        print('Cannot find compact file \"{}\".'.format(path))
+        return []
+    kernel = DDG4.Kernel()
+    description = kernel.detectorDescription()
+    kernel.loadGeometry("file:{}".format(path))
+    try:
+        vals = [description.constantAsDouble(n) for n in names]
+    except:
+        print('Fail to extract values from {}, return empty.'.format(names))
+        vals = []
+    kernel.terminate()
+    return vals
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-s', '--save', default='compact/ce_ecal_crystal_glass.xml',
             help='path to save compact file.')
+    parser.add_argument('-c', '--compact', default='',
+            help='compact file to get contant to plot')
+    parser.add_argument('--radii-constants', dest='radii', default='EcalBarrel_rmin',
+            help='constant names in compact file to plot, seprate by \",\"')
     parser.add_argument('--individual', dest='indiv', action='store_true',
             help='individual block placements instead of line placements')
     args = parser.parse_args()
@@ -73,6 +101,29 @@ if __name__ == '__main__':
     data = ET.Element('lccdd')
     defines = ET.SubElement(data, 'define')
 
+    # constants: name, value
+    CONSTANTS = [
+        ('CrystalModule_sx', '{:.2f}*mm'.format(CRYSTAL_SIZE[0])),
+        ('CrystalModule_sy', '{:.2f}*mm'.format(CRYSTAL_SIZE[1])),
+        ('CrystalModule_sz', '{:.2f}*mm'.format(CRYSTAL_SIZE[2])),
+        ('CrystalModule_wrap', '{:.2f}*mm'.format(CRYSTAL_GAP)),
+
+        ('GlassModule_sx', '{:.2f}*mm'.format(GLASS_SIZE[0])),
+        ('GlassModule_sy', '{:.2f}*mm'.format(GLASS_SIZE[1])),
+        ('GlassModule_sz', '{:.2f}*mm'.format(GLASS_SIZE[2])),
+        ('GlassModule_wrap', '{:.2f}*mm'.format(GLASS_GAP)),
+
+        ('CrystalModule_z0', '10.*cm'),
+        ('GlassModule_z0', '0.0*cm'),
+        ('EcalEndcapN_z0', '-EcalEndcapN_zmin-max(CrystalModule_sz,GlassModule_sz)/2.'),
+
+        ('CrystalModule_dx', 'CrystalModule_sx + CrystalModule_wrap'),
+        ('CrystalModule_dy', 'CrystalModule_sy + CrystalModule_wrap'),
+        ('GlassModule_dx', 'GlassModule_sx + GlassModule_wrap'),
+        ('GlassModule_dy', 'GlassModule_sy + GlassModule_wrap'),
+    ]
+
+# line-by-line alignment start pos, total number of blocks
     for name, value in CONSTANTS:
         constant = ET.SubElement(defines, 'constant')
         constant.set('name', name)
@@ -121,7 +172,7 @@ if __name__ == '__main__':
     crystal_wrap.set('vis', 'WhiteVis')
     # crystal placements (for individuals)
     if args.indiv:
-        for m, (x, y) in enumerate(individual_placement(CRYSTAL_ALIGNMENT)):
+        for m, (x, y) in enumerate(individual_placement(CRYSTAL_ALIGNMENT, *CRYSTAL_SIZE[:2], CRYSTAL_GAP)):
             module = ET.SubElement(crystal, 'placement')
             module.set('x', '{:.3f}*mm'.format(x))
             module.set('y', '{:.3f}*mm'.format(y))
@@ -157,7 +208,7 @@ if __name__ == '__main__':
     glass_wrap.set('vis', 'WhiteVis')
     # crystal placements (for individuals)
     if args.indiv:
-        for m, (x, y) in enumerate(individual_placement(GLASS_ALIGNMENT, 41.0, 41.0)):
+        for m, (x, y) in enumerate(individual_placement(GLASS_ALIGNMENT, *GLASS_SIZE[:2], GLASS_GAP)):
             module = ET.SubElement(glass, 'placement')
             module.set('x', '{:.3f}*mm'.format(x))
             module.set('y', '{:.3f}*mm'.format(y))
@@ -207,4 +258,22 @@ if __name__ == '__main__':
     text = ET.tostring(data, pretty_print=True)
     with open(args.save, 'wb') as f:
         f.write(text)
+
+
+    fig, ax = plt.subplots(figsize=(12, 12), dpi=160)
+    ax = draw_placement(ax, ['teal', 'royalblue'], [(CRYSTAL_SIZE, CRYSTAL_GAP, CRYSTAL_ALIGNMENT),
+                                                    (GLASS_SIZE, GLASS_GAP, GLASS_ALIGNMENT)])
+    ax.set_xlabel('x (mm)', fontsize=24)
+    ax.set_ylabel('y (mm)', fontsize=24)
+    ax.tick_params(direction='in', labelsize=22, which='both')
+    ax.set_axisbelow(True)
+    ax.grid(linestyle=':', which='both')
+
+    if args.compact and args.radii:
+        names = [c.strip() for c in args.radii.split(',')]
+        radii = compact_constants(args.compact, names)
+        for name, radius in zip(names, radii):
+            ax.add_patch(Circle((0, 0), radius*10., facecolor='none', edgecolor='k', linewidth=2))
+            ax.annotate(name, xy=(radius*10/1.4, radius*10/1.4), fontsize=22)
+    fig.savefig('ce_ecal_placement.png')
 
