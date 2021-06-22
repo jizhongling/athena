@@ -70,7 +70,7 @@
           n_beams="3" grid_size="25.0*cm" >
         </support>
       </staves>
-      <layer repeat="EcalBarrel_ReadoutLayerNumber" vis="AnlBlue">
+      <layer repeat="min(EcalBarrel_ReadoutLayerNumber, EcalBarrelLayers_nMax)" vis="AnlBlue">
         <slice material="Silicon" thickness="EcalBarrel_SiliconThickness" sensitive="yes" limits="cal_limits" vis="AnlGray"/>
         <slice material="Silicon" thickness="EcalBarrel_ElectronicsThickness" vis="AnlGold"/>
         <slice material="Copper" thickness="EcalBarrel_CopperThickness" vis="AnlGray"/>
