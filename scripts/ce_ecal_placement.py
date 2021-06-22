@@ -29,12 +29,12 @@ CRYSTAL_ALIGNMENT = [
 GLASS_SIZE = (40., 40., 400.) # mm
 GLASS_GAP = 1.0 # mm
 GLASS_ALIGNMENT = [
-    (12, 11), (12, 11), (12, 11), (11, 12),
-    (11, 12), (11, 12), (10, 12), (9, 13),
+    (12, 11), (12, 11), (12, 11), (11, 11),
+    (11, 11), (11, 11), (10, 12), (9, 12),
     (8, 13),  (7, 14),  (6, 14),  (3, 16),
-    (0, 19),  (0, 18),  (0, 18),  (0, 17),
-    (0, 17),  (0, 15),  (0, 13),  (0, 11),
-    (0, 10),  (0, 8),   (0, 6),
+    (0, 19),  (0, 18),  (0, 18),  (0, 16),
+    (0, 16),  (0, 14),  (0, 13),  (0, 11),
+    (0, 10),  (0, 7),   (0, 3),
 ]
 
 # calculate positions of modules with a quad-alignment and module size
@@ -52,22 +52,26 @@ def individual_placement(alignment, module_x, module_y, gap=0.):
 
 def draw_placement(axis, colors=('teal'), module_alignment=((CRYSTAL_SIZE, CRYSTAL_GAP, CRYSTAL_ALIGNMENT))):
     xmin, ymin, xmax, ymax = 0., 0., 0., 0.
+    patches = []
+    numbers = []
     for color, (mod_size, mod_gap, alignment) in zip(colors, module_alignment):
         placements = individual_placement(alignment, *mod_size[:2], mod_gap)
         boxes = [Rectangle((x - (mod_size[0] + mod_gap)/2., y - (mod_size[1] + mod_gap)/2.), mod_size[0], mod_size[1])
                  for x, y in placements]
+        patches.append(Rectangle((0., 0.), *mod_size[:2], facecolor=color, alpha=0.5, edgecolor='k'))
+        numbers.append(len(placements))
         pc = PatchCollection(boxes, facecolor=color, alpha=0.5, edgecolor='k')
 
-        xmin = min(xmin, placements.T[0].min() - 3.*(mod_size[0] + mod_gap))
-        ymin = min(ymin, placements.T[1].min() - 3.*(mod_size[1] + mod_gap))
-        xmax = max(xmax, placements.T[0].max() + 3.*(mod_size[0] + mod_gap))
-        ymax = max(ymax, placements.T[1].max() + 3.*(mod_size[1] + mod_gap))
+        xmin = min(xmin, placements.T[0].min() - 8.*(mod_size[0] + mod_gap))
+        ymin = min(ymin, placements.T[1].min() - 8.*(mod_size[1] + mod_gap))
+        xmax = max(xmax, placements.T[0].max() + 8.*(mod_size[0] + mod_gap))
+        ymax = max(ymax, placements.T[1].max() + 8.*(mod_size[1] + mod_gap))
 
         # Add collection to axes
         axis.add_collection(pc)
     axis.set_xlim(xmin, xmax)
     axis.set_ylim(ymin, ymax)
-    return axis
+    return axis, patches, numbers
 
 
 def compact_constants(path, names):
@@ -261,13 +265,14 @@ if __name__ == '__main__':
 
 
     fig, ax = plt.subplots(figsize=(12, 12), dpi=160)
-    ax = draw_placement(ax, ['teal', 'royalblue'], [(CRYSTAL_SIZE, CRYSTAL_GAP, CRYSTAL_ALIGNMENT),
-                                                    (GLASS_SIZE, GLASS_GAP, GLASS_ALIGNMENT)])
+    ax, patches, nblocks = draw_placement(ax, ['teal', 'royalblue'],
+            [(CRYSTAL_SIZE, CRYSTAL_GAP, CRYSTAL_ALIGNMENT), (GLASS_SIZE, GLASS_GAP, GLASS_ALIGNMENT)])
     ax.set_xlabel('x (mm)', fontsize=24)
     ax.set_ylabel('y (mm)', fontsize=24)
     ax.tick_params(direction='in', labelsize=22, which='both')
     ax.set_axisbelow(True)
     ax.grid(linestyle=':', which='both')
+    ax.legend(patches, ['{} {}'.format(num, name) for num, name in zip(nblocks, ['PbWO$_4$', 'SciGlass'])], fontsize=24)
 
     if args.compact and args.radii:
         names = [c.strip() for c in args.radii.split(',')]
