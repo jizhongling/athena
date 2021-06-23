@@ -142,6 +142,16 @@
       <composite name="TrackerEndcapP_Outer"/>
       <composite name="TrackerEndcapN_Outer"/>
     </detector>
+    
+    <detector id="TOFSubAssembly_ID"
+      name="TOFSubAssembly"
+      type="DD4hep_SubdetectorAssembly"
+      vis="TOFSubAssemblyVis">
+      <composite name="BarrelTOF"/>
+      <composite name="ForwardTOF"/>
+      <composite name="BackwardTOF"/>
+    </detector>
+
     <!--
     <detector id="TrackerBarrelSubAssembly_Inner_ID"
       name="TrackerBarrelSubAssembly_Inner"
@@ -177,6 +187,7 @@
 
   <include ref="compact/central_tracker.xml"/>
 
+  <include ref="compact/tof_barrel.xml"/>
   
   <!--include ref="compact/rwell_tracker_barrel.xml"/-->
   <include ref="compact/cb_DIRC.xml"/>

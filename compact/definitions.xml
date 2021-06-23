@@ -161,13 +161,14 @@
     DIRC subsystem       ID: 90
     Barrel TRD subsystem ID: 91
     Barrel TOF subsystem ID: 92
-
-    Unused IDs: 93-99 
+    TOFSubAssembly       ID: 93
+    
+    Unused IDs: 94-99
     </comment>
     <constant name="BarrelDIRC_ID" value="90"/>
     <constant name="BarrelTRD_ID"  value="91"/>
     <constant name="BarrelTOF_ID"  value="92"/>
-
+    <constant name="TOFSubAssembly_ID" value="93"/>
 
     <comment> 
       =====================================
