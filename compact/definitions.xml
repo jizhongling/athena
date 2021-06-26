@@ -267,8 +267,8 @@
 
     </comment>
     <constant name="B0Tracker_ID"          value="150"/>
-    <constant name="ForwardRomanPotA_ID"   value="155"/>
-    <constant name="ForwardRomanPotB_ID"   value="156"/>
+    <constant name="ForwardRomanPot_Station_1_ID"   value="155"/>
+    <constant name="ForwardRomanPot_Station_2_ID"   value="156"/>
     <constant name="ForwardRomanPotC_ID"   value="157"/>
     <constant name="ForwardOffMTracker_ID" value="159"/>
     <constant name="ffi_ZDC_ECAL_ID"       value="160"/>
