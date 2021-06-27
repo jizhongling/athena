@@ -97,11 +97,12 @@ rm -f *.prim
 
 if [  "${DETECTOR_ONLY}" -eq "1" ] ; then
 
+  # timeout --preserve-status --signal=SIGTERM 120s \
   ./scripts/run_detector_simulation.py  \
     --compact ${DETECTOR_PATH}/athena.xml \
   -i scripts/input_data/few_events.hepmc \
   -o derp.root -n 1 \
-  --ui csh --vis -b -m macro/dawn_picture.mac & 
+  --ui csh --vis -b -m macro/dawn_picture.mac &
 
 sleep 10
 echo "sleeping 20 secs ..  " 
@@ -115,7 +116,8 @@ kill %1
 else 
 
   echo " Running simulation for tracks"
-./scripts/run_detector_simulation.py \
+  # timeout --preserve-status --signal=SIGTERM 120s \
+  ./scripts/run_detector_simulation.py \
     --compact ${DETECTOR_PATH}/athena.xml \
   -i scripts/input_data/few_events.hepmc \
   -o derp.root -s ${SKIP_EVENTS} -n 1 \
@@ -147,7 +149,7 @@ fi
 #sleep 20 
 #kill %1
 
-[[ -f "g4_0000.prim" ]]  || exit -1
+[[ -f "g4_0000.prim" ]]  ||  exit -1
 
 echo "simulating done" 
 #npsim --runType vis \

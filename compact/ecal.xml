@@ -16,8 +16,10 @@
   <display>
   </display>
 
-  <include ref="ecal_barrel.xml"/>
-      <!--<include ref="ce_ecal.xml"/>-->
+  <!-- <include ref="ecal_barrel.xml"/> -->
+  <include ref="ecal_barrel_hybrid.xml"/>
+  
+  <!--<include ref="ce_ecal.xml"/>-->
   <include ref="ce_ecal_crystal_glass.xml"/>
   <detectors>
 

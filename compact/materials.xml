@@ -147,6 +147,12 @@
     <composite n="12" ref="H"/>
     <composite n="3" ref="O"/>
   </material>
+  <material name="TungstenPowder">
+    <D value="11.25" unit="g / cm3"/>
+    <fraction n="0.954" ref="W"/>
+    <fraction n="0.040" ref="Ni"/>
+    <fraction n="0.006" ref="Fe"/>
+  </material>
   <material name="TungstenDens23">
     <D value="17.7" unit="g / cm3"/>
     <fraction n="0.925" ref="W"/>
