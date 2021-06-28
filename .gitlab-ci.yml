@@ -195,7 +195,7 @@ benchmarks:detector:
   trigger:
     project: EIC/benchmarks/detector_benchmarks
     strategy: depend
-  needs: ["overlap_check_tgeo","overlap_check_geant4","report"]
+  needs: ["overlap_check_tgeo","report"]
 
     #benchmarks:reconstruction:
     #  stage: deploy
