@@ -16,10 +16,10 @@
 #include <XML/Helper.h>
 #include <iostream>
 #include <algorithm>
+#include <tuple>
 #include <math.h>
 
 using namespace dd4hep;
-using namespace dd4hep::detail;
 
 /** \addtogroup calorimeters Calorimeters
  */
@@ -170,13 +170,12 @@ static Ref_t create_detector(Detector& desc, xml::Handle_t handle, SensitiveDete
 }
 
 // helper function to build module with or w/o wrapper
-Volume build_module(Detector &desc, xml::Collection_t &plm, SensitiveDetector &sens, Position &dim)
+std::tuple<Volume, Position> build_module(Detector &desc, xml::Collection_t &plm, SensitiveDetector &sens)
 {
     auto mod = plm.child(_Unicode(module));
     auto sx = mod.attr<double>(_Unicode(sizex));
     auto sy = mod.attr<double>(_Unicode(sizey));
     auto sz = mod.attr<double>(_Unicode(sizez));
-    dim = Position{sx, sy, sz};
     Box modShape(sx/2., sy/2., sz/2.);
     auto modMat = desc.material(mod.attr<std::string>(_Unicode(material)));
     Volume modVol("module_vol", modShape, modMat);
@@ -185,29 +184,27 @@ Volume build_module(Detector &desc, xml::Collection_t &plm, SensitiveDetector &s
 
     // no wrapper
     if (!plm.hasChild(_Unicode(wrapper))) {
-        return modVol;
+        return std::make_tuple(modVol, Position{sx, sy, sz});
     // build wrapper
     } else {
         auto wrp = plm.child(_Unicode(wrapper));
         auto thickness = wrp.attr<double>(_Unicode(thickness));
-        if (thickness == 0.) {
-            return modVol;
+        if (thickness < 1e-12*mm) {
+            return std::make_tuple(modVol, Position{sx, sy, sz});
         }
         auto wrpMat = desc.material(wrp.attr<std::string>(_Unicode(material)));
         Box wrpShape((sx + thickness)/2., (sy + thickness)/2., sz/2.);
         Volume wrpVol("wrapper_vol", wrpShape, wrpMat);
         wrpVol.placeVolume(modVol, Position(0., 0., 0.));
         wrpVol.setVisAttributes(desc.visAttributes(wrp.attr<std::string>(_Unicode(vis))));
-        dim = Position{sx + thickness, sy + thickness, sz};
-        return wrpVol;
+        return std::make_tuple(wrpVol, Position{sx + thickness, sy + thickness, sz});
     }
 }
 
 // place modules, id must be provided
 static void add_individuals(Detector& desc, Assembly &env, xml::Collection_t &plm, SensitiveDetector &sens, int sid)
 {
-    Position modSize;
-    auto modVol = build_module(desc, plm, sens, modSize);
+    auto [modVol, modSize] = build_module(desc, plm, sens);
     int sector_id = dd4hep::getAttrOrDefault<int>(plm, _Unicode(sector), sid);
 
     for (xml::Collection_t pl(plm, _Unicode(placement)); pl; ++pl) {
@@ -228,8 +225,7 @@ static void add_individuals(Detector& desc, Assembly &env, xml::Collection_t &pl
 // place array of modules
 static void add_array(Detector& desc, Assembly &env, xml::Collection_t &plm, SensitiveDetector &sens, int sid)
 {
-    Position modSize;
-    auto modVol = build_module(desc, plm, sens, modSize);
+    auto [modVol, modSize] = build_module(desc, plm, sens);
     int sector_id = dd4hep::getAttrOrDefault<int>(plm, _Unicode(sector), sid);
     int id_begin = dd4hep::getAttrOrDefault<int>(plm, _Unicode(id_begin), 1);
     int nrow = plm.attr<int>(_Unicode(nrow));
@@ -266,8 +262,7 @@ static void add_array(Detector& desc, Assembly &env, xml::Collection_t &plm, Sen
 // place disk of modules
 static void add_disk(Detector& desc, Assembly &env, xml::Collection_t &plm, SensitiveDetector &sens, int sid)
 {
-    Position modSize;
-    auto modVol = build_module(desc, plm, sens, modSize);
+    auto [modVol, modSize] = build_module(desc, plm, sens);
     int sector_id = dd4hep::getAttrOrDefault<int>(plm, _Unicode(sector), sid);
     int id_begin = dd4hep::getAttrOrDefault<int>(plm, _Unicode(id_begin), 1);
     double rmin = plm.attr<double>(_Unicode(rmin));
@@ -275,7 +270,7 @@ static void add_disk(Detector& desc, Assembly &env, xml::Collection_t &plm, Sens
     double phimin = dd4hep::getAttrOrDefault<double>(plm, _Unicode(phimin), 0.);
     double phimax = dd4hep::getAttrOrDefault<double>(plm, _Unicode(phimax), 2.*M_PI);
 
-    auto points = ref::utils::fillRectangles({0., 0.}, modSize.x(), modSize.y(), rmin, rmax, phimin, phimax);
+    auto points = athena::geo::fillRectangles({0., 0.}, modSize.x(), modSize.y(), rmin, rmax, phimin, phimax);
     // placement to mother
     auto pos = get_xml_xyz(plm, _Unicode(position));
     auto rot = get_xml_xyz(plm, _Unicode(rotation));
@@ -291,8 +286,7 @@ static void add_disk(Detector& desc, Assembly &env, xml::Collection_t &plm, Sens
 // place lines of modules (anchor point is the 0th module of this line)
 static void add_lines(Detector& desc, Assembly &env, xml::Collection_t &plm, SensitiveDetector &sens, int sid)
 {
-    Position modSize;
-    auto modVol = build_module(desc, plm, sens, modSize);
+    auto [modVol, modSize] = build_module(desc, plm, sens);
     int sector_id = dd4hep::getAttrOrDefault<int>(plm, _Unicode(sector), sid);
     int id_begin = dd4hep::getAttrOrDefault<int>(plm, _Unicode(id_begin), 1);
     bool mirrorx = dd4hep::getAttrOrDefault<bool>(plm, _Unicode(mirrorx), false);

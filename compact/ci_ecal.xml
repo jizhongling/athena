@@ -1,0 +1,76 @@
+<lccdd>
+  <define>
+    <constant name="EcalEndcapP_rmax" value="Solenoid_rmax "/>
+  </define>
+
+
+  <limits>
+  </limits>
+
+  <regions>
+  </regions>
+
+  <!-- Common Generic visualization attributes -->
+  <comment>Common Generic visualization attributes</comment>
+  <display>
+  </display>
+
+  <detectors>
+
+    <comment>
+      ------------------------------------------
+      Forward (Positive Z) Endcap EM Calorimeter
+      ------------------------------------------
+      A layered EM calorimeter with tungsten and silicon (or scintillator) strips
+    </comment>
+    <detector id="ECalEndcapP_ID" 
+      name="EcalEndcapP" 
+      reflect="false" 
+      type="refdet_PolyhedraEndcapCalorimeter2" 
+      readout="EcalEndcapPHits" 
+      vis="EcalEndcapVis" 
+      calorimeterType="EM_ENDCAP" >
+      <position x="0" y="0" z="-0"/>
+      <dimensions 
+        numsides="CaloSides" 
+        zmin="EcalEndcapP_zmin" 
+        rmin="EcalEndcapP_rmin" 
+        rmax="EcalEndcapP_rmax " />
+      <layer repeat="EcalEndcapPLayer1_NRepeat">
+        <slice material="Silicon" thickness="EcalSiliconThickness" sensitive="yes" limits="cal_limits"/>
+        <slice material="Copper" thickness="EcalCopperThickness"/>
+        <slice material="Kapton" thickness="EcalKaptonThickness"/>
+        <slice material="Air" thickness="EcalAir1Thickness"/>
+      </layer>
+      <layer repeat="EcalEndcapPLayer2_NRepeat">
+        <slice material="TungstenDens24" thickness="EcalThinTungstenThickness"/>
+        <slice material="Air" thickness="EcalAir2Thickness"/>
+        <slice material="Silicon" thickness="EcalSiliconThickness" sensitive="yes" limits="cal_limits"/>
+        <slice material="Copper" thickness="EcalCopperThickness"/>
+        <slice material="Kapton" thickness="EcalKaptonThickness"/>
+        <slice material="Air" thickness="EcalAir1Thickness"/>
+      </layer>
+      <layer repeat="EcalEndcapPLayer3_NRepeat">
+        <slice material="TungstenDens24" thickness="EcalThickTungstenThickness"/>
+        <slice material="Air" thickness="EcalAir2Thickness"/>
+        <slice material="Silicon" thickness="EcalSiliconThickness" sensitive="yes" limits="cal_limits"/>
+        <slice material="Copper" thickness="EcalCopperThickness"/>
+        <slice material="Kapton" thickness="EcalKaptonThickness"/>
+        <slice material="Air" thickness="EcalAir1Thickness"/>
+      </layer>
+    </detector>
+  </detectors>
+
+  <!--  Definition of the readout segmentation/definition  -->
+  <readouts>
+    <readout name="EcalEndcapPHits">
+      <segmentation type="CartesianGridXY" grid_size_x="3.5 * mm" grid_size_y="3.5 * mm"/>
+      <id>system:8,barrel:3,module:4,layer:6,slice:5,x:32:-16,y:-16</id>
+    </readout>
+  </readouts>
+
+  <plugins>
+  </plugins>
+
+
+</lccdd>

@@ -3,7 +3,7 @@
 #include "Math/Point2D.h"
 
 // some utility functions that can be shared
-namespace ref::utils {
+namespace athena::geo {
 
 typedef ROOT::Math::XYPoint Point;
 
@@ -17,4 +17,7 @@ inline std::vector<Point> fillSquares(Point ref, double size, double rmin, doubl
     return fillRectangles(ref, size, size, rmin, rmax, phmin, phmax);
 }
 
-} // ref::utils
+std::vector<Point> fillHexagons(Point ref, double lside, double rmin, double rmax,
+                                double phmin = -M_PI, double phmax = M_PI);
+
+} // athena::geo

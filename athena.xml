@@ -108,8 +108,6 @@
   </display>
 
   <comment> Include the IP components first </comment>
-  <include ref="ip6/forward_ion_beamline.xml"/>
-  <include ref="ip6/beampipe.xml"/>
 
   <detectors>
     <detector id="VertexBarrelSubAssembly_ID" 
@@ -203,10 +201,6 @@
   <include ref="compact/forward_trd.xml"/>
   <include ref="compact/gaseous_rich.xml"/>
 
-  <include ref="ip6/B0_tracker.xml"/>
-  <include ref="ip6/far_forward_offM_tracker.xml"/>
-  <include ref="ip6/far_forward_romanpots.xml"/>
-  <include ref="ip6/far_forward_detectors.xml"/>
 
   <!--
   <include ref="compact/mm_tracker_barrel.xml"/>

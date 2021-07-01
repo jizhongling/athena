@@ -192,7 +192,7 @@ void build_sensors(Detector &desc, Volume &env, xml::Component plm, const Positi
         double rotx = dd4hep::getAttrOrDefault<double>(sec, _Unicode(rotx), 0.);
 
         // fill sensors to the piece
-        auto points = ref::utils::fillRectangles({0., 0.}, sx + gap, sy + gap, rmin - gap, rmax + gap, -phiw/2., phiw/2.);
+        auto points = athena::geo::fillRectangles({0., 0.}, sx + gap, sy + gap, rmin - gap, rmax + gap, -phiw/2., phiw/2.);
         int imod = 1;
         for (auto &p : points) {
             // transofrms are in a reversed order

@@ -1,12 +1,23 @@
 #include "GeometryHelpers.h"
 
 // some utility functions that can be shared
-namespace ref::utils {
+namespace athena::geo {
 
 typedef ROOT::Math::XYPoint Point;
 
+// check if a 2d point is already in the container
+bool already_placed(const Point &p, const std::vector<Point> &vec, double xs = 1.0, double ys = 1.0, double tol = 1e-6)
+{
+    for (auto &pt : vec) {
+        if ((std::abs(pt.x() - p.x())/xs < tol) && std::abs(pt.y() - p.y())/ys < tol) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // check if a square in a ring
-inline bool in_ring(const Point &pt, double sx, double sy, double rmin, double rmax, double phmin, double phmax)
+inline bool rec_in_ring(const Point &pt, double sx, double sy, double rmin, double rmax, double phmin, double phmax)
 {
     if (pt.r() > rmax || pt.r() < rmin) {
         return false;
@@ -27,33 +38,29 @@ inline bool in_ring(const Point &pt, double sx, double sy, double rmin, double r
     return true;
 }
 
-// check if a square is overlapped with the others
-inline bool overlap(const Point &pt, double sx, double sy, const std::vector<Point> &pts)
-{
-    for (auto &p : pts) {
-        auto pn = p - pt;
-        if ((std::abs(pn.x()) < (1. - 1e-6)*sx) && (std::abs(pn.y()) < (1. - 1e-6)*sy)) {
-            return true;
-        }
-    }
-    return false;
-}
-
 // a helper function to recursively fill square in a ring
-void add_rectangle(Point p, std::vector<Point> &res, double sx, double sy, double rmin, double rmax, double phmin, double phmax)
+void add_rectangle(Point p, std::vector<Point> &res, double sx, double sy,
+                   double rmin, double rmax, double phmin, double phmax, int max_depth = 20, int depth = 0)
 {
-    // outside of the ring or overlapping
-    if (!in_ring(p, sx, sy, rmin, rmax, phmin, phmax) || overlap(p, sx, sy, res)) {
+    // std::cout << depth << "/" << max_depth << std::endl;
+    // exceeds the maximum depth in searching or already placed
+    if ((depth > max_depth) || (already_placed(p, res, sx, sy))) {
         return;
     }
 
-    res.emplace_back(p);
+    bool in_ring = rec_in_ring(p, sx, sy, rmin, rmax, phmin, phmax);
+    if (in_ring) {
+        res.emplace_back(p);
+    }
 
-    // check adjacent squares
-    add_rectangle(Point(p.x() + sx, p.y()), res, sx, sy, rmin, rmax, phmin, phmax);
-    add_rectangle(Point(p.x() - sx, p.y()), res, sx, sy, rmin, rmax, phmin, phmax);
-    add_rectangle(Point(p.x(), p.y() + sy), res, sx, sy, rmin, rmax, phmin, phmax);
-    add_rectangle(Point(p.x(), p.y() - sy), res, sx, sy, rmin, rmax, phmin, phmax);
+    // continue search for a good placement or if no placement found yet
+    if (in_ring || res.empty()) {
+        // check adjacent squares
+        add_rectangle(Point(p.x() + sx, p.y()), res, sx, sy, rmin, rmax, phmin, phmax, max_depth, depth + 1);
+        add_rectangle(Point(p.x() - sx, p.y()), res, sx, sy, rmin, rmax, phmin, phmax, max_depth, depth + 1);
+        add_rectangle(Point(p.x(), p.y() + sy), res, sx, sy, rmin, rmax, phmin, phmax, max_depth, depth + 1);
+        add_rectangle(Point(p.x(), p.y() - sy), res, sx, sy, rmin, rmax, phmin, phmax, max_depth, depth + 1);
+    }
 }
 
 // fill squares
@@ -68,23 +75,76 @@ std::vector<Point> fillRectangles(Point ref, double sx, double sy, double rmin, 
     // move to center
     ref = ref - Point(int(ref.x()/sx)*sx, int(ref.y()/sy)*sy);
 
-    auto find_seed = [] (const Point &ref, int n, double sx, double sy, double rmin, double rmax, double phmin, double phmax) {
-        for (int ix = -n; ix < n; ++ix) {
-            for (int iy = -n; iy < n; ++iy) {
-                Point pt(ref.x() + ix*sx, ref.y() + iy*sy);
-                if (in_ring(pt, sx, sy, rmin, rmax, phmin, phmax)) {
-                    return pt;
-                }
-            }
-        }
-        return ref;
-    };
-
     std::vector<Point> res;
-    ref = find_seed(ref, int(rmax/sx) + 2, sx, sy, rmin, rmax, phmin, phmax);
-    add_rectangle(ref, res, sx, sy, rmin, rmax, phmin, phmax);
+    add_rectangle(ref, res, sx, sy, rmin, rmax, phmin, phmax, (int(rmax/sx) + 1)*(int(rmax/sy) + 1)*2);
     return res;
 }
 
+// check if a regular polygon is inside a ring
+bool poly_in_ring(const Point &p, int nsides, double lside, double rmin, double rmax, double phmin, double phmax)
+{
+    // outer radius is contained
+    if ((p.r() + lside <= rmax) && (p.r() - lside >= rmin)) {
+        return true;
+    }
 
-} // ref::utils
+    // inner radius is not contained
+    double rin = std::cos(M_PI/nsides)*lside;
+    if ((p.r() + rin > rmax) || (p.r() - rin < rmin)) {
+        return false;
+    }
+
+    // in between, check every corner
+    for (int i = 0; i < nsides; ++i) {
+        double phi = (i + 0.5)*2.*M_PI/static_cast<double>(nsides);
+        Point p2(p.x() + 2.*lside*std::sin(phi), p.y() + 2.*lside*std::cos(phi));
+        if ((p2.r() > rmax) || (p2.r() < rmin)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// recursively fill square (nside=4) or hexagon (nside=6) in a ring, other polygons won't work
+void add_poly(Point p, std::vector<Point> &res, int nsides, double lside,
+              double rmin, double rmax, double phmin, double phmax, int max_depth = 20, int depth = 0)
+{
+    // std::cout << depth << "/" << max_depth << std::endl;
+    // exceeds the maximum depth in searching or already placed
+    if ((depth > max_depth) || (already_placed(p, res, lside, lside))) {
+        return;
+    }
+
+    bool in_ring = poly_in_ring(p, nsides, lside, rmin, rmax, phmin, phmax);
+    if (in_ring) {
+        res.emplace_back(p);
+    }
+
+    // recursively add neigbors, continue if it was a good placement or no placement found yet
+    if (in_ring || res.empty()) {
+        double d = 2.*std::cos(M_PI/static_cast<double>(nsides))*lside;
+        for (int i = 0; i < nsides; ++i) {
+            double phi = i*2.*M_PI/static_cast<double>(nsides);
+            add_poly(Point(p.x() + 2.*lside*std::sin(phi), p.y() + 2.*lside*std::cos(phi)), res, nsides, lside,
+                     rmin, rmax, phmin, phmax, max_depth, depth + 1);
+        }
+    }
+}
+
+std::vector<Point> fillHexagons(Point ref, double lside, double rmin, double rmax, double phmin, double phmax)
+{
+    // convert (0, 2pi) to (-pi, pi)
+    if (phmax > M_PI) {
+        phmin -= M_PI;
+        phmax -= M_PI;
+    }
+    // start with a seed and find one in the ring
+    // move to center
+    ref = ref - Point(int(ref.x()/lside)*lside, int(ref.y()/lside)*lside);
+
+    std::vector<Point> res;
+    add_poly(ref, res, 6, lside, rmin, rmax, phmin, phmax, std::pow(int(rmax/lside) + 1, 2)*2);
+    return res;
+}
+
+} // athena::geo

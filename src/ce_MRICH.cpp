@@ -82,7 +82,7 @@ void addModules(Volume &mother, xml::DetElement &detElem, Detector &desc, Sensit
     modVol.setSensitiveDetector(sens);
 
     // place modules in the sectors (disk)
-    auto points = ref::utils::fillSquares({0., 0.}, mWidth + mGap, rmin - mGap, rmax + mGap);
+    auto points = athena::geo::fillSquares({0., 0.}, mWidth + mGap, rmin - mGap, rmax + mGap);
 
     // determine module direction, always facing z = 0
     double roty = dims.z() > 0. ? M_PI/2. : -M_PI/2.;
