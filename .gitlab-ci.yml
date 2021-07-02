@@ -117,6 +117,7 @@ dump_geometry:
    - sed -i '/forward_ion_beamline/d' ${DETECTOR_PATH}/athena.xml
    - sed -i '/far_forward/d' ${DETECTOR_PATH}/athena.xml
    - dd_web_display --output geo/detector_geo.root ${DETECTOR_PATH}/athena.xml
+   - echo "Geometry viewer at https://eic.phy.anl.gov/geoviewer/index.htm?file=https://eicweb.phy.anl.gov/EIC/detectors/athena/-/jobs/${CI_JOB_ID}/artifacts/raw/geo/detector_geo_full.root?job=dump_geometry&item=default;1&opt=clipxyz;transp30;zoom75;ROTY290;ROTZ350;trz0;trr0;ctrl;all&"
 
 report:
   stage: finalize
@@ -137,6 +138,7 @@ report:
   script:
     - pip3 install jinja2 &&  ls -lrth
     - ./bin/make_images > doc/dawn_views.md
+    - echo "Geometry viewer at https://eic.phy.anl.gov/geoviewer/index.htm?file=https://eicweb.phy.anl.gov/EIC/detectors/athena/-/jobs/${CI_JOB_ID}/artifacts/raw/geo/detector_geo_full.root?job=finalize&item=default;1&opt=clipxyz;transp30;zoom75;ROTY290;ROTZ350;trz0;trr0;ctrl;all&"
 
 dump_constants:
   stage: test
