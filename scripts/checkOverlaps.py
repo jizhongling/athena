@@ -5,10 +5,10 @@ import logging
 
 import argparse
 parser = argparse.ArgumentParser(
-     prog='convert_to_gdml.py',
-     description='''Convert DD4Hep description to GDML''',
+     prog='checkOverlaps.py',
+     description='''Check for overlaps using Geant4''',
      epilog='''
-     This program converts the compact detector file to a single GDML file.
+     This program checks the compact detector file for overlaps using Geant4.
          ''')
 parser.add_argument("-c", "--compact", help="compact detector file",default="athena.xml")
 parser.add_argument("-r", "--resolution", help="number of points on surface",default="10000")
