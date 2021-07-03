@@ -309,12 +309,22 @@
       ==========================
       Solenoid Magnet Parameters
       ==========================
+      When changing here, also change the include file in athena.xml.
     </comment>
 
+    <comment>Solenoid option</comment>
     <constant name="Solenoid_length"           value="3840.0*mm"/>
     <constant name="Solenoid_rmin"             value="1600.0*mm"/>
     <constant name="Solenoid_thickness"        value="640*mm"/>
     <constant name="Solenoid_offset"           value="10*mm"/>
+
+    <comment>Helmholtz option</comment>
+    <comment>
+    <constant name="Solenoid_length"           value="3840.0*mm"/>
+    <constant name="Solenoid_rmin"             value="1665.0*mm"/> <!-- Larger inner bore radius -->
+    <constant name="Solenoid_thickness"        value="640*mm"/>
+    <constant name="Solenoid_offset"           value="10*mm"/>
+    </comment>
 
     <constant name="Solenoid_rmax"             value="Solenoid_rmin + Solenoid_thickness"/>
     <constant name="SolenoidBarrel_rmin"       value="Solenoid_rmin"/>

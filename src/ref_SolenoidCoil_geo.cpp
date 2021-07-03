@@ -33,34 +33,45 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
   for(xml_coll_t i(x_det,_U(layer)); i; ++i, ++n)  {
     xml_comp_t x_layer = i;
     string  l_name = det_name+_toString(n,"_layer%d");
-    double  z    = x_layer.outer_z();
+    double  outer_z = x_layer.outer_z();
     double  rmin = x_layer.inner_r();
     double  r    = rmin;
     DetElement layer(sdet,_toString(n,"layer%d"),x_layer.id());
-    Tube    l_tub (rmin,2*rmin,z);
+    Tube    l_tub (rmin,2*rmin,outer_z);
     Volume  l_vol(l_name,l_tub,air);
     int im = 0;
 
     for(xml_coll_t j(x_layer,_U(slice)); j; ++j, ++im)  {
+      // If slices are only given a thickness attribute, they are radially concentric slices
+      // If slices are given an inner_z attribute, they are longitudinal slices with equal rmin
       xml_comp_t x_slice = j;
       Material mat = description.material(x_slice.materialStr());
       string s_name= l_name+_toString(im,"_slice%d");
       double thickness = x_slice.thickness();
-      Tube   s_tub(r,r+thickness,z,2*M_PI);
+      double s_outer_z = dd4hep::getAttrOrDefault(x_slice, _Unicode(outer_z), outer_z);
+      double s_inner_z = dd4hep::getAttrOrDefault(x_slice, _Unicode(inner_z), 0.0*dd4hep::cm);
+      Tube   s_tub(r,r+thickness,(s_inner_z > 0? 0.5*(s_outer_z-s_inner_z): s_outer_z),2*M_PI);
       Volume s_vol(s_name, s_tub, mat);
 
-      r += thickness;
       if ( x_slice.isSensitive() ) {
         sens.setType("tracker");
         s_vol.setSensitiveDetector(sens);
       }
       // Set Attributes
       s_vol.setAttributes(description,x_slice.regionStr(),x_slice.limitsStr(),x_slice.visStr());
-      pv = l_vol.placeVolume(s_vol);
+      if (s_inner_z > 0) {
+        // Place off-center volumes twice
+        Position s_pos(0, 0, 0.5*(s_outer_z+s_inner_z));
+        pv = l_vol.placeVolume(s_vol, -s_pos);
+        pv = l_vol.placeVolume(s_vol, +s_pos);
+      } else {
+        r += thickness;
+        pv = l_vol.placeVolume(s_vol);
+      }
       // Slices have no extra id. Take the ID of the layer!
       pv.addPhysVolID("slice",im);
     }
-    l_tub.setDimensions(rmin,r,z);
+    l_tub.setDimensions(rmin,r,outer_z);
     //cout << l_name << " " << rmin << " " << r << " " << z << endl;
     l_vol.setVisAttributes(description,x_layer.visStr());
       
