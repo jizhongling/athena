@@ -329,9 +329,20 @@
   </detectors>
 
   <fields>
-    <field type="solenoid" name="GlobalSolenoid" inner_field="3.0 * tesla" outer_field="0.5*tesla" 
+    <!--field type="solenoid" name="GlobalSolenoid" inner_field="3.0 * tesla" outer_field="0.5*tesla" 
            zmin="-SolenoidBarrelCoil_zmax" zmax="SolenoidBarrelCoil_zmax" 
-           inner_radius="SolenoidalFieldRadius" outer_radius="SolenoidalFieldRadius+20*cm"/>
+           inner_radius="SolenoidalFieldRadius" outer_radius="SolenoidalFieldRadius+20*cm"/-->
+    <field type="FieldMapBrBz" name="GlobalSolenoid" field_type="magnetic"
+           field_map="fieldmaps/EIC_v.0.1.0_Magnetic_Field_Map_2021_05_28_radial_coords__cm___T_.401301.line.Bmap"
+           url="https://eicweb.phy.anl.gov/EIC/detectors/athena/uploads/2bb404a58b09e9b9fbd33befded5a04b/EIC_v.0.1.0_Magnetic_Field_Map_2021_05_28_radial_coords__cm___T_.401301.line.Bmap"
+           scale="-1.0">
+      <dimensions>
+        <transverse step="2.0*cm" rmin="0*cm" rmax="1000*cm" />
+        <longitudinal step="2.0*cm" zmin="-800*cm" zmax="800*cm" />
+        <translation x="0.0*cm" y="0.0*cm" z="0.0*cm" />
+        <rotation x="0" y="0" z="0" />
+      </dimensions>
+    </field>
   </fields>
 
 </lccdd>

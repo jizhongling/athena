@@ -2,10 +2,12 @@ dawn_view_02:detector:
   extends: .views
   script:
     - ./bin/make_dawn_views -t view02 -d scripts/view2 -D
-#dawn_view_02:ev001:
-#  extends: .views
-#  script:
-#    - ./bin/make_dawn_views -t view02_ev001 -d scripts/view2 -s 1
+dawn_view_02:ev001:
+  extends: .views
+  rules:
+    - if: '$DETECTOR_EVENT_VIEWS == "ON"'
+  script:
+    - ./bin/make_dawn_views -t view02_ev001 -d scripts/view2 -s 1
 dawn_view_02:ev002:
   extends: .views
   rules:
