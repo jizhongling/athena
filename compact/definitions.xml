@@ -321,7 +321,7 @@
     <comment>Helmholtz option</comment>
     <comment>
     <constant name="Solenoid_length"           value="3840.0*mm"/>
-    <constant name="Solenoid_rmin"             value="1665.0*mm"/> <!-- Larger inner bore radius -->
+    <constant name="Solenoid_rmin"             value="1655.0*mm"/> <!-- Larger inner bore radius -->
     <constant name="Solenoid_thickness"        value="640*mm"/>
     <constant name="Solenoid_offset"           value="10*mm"/>
     </comment>
