@@ -104,13 +104,13 @@ if [  "${DETECTOR_ONLY}" -eq "1" ] ; then
   -o derp.root -n 1 \
   --ui csh --vis -b -m macro/dawn_picture.mac &
 
-sleep 10
-echo "sleeping 20 secs ..  " 
-sleep 10
-echo "sleeping 10 secs " 
-sleep 5 
-echo "sleeping 5 secs " 
-sleep 5 
+timeout=200
+while [ $timeout -ge 0 ] && [ ! -f "g4_0000.prim" ]
+do
+  echo "terminating in $timeout secs ..."
+  sleep 5
+  ((timeout=timeout-5))
+done
 kill %1
 
 else 

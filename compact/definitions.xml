@@ -180,8 +180,9 @@
       EndcapP  subassembly ID: 102
       EndcapN  subassembly ID: 103
       Crystal  subassembly ID: 104
+      Barrel2  subassembly ID: 105
 
-      Unused IDs: 105-109
+      Unused IDs: 106-109
 
     </comment>
     <constant name="ECalSubAssembly_ID" value="100"/>
@@ -189,6 +190,7 @@
     <constant name="ECalEndcapP_ID"     value="102"/>
     <constant name="ECalEndcapN_ID"     value="103"/>
     <constant name="CrystalEndcap_ID"   value="104"/>
+    <constant name="ECalBarrel2_ID"     value="105"/>
 
     <comment> 
       =====================================

@@ -1,5 +1,5 @@
-<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0" 
-       xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+<lccdd xmlns:compact="http://www.lcsim.org/schemas/compact/1.0"
+       xmlns:xs="http://www.w3.org/2001/XMLSchema"
        xs:noNamespaceSchemaLocation="http://www.lcsim.org/schemas/compact/1.0/compact.xsd">
 
   <!-- Some information about detector  -->
@@ -8,7 +8,7 @@
 	url="https://eicweb.phy.anl.gov/EIC/detectors/athena.git"
 	status="development"
 	version="v1 2021-03-16">
-    <comment>Athena Detector</comment>        
+    <comment>Athena Detector</comment>
   </info>
 
   <define>
@@ -112,15 +112,15 @@
   <include ref="ip6/beampipe.xml"/>
 
   <detectors>
-    <detector id="VertexBarrelSubAssembly_ID" 
-      name="VertexBarrelSubAssembly" 
-      type="DD4hep_SubdetectorAssembly" 
+    <detector id="VertexBarrelSubAssembly_ID"
+      name="VertexBarrelSubAssembly"
+      type="DD4hep_SubdetectorAssembly"
       vis="TrackerSubAssemblyVis">
       <composite name="VertexBarrel" />
     </detector>
-    <detector id="VertexEndcapSubAssembly_ID" 
-      name="VertexEndcapSubAssembly" 
-      type="DD4hep_SubdetectorAssembly" 
+    <detector id="VertexEndcapSubAssembly_ID"
+      name="VertexEndcapSubAssembly"
+      type="DD4hep_SubdetectorAssembly"
       vis="TrackerSubAssemblyVis">
       <composite name="VertexEndcapN" />
       <composite name="VertexEndcapP" />
@@ -142,7 +142,7 @@
       <composite name="TrackerEndcapP_Outer"/>
       <composite name="TrackerEndcapN_Outer"/>
     </detector>
-    
+
     <detector id="TOFSubAssembly_ID"
       name="TOFSubAssembly"
       type="DD4hep_SubdetectorAssembly"
@@ -188,14 +188,21 @@
   <include ref="compact/central_tracker.xml"/>
 
   <include ref="compact/tof_barrel.xml"/>
-  
+
   <!--include ref="compact/rwell_tracker_barrel.xml"/-->
   <include ref="compact/cb_DIRC.xml"/>
 
   <!-- When changing magnet, also select dimensions in definitions.xml. -->
   <include ref="compact/solenoid.xml"/>
 
-  <include ref="compact/ecal.xml"/>
+  <include ref="compact/ci_ecal.xml"/>
+  <!--<include ref="compact/ci_ecal_shashlik.xml"/>-->
+  <!--<include ref="compact/ce_ecal.xml"/>-->
+  <include ref="compact/ce_ecal_crystal_glass.xml"/>
+  <!-- <include ref="compact/ecal_barrel.xml"/> -->
+  <!-- <include ref="compact/ecal_barrel_hybrid.xml"/> -->
+  <include ref="compact/ecal_barrel_interlayers.xml"/>
+
   <include ref="compact/hcal.xml"/>
   <!--include ref="compact/ce_GEM.xml"/-->
   <!--include ref="compact/gem_tracker_endcap.xml"/-->
@@ -213,7 +220,7 @@
   <include ref="compact/mm_tracker_barrel.xml"/>
   <include ref="compact/cb_VTX_Barrel.xml"/>
   -->
-   
+
 
   <readouts>
   </readouts>
