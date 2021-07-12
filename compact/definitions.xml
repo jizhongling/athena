@@ -4,12 +4,6 @@
     <constant name="world_y" value="world_side"/>
     <constant name="world_z" value="100*m"/>
 
-    <comment>Although not explicit in the EIC design study, the crossing angle is not symmetric.</comment>
-    <constant name="CrossingAngle" value="0.025"/>
-    <constant name="ionCrossingAngle" value="0.0166667"/>
-    <constant name="electronCrossingAngle" value="0.00833333"/>
-    <constant name="CrossingSlope" value="0.0166682"/>
-
     <constant name="Pi" value="3.14159265359"/>
 
     <constant name="mil" value="0.0254*mm"/>
