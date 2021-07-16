@@ -199,14 +199,20 @@
       <composite name="VertexEndcapP" />
     </detector>
 
+    <detector id="TrackerBarrelSubAssembly_Inner_ID"
+      name="TrackerBarrelSubAssembly_Inner"
+      type="DD4hep_SubdetectorAssembly"
+      vis="TrackerSubAssemblyVis">
+      <composite name="TrackerBarrel_Inner"/>
+    </detector>
     <detector id="TrackerEndcapSubAssembly_Inner_ID"
-      name="TrackerSubAssembly_Inner"
+      name="TrackerEndcapSubAssembly_Inner"
       type="DD4hep_SubdetectorAssembly"
       vis="TrackerSubAssemblyVis">
       <composite name="TrackerEndcapN_Inner"/>
-      <composite name="TrackerBarrel_Inner"/>
       <composite name="TrackerEndcapP_Inner"/>
     </detector>
+
     <detector id="TrackerBarrelSubAssembly_Outer_ID"
       name="TrackerSubAssembly_Outer"
       type="DD4hep_SubdetectorAssembly"
@@ -279,6 +285,7 @@
   <include ref="compact/ecal_barrel_interlayers.xml"/>
 
   <include ref="compact/hcal.xml"/>
+
   <!--include ref="compact/ce_GEM.xml"/-->
   <!--include ref="compact/gem_tracker_endcap.xml"/-->
   <include ref="compact/mrich.xml"/>
