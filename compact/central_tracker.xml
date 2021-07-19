@@ -55,11 +55,17 @@
     <constant name="TrackerEndcapInner_zmax"        value="TrackerBarrelOuter_length/2.0"/>
     <constant name="TrackerEndcapInner_length"        value="TrackerEndcapInner_zmax- TrackerEndcapInner_zmin"/>
     <constant name="TrackerEndcapInnerLayer_dz"        value="TrackerEndcapInner_length/TrackerEndcapInner_nLayers"/>
+    <constant name="TrackerEndcapInnerLayer_thickness"        value="TrackerEndcapInnerLayer_dz - 0.5*cm"/>
+    <comment> Note, the -1.0*cm is so the layers do not touch surfaces. 
+      This is a limitation of ACTS geometry which will likely go away in the future.</comment>
 
     <constant name="TrackerEndcapOuter_zmin"        value="TrackerBarrelOuter_length/2.0"/>
     <constant name="TrackerEndcapOuter_zmax"        value="TrackerEndcapOuter_zmin + 70"/>
     <constant name="TrackerEndcapOuter_length"        value="TrackerEndcapOuter_zmax- TrackerEndcapOuter_zmin"/>
     <constant name="TrackerEndcapOuterLayer_dz"        value="TrackerEndcapOuter_length/TrackerEndcapOuter_nLayers"/>
+    <constant name="TrackerEndcapOuterLayer_thickness"        value="TrackerEndcapOuterLayer_dz - 1.0*cm"/>
+    <comment> Note, the -1.0*cm is so the layers do not touch surfaces. 
+      This is a limitation of ACTS geometry which will likely go away in the future.</comment>
 
     <constant name="TrackerEndcapInner_rmin1" value="Beampipe_rmax+1.0*cm"/>
     <constant name="TrackerEndcapInner_rmin2" value="Beampipe_rmax+1.0*cm"/>
@@ -425,7 +431,7 @@
         <envelope  vis="AnlRed"
           rmin="TrackerEndcapOuter_rmin1"
           rmax="TrackerEndcapOuter_rmax1"
-          length="TrackerEndcapOuterLayer_dz"
+          length="TrackerEndcapOuterLayer_thickness"
           zstart="TrackerEndcapOuter_zmin" />
         <ring vis="AnlRed"
           r="TrackerEndcapOuter_rmin1+TrackerEndcapOuterMod1_y/2.0"
@@ -436,7 +442,7 @@
         <envelope  vis="AnlRed"
           rmin="TrackerEndcapOuter_rmin2"
           rmax="TrackerEndcapOuter_rmax2"
-          length="TrackerEndcapOuterLayer_dz"
+          length="TrackerEndcapOuterLayer_thickness"
           zstart="TrackerEndcapOuter_zmin + TrackerEndcapOuterLayer_dz" />
         <ring vis="AnlRed"
           r="TrackerEndcapOuter_rmin2+TrackerEndcapOuterMod2_y/2.0"
@@ -447,7 +453,7 @@
         <envelope  vis="AnlRed"
           rmin="TrackerEndcapOuter_rmin3"
           rmax="TrackerEndcapOuter_rmax3"
-          length="TrackerEndcapOuterLayer_dz"
+          length="TrackerEndcapOuterLayer_thickness"
           zstart="TrackerEndcapOuter_zmin + 2 * TrackerEndcapOuterLayer_dz" />
         <ring vis="AnlRed"
           r="TrackerEndcapOuter_rmin3+TrackerEndcapOuterMod3_y/2.0"
@@ -482,7 +488,7 @@
         <envelope  vis="AnlRed"
           rmin="TrackerEndcapOuter_rmin1 + 0 * 1.2*cm"
           rmax="TrackerEndcapOuter_rmax1"
-          length="TrackerEndcapOuterLayer_dz"
+          length="TrackerEndcapOuterLayer_thickness"
           zstart="TrackerEndcapOuter_zmin" />
         <ring vis="AnlRed"
           r="TrackerEndcapOuter_rmin1+TrackerEndcapOuterMod1_y/2.0"
@@ -493,7 +499,7 @@
         <envelope  vis="AnlRed"
           rmin="TrackerEndcapOuter_rmin2"
           rmax="TrackerEndcapOuter_rmax2"
-          length="TrackerEndcapOuterLayer_dz"
+          length="TrackerEndcapOuterLayer_thickness"
           zstart="TrackerEndcapOuter_zmin + TrackerEndcapOuterLayer_dz" />
         <ring vis="AnlRed"
           r="TrackerEndcapOuter_rmin2+TrackerEndcapOuterMod2_y/2.0"
@@ -504,7 +510,7 @@
         <envelope  vis="AnlRed"
           rmin="TrackerEndcapOuter_rmin3"
           rmax="TrackerEndcapOuter_rmax3"
-          length="TrackerEndcapOuterLayer_dz"
+          length="TrackerEndcapOuterLayer_thickness"
           zstart="TrackerEndcapOuter_zmin + 2 * TrackerEndcapOuterLayer_dz" />
         <ring vis="AnlRed"
           r="TrackerEndcapOuter_rmin3+TrackerEndcapOuterMod3_y/2.0"
