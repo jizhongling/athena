@@ -103,7 +103,7 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
       c_vol.setVisAttributes(description.visAttributes(c.visStr()));
       pv = m_volume.placeVolume(c_vol, Position(0, posY + c_thick / 2, 0));
       if (c.isSensitive()) {
-        std::cout << " adding sensitive volume" << c_name << "\n";
+        //std::cout << " adding sensitive volume" << c_name << "\n";
         sdet.check(n_sensor > 2, "SiTrackerEndcap2::fromCompact: " + c_name + " Max of 2 modules allowed!");
         pv.addPhysVolID("sensor", n_sensor);
         sens.setType("tracker");
