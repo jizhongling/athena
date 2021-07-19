@@ -23,6 +23,7 @@
     <constant name="EcalBarrel_FiberXSpacing"        value="1.34*mm"/>
     <constant name="EcalBarrel_FiberZSpacing"        value="1.22*mm"/>
     <constant name="EcalBarrel_SpaceBetween"         value="1*mm"/>
+    <constant name="EcalBarrel_FiberChunkLayers_num" value = "10"/>
     <comment>
       For Pb/SiFi (GlueX):  X0 ~ 1.45 cm
       For W/SiFi (sPHENIX): X0 ~ 0.7 cm (but different fiber orientation)
@@ -129,9 +130,11 @@
             spacing_z="EcalBarrel_FiberZSpacing"/>
         </slice>
       </layer>
-      <layer repeat="1" vis="AnlBlue"
+      <layer repeat="EcalBarrel_FiberChunkLayers_num" vis="AnlBlue"
           space_before="EcalBarrel_ImagingLayerThickness + EcalBarrel_SpaceBetween">
-        <slice material="Lead" thickness="EcalBarrel_FiberLayerThickness" vis="EcalBarrelFiberLayerVis">
+        <slice material="Lead"
+          thickness="EcalBarrel_FiberLayerThickness/EcalBarrel_FiberChunkLayers_num"
+          vis="EcalBarrelFiberLayerVis">
           <fiber material="PlasticScint"
             sensitive="yes"
             vis="EcalBarrelFiberVis"
