@@ -516,9 +516,10 @@
     <constant name="EndcapP_CalDivide"          value="0.8"/> <comment> 0.5 means Ecal and Hcal have the same thickness </comment>
     <constant name="EndcapN_CalDivide"          value="1.0"/> <comment> 0.5 means Ecal and Hcal have the same thickness </comment>
 
-    <constant name="EcalEndcapP_length" value="EndcapPTotalCal_length * EndcapP_CalDivide"/>
+    <!--constant name="EcalEndcapP_length" value="EndcapPTotalCal_length * EndcapP_CalDivide"/-->
+    <constant name="EcalEndcapP_length" value="40*cm"/>
     <!--constant name="EcalEndcapN_length" value="EndcapNTotalCal_length * EndcapN_CalDivide"/-->
-    <constant name="EcalEndcapN_length" value="41*cm"/>
+    <constant name="EcalEndcapN_length" value="60*cm"/>
 
 
     <comment> These need to be set in sync with the forward and backward  detectors </comment>
