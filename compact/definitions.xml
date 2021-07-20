@@ -599,8 +599,8 @@
       -------------------------------
     </comment>
 
-    <constant name="HcalEndcapP_length" value="100.0*cm"/>
-    <constant name="HcalEndcapN_length" value="75.0*cm"/>
+    <constant name="HcalEndcapP_length"   value="120.0*cm"/>
+    <constant name="HcalEndcapN_length"   value="105.0*cm"/>
     <constant name="HcalBarrel_thickness" value="100.0*cm "/>
 
     <constant name="HcalBarrel_rmin"          value="Solenoid_rmax"/>
