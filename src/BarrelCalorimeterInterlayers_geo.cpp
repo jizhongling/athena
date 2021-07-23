@@ -17,18 +17,20 @@ using namespace dd4hep;
 using namespace dd4hep::detail;
 
 typedef ROOT::Math::XYPoint Point;
-// headers for helper functions
-vector<Point> _fiberPositions(double radius, double x_spacing, double z_spacing,
-        double x, double z, double phi, double spacing_tol = 1e-2);
-std::pair<int, int> _getNdivisions(double x, double z, double dx, double dz);
-vector<tuple<int, Point, Point, Point, Point>> _gridPoints(int div_x, int div_z, double x, double z, double phi);
+// headers for helper functions, defined in BarrelCalorimeterHybrid_geo
+vector<vector<Point>> fiberPositions(double radius, double x_spacing, double z_spacing,
+                                     double x, double z, double phi, double spacing_tol = 1e-2);
+std::pair<int, int> getNdivisions(double x, double z, double dx, double dz);
+vector<tuple<int, Point, Point, Point, Point>> gridPoints(int div_x, int div_z, double x, double z, double phi);
+void buildFibers(Detector& desc, SensitiveDetector sens, Volume &s_vol, xml_comp_t x_fiber,
+                 std::tuple<double, double, double, double> dimensions);
 
 
 // barrel ecal layers contained in an assembly
-static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector sens)  {
+static Ref_t create_detector(Detector& desc, xml_h e, SensitiveDetector sens)  {
   Layering      layering (e);
   xml_det_t     x_det     = e;
-  Material      air       = description.air();
+  Material      air       = desc.air();
   int           det_id    = x_det.id();
   string        det_name  = x_det.nameStr();
   xml_comp_t    x_staves  = x_det.staves();
@@ -40,7 +42,7 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
   double        hphi      = dphi/2;
 
   DetElement    sdet      (det_name, det_id);
-  Volume        motherVol = description.pickMotherVolume(sdet);
+  Volume        motherVol = desc.pickMotherVolume(sdet);
 
   Assembly      envelope  (det_name);
   Transform3D   tr        = Translation3D(0, 0, offset) * RotationZ(hphi);
@@ -56,7 +58,7 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
 
   // keep tracking of the total thickness
   double l_pos_z = inner_r;
-  { // =====  buildBarrelStave(description, sens, module_volume) =====
+  { // =====  buildBarrelStave(desc, sens, module_volume) =====
     // Parameters for computing the layer X dimension:
     double tan_hphi = std::tan(hphi);
     double l_dim_y  = x_dim.z()/2.;
@@ -99,84 +101,18 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
 	      double s_trd_y2 = s_trd_y1;
 	      double s_trd_z  = s_thick/2.;
           Trapezoid  s_shape(s_trd_x1, s_trd_x2, s_trd_y1, s_trd_y2, s_trd_z);
-          Volume     s_vol(s_name, s_shape, description.material(x_slice.materialStr()));
+          Volume     s_vol(s_name, s_shape, desc.material(x_slice.materialStr()));
           DetElement slice(layer, s_name, det_id);
 
           // build fibers
-          if (x_slice.hasChild("fiber")) {
-            xml_comp_t x_fiber = x_slice.child(_Unicode(fiber));
-            double f_radius = getAttrOrDefault(x_fiber, _U(radius), 0.1 * cm);
-            double f_spacing_x = getAttrOrDefault(x_fiber, _Unicode(spacing_x), 0.122 * cm);
-            double f_spacing_z = getAttrOrDefault(x_fiber, _Unicode(spacing_z), 0.134 * cm);
-            std::string f_id_grid = getAttrOrDefault(x_fiber, _Unicode(identifier_grid), "grid");
-            std::string f_id_fiber = getAttrOrDefault(x_fiber, _Unicode(identifier_fiber), "fiber");
-
-            // Calculate fiber positions inside the slice
-            vector<Point> f_pos = _fiberPositions(f_radius, f_spacing_x, f_spacing_z, s_trd_x1, s_thick, hphi);
-            // Sort fiber IDs fo better organization
-            sort(f_pos.begin(), f_pos.end(),
-              [](const Point &p1, const Point &p2) {
-              if (p1.y() == p2.y()) { return p1.x() < p2.x(); }
-                return p1.y() < p2.y();
-              });
-
-            Tube f_tube(0, f_radius, l_dim_y);
-
-            // Set up the readout grid for the fiber layers
-            // Trapezoid is divided into segments with equal dz and equal number of divisions in x
-            // Every segment is a polygon that can be attached later to the lightguide
-            // The grid size is assumed to be ~2x2 cm (starting values). This is to be larger than
-            // SiPM chip (for GlueX 13mmx13mm: 4x4 grid 3mmx3mm with 3600 50×50 μm pixels each)
-            // See, e.g., https://arxiv.org/abs/1801.03088 Fig. 2d
-
-            // Calculate number of divisions
-            auto grid_div = _getNdivisions(s_trd_x1, s_thick, 2.0*cm, 2.0*cm);
-            // Calculate polygonal grid coordinates (vertices)
-            auto grid_vtx = _gridPoints(grid_div.first, grid_div.second, s_trd_x1, s_thick, hphi);
-
-            vector<int> f_id_count(grid_div.first*grid_div.second, 0);
-            for (auto &p : f_pos) {
-              int f_grid_id = -1;
-              int f_id = -1;
-              // Check to which grid fiber belongs to
-              for (auto &poly_vtx : grid_vtx) {
-                auto [grid_id, vtx_a, vtx_b, vtx_c, vtx_d] = poly_vtx;
-                double poly_x[4] = {vtx_a.x(), vtx_b.x(), vtx_c.x(), vtx_d.x()};
-                double poly_y[4] = {vtx_a.y(), vtx_b.y(), vtx_c.y(), vtx_d.y()};
-                double f_xy[2] = {p.x(), p.y()};
-
-                TGeoPolygon poly(4);
-                poly.SetXY(poly_x,poly_y);
-                poly.FinishPolygon();
-
-                if(poly.Contains(f_xy)) {
-                  f_grid_id = grid_id;
-                  f_id = f_id_count[grid_id];
-                  f_id_count[grid_id]++;
-                }
-              }
-
-              string f_name = "fiber" + to_string(f_grid_id) + "_" + to_string(f_id);
-              Volume f_vol(f_name, f_tube, description.material(x_fiber.materialStr()));
-              DetElement fiber(slice, f_name, det_id);
-              if ( x_fiber.isSensitive() ) {
-                f_vol.setSensitiveDetector(sens);
-              }
-              fiber.setAttributes(description,f_vol,x_fiber.regionStr(),x_fiber.limitsStr(),x_fiber.visStr());
-
-              // Fiber placement
-              Transform3D f_tr(RotationZYX(0,0,M_PI*0.5),Position(p.x(), 0 ,p.y()));
-              PlacedVolume fiber_phv = s_vol.placeVolume(f_vol, f_tr);
-              fiber_phv.addPhysVolID(f_id_grid, f_grid_id + 1).addPhysVolID(f_id_fiber, f_id + 1);
-              fiber.setPlacement(fiber_phv);
-	        }
+          if (x_slice.hasChild(_Unicode(fiber))) {
+              buildFibers(desc, sens, s_vol, x_slice.child(_Unicode(fiber)), {s_trd_x1, s_thick, l_dim_y, hphi});
           }
-
 
           if ( x_slice.isSensitive() ) {
             s_vol.setSensitiveDetector(sens);
           }
-          s_vol.setAttributes(description, x_slice.regionStr(), x_slice.limitsStr(), x_slice.visStr());
+          s_vol.setAttributes(desc, x_slice.regionStr(), x_slice.limitsStr(), x_slice.visStr());
 
           // Slice placement.
           PlacedVolume slice_phv = l_vol.placeVolume(s_vol, Position(0, 0, s_pos_z + s_thick/2));
@@ -188,7 +124,7 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
         }
 
         // Set region, limitset, and vis of layer.
-        l_vol.setAttributes(description, x_layer.regionStr(), x_layer.limitsStr(), x_layer.visStr());
+        l_vol.setAttributes(desc, x_layer.regionStr(), x_layer.limitsStr(), x_layer.visStr());
 
         PlacedVolume layer_phv = mod_vol.placeVolume(l_vol, l_pos);
         layer_phv.addPhysVolID("layer", l_num);
@@ -267,9 +203,9 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
 
     support_frame_s = support_array_start_s;
 
-    Material support_mat = description.material(x_support.materialStr());
+    Material support_mat = desc.material(x_support.materialStr());
     Volume   support_vol("support_frame_v", support_frame_s, support_mat);
-    support_vol.setVisAttributes(description,x_support.visStr());
+    support_vol.setVisAttributes(desc,x_support.visStr());
 
     // figure out how to best place
     auto pv = mod_vol.placeVolume(support_vol, Position(0.0, 0.0, l_pos_z + support_thickness / 2.0));
@@ -277,121 +213,87 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
 
   //l_pos_z += support_thickness;
   // Set envelope volume attributes.
-  envelope.setAttributes(description, x_det.regionStr(), x_det.limitsStr(), x_det.visStr());
+  envelope.setAttributes(desc, x_det.regionStr(), x_det.limitsStr(), x_det.visStr());
   return sdet;
 }
 
+void buildFibers(Detector& desc, SensitiveDetector sens, Volume &s_vol, xml_comp_t x_fiber,
+                 std::tuple<double, double, double, double> dimensions)
+{
+  auto [s_trd_x1, s_thick, s_length, hphi] = dimensions;
+  double f_radius = getAttrOrDefault(x_fiber, _U(radius), 0.1 * cm);
+  double f_spacing_x = getAttrOrDefault(x_fiber, _Unicode(spacing_x), 0.122 * cm);
+  double f_spacing_z = getAttrOrDefault(x_fiber, _Unicode(spacing_z), 0.134 * cm);
+  std::string f_id_grid = getAttrOrDefault(x_fiber, _Unicode(identifier_grid), "grid");
+  std::string f_id_fiber = getAttrOrDefault(x_fiber, _Unicode(identifier_fiber), "fiber");
+
+  // Set up the readout grid for the fiber layers
+  // Trapezoid is divided into segments with equal dz and equal number of divisions in x
+  // Every segment is a polygon that can be attached later to the lightguide
+  // The grid size is assumed to be ~2x2 cm (starting values). This is to be larger than
+  // SiPM chip (for GlueX 13mmx13mm: 4x4 grid 3mmx3mm with 3600 50×50 μm pixels each)
+  // See, e.g., https://arxiv.org/abs/1801.03088 Fig. 2d
+
+  // Calculate number of divisions
+  auto grid_div = getNdivisions(s_trd_x1, s_thick, 2.0*cm, 2.0*cm);
+  // Calculate polygonal grid coordinates (vertices)
+  auto grid_vtx = gridPoints(grid_div.first, grid_div.second, s_trd_x1, s_thick, hphi);
+  Tube f_tube(0, f_radius, s_length);
+  Volume f_vol("fiber_vol", f_tube, desc.material(x_fiber.materialStr()));
+
+  vector<int> f_id_count(grid_div.first*grid_div.second, 0);
+  auto f_pos = fiberPositions(f_radius, f_spacing_x, f_spacing_z, s_trd_x1, s_thick, hphi);
+  // std::cout << f_pos.size() << " lines, ~" << f_pos.front().size() << " fibers each line" << std::endl;
+  for (size_t il = 0; il < f_pos.size(); ++il) {
+    auto &line = f_pos[il];
+    if (line.empty()) {
+      continue;
+    }
+    double l_pos_y = line.front().y();
+    // use assembly as intermediate volume container to reduce number of daughter volumes
+    Assembly lfibers(Form("fiber_array_line_%d", il));
+    for (auto &p : line) {
+      int f_grid_id = -1;
+      int f_id = -1;
+      // Check to which grid fiber belongs to
+      for (auto &poly_vtx : grid_vtx) {
+        if (p.y() != l_pos_y) {
+          std::cerr << Form("Expected the same y position from a same line: %.2f, but got %.f", l_pos_y, p.y())
+                    << std::endl;
+          continue;
+        }
+        auto [grid_id, vtx_a, vtx_b, vtx_c, vtx_d] = poly_vtx;
+        double poly_x[4] = {vtx_a.x(), vtx_b.x(), vtx_c.x(), vtx_d.x()};
+        double poly_y[4] = {vtx_a.y(), vtx_b.y(), vtx_c.y(), vtx_d.y()};
+        double f_xy[2] = {p.x(), p.y()};
+
+        TGeoPolygon poly(4);
+        poly.SetXY(poly_x, poly_y);
+        poly.FinishPolygon();
+
+        if(poly.Contains(f_xy)) {
+          f_grid_id = grid_id;
+          f_id = f_id_count[grid_id];
+          f_id_count[grid_id]++;
+        }
+      }
+
+      if ( x_fiber.isSensitive() ) {
+        f_vol.setSensitiveDetector(sens);
+      }
+      f_vol.setAttributes(desc, x_fiber.regionStr(), x_fiber.limitsStr(), x_fiber.visStr());
+
+      // Fiber placement
+      // Transform3D f_tr(RotationZYX(0,0,M_PI*0.5),Position(p.x(), 0, p.y()));
+      // PlacedVolume fiber_phv = s_vol.placeVolume(f_vol, Position(p.x(), 0., p.y()));
+      PlacedVolume fiber_phv = lfibers.placeVolume(f_vol, Position(p.x(), 0., 0.));
+      fiber_phv.addPhysVolID(f_id_grid, f_grid_id + 1).addPhysVolID(f_id_fiber, f_id + 1);
+    }
+    Transform3D l_tr(RotationZYX(0,0,M_PI*0.5),Position(0., 0, l_pos_y));
+    s_vol.placeVolume(lfibers, l_tr);
+  }
+}
 
 DECLARE_DETELEMENT(athena_EcalBarrelInterlayers, create_detector)
 // DECLARE_DETELEMENT(athena_EcalBarrelInterlayers, create_detector)
-
-
-// -----------------------------------------------------------------------------
-//   helper functions
-// -----------------------------------------------------------------------------
-// Fill fiber lattice into trapezoid starting from position (0,0) in x-z coordinate system
-vector<Point> _fiberPositions(double radius, double x_spacing, double z_spacing,
-        double x, double z, double phi, double spacing_tol) {
-  // z_spacing - distance between fiber layers in z
-  // x_spacing - distance between fiber centers in x
-  // x - half-length of the shorter (bottom) base of the trapezoid
-  // z - height of the trapezoid
-  // phi - angle between z and trapezoid arm
-
-  vector<Point> positions;
-  int z_layers = floor((z/2-radius-spacing_tol)/z_spacing); // number of layers that fit in z/2
-
-    double z_pos = 0.;
-    double x_pos = 0.;
-
-    for(int l = -z_layers; l < z_layers+1; l++) {
-
-      z_pos = l*z_spacing;
-      double x_max = x + (z/2. + z_pos)*tan(phi) - spacing_tol; // calculate max x at particular z_pos
-      (l % 2 == 0) ? x_pos = 0. : x_pos = x_spacing/2; // account for spacing/2 shift
-
-      while(x_pos < (x_max - radius)) {
-        positions.push_back(Point(x_pos,z_pos));
-        if(x_pos != 0.) positions.push_back(Point(-x_pos,z_pos)); // using symmetry around x=0
-        x_pos += x_spacing;
-      }
-    }
-
-    return positions;
-}
-
-// Calculate number of divisions for the readout grid for the fiber layers
-std::pair<int, int> _getNdivisions(double x, double z, double dx, double dz){
-  // x and z defined as in vector<Point> fiberPositions
-  // dx, dz - size of the grid in x and z we want to get close to with the polygons
-  // See also descripltion when the function is called
-
-  double SiPMsize = 13.0*mm;
-  double grid_min = SiPMsize + 3.0*mm;
-
-  if(dz < grid_min) {
-    dz = grid_min;
-  }
-
-  if(dx < grid_min) {
-    dx = grid_min;
-  }
-
-  int nfit_cells_z = floor(z/dz);
-  int n_cells_z = nfit_cells_z;
-
-  if(nfit_cells_z == 0) n_cells_z++;
-
-  int nfit_cells_x = floor((2*x)/dx);
-  int n_cells_x = nfit_cells_x;
-
-  if(nfit_cells_x == 0) n_cells_x++;
-
-  return std::make_pair(n_cells_x, n_cells_z);
-
-}
-
-// Calculate dimensions of the polygonal grid in the cartesian coordinate system x-z
-vector< tuple<int, Point, Point, Point, Point> > _gridPoints(int div_x, int div_z, double x, double z, double phi) {
-  // x, z and phi defined as in vector<Point> fiberPositions
-  // div_x, div_z - number of divisions in x and z
-  double dz = z/div_z;
-
-  std::vector<std::tuple<int, Point, Point, Point, Point>> points;
-
-  for(int iz = 0; iz < div_z + 1; iz++){
-    for(int ix = 0; ix < div_x + 1; ix++){
-      double A_z = -z/2 + iz*dz;
-      double B_z = -z/2 + (iz+1)*dz;
-
-      double len_x_for_z = 2*(x+iz*dz*tan(phi));
-      double len_x_for_z_plus_1 = 2*(x + (iz+1)*dz*tan(phi));
-
-      double dx_for_z = len_x_for_z/div_x;
-      double dx_for_z_plus_1 = len_x_for_z_plus_1/div_x;
-
-      double A_x = -len_x_for_z/2. + ix*dx_for_z;
-      double B_x = -len_x_for_z_plus_1/2. + ix*dx_for_z_plus_1;
-
-      double C_z = B_z;
-      double D_z = A_z;
-      double C_x = B_x + dx_for_z_plus_1;
-      double D_x = A_x + dx_for_z;
-
-      int id = ix + div_x * iz;
-
-      auto A = Point(A_x, A_z);
-      auto B = Point(B_x, B_z);
-      auto C = Point(C_x, C_z);
-      auto D = Point(D_x, D_z);
-
-      // vertex points filled in the clock-wise direction
-      points.push_back(make_tuple(id, A, B, C, D));
-
-    }
-  }
-
-  return points;
-
-}
 
