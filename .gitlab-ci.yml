@@ -82,13 +82,14 @@ compile:
   stage: docs
   before_script:
     - source .local/bin/env.sh
-    - sed -i 's?<support inside?<\!--support inside?' compact/ecal_barrel_hybrid.xml 
-    - sed -i 's?</support>?</support-->?' compact/ecal_barrel_hybrid.xml
-    - sed -i 's?<fiber material?<\!--fiber material?' compact/ecal_barrel_hybrid.xml 
-    - sed -i 's?</fiber>?</fiber-->?' compact/ecal_barrel_hybrid.xml
-    - echo $DETECTOR_PATH
-    - cp compact/ecal_barrel_hybrid.xml ${DETECTOR_PATH}/compact/ecal_barrel_hybrid.xml
+      #    - sed -i 's?<support inside?<\!--support inside?' compact/ecal_barrel_hybrid.xml 
+      #    - sed -i 's?</support>?</support-->?' compact/ecal_barrel_hybrid.xml
+      #    - sed -i 's?<fiber material?<\!--fiber material?' compact/ecal_barrel_interlayers.xml 
+      #    - sed -i 's?</fiber>?</fiber-->?' compact/ecal_barrel_interlayers.xml
+      #    - echo $DETECTOR_PATH
+      #    - cp compact/ecal_barrel_interlayers.xml ${DETECTOR_PATH}/compact/ecal_barrel_interlayers.xml
     - env
+    - pip3 install psutil
   needs:
     - ["common:detector"]
 
