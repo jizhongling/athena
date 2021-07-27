@@ -88,15 +88,11 @@
     </material>
   </materials>
   <surfaces>
-    <comment> For the values of "finish", model and type, see TGeoOpticalSurface.h !
-    </comment>
-
     <opticalsurface finish="polished" model="glisur" name="MirrorOpticalSurface" type="dielectric_metal" value="0">
       <property name="REFLECTIVITY" ref="REFLECTIVITY_mirror"/>
       <property name="RINDEX"       coldim="2" values="1.034*eV  1.5   4.136*eV  1.5"/>
       <!--<property name="EFFICIENCY"   ref="EFFICIENCY0x8b77240"/>-->
     </opticalsurface>
-
     <!--
     <opticalsurface name="mirror2" finish="polished" model="glisur" type="dielectric_dielectric">
       <property name="REFLECTIVITY"            coldim="2" values="1.034*eV  0.8   4.136*eV  0.9"/>

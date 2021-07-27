@@ -4,6 +4,7 @@
 
        <debug>
          <type name="surface"       value="1"/>
+         <type name="material"       value="1"/>
          <type name="readout"       value="1"/>
          <type name="segmentation"  value="1"/>
          <type name="limits"        value="1"/>
@@ -11,11 +12,11 @@
          <type name="includes"      value="1"/>
        </debug>
 
-  <documentation><![CDATA[
+  <documentation level="-1">
   # Athena Detector 
   - https://eicweb.phy.anl.gov/EIC/detectors/athena.git 
   - https://eicweb.phy.anl.gov/EIC/detectors/ip6.git
-  ]]></documentation>
+  </documentation>
 
   <!-- Some information about detector  -->
   <info name="Athena Detector" title="Athena Detector"
@@ -23,17 +24,18 @@
 	url="https://eicweb.phy.anl.gov/EIC/detectors/athena.git"
 	status="development"
 	version="v1 2021-03-16">
-    <comment> Athena Detector
-    - https://eicweb.phy.anl.gov/EIC/detectors/athena.git
-    - https://eicweb.phy.anl.gov/EIC/detectors/ip6.git
-    </comment>
+  <comment> Athena </comment>
   </info>
-
   <define>
-    <include ref="ip6/ip6_defs.xml" /> <comment> IP definitions should be first</comment>
+  <documentation level="2">
+      ## Main Constant Definitions
+
+      The ip6 (or other ip) defines should be included first.
+      These files have only a define tags.
+  </documentation>
+    <include ref="ip6/ip6_defs.xml" /> 
     <include ref="compact/definitions.xml" />
   </define>
-
 
   <includes>
     <gdmlFile ref="compact/elements.xml"/>
@@ -58,7 +60,26 @@
   <include ref="compact/display.xml" />
   </display>
 
-  <comment> Include the IP components first </comment>
+  <documentation level="0">
+    ## Detector Subsystems
+
+    ### IP Subsystems
+
+    The interaction point subsystems are included before the central detector subsystems.
+    This is becuase the IP subsystems, for exmaple the beampipe, will define paramters
+    which are subsquently used in the central detector construction -- e.g. the vertex tracker
+    uses the beampipe OD to help define its placement. 
+
+    The IP subsystems include the Far forward and backward regions. The list of subsystem includes:
+     - Interaction region beampipe 
+     - B0 tracker
+     - Off-momentum tracker
+     - Far forward roman pots
+     - Zero Degree Calorimeter
+     - Beam line magnets.
+     - and more...
+  </documentation>
+
   <include ref="ip6/forward_ion_beamline.xml"/>
   <include ref="ip6/beampipe.xml"/>
 
@@ -109,35 +130,6 @@
       <composite name="BackwardTOF"/>
     </detector>
 
-    <!--
-    <detector id="TrackerBarrelSubAssembly_Inner_ID"
-      name="TrackerBarrelSubAssembly_Inner"
-      type="DD4hep_SubdetectorAssembly"
-      vis="TrackerSubAssemblyVis">
-      <composite name="TrackerBarrel_Inner"/>
-    </detector>
-    <detector id="TrackerEndcapSubAssembly_Inner_ID"
-      name="TrackerEndcapSubAssembly_Inner"
-      type="DD4hep_SubdetectorAssembly"
-      vis="TrackerSubAssemblyVis">
-      <composite name="TrackerEndcapN_Inner"/>
-      <composite name="TrackerBarrel_Inner"/>
-      <composite name="TrackerEndcapP_Inner"/>
-    </detector>
-    <detector id="TrackerBarrelSubAssembly_Outer_ID"
-      name="TrackerBarrelSubAssembly_Outer"
-      type="DD4hep_SubdetectorAssembly"
-      vis="TrackerSubAssemblyVis">
-      <composite name="TrackerBarrel_Outer"/>
-    </detector>
-    <detector id="TrackerEndcapSubAssembly_Outer_ID"
-      name="TrackerEndcapSubAssembly_Outer"
-      type="DD4hep_SubdetectorAssembly"
-      vis="TrackerSubAssemblyVis">
-      <composite name="TrackerEndcapP_Outer"/>
-      <composite name="TrackerEndcapN_Outer"/>
-    </detector>
-    -->
   </detectors>
 
   <include ref="compact/vertex_tracker.xml"/>
@@ -145,10 +137,11 @@
   <include ref="compact/central_tracker.xml"/>
 
   <include ref="compact/tof_barrel.xml"/>
+  <include ref="compact/tof_endcap.xml"/>
 
   <!--include ref="compact/rwell_tracker_barrel.xml"-->
-  <include ref="compact/cb_DIRC.xml"/>
-  
+
+  <!--include ref="compact/dirc.xml"/-->
 
   <!-- When changing magnet, also select dimensions in definitions.xml. -->
   <include ref="compact/solenoid.xml"/>
@@ -166,7 +159,6 @@
   <!--include ref="compact/ce_GEM.xml"/-->
   <!--include ref="compact/gem_tracker_endcap.xml"/-->
   <!--include ref="compact/mrich.xml"/-->
-  <include ref="compact/tof_endcap.xml"/>
   <include ref="compact/forward_trd.xml"/>
   <include ref="compact/gaseous_rich.xml"/>
 
@@ -175,7 +167,6 @@
   <include ref="ip6/far_forward_romanpots.xml"/>
   <include ref="ip6/far_forward_detectors.xml"/>
 
-
   <!--
   <include ref="compact/mm_tracker_barrel.xml"/>
   <include ref="compact/cb_VTX_Barrel.xml"/>
@@ -183,6 +174,5 @@
 
   <readouts>
   </readouts>
-
 
 </lccdd>
