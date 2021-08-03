@@ -99,6 +99,20 @@ do
       shift # past argument
       shift # past value
       ;;
+    --light-theta)
+      echo "updating drawing to ${2}"
+      sed -i '19d' ${DAWN_RUN_DIR}/${OUT_FILE}
+      sed -i '19i'${2} ${DAWN_RUN_DIR}/${OUT_FILE}
+      shift # past argument
+      shift # past value
+      ;;
+    --light-phi)
+      echo "updating drawing to ${2}"
+      sed -i '18d' ${DAWN_RUN_DIR}/${OUT_FILE}
+      sed -i '18i'${2} ${DAWN_RUN_DIR}/${OUT_FILE}
+      shift # past argument
+      shift # past value
+      ;;
     -i|--input)
       OUT_FILE="$2"
       shift # past argument
