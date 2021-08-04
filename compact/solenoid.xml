@@ -108,13 +108,12 @@
   </define>
 
   <detectors>
-    <comment>
-      ---------------
-      Solenoid Magnet
+    <documentation level="6">
+      ### Solenoid Magnet
       ---------------
       The solenoid superconducting magnet and surrounding cryostat and
       yoke endcaps.
-    </comment>
+    </documentation>
     <detector 
       id="Solenoid_ID"
       name="SolenoidCoilBarrel" 

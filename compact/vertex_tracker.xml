@@ -37,32 +37,12 @@
     <constant name="VertexEndcapMod1_x1"            value="2.0*VertexTrackerEndcapP_rmin*sin(VertexEndcapModOpeningAngle/2.0)"/>
     <constant name="VertexEndcapMod1_x2"            value="2.0*VertexTrackerEndcapP_rmax*sin(VertexEndcapModOpeningAngle/2.0)"/>
     <constant name="VertexEndcapMod1_y"             value="VertexTrackerEndcapP_rmax*cos(VertexEndcapModOpeningAngle/2.0) - VertexTrackerEndcapP_rmin"/>
-
-</define>
-
+  </define>
 
   <display>
   </display>
 
-
   <detectors>
-
-    <!--
-    <detector id="VertexBarrelSubAssembly_ID" 
-      name="VertexBarrelSubAssembly" 
-      type="DD4hep_SubdetectorAssembly" 
-      vis="TrackerSubAssemblyVis">
-      <composite name="VertexBarrel" />
-    </detector>
-    <detector id="VertexEndcapSubAssembly_ID" 
-      name="VertexEndcapSubAssembly" 
-      type="DD4hep_SubdetectorAssembly" 
-      vis="TrackerSubAssemblyVis">
-      <composite name="VertexEndcapN" />
-      <composite name="VertexEndcapP" />
-    </detector>
-    -->
-
     <detector
       id="VertexBarrel_ID"
       name="VertexBarrel"

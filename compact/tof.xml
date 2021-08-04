@@ -1,0 +1,19 @@
+<lccdd>
+
+  <display>
+  </display>
+  <define>
+  </define>
+
+  <documentation level="10">
+    ### Time-of-flight detectors
+
+    document here
+
+  </documentation>
+
+  <include ref="tof_barrel.xml"/>
+  <include ref="tof_endcap.xml"/>
+
+</lccdd>
+

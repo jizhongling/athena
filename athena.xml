@@ -57,7 +57,10 @@
   </limits>
 
   <display>
+  <include ref="compact/colors.xml" />
+  <!--include ref="compact/colors2.xml"/-->
   <include ref="compact/display.xml" />
+  <!--include ref="compact/display_detailed.xml"/-->
   </display>
 
   <documentation level="0">
@@ -88,17 +91,16 @@
   <include ref="ip6/beampipe_hadron_B0.xml" />
   <include ref="ip6/beampipe.xml" />
 
-  <comment>
-      Main magnet
-      -----------
+  <documentation level="5">
+     ## Main magnet
+
       Note: When changing magnet, also select dimensions in definitions.xml.
-  </comment>
+  </documentation>
   <include ref="compact/solenoid.xml"/>
 
-  <comment>
-      Tracker subassemblies for ACTS
-      ------------------------------
-  </comment>
+  <documentation level="5">
+      ### Tracker subassemblies for ACTS
+  </documentation>
   <detectors>
     <detector id="VertexBarrelSubAssembly_ID"
       name="VertexBarrelSubAssembly"
@@ -148,49 +150,32 @@
 
   </detectors>
 
-  <comment>
-      Central tracking detectors
-      --------------------------
-  </comment>
-  <include ref="compact/vertex_tracker.xml"/>
-  <include ref="compact/central_tracker.xml"/>
+  <documentation level="10">
+    ## Central tracking detectors
+  </documentation>
 
-  <include ref="compact/tof_barrel.xml"/>
-  <include ref="compact/tof_endcap.xml"/>
-  <!--include ref="compact/rwell_tracker_barrel.xml"-->
-  <!--include ref="compact/ce_GEM.xml"/-->
-  <!--include ref="compact/mm_tracker_barrel.xml"/-->
-  <!--include ref="compact/cb_VTX_Barrel.xml"/-->
-  <!--include ref="compact/gem_tracker_endcap.xml"/-->
+  <include ref="compact/tracking_config_silicon.xml"/>
 
-  <comment>
-      PID detectors
-      -------------
-  </comment>
+  <!--include ref="compact/tracking_config_mgpds.xml"/-->
+
+  <documentation level="10">
+  ### PID detectors
+  </documentation>
   <!--include ref="compact/dirc.xml"/-->
   <!--include ref="compact/mrich.xml"/-->
   <include ref="compact/forward_trd.xml"/>
   <include ref="compact/gaseous_rich.xml"/>
 
-  <comment>
-      Central calorimetry
-      -------------------
-  </comment>
-  <include ref="compact/ci_ecal.xml"/>
-  <!--<include ref="compact/ci_ecal_shashlik.xml"/>-->
-  <!--<include ref="compact/ce_ecal.xml"/>-->
-  <include ref="compact/ce_ecal_crystal_glass.xml"/>
-  <!-- <include ref="compact/ecal_barrel.xml"/> -->
-  <!-- <include ref="compact/ecal_barrel_hybrid.xml"/> -->
-  <include ref="compact/ecal_barrel_interlayers.xml"/>
-
+  <documentation level="10">
+  ## Central calorimetry
+  </documentation>
+  <include ref="compact/ecal.xml"/>
   <include ref="compact/hcal.xml"/>
 
 
-  <comment>
-      FF elements
-      -----------
-  </comment>
+  <documentation level="11">
+  ## Far foward detectors
+  </documentation>
   <include ref="ip6/B0_tracker.xml"/>
   <include ref="ip6/B0_preshower.xml"/>
   <include ref="ip6/far_forward_offM_tracker.xml"/>
@@ -260,6 +245,8 @@
       FB elements
       -----------
       None (TODO)
+
+      What is FB?
   </comment>
 
   <readouts>

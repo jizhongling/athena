@@ -59,6 +59,7 @@ INPUT_FILE=${FILE_TAG}_input.prim
 # units are mm
 dawncut 0 0 -1 1 ${INPUT_FILE} ${FILE_TAG}a_temp0.prim 
 dawncut 0 0 1 1  ${FILE_TAG}a_temp0.prim  ${FILE_TAG}a.prim
+../../bin/dawn_tweak --mag 14 
 dawn -d ${FILE_TAG}a.prim 
 ps2pdf ${FILE_TAG}a.eps ${FILE_TAG}a_full.pdf
 gs -o ${FILE_TAG}a.pdf -sDEVICE=pdfwrite \
@@ -69,6 +70,7 @@ pdftoppm ${FILE_TAG}a.pdf ${FILE_TAG}a -png -singlefile -cropbox
 #SiTracker Endcap layer 5 zstart = 860mm ( 90 mm thick )
 dawncut 0 0 1   945   ${INPUT_FILE} ${FILE_TAG}b_temp0.prim 
 dawncut 0 0 -1 -865 ${FILE_TAG}b_temp0.prim  ${FILE_TAG}b.prim
+../../bin/dawn_tweak --mag 14 
 dawn -d ${FILE_TAG}b.prim 
 ps2pdf ${FILE_TAG}b.eps ${FILE_TAG}b_full.pdf
 gs -o ${FILE_TAG}b.pdf -sDEVICE=pdfwrite \
@@ -79,6 +81,7 @@ pdftoppm ${FILE_TAG}b.pdf ${FILE_TAG}b -png -singlefile -cropbox
 #SiTracker Endcap layer 4 zstart = 695mm ( 90 mm thick )
 dawncut 0 0 1 780   ${INPUT_FILE} ${FILE_TAG}c_temp0.prim 
 dawncut 0 0 -1 -700 ${FILE_TAG}c_temp0.prim  ${FILE_TAG}c.prim
+../../bin/dawn_tweak --mag 14 
 dawn -d ${FILE_TAG}c.prim 
 ps2pdf ${FILE_TAG}c.eps ${FILE_TAG}c_full.pdf
 gs -o ${FILE_TAG}c.pdf -sDEVICE=pdfwrite \
@@ -101,6 +104,7 @@ pdftoppm ${FILE_TAG}d.pdf ${FILE_TAG}d -png -singlefile -cropbox
 # slice at z = -2m
 dawncut 0 0 1 430 ${INPUT_FILE} ${FILE_TAG}e_temp0.prim 
 dawncut 0 0 -1 -370 ${FILE_TAG}e_temp0.prim  ${FILE_TAG}e.prim
+../../bin/dawn_tweak --mag 14 
 dawn -d ${FILE_TAG}e.prim 
 ps2pdf ${FILE_TAG}e.eps ${FILE_TAG}e_full.pdf
 gs -o ${FILE_TAG}e.pdf -sDEVICE=pdfwrite \
@@ -111,6 +115,7 @@ pdftoppm ${FILE_TAG}e.pdf ${FILE_TAG}e -png -singlefile -cropbox
 #SiTracker Endcap layer 1 zstart = 200mm ( 30 mm thick )
 dawncut 0 0 1 225 ${INPUT_FILE} ${FILE_TAG}f_temp0.prim 
 dawncut 0 0 -1 205 ${FILE_TAG}f_temp0.prim  ${FILE_TAG}f.prim
+../../bin/dawn_tweak --mag 14 
 dawn -d ${FILE_TAG}f.prim 
 ps2pdf ${FILE_TAG}f.eps ${FILE_TAG}f_full.pdf
 gs -o ${FILE_TAG}f.pdf -sDEVICE=pdfwrite \

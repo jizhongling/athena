@@ -10,19 +10,16 @@
   <regions>
   </regions>
 
-  <!-- Common Generic visualization attributes -->
-  <comment>Common Generic visualization attributes</comment>
   <display>
   </display>
 
   <detectors>
 
-    <comment>
-      ------------------------------------------
-      Forward (Positive Z) Endcap EM Calorimeter
-      ------------------------------------------
+    <documentation level="10">
+      #### Forward (Positive Z) Endcap EM Calorimeter
+
       A layered EM calorimeter with tungsten and silicon (or scintillator) strips
-    </comment>
+    </documentation>
     <detector id="ECalEndcapP_ID" 
       name="EcalEndcapP" 
       reflect="false" 

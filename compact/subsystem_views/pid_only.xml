@@ -57,6 +57,7 @@
   </limits>
 
   <display>
+  <include ref="compact/colors.xml" />
   <include ref="compact/display.xml" />
   </display>
 

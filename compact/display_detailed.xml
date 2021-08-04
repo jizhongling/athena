@@ -1,7 +1,8 @@
   <display>
 
     <comment>
-      See compact/colors.xml for list of colors.
+      This is where a detailed display can be created.
+      Note this is currently just a copy of display.xml
     </comment>
 
     <vis name="InvisibleNoDaughters"      showDaughters="false" visible="false"/>

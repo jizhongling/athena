@@ -52,12 +52,12 @@
         readout="TOFEndcapHits"
         vis="TOFVis"
         reflect="false">
-        <module name="Module1" vis="OrgangeVis">
+        <module name="Module1" vis="TOFVis">
           <trd x1="ForwardTOFMod1_x1/2.0" x2="ForwardTOFMod1_x2/2.0" z="ForwardTOFMod1_y/2"/>
           <module_component thickness="ITS3Thickness" material="Silicon" sensitive="true"/>
           <module_component thickness="TOFEndcapService_thickness" material="Silicon"/>
         </module>
-        <module name="Module2" vis="OrgangeVis">
+        <module name="Module2" vis="TOFVis">
           <trd x1="ForwardTOFMod2_x1/2.0" x2="ForwardTOFMod2_x2/2.0" z="ForwardTOFMod2_y/2"/>
           <module_component thickness="TOFEndcapSensor_thickness" material="Silicon" sensitive="true"/>
           <module_component thickness="TOFEndcapService_thickness" material="Silicon"/>
@@ -68,7 +68,7 @@
             rmax="ForwardTOF_rmax1"
             length="BackwardTOF_thickness"
             zstart="ForwardTOF_zmin" />
-          <ring vis="AnlRed"
+          <ring vis="TOFVis"
             r="ForwardTOF_rmin1+ForwardTOFMod1_y/2.0"
             zstart="0.0*mm"
             nmodules="12" dz="2.5 * mm" module="Module1" />
@@ -79,7 +79,7 @@
             rmax="ForwardTOF_rmax2"
             length="BackwardTOF_thickness"
             zstart="ForwardTOF_zmin + ForwardTOF_dz" />
-          <ring vis="AnlRed"
+          <ring vis="TOFVis"
             r="ForwardTOF_rmin2+ForwardTOFMod2_y/2.0"
             zstart="0.0*mm"
             nmodules="12" dz="2.5 * mm" module="Module2" />
@@ -93,12 +93,12 @@
         readout="TOFEndcapHits"
         vis="TOFVis"
         reflect="true">
-        <module name="Module1" vis="OrgangeVis">
+        <module name="Module1" vis="TOFVis">
           <trd x1="BackwardTOFMod1_x1/2.0" x2="BackwardTOFMod1_x2/2.0" z="BackwardTOFMod1_y/2"/>
           <module_component thickness="TOFEndcapSensor_thickness" material="Silicon" sensitive="true"/>
           <module_component thickness="TOFEndcapService_thickness" material="Silicon"/>
         </module>
-        <module name="Module2" vis="OrgangeVis">
+        <module name="Module2" vis="TOFVis">
           <trd x1="BackwardTOFMod2_x1/2.0" x2="BackwardTOFMod2_x2/2.0" z="BackwardTOFMod2_y/2"/>
           <module_component thickness="TOFEndcapSensor_thickness" material="Silicon" sensitive="true"/>
           <module_component thickness="TOFEndcapService_thickness" material="Silicon"/>
@@ -109,7 +109,7 @@
             rmax="BackwardTOF_rmax1"
             length="BackwardTOF_thickness"
             zstart="BackwardTOF_zmin" />
-          <ring vis="AnlRed"
+          <ring vis="TOFVis"
             r="BackwardTOF_rmin1+BackwardTOFMod1_y/2.0"
             zstart="0.0*mm"
             nmodules="12" dz="2.5 * mm" module="Module1" />
@@ -120,7 +120,7 @@
             rmax="BackwardTOF_rmax2"
             length="BackwardTOF_thickness"
             zstart="BackwardTOF_zmin + BackwardTOF_dz" />
-          <ring vis="AnlRed"
+          <ring vis="TOFVis"
             r="BackwardTOF_rmin2+BackwardTOFMod2_y/2.0"
             zstart="0.0*mm"
             nmodules="12" dz="2.5 * mm" module="Module2" />
