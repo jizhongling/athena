@@ -155,14 +155,6 @@
   <include ref="compact/hcal.xml"/>
 
 
-  <documentation level="11">
-  ## Far foward detectors
-  </documentation>
-  <include ref="ip6/B0_tracker.xml"/>
-  <include ref="ip6/B0_preshower.xml"/>
-  <include ref="ip6/far_forward_offM_tracker.xml"/>
-  <include ref="ip6/far_forward_detectors.xml"/>
-  <include ref="ip6/roman_pots_eRD24_design.xml"/>
 
   <fields>
     <field name="B0PF_Magnet" type="MultipoleMagnet">
