@@ -152,7 +152,6 @@ report:
     - dump_constants
     - dump_geometry
     - convert_to_gdml
-    - ce_ecal_placement
   script:
     - pip3 install jinja2 &&  ls -lrth
     - ./bin/make_images > doc/dawn_views.md
