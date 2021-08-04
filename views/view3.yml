@@ -1,17 +1,17 @@
 dawn_view_03:detector:
   extends: .views
   script:
-    - ./bin/make_dawn_views -t view02 -d scripts/view2 -D
+    - ./bin/make_dawn_views -t view02 -d scripts/view3 -D
 #dawn_view_03:ev001:
 #  extends: .views
 #  script:
-#    - ./bin/make_dawn_views -t view02_ev001 -d scripts/view2 -s 1
+#    - ./bin/make_dawn_views -t view02_ev001 -d scripts/view3 -s 1
 dawn_view_03:ev002:
   extends: .views
   rules:
     - if: '$DETECTOR_EVENT_VIEWS == "ON"'
   script:
-    - ./bin/make_dawn_views -t view02_ev002 -d scripts/view2 -s 2
+    - ./bin/make_dawn_views -t view02_ev002 -d scripts/view3 -s 2
 
 view_03:
   stage: test

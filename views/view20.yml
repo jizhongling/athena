@@ -1,8 +1,8 @@
 dawn_view_20:detector:
   extends: .views
   script:
-    - cp "compact/subsystem_views/vertex_only.xml" "${DETECTOR_PATH}/."
-    - ./bin/make_dawn_views -c ${DETECTOR_PATH}/vertex_only.xml -t vertex_only_view20 -d scripts/view20 -D
+    - cp "compact/subsystem_views/calorimeters.xml" "${DETECTOR_PATH}/."
+    - ./bin/make_dawn_views -c ${DETECTOR_PATH}/calorimeters.xml -t calorimeters_view20 -d scripts/view20 -D
 
 dawn_view_20:ev001:
   extends: .views
