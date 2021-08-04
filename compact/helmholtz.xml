@@ -122,7 +122,7 @@
     <detector 
       id="Solenoid_ID"
       name="SolenoidCoilBarrel" 
-      type="refdet_SolenoidCoil" 
+      type="athena_SolenoidCoil" 
       insideTrackingVolume="false">
       <position x="0" y="0" z="Solenoid_offset"/>
       <layer id="1" 

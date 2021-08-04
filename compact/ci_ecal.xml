@@ -26,7 +26,7 @@
     <detector id="ECalEndcapP_ID" 
       name="EcalEndcapP" 
       reflect="false" 
-      type="refdet_PolyhedraEndcapCalorimeter2" 
+      type="athena_PolyhedraEndcapCalorimeter2" 
       readout="EcalEndcapPHits" 
       vis="EcalEndcapVis" 
       calorimeterType="EM_ENDCAP" >

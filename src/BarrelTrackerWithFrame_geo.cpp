@@ -301,4 +301,3 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
 DECLARE_DETELEMENT(BarrelTrackerWithFrame, create_detector)
 DECLARE_DETELEMENT(athena_VertexBarrel, create_detector)
 DECLARE_DETELEMENT(athena_TrackerBarrel, create_detector)
-DECLARE_DETELEMENT(refdet_SiVertexBarrel, create_detector)

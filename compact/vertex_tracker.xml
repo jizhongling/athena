@@ -126,7 +126,7 @@
     <detector
       id="VertexEndcapP_ID"
       name="VertexEndcapP"
-      type="refdet_TrapEndcapTracker"
+      type="athena_TrapEndcapTracker"
       readout="VertexEndcapHits"
       vis="AnlRed"
       reflect="false">
@@ -152,7 +152,7 @@
     <detector
       id="VertexEndcapN_ID"
       name="VertexEndcapN"
-      type="refdet_TrapEndcapTracker"
+      type="athena_TrapEndcapTracker"
       readout="VertexEndcapHits"
       vis="AnlRed"
       reflect="true">

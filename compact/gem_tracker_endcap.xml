@@ -73,7 +73,7 @@
     <detector
       id="GEMTrackerEndcap_ID"
       name="GEMTrackerEndcap"
-      type="refdet_GEMTrackerEndcap"
+      type="athena_GEMTrackerEndcap"
       readout="GEMTrackerEndcapHits"
       vis="AnlRed"
       reflect="false">
@@ -148,7 +148,7 @@
     <detector
       id="GEMTrackerEndcapN_ID"
       name="GEMTrackerEndcapN"
-      type="refdet_GEMTrackerEndcap"
+      type="athena_GEMTrackerEndcap"
       readout="GEMTrackerEndcapHits"
       vis="AnlRed"
       reflect="true">

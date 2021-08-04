@@ -185,7 +185,7 @@
     <detector
       id="TrackerEndcapP_Inner_ID"
       name="TrackerEndcapP_Inner"
-      type="refdet_TrapEndcapTracker"
+      type="athena_TrapEndcapTracker"
       readout="TrackerEndcapHits"
       vis="AnlRed"
       reflect="false">
@@ -210,7 +210,7 @@
     <detector
       id="TrackerEndcapN_Inner_ID"
       name="TrackerEndcapN_Inner"
-      type="refdet_TrapEndcapTracker"
+      type="athena_TrapEndcapTracker"
       readout="TrackerEndcapHits"
       vis="AnlRed"
       reflect="true">
@@ -306,7 +306,7 @@
     <detector
       id="TrackerEndcapP_Outer_ID"
       name="TrackerEndcapP_Outer"
-      type="refdet_TrapEndcapTracker"
+      type="athena_TrapEndcapTracker"
       readout="TrackerEndcapHits"
       vis="AnlRed"
       reflect="false">
@@ -363,7 +363,7 @@
     <detector
       id="TrackerEndcapN_Outer_ID"
       name="TrackerEndcapN_Outer"
-      type="refdet_TrapEndcapTracker"
+      type="athena_TrapEndcapTracker"
       readout="TrackerEndcapHits"
       vis="AnlRed"
       reflect="true">

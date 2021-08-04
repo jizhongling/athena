@@ -89,4 +89,4 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
   return sdet;
 }
 
-DECLARE_DETELEMENT(refdet_SolenoidCoil,create_detector)
+DECLARE_DETELEMENT(athena_SolenoidCoil,create_detector)

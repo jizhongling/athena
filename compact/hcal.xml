@@ -44,7 +44,7 @@
     <detector 
       id="HCalEndcapP_ID" 
       name="HcalEndcapP" 
-      type="refdet_PolyhedraEndcapCalorimeter2" 
+      type="athena_PolyhedraEndcapCalorimeter2" 
       readout="HcalHadronEndcapHits" 
       vis="HcalEndcapVis" 
       calorimeterType="HAD_ENDCAP"
@@ -64,7 +64,7 @@
     <detector 
       id="HCalEndcapN_ID" 
       name="HcalEndcapN" 
-      type="refdet_PolyhedraEndcapCalorimeter2" 
+      type="athena_PolyhedraEndcapCalorimeter2" 
       readout="HcalElectronEndcapHits" 
       vis="HcalEndcapVis" 
       calorimeterType="HAD_ENDCAP" reflect="true">

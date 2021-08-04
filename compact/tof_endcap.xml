@@ -48,7 +48,7 @@
       <detector
         id="ForwardTOF_ID"
         name="ForwardTOF"
-        type="refdet_TrapEndcapTracker"
+        type="athena_TrapEndcapTracker"
         readout="TOFEndcapHits"
         vis="TOFVis"
         reflect="false">
@@ -89,7 +89,7 @@
       <detector
         id="BackwardTOF_ID"
         name="BackwardTOF"
-        type="refdet_TrapEndcapTracker"
+        type="athena_TrapEndcapTracker"
         readout="TOFEndcapHits"
         vis="TOFVis"
         reflect="true">

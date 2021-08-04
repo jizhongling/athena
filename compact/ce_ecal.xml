@@ -33,7 +33,7 @@
     </comment>
     <detector id="ECalEndcapN_ID" 
       name="EcalEndcapN" 
-      type="refdet_PolyhedraEndcapCalorimeter2" 
+      type="athena_PolyhedraEndcapCalorimeter2" 
       reflect="true" 
       readout="EcalEndcapHits" 
       vis="EcalEndcapVis" 
