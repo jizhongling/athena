@@ -111,10 +111,10 @@ using namespace dd4hep;
  */
 
 // headers
-static void add_individuals(Detector& desc, Assembly &env, xml::Collection_t &plm, SensitiveDetector &sens, int id);
-static void add_array(Detector& desc, Assembly &env, xml::Collection_t &plm, SensitiveDetector &sens, int id);
-static void add_disk(Detector& desc, Assembly &env, xml::Collection_t &plm, SensitiveDetector &sens, int id);
-static void add_lines(Detector& desc, Assembly &env, xml::Collection_t &plm, SensitiveDetector &sens, int id);
+static std::tuple<int, int> add_individuals(Detector& desc, Assembly &env, xml::Collection_t &plm, SensitiveDetector &sens, int id);
+static std::tuple<int, int> add_array(Detector& desc, Assembly &env, xml::Collection_t &plm, SensitiveDetector &sens, int id);
+static std::tuple<int, int> add_disk(Detector& desc, Assembly &env, xml::Collection_t &plm, SensitiveDetector &sens, int id);
+static std::tuple<int, int> add_lines(Detector& desc, Assembly &env, xml::Collection_t &plm, SensitiveDetector &sens, int id);
 
 // helper function to get x, y, z if defined in a xml component
 template<class XmlComp>
@@ -133,7 +133,6 @@ Position get_xml_xyz(XmlComp &comp, dd4hep::xml::Strng_t name)
 // main
 static Ref_t create_detector(Detector& desc, xml::Handle_t handle, SensitiveDetector sens)
 {
-    static const std::string func = "HomogeneousCalorimeter";
     xml::DetElement detElem = handle;
     std::string detName = detElem.nameStr();
     int detID = detElem.id();
@@ -144,18 +143,35 @@ static Ref_t create_detector(Detector& desc, xml::Handle_t handle, SensitiveDete
 
     // module placement
     xml::Component plm = detElem.child(_Unicode(placements));
-    int sector = 1;
+    std::map<int, int> sectorModuleNumbers;
+    auto addModuleNumbers = [&sectorModuleNumbers] (int sector, int nmod) {
+        auto it = sectorModuleNumbers.find(sector);
+        if (it != sectorModuleNumbers.end()) {
+            it->second += nmod;
+        } else {
+            sectorModuleNumbers[sector] = nmod;
+        }
+    };
+    int sector_id = 1;
     for (xml::Collection_t mod(plm, _Unicode(individuals)); mod; ++mod) {
-        add_individuals(desc, assembly, mod, sens, sector++);
+        auto [sector, nmod] = add_individuals(desc, assembly, mod, sens, sector_id++);
+        addModuleNumbers(sector, nmod);
     }
     for (xml::Collection_t arr(plm, _Unicode(array)); arr; ++arr) {
-        add_array(desc, assembly, arr, sens, sector++);
+        auto [sector, nmod] = add_array(desc, assembly, arr, sens, sector_id++);
+        addModuleNumbers(sector, nmod);
     }
     for (xml::Collection_t disk(plm, _Unicode(disk)); disk; ++disk) {
-        add_disk(desc, assembly, disk, sens, sector++);
+        auto [sector, nmod] = add_disk(desc, assembly, disk, sens, sector_id++);
+        addModuleNumbers(sector, nmod);
     }
     for (xml::Collection_t lines(plm, _Unicode(lines)); lines; ++lines) {
-        add_lines(desc, assembly, lines, sens, sector++);
+        auto [sector, nmod] = add_lines(desc, assembly, lines, sens, sector_id++);
+        addModuleNumbers(sector, nmod);
+    }
+
+    for (auto [sector, nmods] : sectorModuleNumbers) {
+        desc.add(Constant(Form((detName + "_NModules_Sector%d").c_str(), sector), std::to_string(nmods)));
     }
 
     // detector position and rotation
@@ -202,11 +218,11 @@ std::tuple<Volume, Position> build_module(Detector &desc, xml::Collection_t &plm
 }
 
 // place modules, id must be provided
-static void add_individuals(Detector& desc, Assembly &env, xml::Collection_t &plm, SensitiveDetector &sens, int sid)
+static std::tuple<int, int> add_individuals(Detector& desc, Assembly &env, xml::Collection_t &plm, SensitiveDetector &sens, int sid)
 {
     auto [modVol, modSize] = build_module(desc, plm, sens);
     int sector_id = dd4hep::getAttrOrDefault<int>(plm, _Unicode(sector), sid);
-
+    int nmodules = 0;
     for (xml::Collection_t pl(plm, _Unicode(placement)); pl; ++pl) {
         Position pos(dd4hep::getAttrOrDefault<double>(pl, _Unicode(x), 0.),
                      dd4hep::getAttrOrDefault<double>(pl, _Unicode(y), 0.),
@@ -219,11 +235,14 @@ static void add_individuals(Detector& desc, Assembly &env, xml::Collection_t &pl
                        * RotationZYX(rot.z(), rot.y(), rot.x());
         auto modPV = env.placeVolume(modVol, tr);
         modPV.addPhysVolID("sector", sector_id).addPhysVolID("module", mid);
+        nmodules ++;
     }
+
+    return {sector_id, nmodules};
 }
 
 // place array of modules
-static void add_array(Detector& desc, Assembly &env, xml::Collection_t &plm, SensitiveDetector &sens, int sid)
+static std::tuple<int, int> add_array(Detector& desc, Assembly &env, xml::Collection_t &plm, SensitiveDetector &sens, int sid)
 {
     auto [modVol, modSize] = build_module(desc, plm, sens);
     int sector_id = dd4hep::getAttrOrDefault<int>(plm, _Unicode(sector), sid);
@@ -244,6 +263,7 @@ static void add_array(Detector& desc, Assembly &env, xml::Collection_t &plm, Sen
     // placement to mother
     auto pos = get_xml_xyz(plm, _Unicode(position));
     auto rot = get_xml_xyz(plm, _Unicode(rotation));
+    int nmodules = 0;
     for (int i = 0; i < nrow; ++i) {
         for (int j = 0; j < ncol; ++j) {
             if (std::find(removals.begin(), removals.end(), std::pair<int, int>(i, j)) != removals.end()) {
@@ -255,12 +275,14 @@ static void add_array(Detector& desc, Assembly &env, xml::Collection_t &plm, Sen
                            * Translation3D(pos.x() + px, pos.y() + py, pos.z());
             auto modPV = env.placeVolume(modVol, tr);
             modPV.addPhysVolID("sector", sector_id).addPhysVolID("module", i*ncol + j + id_begin);
+            nmodules ++;
         }
     }
+    return {sector_id, nmodules};
 }
 
 // place disk of modules
-static void add_disk(Detector& desc, Assembly &env, xml::Collection_t &plm, SensitiveDetector &sens, int sid)
+static std::tuple<int, int> add_disk(Detector& desc, Assembly &env, xml::Collection_t &plm, SensitiveDetector &sens, int sid)
 {
     auto [modVol, modSize] = build_module(desc, plm, sens);
     int sector_id = dd4hep::getAttrOrDefault<int>(plm, _Unicode(sector), sid);
@@ -281,10 +303,11 @@ static void add_disk(Detector& desc, Assembly &env, xml::Collection_t &plm, Sens
         auto modPV = env.placeVolume(modVol, tr);
         modPV.addPhysVolID("sector", sector_id).addPhysVolID("module", id_begin + mid++);
     }
+    return {sector_id, mid};
 }
 
 // place lines of modules (anchor point is the 0th module of this line)
-static void add_lines(Detector& desc, Assembly &env, xml::Collection_t &plm, SensitiveDetector &sens, int sid)
+static std::tuple<int, int> add_lines(Detector& desc, Assembly &env, xml::Collection_t &plm, SensitiveDetector &sens, int sid)
 {
     auto [modVol, modSize] = build_module(desc, plm, sens);
     int sector_id = dd4hep::getAttrOrDefault<int>(plm, _Unicode(sector), sid);
@@ -294,7 +317,7 @@ static void add_lines(Detector& desc, Assembly &env, xml::Collection_t &plm, Sen
     bool mirrorz = dd4hep::getAttrOrDefault<bool>(plm, _Unicode(mirrorz), false);
 
     // line placement
-    int mid = 1;
+    int mid = 0;
     for (xml::Collection_t pl(plm, _Unicode(line)); pl; ++pl) {
         Position pos(dd4hep::getAttrOrDefault<double>(pl, _Unicode(x), 0.),
                      dd4hep::getAttrOrDefault<double>(pl, _Unicode(y), 0.),
@@ -350,6 +373,7 @@ static void add_lines(Detector& desc, Assembly &env, xml::Collection_t &plm, Sen
             modPV.addPhysVolID("sector", sector_id).addPhysVolID("module", id_begin + mid++);
         }
     }
+    return {sector_id, mid};
 }
 //@}
 DECLARE_DETELEMENT(HomogeneousCalorimeter, create_detector)

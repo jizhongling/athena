@@ -44,20 +44,6 @@ done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
 
-#npdet_info print EcalEndcapN_z0 --value-only athena.xml
-#180.5 cm
-
-# Top view with a thin slice down the middle
-dawncut 0 0  1 -1800 ${INPUT_FILE} ${FILE_TAG}_endcapN_temp0.prim   
-dawncut 0 0 -1 1805 ${FILE_TAG}_endcapN_temp0.prim  ${FILE_TAG}_endcapN.prim
-../../bin/dawn_tweak --mag 5 --draw 1 --theta 180 --phi 0 --draw 3
-dawn -d ${FILE_TAG}_endcapN.prim 
-ps2pdf ${FILE_TAG}_endcapN.eps ${FILE_TAG}_endcapN_full.pdf
-gs -o ${FILE_TAG}_endcapN.pdf -sDEVICE=pdfwrite \
-  -c "[/CropBox [51 250 550 590] /PAGES pdfmark" \
-  -f ${FILE_TAG}_endcapN_full.pdf
-pdftoppm ${FILE_TAG}_endcapN.pdf ${FILE_TAG}_endcapN -png -singlefile -cropbox -thinlinemode solid -aaVector yes
-
 # Top view with a thin slice down the middle
 dawncut 0 1 0 1 ${INPUT_FILE} ${FILE_TAG}_top_temp0.prim   
 dawncut 0 -1 0 1 ${FILE_TAG}_top_temp0.prim  ${FILE_TAG}_top.prim
@@ -79,3 +65,25 @@ gs -o ${FILE_TAG}.pdf -sDEVICE=pdfwrite \
   -c "[/CropBox [51 250 550 590] /PAGES pdfmark" \
   -f ${FILE_TAG}_full.pdf
 pdftoppm ${FILE_TAG}.pdf ${FILE_TAG} -png -singlefile -cropbox -thinlinemode solid -aaVector yes
+
+#npdet_info print EcalEndcapN_z0 --value-only ../../athena.xml
+#180.5 cm
+NMOD1=`npdet_info print EcalEndcapN_NModules_Sector1 ${DETECTOR_PATH}/calorimeters.xml | tail -1`
+NMOD2=`npdet_info print EcalEndcapN_NModules_Sector2 ${DETECTOR_PATH}/calorimeters.xml | tail -1`
+
+# Top view with a thin slice down the middle
+dawncut 0 0  1 -1800 ${INPUT_FILE} ${FILE_TAG}_endcapN_temp0.prim   
+dawncut 0 0 -1 1805 ${FILE_TAG}_endcapN_temp0.prim  ${FILE_TAG}_endcapN.prim
+../../bin/dawn_tweak --mag 5 --draw 1 --theta 180 --phi 0 --draw 3
+dawn -d ${FILE_TAG}_endcapN.prim 
+ps2pdf ${FILE_TAG}_endcapN.eps ${FILE_TAG}_endcapN_full.pdf
+gs -o ${FILE_TAG}_endcapN.pdf -sDEVICE=pdfwrite \
+  -c "[/CropBox [50 170 550 670] /PAGES pdfmark" \
+  -f ${FILE_TAG}_endcapN_full.pdf
+pdftoppm ${FILE_TAG}_endcapN.pdf ${FILE_TAG}_endcapN -png -singlefile -cropbox -thinlinemode solid \
+         -aaVector yes -r 1200
+convert -pointsize 180 -fill black -draw "text 200,200 \"$NMOD1 Crystals\"" \
+        ${FILE_TAG}_endcapN.png ${FILE_TAG}_endcapN.png
+convert -pointsize 180 -fill black -draw "text 200,400 \"$NMOD2 Glasses\"" \
+        ${FILE_TAG}_endcapN.png ${FILE_TAG}_endcapN.png
+
