@@ -9,7 +9,7 @@ function print_the_help {
   exit 
 }
 
-FILE_TAG="view01"
+FILE_TAG="view20"
 INPUT_FILE="../../g4_0000.prim"
 
 
@@ -44,30 +44,27 @@ done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
 
+
+# Top view
+#dawncut 0 -1 0 1 ${INPUT_FILE} ${FILE_TAG}.prim 
+dawncut 0 1 0 1 ${INPUT_FILE} ${FILE_TAG}_top_temp0.prim 
+dawncut 0 -1 0 1 ${FILE_TAG}_top_temp0.prim  ${FILE_TAG}_top.prim
+../../bin/dawn_tweak --mag 1 --draw 1 --theta 270 --phi 90
+dawn -d ${FILE_TAG}_top.prim 
+ps2pdf ${FILE_TAG}_top.eps ${FILE_TAG}_top_full.pdf
+gs -o ${FILE_TAG}_top.pdf -sDEVICE=pdfwrite \
+  -c "[/CropBox [51 250 550 590] /PAGES pdfmark" \
+  -f ${FILE_TAG}_top_full.pdf
+pdftoppm ${FILE_TAG}_top.pdf ${FILE_TAG}_top -png -singlefile -cropbox -thinlinemode solid -aaVector yes
+
 # Side view (lines)
 dawncut -1 0 0 1 ${INPUT_FILE} ${FILE_TAG}.prim
-# dawncut 1 0 0 1 ${INPUT_FILE} ${FILE_TAG}_temp0.prim 
-# dawncut -1 0 0 1 ${FILE_TAG}_temp0.prim  ${FILE_TAG}.prim
-../../bin/dawn_tweak --mag 10 --draw 3 --theta 165 --phi 75 --light-theta 180 --light-phi 90
-
+#@dawncut 1 0 0 1 ${INPUT_FILE} ${FILE_TAG}_temp0.prim 
+#@dawncut -1 0 0 1 ${FILE_TAG}_temp0.prim  ${FILE_TAG}.prim
+../../bin/dawn_tweak --mag 1 --draw 1 --theta 180 --phi 90 
 dawn -d ${FILE_TAG}.prim
 ps2pdf ${FILE_TAG}.eps ${FILE_TAG}_full.pdf
 gs -o ${FILE_TAG}.pdf -sDEVICE=pdfwrite \
   -c "[/CropBox [51 250 550 590] /PAGES pdfmark" \
   -f ${FILE_TAG}_full.pdf
-
-pdftoppm ${FILE_TAG}.pdf ${FILE_TAG} -png -singlefile -cropbox -thinlinemode solid -aaVector yes -r 600
-
-# Top view
-#dawncut 0 -1 0 1 ${INPUT_FILE} ${FILE_TAG}.prim 
-dawncut 0 1 0 1 ${INPUT_FILE} ${FILE_TAG}_temp0.prim 
-dawncut 0 -1 0 1 ${FILE_TAG}_temp0.prim  ${FILE_TAG}.prim
-../../bin/dawn_tweak --mag 10 --draw 1 --theta 270 --phi 90
-dawn -d ${FILE_TAG}.prim 
-ps2pdf ${FILE_TAG}.eps ${FILE_TAG}_top_full.pdf
-gs -o ${FILE_TAG}_top.pdf -sDEVICE=pdfwrite \
-  -c "[/CropBox [51 250 550 590] /PAGES pdfmark" \
-  -f ${FILE_TAG}_top_full.pdf
-
-pdftoppm ${FILE_TAG}_top.pdf ${FILE_TAG}_top -png -singlefile -cropbox -thinlinemode solid -aaVector yes
-
+pdftoppm ${FILE_TAG}.pdf ${FILE_TAG} -png -singlefile -cropbox -thinlinemode solid -aaVector yes

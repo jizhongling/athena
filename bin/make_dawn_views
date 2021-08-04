@@ -156,6 +156,7 @@ else:
 prim_file = os.path.abspath(prim_file)
 owd = os.getcwd()
 os.chdir(args.dawn_dir)
+subprocess.run(['pwd'])
 subprocess.run(['./generate_eps', '-t', args.tag, '-i', prim_file])
 subprocess.run(['ls', '-lrth'])
 

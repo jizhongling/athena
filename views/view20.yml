@@ -1,0 +1,35 @@
+dawn_view_20:detector:
+  extends: .views
+  script:
+    - cp "compact/subsystem_views/vertex_only.xml" "${DETECTOR_PATH}/."
+    - ./bin/make_dawn_views -c ${DETECTOR_PATH}/vertex_only.xml -t vertex_only_view20 -d scripts/view20 -D
+
+dawn_view_20:ev001:
+  extends: .views
+  rules:
+    - if: '$DETECTOR_EVENT_VIEWS == "ON"'
+  script:
+    - ./bin/make_dawn_views -t view20_ev001 -d scripts/view20 -s 1
+
+dawn_view_20:ev002:
+  extends: .views
+  rules:
+    - if: '$DETECTOR_EVENT_VIEWS == "ON"'
+  script:
+    - ./bin/make_dawn_views -t view20_ev002 -d scripts/view20 -s 2
+
+view_20:
+  stage: test
+  rules:
+    - if: '$CI_SERVER_HOST == "eicweb.phy.anl.gov"' 
+  needs:
+    - job: dawn_view_20:detector
+      optional: false
+    - job: dawn_view_20:ev001
+      optional: true
+    - job: dawn_view_20:ev002
+      optional: true
+  script:
+    - ls -lrth *
+    - ls -lrth images/*
+
