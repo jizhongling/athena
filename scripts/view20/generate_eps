@@ -44,12 +44,24 @@ done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
 
+#npdet_info print EcalEndcapN_z0 --value-only athena.xml
+#180.5 cm
 
-# Top view
-#dawncut 0 -1 0 1 ${INPUT_FILE} ${FILE_TAG}.prim 
-dawncut 0 1 0 1 ${INPUT_FILE} ${FILE_TAG}_top_temp0.prim 
+# Top view with a thin slice down the middle
+dawncut 0 0  1 -1800 ${INPUT_FILE} ${FILE_TAG}_endcapN_temp0.prim   
+dawncut 0 0 -1 1805 ${FILE_TAG}_endcapN_temp0.prim  ${FILE_TAG}_endcapN.prim
+../../bin/dawn_tweak --mag 5 --draw 1 --theta 180 --phi 0 --draw 3
+dawn -d ${FILE_TAG}_endcapN.prim 
+ps2pdf ${FILE_TAG}_endcapN.eps ${FILE_TAG}_endcapN_full.pdf
+gs -o ${FILE_TAG}_endcapN.pdf -sDEVICE=pdfwrite \
+  -c "[/CropBox [51 250 550 590] /PAGES pdfmark" \
+  -f ${FILE_TAG}_endcapN_full.pdf
+pdftoppm ${FILE_TAG}_endcapN.pdf ${FILE_TAG}_endcapN -png -singlefile -cropbox -thinlinemode solid -aaVector yes
+
+# Top view with a thin slice down the middle
+dawncut 0 1 0 1 ${INPUT_FILE} ${FILE_TAG}_top_temp0.prim   
 dawncut 0 -1 0 1 ${FILE_TAG}_top_temp0.prim  ${FILE_TAG}_top.prim
-../../bin/dawn_tweak --mag 1 --draw 1 --theta 270 --phi 90
+../../bin/dawn_tweak --mag 2 --draw 1 --theta 270 --phi 90
 dawn -d ${FILE_TAG}_top.prim 
 ps2pdf ${FILE_TAG}_top.eps ${FILE_TAG}_top_full.pdf
 gs -o ${FILE_TAG}_top.pdf -sDEVICE=pdfwrite \
@@ -58,9 +70,8 @@ gs -o ${FILE_TAG}_top.pdf -sDEVICE=pdfwrite \
 pdftoppm ${FILE_TAG}_top.pdf ${FILE_TAG}_top -png -singlefile -cropbox -thinlinemode solid -aaVector yes
 
 # Side view (lines)
-dawncut -1 0 0 1 ${INPUT_FILE} ${FILE_TAG}.prim
-#@dawncut 1 0 0 1 ${INPUT_FILE} ${FILE_TAG}_temp0.prim 
-#@dawncut -1 0 0 1 ${FILE_TAG}_temp0.prim  ${FILE_TAG}.prim
+dawncut 1 0 0 1 ${INPUT_FILE} ${FILE_TAG}_temp0.prim 
+dawncut -1 0 0 1 ${FILE_TAG}_temp0.prim  ${FILE_TAG}.prim
 ../../bin/dawn_tweak --mag 1 --draw 1 --theta 180 --phi 90 
 dawn -d ${FILE_TAG}.prim
 ps2pdf ${FILE_TAG}.eps ${FILE_TAG}_full.pdf
