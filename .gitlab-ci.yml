@@ -106,16 +106,6 @@ include:
   - local: 'views/view15.yml'
   - local: 'views/view20.yml'
 
-ce_ecal_placement:
-  stage: test
-  needs:
-    - common:detector
-  script:
-    - python scripts/ce_ecal_placement.py --save ce_ecal_crystal_glass.xml
-    - mv ce_ecal_placement.png doc/ce_ecal_placement.png
-    - if ! diff ce_ecal_crystal_glass.xml compact/ce_ecal_crystal_glass.xml ; then echo "ce_ecal_crystal_glaxs.xml not reproducible" && false ; fi
-    - echo "EndcapN layout at https://eicweb.phy.anl.gov/EIC/detectors/athena/-/jobs/${CI_JOB_ID}/artifacts/raw/doc/ce_ecal_placement.png"
-
 dump_geometry:
   stage: test
   needs:

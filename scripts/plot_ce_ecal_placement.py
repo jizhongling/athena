@@ -93,7 +93,7 @@ def compact_constants(path, names):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-s', '--save', default='compact/ce_ecal_crystal_glass.xml',
+    parser.add_argument('-s', '--save', default='ce_ecal_placement_test.xml',
             help='path to save compact file.')
     parser.add_argument('-c', '--compact', default='',
             help='compact file to get contant to plot')
