@@ -11,7 +11,7 @@
     <constant name="VertexBarrelService_thickness"   value="VertexBarrel_thickness-ITS3Thickness"/>
     <constant name="VertexBarrel_rmin"               value="VertexBarrel_rmin1"/>
     <constant name="VertexBarrel_rmax"               value="VertexBarrel_rmin2+VertexBarrelModule_maxThickness"/>
-    <constant name="VertexBarrelLayer_rOffset"       value="4.0*mm"/>
+    <constant name="VertexBarrelLayer_rOffset"       value="1.2*mm"/>
 
     <comment> TODO: These should be computed </comment>
     <constant name="VertexBarrel_NModules1" value="14"/>
@@ -60,14 +60,10 @@
           height="10.0*mm"
           length="VertexBarrel_length-1.0*mm"
           thickness="0.1 * mm"/>
-        <module_component name="peek1" material="PEEK" sensitive="false"
-          width="14.0*mm" length="VertexBarrel_length-0.1*mm" thickness="2.0*mm" />
         <module_component name="silicon" material="Silicon" sensitive="true"
-          width="14.0*mm" length="VertexBarrel_length-0.1*mm" thickness="1.0*mm">
+          width="14.0*mm" length="VertexBarrel_length-0.1*mm" thickness="40.0*um">
           <!--position x="0" y="0*mm" z="-0.025*mm" --> />
         </module_component>
-        <module_component name="peek2" material="PEEK" sensitive="false"
-          width="14.0*mm" length="VertexBarrel_length-0.1*mm" thickness="2.0*mm" />
       </module>
       <module name="Module2">
         <frame  material="CarbonFiber_25percent" vis="BlueGreenVis"
@@ -75,14 +71,10 @@
           height="10.0*mm"
           length="VertexBarrel_length-1.0*mm"
           thickness="0.1 * mm"/>
-        <module_component name="peek1" material="PEEK" sensitive="false"
-          width="14.0*mm" length="VertexBarrel_length-0.1*mm" thickness="2.0*mm" />
         <module_component name="silicon" material="Silicon" sensitive="true"
-          width="14.0*mm" length="VertexBarrel_length-0.1*mm" thickness="1.0*mm">
+          width="14.0*mm" length="VertexBarrel_length-0.1*mm" thickness="40.0*um">
           <!--position x="0" y="0*mm" z="-0.025*mm"/-->
         </module_component>
-        <module_component name="peek2" material="PEEK" sensitive="false"
-          width="14.0*mm" length="VertexBarrel_length-0.1*mm" thickness="2.0*mm" />
       </module>
       <comment> Layers composed of many arrayed modules  </comment>
       <layer module="Module1" id="1" vis="VertexVis">
