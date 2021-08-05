@@ -8,80 +8,69 @@
     <constant name="mil" value="0.0254*mm"/>
     <constant name="inch" value="2.54*cm"/>
 
-    <comment>
+    <documentation>
       ## Detector IDs
 
       ### Note about ACTS tracking geometry construction
 
-      The tracking surfaces need to be structured in a barrel + endcapP + endcapN where 
-      endcapP/endcapN are the endcaps at positive/negative z values. 
-      See https://acts.readthedocs.io/en/latest/plugins/dd4hep.html for more details.
+The tracking surfaces need to be structured in a barrel + endcapP + endcapN where 
+endcapP/endcapN are the endcaps at positive/negative z values. 
+See https://acts.readthedocs.io/en/latest/plugins/dd4hep.html for more details.
 
-      The tracking geometry needs to be constructed from cylinders from the inside out. For this reason
-      each layer needs its own subsystem assembly. This increases the number of top level system IDs. 
-      For example the silicon tracker needs 3 IDs for each area (endcap+barrel+endcap) and a subassembly for each
-      layer. Therefore it needs a minimum of 20 IDs. Therefore we will allocate blocks of ~25 for each major subsystem.
-      Note, future improvements will likely include a more sophisticated ACTS-dd4hep plugin, 
-      eliminating the need for so many system IDs at construction time.
+The tracking geometry needs to be constructed from cylinders from the inside out. For this reason
+each layer needs its own subsystem assembly. This increases the number of top level system IDs. 
+For example the silicon tracker needs 3 IDs for each area (endcap+barrel+endcap) and a subassembly for each
+layer. Therefore it needs a minimum of 20 IDs. Therefore we will allocate blocks of ~25 for each major subsystem.
+Note, future improvements will likely include a more sophisticated ACTS-dd4hep plugin, 
+eliminating the need for so many system IDs at construction time.
 
-      This barrel/endcap structure needs IDs to be in increasing order going outward. 
-      The space of IDs for the subassemblies starts at (Subassembly_ID*10+101).
+This barrel/endcap structure needs IDs to be in increasing order going outward. 
+The space of IDs for the subassemblies starts at (Subassembly_ID*10+101).
 
-      The unused IDs below are saved for future use.
-    </comment>
+The unused IDs below are saved for future use.
+    </documentation>
 
 
-    <comment> 
+    <documentation> 
 
       ### Allocated IDs 
 
-      ===================
       #### (1-9) Reserved IDs
-      ===================
+
       - Unused IDs: 1-9 
 
-      ====================================
       #### (10-24) Interaction region beamline 
-      ====================================
 
       - Beampipe ID : 10
       - Unused   IDs: 11-24
 
-    </comment> 
+    </documentation> 
     <constant name="BeamPipe_ID" value="10"/>
     <constant name="BeamPipeB0_ID" value="11"/>
 
 
-    <comment> 
-      ===============================
+    <documentation> 
       #### (25-49) Silicon Vertex Tracker
-      ===============================
+
        - SiVertex subsystem  ID: 25 
        - Layer 1 subassembly ID: 26
        - Layer 2 subassembly ID: 27
        - Layer 3 subassembly ID: 28
        - Layer 4 subassembly ID: 29
        - Layer 5 subassembly ID: 30
-    </comment>
+    </documentation>
     <constant name="VertexBarrel_ID" value="25"/>
     <constant name="VertexBarrelSubAssembly_ID" value="26"/>
     <constant name="VertexEndcapSubAssembly_ID" value="27"/>
     <constant name="VertexEndcapP_ID" value="30"/>
     <constant name="VertexEndcapN_ID" value="40"/>
     
-    <comment>
-      Unused values reserved for vertex:
-      constant name="SiVertexSubAssemblyLayer1_ID" value="121"
-      constant name="SiVertexSubAssemblyLayer2_ID" value="122"
-      constant name="SiVertexSubAssemblyLayer3_ID" value="123"
-      constant name="SiVertexSubAssemblyLayer4_ID" value="124"
-      constant name="SiVertexSubAssemblyLayer5_ID" value="125"
-    </comment>
+    <documentation>
+       - Unused IDs: 31-49
+    </documentation>
 
-    <comment>
-      ===============================
+    <documentation>
       #### (50-74) Silicon Tracker System
-      ===============================
 
       SiTracker subsystem  ID: 50
       Layer 1 subassembly  ID: 51      
@@ -89,12 +78,10 @@
       Layer 3 subassembly  ID: 53
       Layer 4 subassembly  ID: 54
       Layer 5 subassembly  ID: 55
-
       (56-70) etc...
-
       Unused IDs: 71-74
 
-    </comment>
+    </documentation>
 
     <constant name="TrackerBarrelSubAssembly_Inner_ID" value="50"/>
     <constant name="TrackerEndcapSubAssembly_Inner_ID" value="51"/>
@@ -127,48 +114,39 @@
 
 
 
-    <comment>
-    ===================
+    <documentation>
     #### (75-84) Barrel Tracker IDs
-    ===================
-    MMTrackerBarrel ID: 75
-    RWellTrackerBarrel ID: 76
 
-    Unused IDs: 77-89
+    - MMTrackerBarrel ID: 75
+    - RWellTrackerBarrel ID: 76
+    - Unused IDs: 77-89
 
-    </comment>
+    </documentation>
     <constant name="MMTrackerBarrel_ID" value="75"/>
     <constant name="RWellTrackerBarrel_ID" value="76"/>
 
-    <comment>
-    ===================
+    <documentation>
     #### (85-99) Reserved IDs
-    ===================
 
-    Unused IDs: 85-89 
+    - Unused IDs: 85-89 
     TBD
-    </comment>
-    <comment> 
-    ======================
+    </documentation>
+    <documentation> 
     #### (90-99) Barrel PID IDs
-    ======================
 
-    DIRC subsystem       ID: 90
-    Barrel TRD subsystem ID: 91
-    Barrel TOF subsystem ID: 92
-    TOFSubAssembly       ID: 93
-    
-    Unused IDs: 94-99
-    </comment>
+    - DIRC subsystem       ID: 90
+    - Barrel TRD subsystem ID: 91
+    - Barrel TOF subsystem ID: 92
+    - TOFSubAssembly       ID: 93
+    - Unused IDs: 94-99
+    </documentation>
     <constant name="BarrelDIRC_ID" value="90"/>
     <constant name="BarrelTRD_ID"  value="91"/>
     <constant name="BarrelTOF_ID"  value="92"/>
     <constant name="TOFSubAssembly_ID" value="93"/>
 
-    <comment> 
-      =====================================
+    <documentation> 
       #### (100-109) Electromagnetic Calorimeter
-      =====================================
 
       ECal     subsystem  ID:  100
       Barrel   subassembly ID: 101
@@ -179,7 +157,7 @@
 
       Unused IDs: 106-109
 
-    </comment>
+    </documentation>
     <constant name="ECalSubAssembly_ID" value="100"/>
     <constant name="ECalBarrel_ID"      value="101"/>
     <constant name="ECalEndcapP_ID"     value="102"/>
@@ -187,33 +165,29 @@
     <constant name="CrystalEndcap_ID"   value="104"/>
     <constant name="ECalBarrel2_ID"     value="105"/>
 
-    <comment> 
-      =====================================
+    <documentation> 
       #### (110-119) Hadronic Calorimeter
-      =====================================
 
-      HCal     subsystem  ID:  110
-      Barrel   subassembly ID: 111
-      EndcapP  subassembly ID: 112
-      EndcapN  subassembly ID: 113
+      - HCal     subsystem  ID:  110
+      - Barrel   subassembly ID: 111
+      - EndcapP  subassembly ID: 112
+      - EndcapN  subassembly ID: 113
 
-      Unused IDs: 115-119
-    </comment>
+      - Unused IDs: 115-119
+    </documentation>
     <constant name="HCalSubAssembly_ID" value="110"/>
     <constant name="HCalBarrel_ID"      value="111"/>
     <constant name="HCalEndcapP_ID"     value="112"/>
     <constant name="HCalEndcapN_ID"     value="113"/>
     <constant name="ci_HCAL_id"         value="200"/>
-    <comment> 
-      =====================================
+    <documentation> 
       #### (120-129) (near) Forward reserved
-      =====================================
 
-      Forwardtracking ID: 120
-      Forward RICH    ID: 121
+      - Forwardtracking ID: 120
+      - Forward RICH    ID: 121
 
-      Unused IDs: 124-129
-    </comment>
+      - Unused IDs: 124-129
+    </documentation>
     <constant name="ForwardTracking_ID" value="120"/>
     <constant name="ForwardRICH_ID"     value="121"/>
     <constant name="ci_GEM_id"          value="122"/>
@@ -223,47 +197,41 @@
     <constant name="ForwardTOF_ID"      value="126"/>
     <constant name="BackwardTOF_ID"      value="127"/>
 
-    <comment> 
-      =====================================
+    <documentation> 
       #### (130-139) Backward reserved
-      =====================================
 
-      Modular RICH ID: 130
-      Electron Endcap GEM tracking ID: 131
-      Unused IDs: 132-139
+      - Modular RICH ID: 130
+      - Electron Endcap GEM tracking ID: 131
+      - Unused IDs: 132-139
 
-    </comment>
+    </documentation>
     <constant name="MRICH_ID"        value="130"/>
     <constant name="ce_GEM_ID"          value="131"/>
 
-    <comment> 
-      =====================================
+    <documentation> 
       #### (140-149) Central Magnet
-      =====================================
 
-      Solenoid         ID: 140
-      Solenoid support ID: 141
-      Solenoid Yoke    ID: 142
+      - Solenoid         ID: 140
+      - Solenoid support ID: 141
+      - Solenoid Yoke    ID: 142
 
-      Unused IDs: 143-149
+      - Unused IDs: 143-149
 
-    </comment>
+    </documentation>
     <constant name="Solenoid_ID"             value="140"/>
     <constant name="SolenoidSupport_ID"      value="141"/>
     <constant name="SolenoidYoke_ID"         value="142"/>
 
-    <comment> 
-      =====================================
+    <documentation> 
       #### (150-169) Far Forward  Detectors
-      =====================================
 
-      Forward Roman Pot     ID: 150
-      Forward B0 Tracker    ID: 151
-      Zero Degree Cal. Ecal ID: 160
-      Zero Degree Cal. Hcal ID: 161
+      - Forward Roman Pot     ID: 150
+      - Forward B0 Tracker    ID: 151
+      - Zero Degree Cal. Ecal ID: 160
+      - Zero Degree Cal. Hcal ID: 161
 
       TODO: A lot of the  repeated ID's below should be pushed into a single detector
-    </comment>
+    </documentation>
     <constant name="B0Tracker_Station_1_ID"          value="150"/>
     <constant name="B0Tracker_Station_2_ID"          value="151"/>
     <constant name="B0Tracker_Station_3_ID"          value="152"/>
@@ -278,50 +246,54 @@
     <constant name="ffi_ZDC_ECAL_ID"                 value="163"/>
     <constant name="ffi_ZDC_HCAL_ID"                 value="164"/>
 
-    <comment> 
-      =====================================
+    <documentation> 
       #### (170-189) Forward Beamline Magnets
-      =====================================
-    </comment>
+    </documentation>
 
-    <comment> 
-      =====================================
+    <documentation> 
       #### (190-199) Backward Beamline Magnets
-      =====================================
-    </comment>
+    </documentation>
 
-    <comment>
-      ------------------------------
-      ## Detector Definition Parameters 
-      ------------------------------
+    <documentation>
+## Detector Definition Parameters 
 
-      ## Constant naming convention
+## Constant naming convention
 
-      SubSystemNameFurtherDescriptor_quantity
+SubSystemNameFurtherDescriptor_quantity
 
-      Examples: 
-      - TrackerBarrelInside_length
-      - EcalEndcapP_rmin
-      - MRichFresnelLens_thickness
+Examples: 
+ - TrackerBarrelInside_length
+ - EcalEndcapP_rmin
+ - MRichFresnelLens_thickness
+
+### Naming Barrel and Endcaps
+
+ - **Barrel**
+ - **EndcapP**
+   - Postive Endcap (+z direction)
+   - This is the ion beam side
+ - **EndcapN**
+   - Negative Endcap (-z direction) 
+   - This is the electron beam side
        
-      ## Parameter nomenclature
+## Parameter nomenclature
 
-       - "rmin", "rmax", "thickness" all refer to the radial direction.
-       - "zmin", "zmax", "length", "offset" all refer to the z direction.
-       - Positive and Negative are  "EndcapP" and "EndcapN", respectively.
-       - All values are positive (except offsets, which are positive in the hadron direction, i.e. towards EndCapP).
-           When refering to a negative endcap z position, the values are
-           also positive then negated when required. (Many endcap constructions are mirrored, 
-           hence a postive value.)
-       - We will try to keep the subsystem component name first and the parameter after an "_" (eg, EcalBarrel_length").
+ - "rmin", "rmax", "thickness" all refer to the radial direction.
+ - "zmin", "zmax", "length", "offset" all refer to the z direction.
+ - Positive and Negative are  "EndcapP" and "EndcapN", respectively.
+ - All values are positive (except offsets, which are positive in the hadron direction, i.e. towards EndCapP).
+     When refering to a negative endcap z position, the values are
+     also positive then negated when required. (Many endcap constructions are mirrored, 
+     hence a postive value.)
+ - We will try to keep the subsystem component name first and the parameter after an "_" (eg, EcalBarrel_length").
 
-    </comment>
+    </documentation>
 
-    <comment>
+    <documentation>
       ## Solenoid Magnet Parameters
 
       When changing here, also change the include file in athena.xml.
-    </comment>
+    </documentation>
 
     <comment>Solenoid option</comment>
     <constant name="Solenoid_length"           value="3840.0*mm"/>
@@ -343,14 +315,14 @@
     <constant name="SolenoidBarrel_zmax"       value="Solenoid_length/2.0"/>
 
 
-    <comment>
+    <documentation level="0">
       ## Key Central Detector Parameters
 
       These are needed here to compute the dependent parameters.
 
 
       ### PID Detector Region Parameters
-    </comment>
+    </documentation>
 
     <constant name="ForwardRICH_length"       value="1.1*m"/>
     <constant name="ForwardTRD_length"        value="10.0*cm"/>
@@ -375,28 +347,28 @@
     <constant name="BarrelPIDThickness"  value="BarrelExtraPIDThickness + BarrelTRDThickness + BarrelTOFThickness"/>
 
 
-    <comment>
+    <documentation>
       ## Tracking Detector Parameters
 
       Generic tracking space allocations
-    </comment>
+    </documentation>
 
     <constant name="ForwardTracking_length" value="0.0*cm"/>
-    <comment>This compensates for the asymmetry of the setup</comment>
+    <documentation>
+      `BackwardTracking_length` and `ForwardTracking_length` compensate for the asymmetry of the setup
+    </documentation>
     <constant name="BackwardTracking_length" value="7.5*cm"/>
 
-    <comment>
-      -------------------------
-      GEM Tracker Parameters
-      -------------------------
+    <documentation>
+      ### GEM Tracker Parameters
       TODO: this section should be in the gem xml file
-    </comment>
+    </documentation>
     <constant name="ForwardTrackingGEMLength" value="ForwardTracking_length"/>
     <constant name="BackwardTrackingGEMLength" value="BackwardTracking_length"/>
 
-    <comment>
+    <documentation>
       ## Vertex Tracker Parameters
-    </comment>
+    </documentation>
     <constant name="VertexTrackerBarrel_rmin"   value="Beampipe_rmax + 5.0*mm"/>
     <constant name="VertexTrackerBarrel_rmax"   value="200.0*mm"/>
     <constant name="VertexTrackerBarrel_length" value="300.0*mm"/>
@@ -411,16 +383,16 @@
     <constant name="VertexTrackerEndcapP_zmax"  value="300.0*mm"/>
     <constant name="VertexTrackerEndcapN_zmax"  value="300.0*mm"/>
 
-    <comment>
+    <documentation>
       ### Vertex Tracking Region
-    </comment>
+    </documentation>
     <constant name="VertexTrackingRegion_length" value="VertexTrackerEndcapP_zmax + VertexTrackerEndcapN_zmax "/>
     <constant name="VertexTrackingRegion_zmax"   value="VertexTrackerEndcapP_zmax"/>
     <constant name="VertexTrackingRegion_rmax"   value="VertexTrackerBarrel_rmax"/>
 
-    <comment>
+    <documentation>
       ### Tracker Detector Parameters
-    </comment>
+    </documentation>
 
     <constant name="TrackerBarrel_rmin"         value="VertexTrackingRegion_zmax"/>
     <constant name="TrackerBarrel_thickness"    value="58.0*cm"/>
@@ -441,12 +413,12 @@
     TrackerBarrelInner_length  -> TrackerBarrelInside_length
     </comment>
 
-    <comment>
-      ## Central tracking and PID detector boundaries
+    <documentation>
+## Central tracking and PID detector boundaries
 
-      The central tracking detectors are assumed to be symmtric about the origin.
+The central tracking detectors are assumed to be symmtric about the origin.
       
-    </comment>
+    </documentation>
     <constant name="BarrelTracking_length"       value="TrackerBarrel_length"/>
     <constant name="BarrelTracking_rmax"         value="TrackerBarrel_rmax"/>
     <constant name="BarrelTracking_zmax"         value="BarrelTracking_length/2.0"/>
@@ -461,22 +433,22 @@
     <constant name="tracker_region_rmax"   value="CentralTracking_rmax"/>
     <constant name="tracker_region_zmax"   value="CentralTracking_length/2.0"/>
 
-  <documentation level="0">
-      ## Calorimeter Parameters
+  <documentation level="3">
+## Calorimeter Parameters
 
-      ### Note on paramaeterization 
+### Note on paramaeterization 
 
-      The HCal Barrel is outside of the solenoid magnet.  However,
-      there is an option to add some HCal barrel inside the magnet but this
-      is turned off below.
+The HCal Barrel is outside of the solenoid magnet.  However,
+there is an option to add some HCal barrel inside the magnet but this
+is turned off below.
 
-      The space for the calorimeters inside the solenoid is assumed to be fixed by 
-      the solenoid inner diameter/length and by the central tracking and PID outer diameter/length.
+The space for the calorimeters inside the solenoid is assumed to be fixed by 
+the solenoid inner diameter/length and by the central tracking and PID outer diameter/length.
 
-      ### Endcaps
+### Endcaps
 
-      The extra HCal endcap lengths are for offsetting the outside endcap surface (zmax) from the
-      end of the solenoid coils.
+The extra HCal endcap lengths are for offsetting the outside endcap surface (zmax) from the
+end of the solenoid coils.
 
   </documentation>
 
@@ -502,9 +474,9 @@
     <constant name="BarrelLength"               value="BarrelTrackingAndPID_length" />
     <constant name="Barrel_offset"              value="(EcalEndcapP_zmin-EcalEndcapN_zmin)/2.0" />
 
-    <comment>
+    <documentation>
       ### Ecal  Endcaps
-    </comment>
+    </documentation>
 
     <constant name="EndcapPTotalCal_length"  value="(SolenoidYokeEndcapP_zmin + EcalEndcapPSolenoid_offset) - (EcalEndcapP_zmin)"/>
     <constant name="EndcapNTotalCal_length"  value="(SolenoidYokeEndcapN_zmin + EcalEndcapNSolenoid_offset) - (EcalEndcapN_zmin)"/>
@@ -518,27 +490,31 @@
     <constant name="EcalEndcapN_length" value="60*cm"/>
 
 
-    <comment> These need to be set in sync with the forward and backward  detectors </comment>
+    <documentation>
+EcalEndcapP_rmin  and EcalEndcapN_rmin need to be set in sync with the forward and backward  detectors 
+    </documentation>
     <constant name="EcalEndcapP_rmin"                      value="200.0*mm"/>
     <constant name="EcalEndcapN_rmin"                      value="300.0*mm"/>
 
     <constant name="HcalEndcapP_rmin"                      value="EcalEndcapP_rmin"/>
     <constant name="HcalEndcapN_rmin"                      value="EcalEndcapN_rmin"/>
 
-    <comment>
+    <documentation>
       ## EM Calorimeter Parameters
 
        ### Note about Calormieter parameterization.
       
-       The logic goes like this: 
-       1. The space for the calorimeter is fixed via parameterization above.
-       2. The layer thicknesses are fixed (first parameters below)
-       3. From the space/thickness the number of layers is computed.
+The logic goes like this: 
+1. The space for the calorimeter is fixed via parameterization above.
+2. The layer thicknesses are fixed (first parameters below)
+3. From the space/thickness the number of layers is computed.
 
-    </comment>
+    </documentation>
     <constant name="CaloSides"                  value="12"/>
       
-    <comment>Material Thickness</comment>
+    <documentation>
+      Calorimeter slice material thicknesses
+    </documentation>
     <constant name="EcalSiliconThickness"       value="9.00 * mm" />
     <constant name="EcalCopperThickness"        value="0.05 * mm" />
     <constant name="EcalKaptonThickness"        value="0.30 * mm" />
@@ -588,9 +564,9 @@
     <constant name="EcalBarrel_length"           value="CentralTracking_length + BackwardPIDLength + EcalEndcapNThickness - 10*cm"/>
     <constant name="EcalBarrel_offset"          value="(CentralTracking_length - EcalBarrel_length)/2.0"/>
 
-    <comment>
+    <documentation>
       ## Hadronic Calorimeter Parameters
-    </comment>
+    </documentation>
 
     <constant name="HcalEndcapP_length"   value="120.0*cm"/>
     <constant name="HcalEndcapN_length"   value="105.0*cm"/>
@@ -605,22 +581,30 @@
     <constant name="HcalEndcapN_zmin"          value="max(EcalEndcapN_zmin + EcalEndcapN_length, Solenoid_length / 2.0 - Solenoid_offset) "/>
     <constant name="HcalBarrelLength"          value="HcalEndcapP_zmin + HcalEndcapN_zmin "/>
 
-    <comment> #### Material Thickness </comment>
+    <documentation>
+      #### Material Thickness 
+    </documentation>
     <constant name="HcalSteelThickness"       value="1.89 * cm"/>
     <constant name="HcalPyrexThickness"       value="1.10 * mm"/>
     <constant name="HcalRPCGasThickness"      value="1.20 * mm"/>
     <constant name="HcalG10Thickness"         value="3.00 * mm"/>
     <constant name="HcalAirThickness"         value="1.60 * mm"/>
 
-    <comment> - Single Layer Thickness (for both barrel and endcap)</comment>
+    <documentation> 
+      - Single Layer Thickness (for both barrel and endcap)
+    </documentation>
     <constant name="HcalSingleLayerThickness"
       value="HcalSteelThickness + (2 * HcalPyrexThickness) + HcalRPCGasThickness + HcalG10Thickness + HcalAirThickness"/>
 
-    <comment> - Hcal Barrel Layers and computed Thickness </comment>
+    <documentation>
+      - Hcal Barrel Layers and computed Thickness
+    </documentation>
     <constant name="HcalBarrelLayer_NRepeat" value="floor(HcalBarrelAvailThickness / HcalSingleLayerThickness)"/>
     <constant name="HcalBarrelThickness" value="HcalBarrelLayer_NRepeat * HcalSingleLayerThickness"/>
 
-    <comment> - Hcal Endcap Layers and computed Thickness </comment>
+    <documentation>
+      - Hcal Endcap Layers and computed Thickness
+    </documentation>
     <constant name="HcalEndcapPLayer_NRepeat" value="floor(HcalEndcapP_length / HcalSingleLayerThickness)"/>
     <constant name="HcalEndcapNLayer_NRepeat" value="floor(HcalEndcapN_length / HcalSingleLayerThickness)"/>
     <constant name="HcalEndcapP_thickness" value="HcalEndcapPLayer_NRepeat * HcalSingleLayerThickness"/>
