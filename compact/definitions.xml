@@ -324,7 +324,7 @@ Examples:
       ### PID Detector Region Parameters
     </documentation>
 
-    <constant name="ForwardRICH_length"       value="1.1*m"/>
+    <constant name="ForwardRICH_length"       value="180.0*cm"/>
     <constant name="ForwardTRD_length"        value="10.0*cm"/>
     <constant name="ForwardTOF_length"        value="3.0*cm"/>
     
@@ -353,7 +353,7 @@ Examples:
       Generic tracking space allocations
     </documentation>
 
-    <constant name="ForwardTracking_length" value="0.0*cm"/>
+    <constant name="ForwardTracking_length" value="25.0*cm"/>
     <documentation>
       `BackwardTracking_length` and `ForwardTracking_length` compensate for the asymmetry of the setup
     </documentation>

@@ -24,7 +24,7 @@
     <composite n="15" ref="C"/>
     <composite n="7" ref="O"/>
   </material>
-  <material name="Quartz">
+  <material name="Quartz"> <!-- different density than `SiliconDioxide` -->
     <D type="density" value="2.2" unit="g/cm3"/>
     <composite n="1" ref="Si"/>
     <composite n="2" ref="O"/>
@@ -45,8 +45,13 @@
     <fraction n="0.998" ref="Fe"/>
     <fraction n=".002" ref="C"/>
   </material>
-  <material name="SiliconOxide">
+  <material name="SiliconOxide"> <!-- different density than `SiliconDioxide` -->
     <D type="density" value="2.65" unit="g/cm3"/>
+    <composite n="1" ref="Si"/>
+    <composite n="2" ref="O"/>
+  </material>
+  <material name="SiliconDioxide"> <!-- density from `G4_SILICON_DIOXIDE` (NIST DB) -->
+    <D type="density" value="2.32" unit="g/cm3"/>
     <composite n="1" ref="Si"/>
     <composite n="2" ref="O"/>
   </material>
@@ -257,6 +262,18 @@
   <material name="Graphite">
     <D type="density" value="2.21" unit="g/cm3"/>
     <composite n="1" ref="C"/>
+  </material>
+  <material name="PolyvinylAcetate">
+    <D type="density" value="1.19" unit="g/cm3"/>
+    <composite n="4" ref="C"/>
+    <composite n="6" ref="H"/>
+    <composite n="2" ref="O"/>
+  </material>
+  <material name="Plexiglass">
+    <D type="density" value="1.19" unit="g/cm3"/>
+    <composite n="5" ref="C"/>
+    <composite n="8" ref="H"/>
+    <composite n="2" ref="O"/>
   </material>
   <material name="StainlessSteel">
     <D type="density" value="8.3" unit="g / cm3"/>
