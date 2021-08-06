@@ -71,7 +71,7 @@
     <constant name="TrackerEndcapInner_rmin1" value="Beampipe_rmax+1.0*cm"/>
     <constant name="TrackerEndcapInner_rmin2" value="Beampipe_rmax+1.0*cm"/>
 
-    <constant name="TrackerEndcapOuter_rmin1" value="3.18*cm + 1.2*cm * 0"/>
+    <constant name="TrackerEndcapOuter_rmin1" value="3.18*cm + 1.2*cm * 1"/>
     <constant name="TrackerEndcapOuter_rmin2" value="3.18*cm + 1.2*cm * 1"/>
     <constant name="TrackerEndcapOuter_rmin3" value="3.18*cm + 1.2*cm * 2"/>
 
