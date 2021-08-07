@@ -15,8 +15,27 @@ set(a_lib_name athena)
 
 dd4hep_configure_output()
 
-dd4hep_add_plugin(${a_lib_name} SOURCES src/*.cpp
-          USES ActsCore ActsPluginDD4hep
+dd4hep_add_plugin(${a_lib_name} SOURCES 
+  src/BackwardGEMTracker_geo.cpp
+  src/BarrelCalorimeter_geo.cpp
+  src/BarrelCalorimeterHybrid_geo.cpp
+  src/BarrelCalorimeterInterlayers_geo.cpp
+  src/BarrelTrackerWithFrame_geo.cpp
+  src/CylinderTrackerBarrel_geo.cpp
+  src/DIRC_geo.cpp
+  src/DRich_geo.cpp
+  src/FieldMapBrBz.cpp
+  src/GaseousRICH_geo.cpp
+  src/GeometryHelpers.cpp
+  src/HomogeneousCalorimeter_geo.cpp
+  src/MRich_geo.cpp
+  src/PolyhedraEndcapCalorimeter2_geo.cpp
+  src/ShashlikCalorimeter_geo.cpp
+  src/SimpleDiskTracker_geo.cpp
+  src/SimpleRectangularTracker_geo.cpp
+  src/SolenoidCoil_geo.cpp
+  src/TrapEndcapTracker_geo.cpp
+  USES ActsCore ActsPluginDD4hep
   )
 target_link_libraries(${a_lib_name}
   PUBLIC DD4hep::DDCore  DD4hep::DDRec

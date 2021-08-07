@@ -13,9 +13,9 @@ using namespace dd4hep::detail;
 
 /** A barrel tracker with a module that is curved (not flat).
  *
- *
+ * \ingroup tracking
  */
-static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector sens)
+static Ref_t CylinderTrackerBarrel_create_detector(Detector& description, xml_h e, SensitiveDetector sens)
 {
   typedef vector<PlacedVolume> Placements;
   xml_det_t                    x_det = e;
@@ -194,6 +194,6 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
 }
 
 // clang-format off
-DECLARE_DETELEMENT(athena_CylinderTrackerBarrel, create_detector)
-DECLARE_DETELEMENT(athena_MMTrackerBarrel, create_detector)
-DECLARE_DETELEMENT(athena_RWellTrackerBarrel, create_detector)
+DECLARE_DETELEMENT(athena_CylinderTrackerBarrel, CylinderTrackerBarrel_create_detector)
+DECLARE_DETELEMENT(athena_MMTrackerBarrel,       CylinderTrackerBarrel_create_detector)
+DECLARE_DETELEMENT(athena_RWellTrackerBarrel,    CylinderTrackerBarrel_create_detector)

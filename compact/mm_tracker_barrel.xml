@@ -28,10 +28,8 @@
   <detectors>
     <detector id="MMTrackerBarrel_ID" name="MMTrackerBarrel" type="athena_MMTrackerBarrel" readout="MMTrackerBarrelHits">
       <module name="Module1" vis="AnlGold">
-        <module_envelope
-          rmin="TrackerBarrel_rmax"
-          length="MMTrackerBarrelLayer1_length"
-          thickness="MMTrackerBarrel_delta" phi="90*degree" />
+        <module_envelope rmin="TrackerBarrel_rmax" length="MMTrackerBarrelLayer1_length" thickness="MMTrackerBarrel_delta"
+          phi="90*degree" />
         <module_component thickness="1.0*mm" material="PEEK" sensitive="false">
           <position x="0" />
         </module_component>
