@@ -296,7 +296,7 @@ static Ref_t createDetector(Detector& desc, xml::Handle_t handle, SensitiveDetec
      */
 
     // initialize module number for this sector
-    int imod=1; 
+    int imod=0;
 
     // thetaGen loop: iterate less than "0.5 circumference / sensor size" times
     double nTheta = M_PI*sensorSphRadius / (sensorSide+sensorGap); 
@@ -354,7 +354,11 @@ static Ref_t createDetector(Detector& desc, xml::Handle_t handle, SensitiveDetec
               * RotationZ(thetaGen) // rotate about `yGen`
               * Translation3D(sensorSphRadius, 0., 0.) // push radially to spherical surface
               * RotationY(M_PI/2) // rotate sensor to be compatible with generator coords
+              * RotationZ(-M_PI/2) // correction for readout segmentation mapping
               );
+
+	  // generate LUT for module number -> sensor position, for readout mapping tests
+	  //if(isec==0) printf("%d %f %f\n",imod,sensorPV.position().x(),sensorPV.position().y());
 
           // properties
           sensorPV.addPhysVolID("sector", isec).addPhysVolID("module", imod);

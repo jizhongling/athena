@@ -23,6 +23,9 @@
     <constant name="DRICH_rmax2"              value="200*cm"/>  <!-- cylinder radius; 20 cm gap between dRICh and HCalBarrel -->
     <!-- additional parameters -->
     <constant name="DRICH_aerogel_thickness"  value="4.0*cm"/>  <!-- aerogel thickness -->
+    <constant name="DRICH_sensor_size"        value="48.0*mm"/> <!-- sensor side length -->
+    <constant name="DRICH_sensor_thickness"   value="35.0*mm"/> <!-- sensor thickness -->
+    <constant name="DRICH_num_px"             value="16"/> <!-- number of pixels along one side of the sensor -->
   </define>
 
   <detectors>
@@ -127,8 +130,8 @@
           material="Silicon"
           surface="SensorSurface_DRICH"
           vis="DRICH_sensor_vis"
-          side="48*mm"
-          thickness="35*mm"
+          side="DRICH_sensor_size"
+          thickness="DRICH_sensor_thickness"
           gap="0.5*(52-48)*mm + 2*mm"
           />
         <!-- sensors will be tiled on this sphere
@@ -165,15 +168,25 @@
 
   <readouts>
     <readout name="DRICHHits">
-      <segmentation type="CartesianGridXY" grid_size_x="3*mm" grid_size_y="3*mm"/>
+    <!-- segmentation: square matrix of pixels
+         - note: for `grid_size`, divide sensor size by 1 less than the
+           number of pixels, to account for fenceposting
+         -->
+      <segmentation
+	 type="CartesianGridXY"
+	 grid_size_x="DRICH_sensor_size/(DRICH_num_px-1)"
+	 grid_size_y="DRICH_sensor_size/(DRICH_num_px-1)"
+	 offset_x="-DRICH_sensor_size/2.0"
+	 offset_y="-DRICH_sensor_size/2.0"
+	 />
       <!-- cellID: 64bits
-           - bits 1-8:   dRICh ID
-           - bits 9-16:  sector number
-           - bits 17-32: photosensor number
-           - bits 33-48: x pixel (signed)
-           - bits 49-64: y pixel (signed)
+	   - offset 0,  length 8: dRICh ID
+	   - offset 8,  length 3: sector number
+	   - offset 11, length 12: photosensor number
+	   - offset 23, length 16: x pixel
+	   - offset 39, length 16: y pixel
            -->
-      <id>system:8,sector:8,module:16,x:32:-16,y:-16</id>
+      <id>system:8,sector:3,module:12,x:23:16,y:16</id>
     </readout>
   </readouts>
 
