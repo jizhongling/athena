@@ -197,3 +197,4 @@ static Ref_t CylinderTrackerBarrel_create_detector(Detector& description, xml_h 
 DECLARE_DETELEMENT(athena_CylinderTrackerBarrel, CylinderTrackerBarrel_create_detector)
 DECLARE_DETELEMENT(athena_MMTrackerBarrel,       CylinderTrackerBarrel_create_detector)
 DECLARE_DETELEMENT(athena_RWellTrackerBarrel,    CylinderTrackerBarrel_create_detector)
+DECLARE_DETELEMENT(athena_VertexBarrel,          CylinderTrackerBarrel_create_detector)

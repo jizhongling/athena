@@ -1,31 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lccdd>
   <define>
+    <constant name="ITS3Thickness"       value="40*um"/>
 
-    <constant name="ITS3Thickness"                   value="30*um"/>
-    <constant name="VertexBarrel_rmin1"              value="3.3*cm"/>
-    <constant name="VertexBarrel_rmin2"              value="5.7*cm"/>
-    <constant name="VertexBarrelModule_maxThickness" value="VertexBarrel_rmin2 - VertexBarrel_rmin1"/>
+    <constant name="VertexBarrelLayer_thickness"     value="ITS3Thickness"/>
+    <constant name="VertexBarrelShell_thickness"     value="300*um"/>
+    <constant name="VertexBarrelLayer_rmin1"         value="3.3*cm"/>
+    <constant name="VertexBarrelLayer_rmin2"         value="5.7*cm"/>
+    <constant name="VertexBarrelLayer_offset"        value="VertexBarrelLayer_rmin2-VertexBarrelLayer_rmin1"/>
+    <constant name="VertexBarrelShell_rmin"          value="VertexBarrelLayer_rmin2+VertexBarrelLayer_offset"/>
+    <constant name="VertexBarrelLayer_rmax1"         value="VertexBarrelLayer_rmin2"/>
+    <constant name="VertexBarrelLayer_rmax2"         value="VertexBarrelShell_rmin"/>
+    <constant name="VertexBarrelShell_rmax"          value="VertexBarrelShell_rmin + VertexBarrelShell_thickness"/>
     <constant name="VertexBarrel_length"             value="VertexTrackerBarrel_length"/>
-    <constant name="VertexBarrel_thickness"          value="0.05/100*9.37*cm"/>
-    <constant name="VertexBarrelService_thickness"   value="VertexBarrel_thickness-ITS3Thickness"/>
-    <constant name="VertexBarrel_rmin"               value="VertexBarrel_rmin1"/>
-    <constant name="VertexBarrel_rmax"               value="VertexBarrel_rmin2+VertexBarrelModule_maxThickness"/>
-    <constant name="VertexBarrelLayer_rOffset"       value="1.2*mm"/>
 
-    <comment> TODO: These should be computed </comment>
-    <constant name="VertexBarrel_NModules1" value="14"/>
-    <constant name="VertexBarrel_NModules2" value="24"/>
-
-    <!--
-    <constant name="VertexTrackerEndcapP_rmin" value="VertexTrackerInnerRadius"/>
-    <constant name="VertexTrackerEndcapP_rmax" value="VertexTrackerOuterRadius"/>
-    <constant name="VertexTrackerEndcapP_zmin" value="VertexTrackerBarrel_length + 5*mm"/>
-
-    <constant name="VertexTrackerEndcapN_rmin" value="VertexTrackerInnerRadius"/>
-    <constant name="VertexTrackerEndcapN_rmax" value="VertexTrackerOuterRadius"/>
-    <constant name="VertexTrackerEndcapN_zmin" value="VertexTrackerBarrelLength + 5*mm"/>
-    -->
     <constant name="VertexTrackerEndcapN_zmin" value="VertexTrackerBarrel_zmax"/>
     <constant name="VertexTrackerEndcapP_zmin" value="VertexTrackerBarrel_zmax"/>
 
@@ -49,48 +37,58 @@
       type="athena_VertexBarrel"
       readout="VertexBarrelHits"
       insideTrackingVolume="true">
-      <dimensions
-        rmin="VertexBarrel_rmin-VertexBarrelLayer_rOffset"
-        rmax="VertexBarrel_rmax-VertexBarrelLayer_rOffset"
-        length="VertexBarrel_length"/>
-      <comment>Barrel Modules</comment>
-      <module name="Module1" vis="PurpleVis">
-        <frame  material="CarbonFiber_25percent" vis="BlueGreenVis"
-          width="15*mm"
-          height="10.0*mm"
-          length="VertexBarrel_length-1.0*mm"
-          thickness="0.1 * mm"/>
-        <module_component name="silicon" material="Silicon" sensitive="true"
-          width="14.0*mm" length="VertexBarrel_length-0.1*mm" thickness="40.0*um">
-          <!--position x="0" y="0*mm" z="-0.025*mm" --> />
+      <comment>Vertex Barrel Modules</comment>
+      <module name="Module1" vis="VertexLayerVis">
+        <module_envelope rmin="VertexBarrelLayer_rmin1" length="VertexBarrel_length" thickness="VertexBarrelLayer_thickness" phi="180*degree" />
+        <module_component thickness="VertexBarrelLayer_thickness" material="Silicon" sensitive="true">
+          <position x="0" />
         </module_component>
       </module>
-      <module name="Module2">
-        <frame  material="CarbonFiber_25percent" vis="BlueGreenVis"
-          width="15*mm"
-          height="10.0*mm"
-          length="VertexBarrel_length-1.0*mm"
-          thickness="0.1 * mm"/>
-        <module_component name="silicon" material="Silicon" sensitive="true"
-          width="14.0*mm" length="VertexBarrel_length-0.1*mm" thickness="40.0*um">
-          <!--position x="0" y="0*mm" z="-0.025*mm"/-->
+      <module name="Module2" vis="VertexLayerVis">
+        <module_envelope rmin="VertexBarrelLayer_rmin2" length="VertexBarrel_length" thickness="VertexBarrelLayer_thickness" phi="180*degree" />
+        <module_component thickness="VertexBarrelLayer_thickness" material="Silicon" sensitive="true">
+          <position x="0" />
+        </module_component>
+      </module>
+      <module name="Frame" vis="VertexSupportVis">
+        <module_envelope rmin="VertexBarrelShell_rmin" length="VertexBarrel_length" thickness="VertexBarrelShell_thickness" phi="180*degree" />
+        <module_component thickness="VertexBarrelShell_thickness" material="CarbonFiber">
+          <position x="0" />
         </module_component>
       </module>
       <comment> Layers composed of many arrayed modules  </comment>
-      <layer module="Module1" id="1" vis="VertexVis">
+      <layer module="Module1" id="1" vis="VertexLayerVis">
         <barrel_envelope
-          inner_r="VertexBarrel_rmin1-VertexBarrelLayer_rOffset"
-          outer_r="VertexBarrel_rmin2-VertexBarrelLayer_rOffset-1.0*mm"
-          z_length="VertexBarrel_length"/>
-        <rphi_layout phi_tilt="10.0*degree" nphi="VertexBarrel_NModules1" phi0="0.0" rc="VertexBarrel_rmin1" dr="0.0 * mm"/>
+          inner_r="VertexBarrelLayer_rmin1"
+          outer_r="VertexBarrelLayer_rmax1"
+          z_length="VertexBarrel_length" />
+        <comment>
+          phi0     : Starting phi of first module.
+          phi_tilt : Phi tilt of a module.
+          rc       : Radius of the module center.
+          nphi     : Number of modules in phi.
+          rphi_dr  : The delta radius of every other module.
+          z0       : Z position of first module in phi.
+          nz       : Number of modules to place in z.
+          dr       : Radial displacement parameter, of every other module.
+        </comment>
+        <rphi_layout phi_tilt="0.0*degree" nphi="2" phi0="0.0" rc="VertexBarrelLayer_rmin1" dr="0.0 * mm"/>
         <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
       </layer>
-      <layer module="Module2" id="2" vis="VertexVis">
+      <layer module="Module2" id="2" vis="VertexLayerVis">
         <barrel_envelope
-          inner_r="VertexBarrel_rmin2-VertexBarrelLayer_rOffset"
-          outer_r="VertexBarrel_rmax-VertexBarrelLayer_rOffset"
-          z_length="VertexBarrel_length"/>
-        <rphi_layout phi_tilt="10.0*degree" nphi="VertexBarrel_NModules2" phi0="0.0" rc="VertexBarrel_rmin2" dr="0.0 * mm"/>
+          inner_r="VertexBarrelLayer_rmin2"
+          outer_r="VertexBarrelLayer_rmax2"
+          z_length="VertexBarrel_length" />
+        <rphi_layout phi_tilt="0.0*degree" nphi="2" phi0="0.0" rc="VertexBarrelLayer_rmin2" dr="0.0 * mm"/>
+        <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
+      </layer>
+      <layer module="Frame" id="3" vis="VertexSupportVis">
+        <barrel_envelope
+          inner_r="VertexBarrelShell_rmin"
+          outer_r="VertexBarrelShell_rmax"
+          z_length="VertexBarrel_length" />
+        <rphi_layout phi_tilt="0.0*degree" nphi="2" phi0="0.0" rc="VertexBarrelShell_rmin" dr="0.0 * mm"/>
         <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
       </layer>
     </detector>
@@ -202,7 +200,7 @@
 
   <readouts>
     <readout name="VertexBarrelHits">
-      <segmentation type="CartesianGridXY" grid_size_x="0.050*mm" grid_size_y="0.050*mm" />
+      <segmentation type="CartesianGridXY" grid_size_x="0.010*mm" grid_size_y="0.010*mm" />
       <id>system:8,barrel:2,layer:4,module:12,sensor:2,x:32:-16,y:-16</id>
     </readout>
     <readout name="VertexEndcapHits">
