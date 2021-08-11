@@ -25,9 +25,9 @@ static Ref_t CylinderTrackerBarrel_create_detector(Detector& description, xml_h 
   string     det_name = x_det.nameStr();
   DetElement sdet(det_name, det_id);
 
-  //Acts::ActsExtension* barrelExtension = new Acts::ActsExtension();
-  //barrelExtension->addType("barrel", "detector");
-  //sdet.addExtension<Acts::ActsExtension>(barrelExtension);
+  Acts::ActsExtension* barrelExtension = new Acts::ActsExtension();
+  barrelExtension->addType("barrel", "detector");
+  sdet.addExtension<Acts::ActsExtension>(barrelExtension);
 
   Assembly                assembly(det_name);
   map<string, Volume>     mod_volumes;
@@ -48,7 +48,9 @@ static Ref_t CylinderTrackerBarrel_create_detector(Detector& description, xml_h 
     auto     module_length    = m_env.length();
     auto     module_phi       = getAttrOrDefault(m_env, _Unicode(phi), 90.0);
 
-    Volume m_vol(m_nam, Tube(module_rmin, module_rmin + module_thickness, module_length / 2), air);
+    Volume m_vol(
+        m_nam,
+        Tube(module_rmin, module_rmin + module_thickness, module_length / 2, -module_phi / 2.0, module_phi / 2.0), air);
     int    ncomponents = 0, sensor_number = 1;
     module_assembly.placeVolume(m_vol, Position(-module_rmin, 0, 0));
     mod_volumes[m_nam] = module_assembly;
@@ -118,10 +120,10 @@ static Ref_t CylinderTrackerBarrel_create_detector(Detector& description, xml_h 
     Volume     m_env    = mod_volumes[m_nam];
     DetElement lay_elt(sdet, _toString(x_layer.id(), "layer%d"), lay_id);
 
-    //Acts::ActsExtension* layerExtension = new Acts::ActsExtension();
-    //layerExtension->addType("sensitive cylinder", "layer");
+    Acts::ActsExtension* layerExtension = new Acts::ActsExtension();
+    layerExtension->addType("sensitive cylinder", "layer");
     //// layerExtension->addValue(10. * Acts::UnitConstants::mm, "r", "envelope");
-    //lay_elt.addExtension<Acts::ActsExtension>(layerExtension);
+    lay_elt.addExtension<Acts::ActsExtension>(layerExtension);
 
     Placements& sensVols = sensitives[m_nam];
 
@@ -158,8 +160,8 @@ static Ref_t CylinderTrackerBarrel_create_detector(Detector& description, xml_h 
           PlacedVolume sens_pv = sensVols[ic];
           DetElement   comp_elt(mod_elt, sens_pv.volume().name(), module);
           comp_elt.setPlacement(sens_pv);
-          //Acts::ActsExtension* moduleExtension = new Acts::ActsExtension("YZX");
-          //comp_elt.addExtension<Acts::ActsExtension>(moduleExtension);
+          Acts::ActsExtension* moduleExtension = new Acts::ActsExtension();
+          comp_elt.addExtension<Acts::ActsExtension>(moduleExtension);
         }
 
         /// Increase counters etc.
@@ -197,4 +199,5 @@ static Ref_t CylinderTrackerBarrel_create_detector(Detector& description, xml_h 
 DECLARE_DETELEMENT(athena_CylinderTrackerBarrel, CylinderTrackerBarrel_create_detector)
 DECLARE_DETELEMENT(athena_MMTrackerBarrel,       CylinderTrackerBarrel_create_detector)
 DECLARE_DETELEMENT(athena_RWellTrackerBarrel,    CylinderTrackerBarrel_create_detector)
-DECLARE_DETELEMENT(athena_VertexBarrel,          CylinderTrackerBarrel_create_detector)
+DECLARE_DETELEMENT(athena_CylinderVertexBarrel,  CylinderTrackerBarrel_create_detector)
+
