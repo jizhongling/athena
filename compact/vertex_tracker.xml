@@ -5,6 +5,8 @@
       THis value probably can live in the file that includes this one.
     </comment>
     <constant name="ITS3Thickness"       value="40*um"/>
+   <constant name="TrackerCarbon_thickness"         value="0.12*mm"/> 
+    <constant name="TrackerEndcapAluminum_thickness" value="0.15*mm"/> 
 
     <documentation>
       #### Vertex Tracker Barrel Parameters
@@ -41,7 +43,7 @@ Simple carbon fiber support shell.
     <constant name="VertexBarrelLayer_rmax1"        value="VertexBarrelLayer_rmin1 + VertexBarrelLayer_thickness"/>
     <constant name="VertexBarrelLayer_rmax2"        value="VertexBarrelLayer_rmin2 + VertexBarrelLayer_thickness"/>
 
-    <constant name="VertexBarrelShell_rmin"         value="VertexBarrelLayer_rmin2+2*VertexBarrelLayer_offset"/>
+    <constant name="VertexBarrelShell_rmin"         value="VertexBarrelLayer_rmin2+VertexBarrelLayer_offset"/>
     <constant name="VertexBarrelShell_thickness"    value="300*um"/>
     <constant name="VertexBarrelShell_rmax"         value="VertexBarrelShell_rmin + VertexBarrelShell_thickness"/>
     <constant name="VertexBarrelShell_length"       value="VertexBarrel_length"/>
@@ -123,7 +125,7 @@ Simple carbon fiber support shell.
                           sensitive="true"
                           width="VertexBarrelShellStave_width" 
                           length="VertexBarrelMod_length"
-                          thickness="VertexBarrelSensor_thickness" 
+                          thickness="VertexBarrelShell_thickness" 
                           vis="VertexLayerVis" />
       </module>
       <comment> Layers composed of many arrayed modules  </comment>
@@ -173,7 +175,8 @@ Simple carbon fiber support shell.
       <module name="Module1" vis="AnlProcess_Blue">
         <trd x1="VertexEndcapMod1_x1/2.0" x2="VertexEndcapMod1_x2/2.0" z="VertexEndcapMod1_y/2"/>
         <module_component thickness="ITS3Thickness" material="Silicon" sensitive="true"/>
-        <module_component thickness="0.25/100*9.37*cm-ITS3Thickness" material="Silicon"/>
+       <module_component thickness="TrackerEndcapAluminum_thickness"  material="Aluminum"/>
+        <module_component thickness="TrackerCarbon_thickness"          material="CarbonFiber"/>
       </module>
       <layer id="1">
         <envelope  vis="AnlRed"
@@ -199,7 +202,8 @@ Simple carbon fiber support shell.
       <module name="Module1" vis="AnlProcess_Blue">
         <trd x1="VertexEndcapMod1_x1/2.0" x2="VertexEndcapMod1_x2/2.0" z="VertexEndcapMod1_y/2"/>
         <module_component thickness="ITS3Thickness" material="Silicon" sensitive="true"/>
-        <module_component thickness="0.25/100*9.37*cm-ITS3Thickness" material="Silicon"/>
+       <module_component thickness="TrackerEndcapAluminum_thickness"  material="Aluminum"/>
+        <module_component thickness="TrackerCarbon_thickness"          material="CarbonFiber"/>
       </module>
       <layer id="1">
         <envelope  vis="AnlRed"
