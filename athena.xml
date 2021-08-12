@@ -184,7 +184,6 @@
   <include ref="compact/hcal.xml"/>
 
 
-  <comment>
   <documentation level="11">
   ## Far foward detectors
   </documentation>
@@ -252,7 +251,6 @@
       <coefficient coefficient="B2PF_GradientMax" skew="0.0*tesla/cm"/>
     </field>
   </fields>
-  </comment>
 
   <comment>
       FB elements
