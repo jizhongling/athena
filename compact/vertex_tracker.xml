@@ -57,6 +57,15 @@ Simple carbon fiber support shell.
     <constant name="VertexEndcapMod1_x1"            value="2.0*VertexTrackerEndcapP_rmin*sin(VertexEndcapModOpeningAngle/2.0)"/>
     <constant name="VertexEndcapMod1_x2"            value="2.0*VertexTrackerEndcapP_rmax*sin(VertexEndcapModOpeningAngle/2.0)"/>
     <constant name="VertexEndcapMod1_y"             value="VertexTrackerEndcapP_rmax*cos(VertexEndcapModOpeningAngle/2.0) - VertexTrackerEndcapP_rmin"/>
+
+    <comment>
+      Extra parameters to approximate a cylinder as a set of skinny staves
+      due to ACTS limitations.
+    </comment>
+      <constant name="VertexBarrelStave_count"       value="128"/>
+      <constant name="VertexBarrelStave1_width"      value="2*VertexBarrelMod1_rmin * tan(180*degree/VertexBarrelStave_count)"/>
+      <constant name="VertexBarrelStave2_width"      value="2*VertexBarrelMod2_rmin * tan(180*degree/VertexBarrelStave_count)"/>
+      <constant name="VertexBarrelShellStave_width"       value="2*VertexBarrelShell_rmin * tan(180*degree/VertexBarrelStave_count)"/>
   </define>
 
   <display>
@@ -66,27 +75,55 @@ Simple carbon fiber support shell.
     <detector
       id="VertexBarrel_ID"
       name="VertexBarrel"
-      type="athena_CylinderVertexBarrel"
+      type="athena_VertexBarrel"
       readout="VertexBarrelHits"
       insideTrackingVolume="true">
+      <dimensions
+        rmin="VertexBarrelLayer_rmin1"
+        rmax="VertexBarrelShell_rmax+0.2*cm"
+        length="VertexBarrelLayer_length" />
       <comment>Vertex Barrel Modules</comment>
       <module name="Module1" vis="VertexLayerVis">
-        <module_envelope rmin="VertexBarrelMod1_rmin" length="VertexBarrelMod_length" thickness="VertexBarrelMod_thickness" phi="180*degree" />
-        <module_component thickness="VertexBarrelSensor_thickness" material="Silicon" sensitive="true">
-          <position x="0" />
-        </module_component>
+        <frame material="Air" vis="InvisibleNoDaughters" 
+          width="VertexBarrelStave1_width"  
+          length="VertexBarrelMod_length"
+          height="1*mm" 
+          thickness="0.1*um" />
+        <module_component name="ITS3"
+                          material="Silicon" 
+                          sensitive="true"
+                          width="VertexBarrelStave1_width" 
+                          length="VertexBarrelMod_length"
+                          thickness="VertexBarrelSensor_thickness" 
+                          vis="VertexLayerVis" />
       </module>
       <module name="Module2" vis="VertexLayerVis">
-        <module_envelope rmin="VertexBarrelMod2_rmin" length="VertexBarrelMod_length" thickness="VertexBarrelMod_thickness" phi="180*degree" />
-        <module_component thickness="VertexBarrelSensor_thickness" material="Silicon" sensitive="true">
-          <position x="0" />
-        </module_component>
+        <frame material="Air" vis="InvisibleNoDaughters" 
+          width="VertexBarrelStave2_width"  
+          length="VertexBarrelMod_length"
+          height="1*mm" 
+          thickness="0.1*um" />
+        <module_component name="ITS3"
+                          material="Silicon" 
+                          sensitive="true"
+                          width="VertexBarrelStave2_width" 
+                          length="VertexBarrelMod_length"
+                          thickness="VertexBarrelSensor_thickness" 
+                          vis="VertexLayerVis" />
       </module>
       <module name="SupportShell" vis="VertexSupportVis">
-        <module_envelope rmin="VertexBarrelShell_rmin" length="VertexBarrelShell_length" thickness="VertexBarrelShell_thickness" phi="180*degree" />
-        <module_component thickness="VertexBarrelShell_thickness" material="CarbonFiber">
-          <position x="0" />
-        </module_component>
+        <frame material="Air" vis="InvisibleNoDaughters" 
+          width="VertexBarrelShellStave_width"  
+          length="VertexBarrelMod_length"
+          height="1*mm" 
+          thickness="0.1*um" />
+        <module_component name="CF Shell"
+                          material="CarbonFiber" 
+                          sensitive="true"
+                          width="VertexBarrelShellStave_width" 
+                          length="VertexBarrelMod_length"
+                          thickness="VertexBarrelSensor_thickness" 
+                          vis="VertexLayerVis" />
       </module>
       <comment> Layers composed of many arrayed modules  </comment>
       <layer module="Module1" id="1" vis="VertexLayerVis">
@@ -104,7 +141,7 @@ Simple carbon fiber support shell.
           nz       : Number of modules to place in z.
           dr       : Radial displacement parameter, of every other module.
         </comment>
-        <rphi_layout phi_tilt="0.0*degree" nphi="2" phi0="0.0" rc="VertexBarrelMod1_rmin" dr="0.0 * mm"/>
+        <rphi_layout phi_tilt="0.0*degree" nphi="VertexBarrelStave_count" phi0="0.0" rc="VertexBarrelMod1_rmin" dr="0.0 * mm"/>
         <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
       </layer>
       <layer module="Module2" id="2" vis="VertexLayerVis">
@@ -112,7 +149,7 @@ Simple carbon fiber support shell.
           inner_r="VertexBarrelLayer_rmin2"
           outer_r="VertexBarrelLayer_rmax2"
           z_length="VertexBarrelLayer_length" />
-        <rphi_layout phi_tilt="0.0*degree" nphi="2" phi0="0.0" rc="VertexBarrelMod2_rmin" dr="0.0 * mm"/>
+        <rphi_layout phi_tilt="0.0*degree" nphi="VertexBarrelStave_count" phi0="0.0" rc="VertexBarrelMod2_rmin" dr="0.0 * mm"/>
         <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
       </layer>
       <layer module="SupportShell" id="3" vis="VertexSupportVis">
@@ -120,7 +157,7 @@ Simple carbon fiber support shell.
           inner_r="VertexBarrelShell_rmin"
           outer_r="VertexBarrelShell_rmax"
           z_length="VertexBarrelShell_length" />
-        <rphi_layout phi_tilt="0.0*degree" nphi="2" phi0="0.0" rc="VertexBarrelShell_rmin" dr="0.0 * mm"/>
+        <rphi_layout phi_tilt="0.0*degree" nphi="VertexBarrelStave_count" phi0="0.0" rc="VertexBarrelShell_rmin" dr="0.0 * mm"/>
         <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
       </layer>
     </detector>
