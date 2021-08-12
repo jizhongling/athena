@@ -88,6 +88,7 @@ The unused IDs below are saved for future use.
 
     <constant name="TrackerBarrelSubAssembly_Outer_ID" value="52"/>
     <constant name="TrackerEndcapSubAssembly_Outer_ID" value="53"/>
+    <constant name="OuterTrackingSubAssembly_ID" value="54"/>
 
     <!--constant name="TrackerSubAssemblyLayer4_ID" value="54"/-->
     <!--constant name="TrackerSubAssemblyLayer5_ID" value="55"/-->
@@ -137,8 +138,7 @@ The unused IDs below are saved for future use.
     - DIRC subsystem       ID: 90
     - Barrel TRD subsystem ID: 91
     - Barrel TOF subsystem ID: 92
-    - TOFSubAssembly       ID: 93
-    - Unused IDs: 94-99
+    - Unused IDs: 93-99
     </documentation>
     <constant name="BarrelDIRC_ID" value="90"/>
     <constant name="BarrelTRD_ID"  value="91"/>
@@ -179,7 +179,7 @@ The unused IDs below are saved for future use.
     <constant name="HCalBarrel_ID"      value="111"/>
     <constant name="HCalEndcapP_ID"     value="112"/>
     <constant name="HCalEndcapN_ID"     value="113"/>
-    <constant name="ci_HCAL_id"         value="200"/>
+    <!--constant name="ci_HCAL_id"         value="200"/-->
     <documentation> 
       #### (120-129) (near) Forward reserved
 
@@ -190,9 +190,9 @@ The unused IDs below are saved for future use.
     </documentation>
     <constant name="ForwardTracking_ID" value="120"/>
     <constant name="ForwardRICH_ID"     value="121"/>
-    <constant name="ci_GEM_id"          value="122"/>
+    <!--constant name="ci_GEM_id"          value="122"/-->
     <constant name="ForwardTRD_ID"      value="123"/>
-    <constant name="GEMTrackerEndcap_ID" value="124"/>
+    <constant name="GEMTrackerEndcapP_ID" value="124"/>
     <constant name="GEMTrackerEndcapN_ID" value="125"/>
     <constant name="ForwardTOF_ID"      value="126"/>
     <constant name="BackwardTOF_ID"      value="127"/>
@@ -206,7 +206,7 @@ The unused IDs below are saved for future use.
 
     </documentation>
     <constant name="MRICH_ID"        value="130"/>
-    <constant name="ce_GEM_ID"          value="131"/>
+    <!--constant name="ce_GEM_ID"          value="131"/-->
 
     <documentation> 
       #### (140-149) Central Magnet
@@ -243,6 +243,7 @@ The unused IDs below are saved for future use.
     <constant name="ForwardOffMTracker_station_2_ID" value="160"/>
     <constant name="ForwardOffMTracker_station_3_ID" value="161"/>
     <constant name="ForwardOffMTracker_station_4_ID" value="162"/>
+    <comment> TODO naming consistency </comment>
     <constant name="ffi_ZDC_ECAL_ID"                 value="163"/>
     <constant name="ffi_ZDC_HCAL_ID"                 value="164"/>
 
@@ -324,28 +325,26 @@ Examples:
       ### PID Detector Region Parameters
     </documentation>
 
-    <constant name="ForwardRICH_length"       value="180.0*cm"/>
-    <constant name="ForwardTRD_length"        value="10.0*cm"/>
-    <constant name="ForwardTOF_length"        value="3.0*cm"/>
+    <constant name="ForwardRICH_length"           value="180.0*cm"/>
+    <constant name="ExtraTrackingEndcapP_length"  value="25.0*cm"/>
+    <constant name="ForwardTRD_length"            value="25.0*cm"/>
+    <constant name="ForwardTOF_length"            value="ExtraTrackingEndcapP_length-ForwardTRD_length"/>
     
-    <constant name="BackwardCherenkov_length"   value="20.0*cm"/>
-    <constant name="BackwardTOF_length"         value="3.0*cm"/>
+    <constant name="BackwardCherenkov_length"    value="20.0*cm"/>
+    <constant name="ExtraTrackingEndcapN_length" value="5.0*cm"/>
+    <constant name="BackwardTOF_length"          value="0.0*cm"/>
 
-    <comment> Total length of PID detectors above</comment>
-    <constant name="ForwardPIDLength"    value="ForwardRICH_length + ForwardTRD_length + ForwardTOF_length"/>
-    <constant name="BackwardPIDLength"   value="BackwardCherenkov_length + BackwardTOF_length"/>
+    <comment> Total length of the endcap detectors</comment>
+    <constant name="ForwardPIDLength"    value="ForwardRICH_length + ExtraTrackingEndcapP_length"/>
+    <constant name="BackwardPIDLength"   value="BackwardCherenkov_length + ExtraTrackingEndcapN_length"/>
 
     <comment> For detectors adjacent to beam pipe.</comment>
     <constant name="ForwardPID_rmin"  value="Beampipe_rmax + 10*mm"/>
     <constant name="ForwardPID_rmin1"  value="Beampipe_rmax + 80*mm"/>
 
     <comment> Barrel PID thicknesses</comment>
-    <comment> Note: ExtraPID has space for DIRC and optional uRWEL layers</comment>
-    <constant name="BarrelExtraPIDThickness"  value="14.0 * cm"/>
-    <constant name="BarrelTRDThickness"  value="1.0 * cm"/>
-    <constant name="BarrelTOFThickness"  value="1.0 * cm"/>
-    <constant name="BarrelPIDThickness"  value="BarrelExtraPIDThickness + BarrelTRDThickness + BarrelTOFThickness"/>
-
+    <comment> Note: PID has space for DIRC and optional uRWEL layers</comment>
+    <constant name="BarrelPIDThickness"  value="20.0 * cm"/>
 
     <documentation>
       ## Tracking Detector Parameters
@@ -358,13 +357,6 @@ Examples:
       `BackwardTracking_length` and `ForwardTracking_length` compensate for the asymmetry of the setup
     </documentation>
     <constant name="BackwardTracking_length" value="7.5*cm"/>
-
-    <documentation>
-      ### GEM Tracker Parameters
-      TODO: this section should be in the gem xml file
-    </documentation>
-    <constant name="ForwardTrackingGEMLength" value="ForwardTracking_length"/>
-    <constant name="BackwardTrackingGEMLength" value="BackwardTracking_length"/>
 
     <documentation>
       ## Vertex Tracker Parameters
@@ -392,11 +384,12 @@ Examples:
 
     <documentation>
       ### Tracker Detector Parameters
+      TrackerBarrel_rmax: also the rmin for the barrel PID system (DIRC)
     </documentation>
 
-    <constant name="TrackerBarrel_rmin"         value="VertexTrackingRegion_zmax"/>
-    <constant name="TrackerBarrel_thickness"    value="58.0*cm"/>
-    <constant name="TrackerBarrel_rmax"         value="TrackerBarrel_rmin + TrackerBarrel_thickness"/>
+    <constant name="TrackerBarrel_rmin"         value="VertexTrackingRegion_rmax"/>
+    <constant name="TrackerBarrel_rmax"         value="83.65*cm"/> 
+    <constant name="TrackerBarrel_thickness"    value="TrackerBarrel_rmax-TrackerBarrel_rmin"/>
 
     <constant name="TrackerBarrel_length"       value="VertexTrackingRegion_length + 2000.0*mm"/>
     <constant name="TrackerBarrelInside_length" value="VertexTrackingRegion_length"/>
@@ -469,7 +462,7 @@ end of the solenoid coils.
     <constant name="EcalBarrel_TotalThickness"  value="40.0*cm"/>
 
     <constant name="EcalEndcapP_zmin"           value="BarrelTracking_length/2.0 + ForwardTracking_length + ForwardPIDLength"/>
-    <constant name="EcalEndcapN_zmin"           value="BarrelTracking_length/2.0 + BackwardTracking_length + BackwardPIDLength"/>
+    <constant name="EcalEndcapN_zmin"           value="max(BarrelTracking_length/2.0 + BackwardTracking_length + BackwardPIDLength, SolenoidYokeEndcapN_zmin)"/>
 
     <constant name="BarrelLength"               value="BarrelTrackingAndPID_length" />
     <constant name="Barrel_offset"              value="(EcalEndcapP_zmin-EcalEndcapN_zmin)/2.0" />

@@ -139,13 +139,24 @@
       <composite name="TrackerEndcapN_Outer"/>
     </detector>
 
-    <detector id="TOFSubAssembly_ID"
-      name="TOFSubAssembly"
+    <comment>
+      TOF disabled for baseline
+      <detector id="OuterTrackingSubAssembly_ID"
+      name="OuterTrackingSubAssembly"
       type="DD4hep_SubdetectorAssembly"
       vis="TOFSubAssemblyVis">
       <composite name="BarrelTOF"/>
       <composite name="ForwardTOF"/>
       <composite name="BackwardTOF"/>
+    </detector>
+    </comment>
+
+    <detector id="OuterTrackingSubAssembly_ID"
+      name="OuterTrackingSubAssembly"
+      type="DD4hep_SubdetectorAssembly"
+      vis="SubAssemblyVis">
+      <composite name="GEMTrackerEndcapP"/>
+      <composite name="GEMTrackerEndcapN"/>
     </detector>
 
   </detectors>
@@ -154,7 +165,7 @@
     ## Central tracking detectors
   </documentation>
 
-  <include ref="compact/tracking_config_silicon.xml"/>
+  <include ref="compact/tracking_config_accadia.xml"/>
 
   <!--include ref="compact/tracking_config_mgpds.xml"/-->
 
@@ -163,7 +174,7 @@
   </documentation>
   <!--include ref="compact/dirc.xml"/-->
   <!--include ref="compact/mrich.xml"/-->
-  <include ref="compact/forward_trd.xml"/>
+  <!--include ref="compact/forward_trd.xml"/-->
   <include ref="compact/drich.xml"/>
 
   <documentation level="10">
@@ -173,6 +184,7 @@
   <include ref="compact/hcal.xml"/>
 
 
+  <comment>
   <documentation level="11">
   ## Far foward detectors
   </documentation>
@@ -240,6 +252,7 @@
       <coefficient coefficient="B2PF_GradientMax" skew="0.0*tesla/cm"/>
     </field>
   </fields>
+  </comment>
 
   <comment>
       FB elements

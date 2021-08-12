@@ -14,6 +14,7 @@
     <constant name="DIRC_offset"           value="(CentralTracking_length - DIRC_length)/2.0"/>
 
     <constant name="DIRC_rmin"           value="83.65*cm"/>
+    <constant name="DIRC_rmin"           value="TrackerBarrel_rmax"/>
     <constant name="DIRCBars_DX"          value="1.7*cm"/>
     <constant name="DIRCBars_DY"          value="42.*cm"/>
     <constant name="DIRCNum"              value="2*Pi*DIRC_rmin/DIRCBars_DY"/>

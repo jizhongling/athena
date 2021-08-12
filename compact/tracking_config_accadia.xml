@@ -11,7 +11,7 @@
 
   <include ref="vertex_tracker.xml"/>
   <include ref="central_tracker.xml"/>
-  <include ref="tof.xml"/>
+  <include ref="gem_tracker_endcap.xml"/>
 
 </lccdd>
 
