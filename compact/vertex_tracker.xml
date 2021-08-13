@@ -38,15 +38,21 @@ Simple carbon fiber support shell.
     <constant name="VertexBarrelMod2_rmin"          value="5.7*cm"/>
     <constant name="VertexBarrelLayer_rmin1"        value="VertexBarrelMod1_rmin - VertexBarrelLayer_thickness/2.0"/>
     <constant name="VertexBarrelLayer_rmin2"        value="VertexBarrelMod2_rmin - VertexBarrelLayer_thickness/2.0"/>
-
-    <constant name="VertexBarrelLayer_offset"       value="VertexBarrelLayer_rmin2-VertexBarrelLayer_rmin1"/>
     <constant name="VertexBarrelLayer_rmax1"        value="VertexBarrelLayer_rmin1 + VertexBarrelLayer_thickness"/>
     <constant name="VertexBarrelLayer_rmax2"        value="VertexBarrelLayer_rmin2 + VertexBarrelLayer_thickness"/>
 
-    <constant name="VertexBarrelShell_rmin"         value="VertexBarrelLayer_rmin2+VertexBarrelLayer_offset"/>
+    <comment> 
+      "Support" is to "shell" like "layer" is to "module", and is need for the flat stave barrel implementation.
+    </comment>
+    <constant name="VertexBarrelShell_rmin"         value="10.0*cm"/>
     <constant name="VertexBarrelShell_thickness"    value="300*um"/>
     <constant name="VertexBarrelShell_rmax"         value="VertexBarrelShell_rmin + VertexBarrelShell_thickness"/>
-    <constant name="VertexBarrelShell_length"       value="VertexBarrel_length"/>
+    <constant name="VertexBarrelShell_length"       value="VertexBarrelLayer_length-VertexBarrelShell_thickness"/>
+
+    <constant name="VertexBarrelSupport_thickness"  value="1.0*cm"/>
+    <constant name="VertexBarrelSupport_rmin"       value="VertexBarrelShell_rmin-VertexBarrelSupport_thickness/2.0"/>
+    <constant name="VertexBarrelSupport_rmax"       value="VertexBarrelSupport_rmin + VertexBarrelSupport_thickness"/>
+    <constant name="VertexBarrelSupport_length"     value="VertexBarrelLayer_length"/>
 
     <constant name="VertexTrackerEndcapN_zmin"      value="VertexTrackerBarrel_zmax"/>
     <constant name="VertexTrackerEndcapP_zmin"      value="VertexTrackerBarrel_zmax"/>
@@ -68,7 +74,7 @@ Simple carbon fiber support shell.
       <constant name="VertexBarrelStave_count"       value="128"/>
       <constant name="VertexBarrelStave1_width"      value="2*VertexBarrelMod1_rmin * tan(180*degree/VertexBarrelStave_count)"/>
       <constant name="VertexBarrelStave2_width"      value="2*VertexBarrelMod2_rmin * tan(180*degree/VertexBarrelStave_count)"/>
-      <constant name="VertexBarrelShellStave_width"       value="2*VertexBarrelShell_rmin * tan(180*degree/VertexBarrelStave_count)"/>
+      <constant name="VertexBarrelShellStave_width"  value="2*VertexBarrelShell_rmin * tan(180*degree/VertexBarrelStave_count)"/>
   </define>
 
   <display>
@@ -83,15 +89,10 @@ Simple carbon fiber support shell.
       insideTrackingVolume="true">
       <dimensions
         rmin="VertexBarrelLayer_rmin1"
-        rmax="VertexBarrelShell_rmax+0.2*cm"
-        length="VertexBarrelLayer_length" />
+        rmax="VertexBarrelSupport_rmax"
+        length="VertexBarrel_length" />
       <comment>Vertex Barrel Modules</comment>
       <module name="Module1" vis="VertexLayerVis">
-        <frame material="Air" vis="InvisibleNoDaughters" 
-          width="VertexBarrelStave1_width"  
-          length="VertexBarrelMod_length"
-          height="1*mm" 
-          thickness="0.1*um" />
         <module_component name="ITS3"
                           material="Silicon" 
                           sensitive="true"
@@ -101,11 +102,6 @@ Simple carbon fiber support shell.
                           vis="VertexLayerVis" />
       </module>
       <module name="Module2" vis="VertexLayerVis">
-        <frame material="Air" vis="InvisibleNoDaughters" 
-          width="VertexBarrelStave2_width"  
-          length="VertexBarrelMod_length"
-          height="1*mm" 
-          thickness="0.1*um" />
         <module_component name="ITS3"
                           material="Silicon" 
                           sensitive="true"
@@ -115,16 +111,11 @@ Simple carbon fiber support shell.
                           vis="VertexLayerVis" />
       </module>
       <module name="SupportShell" vis="VertexSupportVis">
-        <frame material="Air" vis="InvisibleNoDaughters" 
-          width="VertexBarrelShellStave_width"  
-          length="VertexBarrelMod_length"
-          height="1*mm" 
-          thickness="0.1*um" />
         <module_component name="CF Shell"
                           material="CarbonFiber" 
                           sensitive="true"
                           width="VertexBarrelShellStave_width" 
-                          length="VertexBarrelMod_length"
+                          length="VertexBarrelShell_length"
                           thickness="VertexBarrelShell_thickness" 
                           vis="VertexLayerVis" />
       </module>
@@ -157,9 +148,9 @@ Simple carbon fiber support shell.
       </layer>
       <layer module="SupportShell" id="3" vis="VertexSupportVis">
         <barrel_envelope
-          inner_r="VertexBarrelShell_rmin"
-          outer_r="VertexBarrelShell_rmax"
-          z_length="VertexBarrelShell_length" />
+          inner_r="VertexBarrelSupport_rmin"
+          outer_r="VertexBarrelSupport_rmax"
+          z_length="VertexBarrelSupport_length" />
         <rphi_layout phi_tilt="0.0*degree" nphi="VertexBarrelStave_count" phi0="0.0" rc="VertexBarrelShell_rmin" dr="0.0 * mm"/>
         <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
       </layer>

@@ -1,6 +1,7 @@
 /** \addtogroup VertexTracker Vertex Trackers
  * \brief Type: **SiVertexBarrel**.
  * \author W. Armstrong
+ *
  * \ingroup trackers
  *
  *
@@ -27,7 +28,15 @@ using namespace dd4hep;
 using namespace dd4hep::rec;
 using namespace dd4hep::detail;
 
-static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector sens) {
+
+/** Barrel Tracker with space frame.
+ *
+ * - Optional "frame" tag within the module element.
+ * - Optional "support" tag within the detector element.
+ *
+ *
+ */
+static Ref_t create_BarrelTrackerWithFrame(Detector& description, xml_h e, SensitiveDetector sens) {
   typedef vector<PlacedVolume> Placements;
   xml_det_t                    x_det    = e;
   Material                     air      = description.air();
@@ -38,7 +47,7 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
   map<string, Volume>          volumes;
   map<string, Placements>      sensitives;
   map<string, std::vector<VolPlane>>        volplane_surfaces;
-  map<string, xml_h>      xmleles;
+  //map<string, xml_h>      xmleles;
   PlacedVolume                 pv;
   dd4hep::xml::Dimension dimensions(x_det.dimensions());
 
@@ -85,43 +94,49 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
   // loop over the modules
   for (xml_coll_t mi(x_det, _U(module)); mi; ++mi) {
     xml_comp_t x_mod = mi;
-    xml_comp_t m_env = x_mod.child(_U(frame));
     string     m_nam = x_mod.nameStr();
-    xmleles[m_nam]  = x_mod;
 
-    // triangular volume envelope
-    double frame_thickness = m_env.thickness();
-    double frame_width     = m_env.width();
-    double frame_height    = getAttrOrDefault<double>(m_env, _U(height), 5.0 * mm);
-    double tanth           = frame_height/(frame_width/2.0);
-    double frame_height2   = frame_height-frame_thickness-frame_thickness/tanth;
-    double frame_width2    = 2.0*frame_height2/tanth;
-
-    Trd1 moduleframe_part1(frame_width / 2, 0.001 * mm, m_env.length() / 2,
-                           frame_height / 2);
-    Trd1 moduleframe_part2(frame_width2/2, 0.001 * mm,
-                           m_env.length() / 2 + 0.01 * mm, frame_height2/2);
-    SubtractionSolid moduleframe(moduleframe_part1, moduleframe_part2,Position(0.0,frame_thickness,0.0));
-    Volume v_module(m_nam+"_vol", moduleframe, description.material(m_env.materialStr()));
-    v_module.setVisAttributes(description, m_env.visStr());
+    if (volumes.find(m_nam) != volumes.end()) {
+      printout(ERROR, "BarrelTrackerWithFrame", string((string("Module with named ") + m_nam + string(" already exists."))).c_str() );
+      throw runtime_error("Logics error in building modules.");
+    }
 
     int ncomponents   = 0;
     int sensor_number = 1;
-
-    if (volumes.find(m_nam) != volumes.end()) {
-      printout(ERROR, "SiTrackerBarrel", "Logics error in building modules.");
-      throw runtime_error("Logics error in building modules.");
-    }
     double total_thickness = 0;
+
+    // Compute module total thickness from components
     xml_coll_t ci(x_mod, _U(module_component));
     for (ci.reset(), total_thickness = 0.0; ci; ++ci) {
       total_thickness += xml_comp_t(ci).thickness();
     }
-    // module assembly
+    // the module assembly volume
     Assembly m_vol( m_nam );
-    m_vol.placeVolume(v_module, Position(0.0,0.0,frame_height/2+total_thickness/2.0));
     volumes[m_nam] = m_vol;
     m_vol.setVisAttributes(description.visAttributes(x_mod.visStr()));
+
+    // Optional module frame.
+    if(x_mod.hasChild("frame")){
+      xml_comp_t m_frame = x_mod.child(_U(frame));
+      //xmleles[m_nam]  = x_mod;
+      double frame_thickness = m_frame.thickness();
+      double frame_width     = m_frame.width();
+      double frame_height    = getAttrOrDefault<double>(m_frame, _U(height), 5.0 * mm);
+      double tanth           = frame_height/(frame_width/2.0);
+      double frame_height2   = frame_height-frame_thickness-frame_thickness/tanth;
+      double frame_width2    = 2.0*frame_height2/tanth;
+
+      Trd1 moduleframe_part1(frame_width / 2, 0.001 * mm, m_frame.length() / 2,
+                             frame_height / 2);
+      Trd1 moduleframe_part2(frame_width2/2, 0.001 * mm,
+                             m_frame.length() / 2 + 0.01 * mm, frame_height2/2);
+
+      SubtractionSolid moduleframe(moduleframe_part1, moduleframe_part2,Position(0.0,frame_thickness,0.0));
+      Volume v_moduleframe(m_nam+"_vol", moduleframe, description.material(m_frame.materialStr()));
+      v_moduleframe.setVisAttributes(description, m_frame.visStr());
+      m_vol.placeVolume(v_moduleframe, Position(0.0, 0.0, frame_height / 2 + total_thickness / 2.0));
+    }
+
 
     double thickness_so_far = 0.0;
     double thickness_sum = -total_thickness/2.0;
@@ -298,6 +313,6 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
 
 //@}
 // clang-format off
-DECLARE_DETELEMENT(BarrelTrackerWithFrame, create_detector)
-DECLARE_DETELEMENT(athena_TrackerBarrel, create_detector)
-DECLARE_DETELEMENT(athena_VertexBarrel,  create_detector)
+DECLARE_DETELEMENT(BarrelTrackerWithFrame, create_BarrelTrackerWithFrame)
+DECLARE_DETELEMENT(athena_TrackerBarrel,   create_BarrelTrackerWithFrame)
+DECLARE_DETELEMENT(athena_VertexBarrel,    create_BarrelTrackerWithFrame)

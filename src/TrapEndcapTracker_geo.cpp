@@ -41,7 +41,6 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
   sens.setType("tracker");
 
   for (xml_coll_t su(x_det, _U(support)); su; ++su) {
-    std::cout << "support !!!\n";
     xml_comp_t x_support = su;
     double      support_thickness = getAttrOrDefault(x_support, _U(thickness), 2.0 * mm);
     double      support_length    = getAttrOrDefault(x_support, _U(length), 2.0 * mm);
