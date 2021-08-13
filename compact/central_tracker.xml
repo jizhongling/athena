@@ -33,9 +33,9 @@
     </comment>
 
     <constant name="TrackerBarrelLayer_rOffset"     value="0.5*cm"/>
-    <constant name="TrackerBarrelSpaceFrame_width"   value="4.0*cm"/>
-    <constant name="TrackerBarrelSpaceFrame_height"  value="1.0835*cm"/>
-    <constant name="TrackerSensor_thickness"         value="0.04*mm"/> 
+    <constant name="TrackerBarrelSpaceFrame_width"  value="4.0*cm"/>
+    <constant name="TrackerBarrelSpaceFrame_height" value="1.0835*cm"/>
+    <constant name="TrackerSensor_thickness"        value="0.04*mm"/> 
 
     <constant name="TrackerBarrelInner_rmin1"       value="21.0*cm"/>    
     <constant name="TrackerBarrelInner_rmin2"       value="22.68*cm"/>
@@ -48,12 +48,11 @@
     <constant name="TrackerBarrelOuter_length1"     value="105.0*cm"/>
     <constant name="TrackerBarrelOuter_length2"     value="114.0*cm"/>
 
-    <constant name="TrackerBarrelInner_thickness"  value="TrackerBarrelInner_rmin2 - TrackerBarrelInner_rmin1"/>
-    <constant name="TrackerBarrelOuter_thickness"  value="TrackerBarrelOuter_rmin2 - TrackerBarrelOuter_rmin1"/>
-    <constant name="TrackerBarrelInner_length"     value="TrackerBarrelInner_length2+1.0*cm"/>
-    <constant name="TrackerBarrelOuter_length"     value="TrackerBarrelOuter_length2+1.0*cm"/>
+    <constant name="TrackerBarrelInner_thickness"   value="TrackerBarrelInner_rmin2 - TrackerBarrelInner_rmin1"/>
+    <constant name="TrackerBarrelOuter_thickness"   value="TrackerBarrelOuter_rmin2 - TrackerBarrelOuter_rmin1"/>
 
-
+    <constant name="TrackerBarrelInner_length"      value="TrackerBarrelInner_length2+1.0*cm"/>
+    <constant name="TrackerBarrelOuter_length"      value="TrackerBarrelOuter_length2+1.0*cm"/>
 
     <comment>
       Here we are assuming the two endcaps (P and N) are symmetric.
@@ -64,19 +63,19 @@
     <constant name="TrackerEndcapInner_nLayers"          value="1"/>
     <constant name="TrackerEndcapOuter_nLayers"          value="3"/>
 
-    <constant name="TrackerEndcapInner_zmin"        value="TrackerBarrelInner_length/2.0"/>
-    <constant name="TrackerEndcapInner_zmax"        value="TrackerBarrelOuter_length/2.0"/>
-    <constant name="TrackerEndcapInner_length"        value="TrackerEndcapInner_zmax- TrackerEndcapInner_zmin"/>
-    <constant name="TrackerEndcapInnerLayer_dz"        value="TrackerEndcapInner_length/TrackerEndcapInner_nLayers"/>
-    <constant name="TrackerEndcapInnerLayer_thickness"        value="TrackerEndcapInnerLayer_dz - 0.5*cm"/>
+    <constant name="TrackerEndcapInner_zmin"            value="TrackerBarrelInner_length2/2.0 + 1.0*cm"/>
+    <constant name="TrackerEndcapInner_zmax"            value="TrackerBarrelOuter_length1/2.0 - 1.0*cm"/>
+    <constant name="TrackerEndcapInner_length"          value="TrackerEndcapInner_zmax- TrackerEndcapInner_zmin"/>
+    <constant name="TrackerEndcapInnerLayer_dz"         value="TrackerEndcapInner_length/TrackerEndcapInner_nLayers"/>
+    <constant name="TrackerEndcapInnerLayer_thickness"  value="min(5.0*cm,TrackerEndcapInnerLayer_dz - 0.5*cm)"/>
     <comment> Note, the -1.0*cm is so the layers do not touch surfaces. 
       This is a limitation of ACTS geometry which will likely go away in the future.</comment>
 
-    <constant name="TrackerEndcapOuter_zmin"        value="TrackerBarrelOuter_length/2.0"/>
-    <constant name="TrackerEndcapOuter_zmax"        value="TrackerEndcapOuter_zmin + 70"/>
-    <constant name="TrackerEndcapOuter_length"        value="TrackerEndcapOuter_zmax- TrackerEndcapOuter_zmin"/>
-    <constant name="TrackerEndcapOuterLayer_dz"        value="TrackerEndcapOuter_length/TrackerEndcapOuter_nLayers"/>
-    <constant name="TrackerEndcapOuterLayer_thickness"        value="TrackerEndcapOuterLayer_dz - 1.0*cm"/>
+    <constant name="TrackerEndcapOuter_zmin"             value="TrackerBarrelOuter_length/2.0"/>
+    <constant name="TrackerEndcapOuter_zmax"             value="TrackerEndcapOuter_zmin + 70"/>
+    <constant name="TrackerEndcapOuter_length"           value="TrackerEndcapOuter_zmax- TrackerEndcapOuter_zmin"/>
+    <constant name="TrackerEndcapOuterLayer_dz"          value="TrackerEndcapOuter_length/TrackerEndcapOuter_nLayers"/>
+    <constant name="TrackerEndcapOuterLayer_thickness"   value="min(5.0*cm,TrackerEndcapOuterLayer_dz - 1.0*cm)"/>
     <comment> Note, the -1.0*cm is so the layers do not touch surfaces. 
       This is a limitation of ACTS geometry which will likely go away in the future.</comment>
 
@@ -206,11 +205,11 @@
         <envelope  vis="AnlRed"
           rmin="TrackerEndcapInner_rmin1"
           rmax="TrackerEndcapInner_rmax1"
-          length="TrackerEndcapInnerLayer_dz"
-          zstart="TrackerEndcapInner_zmin" />
+          length="TrackerEndcapInnerLayer_thickness"
+          zstart="TrackerEndcapInner_zmin + TrackerEndcapInner_length/2.0" />
         <ring vis="AnlRed"
           r="TrackerEndcapInner_rmin1+TrackerEndcapInnerMod1_y/2.0"
-          zstart="(50.0*mm)"
+          zstart="0.0"
           nmodules="12" dz="2.5 * mm" module="Module1" />
       </layer>
     </detector>
@@ -231,11 +230,11 @@
         <envelope  vis="AnlRed"
           rmin="TrackerEndcapInner_rmin1"
           rmax="TrackerEndcapInner_rmax1"
-          length="TrackerEndcapInnerLayer_dz"
-          zstart="TrackerEndcapInner_zmin" />
+          length="TrackerEndcapInnerLayer_thickness"
+          zstart="TrackerEndcapInner_zmin + TrackerEndcapInner_length/2.0" />
         <ring vis="AnlRed"
           r="TrackerEndcapInner_rmin1+TrackerEndcapInnerMod1_y/2.0" 
-          zstart="-(50.0*mm)"
+          zstart="0"
           nmodules="12" dz="2.5 * mm" module="Module1" />
       </layer>
     </detector>
@@ -312,8 +311,11 @@
       name="TrackerEndcapP_Outer"
       type="athena_TrapEndcapTracker"
       readout="TrackerEndcapHits"
-      vis="AnlRed"
+      vis="TrackerVis"
       reflect="false">
+      <support vis="TrackerSupportVis"  material="CarbonFiber_25percent"
+        rmin="TrackerEndcapOuter_rmax3+1.0*mm"
+        thickness="2.0*mm" length="TrackerEndcapOuter_length" zstart="TrackerEndcapOuter_zmin" />
       <module name="Module1" vis="AnlProcess_Blue">
         <trd x1="TrackerEndcapOuterMod1_x1/2.0" x2="TrackerEndcapOuterMod1_x2/2.0" z="TrackerEndcapOuterMod1_y/2"/>
         <module_component thickness="ITS3Thickness" material="Silicon" sensitive="true"/>
@@ -371,6 +373,9 @@
       readout="TrackerEndcapHits"
       vis="AnlRed"
       reflect="true">
+      <support vis="TrackerSupportVis"  material="CarbonFiber_25percent"
+        rmin="TrackerEndcapOuter_rmax3+1.0*mm"
+        thickness="2.0*mm" length="TrackerEndcapOuter_length" zstart="TrackerEndcapOuter_zmin" />
       <module name="Module1" vis="AnlProcess_Blue">
         <trd x1="TrackerEndcapOuterMod1_x1/2.0" x2="TrackerEndcapOuterMod1_x2/2.0" z="TrackerEndcapOuterMod1_y/2"/>
         <module_component thickness="ITS3Thickness" material="Silicon" sensitive="true"/>

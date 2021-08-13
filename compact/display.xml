@@ -10,7 +10,8 @@
     <comment>
       Tracking Visualizations
     </comment>
-    <vis name="TrackerSupportVis" ref="AnlBlue"         showDaughters="false" />
+    <vis name="TrackerVis"        ref="AnlRed"      />
+    <vis name="TrackerSupportVis" ref="AnlBlue"         visible="true"  showDaughters="true" />
     <vis name="TrackerLayerVis"   ref="AnlTeal"         visible="true"  showDaughters="true" />
     <vis name="TrackerModuleVis"  ref="TrackerLayerVis" visible="true"  showDaughters="false" />
 

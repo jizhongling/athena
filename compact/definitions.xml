@@ -113,8 +113,6 @@ The unused IDs below are saved for future use.
     <constant name="TrackerEndcapP_Layer5_ID"     value="69"/>
     <constant name="TrackerEndcapN_Layer5_ID"     value="70"/>
 
-
-
     <documentation>
     #### (75-84) Barrel Tracker IDs
 

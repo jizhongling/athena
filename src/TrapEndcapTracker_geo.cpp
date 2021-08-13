@@ -40,6 +40,25 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
   assembly.setVisAttributes(description.invisible());
   sens.setType("tracker");
 
+  for (xml_coll_t su(x_det, _U(support)); su; ++su) {
+    std::cout << "support !!!\n";
+    xml_comp_t x_support = su;
+    double      support_thickness = getAttrOrDefault(x_support, _U(thickness), 2.0 * mm);
+    double      support_length    = getAttrOrDefault(x_support, _U(length), 2.0 * mm);
+    double      support_rmin      = getAttrOrDefault(x_support, _U(rmin), 2.0 * mm);
+    double      support_zstart    = getAttrOrDefault(x_support, _U(zstart), 2.0 * mm);
+    std::string support_vis       = getAttrOrDefault<std::string>(x_support, _Unicode(vis), "AnlRed");
+    Material    support_mat       = description.material(x_support.materialStr());
+    Tube        support_tub(support_rmin, support_rmin + support_thickness, support_length / 2);
+    Volume      support_vol("support_tube", support_tub, support_mat); // Create the layer envelope volume.
+    support_vol.setVisAttributes(description.visAttributes(support_vis));
+    if(reflect) {
+      pv = assembly.placeVolume(support_vol, Position(0, 0, -1.0 * (support_zstart + support_length / 2)));
+    } else {
+      pv = assembly.placeVolume(support_vol, Position(0, 0, support_zstart + support_length / 2));
+    }
+  }
+
   for (xml_coll_t mi(x_det, _U(module)); mi; ++mi, ++m_id) {
     xml_comp_t x_mod = mi;
     string     m_nam = x_mod.nameStr();
