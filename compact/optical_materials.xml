@@ -47,6 +47,21 @@
       1240*eV/600   1.49
       1240*eV/400   1.49
       "/>
+    <matrix name="ABSLENGTH__Acrylic" coldim="2" values="
+      1240*eV/1100 2631*mm
+      1240*eV/1000 2631*mm
+      1240*eV/900  2631*mm
+      1240*eV/800  2631*mm
+      1240*eV/700  2500*mm
+      1240*eV/600  2272*mm
+      1240*eV/500  2000*mm
+      1240*eV/400  1315*mm
+      1240*eV/300  1613*mm
+      1240*eV/250  740*mm
+      1240*eV/225  125*mm
+      1240*eV/210  10*mm
+      1240*eV/200  0*mm
+      "/>
     <!-- BEGIN dRICh material properties
          - dumped from fun4all implementation
          - see https://github.com/cisbani/dRICh/blob/main/share/source/g4dRIChOptics.hh
@@ -377,6 +392,7 @@
       <composite n="2" ref="O"/>
       <composite n="8" ref="H"/>
       <property name="RINDEX" ref="RINDEX__Acrylic"/>
+      <property name="ABSLENGTH" ref="ABSLENGTH__Acrylic"/>
     </material>
     <!-- BEGIN dRICh material definitions -->
     <material name="C2F6_DRICH">

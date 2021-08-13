@@ -27,13 +27,25 @@ static Ref_t createDetector(Detector& description, xml::Handle_t e, SensitiveDet
   Material       air      = description.material("AirOptical");
   Material       vacuum   = description.vacuum();
   string         det_name = x_det.nameStr();
-  //xml::Component pos      = x_det.position();
   DetElement     sdet(det_name, x_det.id());
   Assembly       assembly(det_name);
   sens.setType("photoncounter");
   OpticalSurfaceManager surfMgr = description.surfaceManager();
 
+  // read module positions
+  std::vector<std::pair<double,double>> positions;
+  for (xml_coll_t x_positions_i(x_det, _Unicode(positions)); x_positions_i; ++x_positions_i) {
+    xml_comp_t x_positions = x_positions_i;
+    for (xml_coll_t x_position_i(x_positions, _U(position)); x_position_i; ++x_position_i) {
+      xml_comp_t x_position = x_position_i;
+      positions.push_back(
+        std::make_pair(x_positions.scale() * x_position.x() * mm,
+                       x_positions.scale() * x_position.y() * mm));
+    }
+  }
+
   bool projective = getAttrOrDefault(x_det, _Unicode(projective), false);
+  bool reflect    = x_det.reflect(true);
 
   PlacedVolume pv;
 
@@ -49,6 +61,7 @@ static Ref_t createDetector(Detector& description, xml::Handle_t e, SensitiveDet
   auto           rmax   = dims.rmax();
   auto           length = dims.length();
   auto           zmin   = dims.zmin();
+  auto           zpos   = zmin + length / 2;
 
   // expect only one module (for now)
   xml_comp_t x_mod = x_det.child(_U(module));
@@ -110,14 +123,14 @@ static Ref_t createDetector(Detector& description, xml::Handle_t e, SensitiveDet
   //  - The lens area outside of the effective diamtere is flat.
   //  - The grooves are not curved, rather they are polycone shaped, ie a flat approximating the curvature.
   auto   lens_vis       = getAttrOrDefault<std::string>(x_lens, _U(vis), std::string("AnlBlue"));
-  double groove_pitch   = getAttrOrDefault(x_lens, _Unicode(pitch), 0.5 * mm);
+  double groove_pitch   = getAttrOrDefault(x_lens, _Unicode(pitch), 0.2 * mm);// 0.5 * mm);
   double lens_f         = getAttrOrDefault(x_lens, _Unicode(focal_length), 6.0*2.54*cm);
-  double eff_diameter   = getAttrOrDefault(x_lens, _Unicode(effective_diameter), 130.0 * mm);
+  double eff_diameter   = getAttrOrDefault(x_lens, _Unicode(effective_diameter), 152.4 * mm);
   double lens_width     = getAttrOrDefault(x_lens, _Unicode(width), 6.7*2.54*cm);
-  double center_thickness = getAttrOrDefault(x_lens, _U(thickness), 2.0 * mm);
+  double center_thickness = getAttrOrDefault(x_lens, _U(thickness), 0.068 * 2.54 * cm);//2.0 * mm);
 
   double n_acrylic        = 1.49;
-  double lens_curvature   = 1.0 / (lens_f*(n_acrylic - 1.0));
+  double lens_curvature   = 1.0 / (lens_f*(n_acrylic - 1.0)); //confirmed
   double full_ring_rmax   = std::min(eff_diameter / 2.0, lens_width/2.0);
 
   double N_grooves        = std::ceil((full_ring_rmax) / groove_pitch);
@@ -143,15 +156,12 @@ static Ref_t createDetector(Detector& description, xml::Handle_t e, SensitiveDet
 
   while ( groove_rmax <= full_ring_rmax ) {
     double   dZ = groove_sagitta(groove_rmax) - groove_sagitta(groove_rmin);
-    //std::cout << " dZ = " << dZ << ",  lens_thickness = " << lens_thickness << "\n";
-    //std::cout  << "groove_rmin = " << groove_rmin << "\n";
-    //std::cout  << "groove_rmax = " << groove_rmax << "\n";
     Polycone groove_solid(0, 2.0 * M_PI,
                           {groove_rmin, groove_rmin, groove_rmin},
                           {groove_rmax, groove_rmax, groove_rmin},
                           {-lens_thickness/2.0, lens_thickness/2.0-dZ, lens_thickness/2.0});
     Volume   lens_groove_vol("lens_groove_" + std::to_string(i_groove), groove_solid, lens_mat);
-    lens_vol.placeVolume(lens_groove_vol); //,Position(0,0,lens_zpos));
+    lens_vol.placeVolume(lens_groove_vol);
     //Volume   groove_vol(groove_solid, lens_mat, par->name.c_str(), 0, 0, 0);
     //new G4PVPlacement(0, par->pos, Groove_log[i], par->name.c_str(), motherLV, false, 0, OverlapCheck());
     //phi1 = phi1 + halfpi;  //g4 pre-defined: halfpi=pi/2
@@ -173,6 +183,7 @@ static Ref_t createDetector(Detector& description, xml::Handle_t e, SensitiveDet
     groove_rmin = (i_groove  )*groove_pitch;
     groove_rmax = (i_groove+1)*groove_pitch;
   }
+
   //fresnel_lens_solid = UnionSolid(fresnel_lens_solid, flat_lens);
   //Volume   lens_vol(mod_name + "_lens", fresnel_lens_solid, lens_mat);
 
@@ -221,12 +232,32 @@ static Ref_t createDetector(Detector& description, xml::Handle_t e, SensitiveDet
 
   Box    window_box(photodet_width/2.0,photodet_width/2.0,photodet_thickness/2.0);
   Volume           window_vol(mod_name+"_window", window_box, photodet_mat);
-  window_vol.setSensitiveDetector(sens);
   double window_zpos = mirror_zpos + mirror_length/2.0+photodet_thickness/2.0;
   pv = m_volume.placeVolume(window_vol,Position(0,0,window_zpos));
   DetElement   comp_de(mod_de, std::string("mod_sensor_de_") + std::to_string(1) ,  1);
   comp_de.setPlacement(pv);
+  // sensitive
   pv.addPhysVolID("sensor", n_sensor);
+  window_vol.setSensitiveDetector(sens);
+  sensitives[mod_name].push_back(pv);
+  ++n_sensor;
+
+  // photon detector electronics layers
+  double layer_zpos = window_zpos + photodet_thickness/2.0;
+  int i_layer = 1;
+  for (xml_coll_t li(x_photodet, _Unicode(layer)); li; ++li) {
+    xml_comp_t x_layer = li;
+    Material layer_mat = description.material(x_layer.materialStr());
+    double   layer_thickness = x_layer.thickness();
+    Box      layer_box(photodet_width/2.0,photodet_width/2.0,layer_thickness/2.0);
+    Volume   layer_vol(mod_name + "_layer_" + std::to_string(i_layer), layer_box, layer_mat);
+    layer_zpos += layer_thickness / 2.0;
+    pv = m_volume.placeVolume(layer_vol,Position(0,0,layer_zpos));
+    DetElement layer_de(mod_de, std::string("mod_layer_de_") + std::to_string(i_layer),  1);
+    layer_de.setPlacement(pv);
+    layer_zpos += layer_thickness / 2.0;
+    i_layer++;
+  }
 
   //for (size_t ic = 0; ic < sensVols.size(); ++ic) {
   //  PlacedVolume sens_pv = sensVols[ic];
@@ -242,14 +273,10 @@ static Ref_t createDetector(Detector& description, xml::Handle_t e, SensitiveDet
   //DetElement window_de(sdet, mod_name + std::string("_window_de") + std::to_string(1), 1);
   //window_de.setPlacement(pv);
 
-  window_vol.setSensitiveDetector(sens);
-  sensitives[mod_name].push_back(pv);
-  ++n_sensor;
   modules[mod_name]                   = m_volume;
   module_assembly_delements[mod_name] = mod_de;
   // end module
 
-  int i_mod = 1;
   // detector envelope
   Tube   envShape(rmin, rmax, length / 2., 0., 2 * M_PI);
   Volume envVol("MRICH_Envelope", envShape, air);
@@ -263,41 +290,71 @@ static Ref_t createDetector(Detector& description, xml::Handle_t e, SensitiveDet
   auto        mod_v    = modules[mod_name];
   // determine module direction, always facing z = 0
   double roty = dims.zmin() < 0. ? -M_PI : 0 ;
-  int    imod = 1;
-  for (auto& p : points) {
-    ROOT::Math::XYZVector x_location(p.x(), p.y(), zmin+std::signbit(zmin)*mod_length/2.0);
-    ROOT::Math::XYZVector z_dir(0, 0, 1);
-    ROOT::Math::XYZVector x_dir(1, 0, 0);
-    ROOT::Math::XYZVector rot_axis = x_location.Cross(z_dir);
-    double rot_angle = ROOT::Math::VectorUtil::Angle(z_dir,x_location);
-    ROOT::Math::AxisAngle proj_rot(rot_axis,-1.0*rot_angle);
-    ROOT::Math::AxisAngle grid_fix_rot(x_location,0.0*rot_angle);
-    auto new_x_dir = grid_fix_rot*x_dir;
-    // operations are inversely ordered
-    Transform3D tr = Translation3D(p.x(), p.y(), 0.) // move to position
-                     * RotationY(roty);              // facing z = 0.
 
-    if(projective) {
-      tr = Translation3D(p.x(), p.y(), 0.)              // move to position
-           * grid_fix_rot  // keep the modules oriented vertially
-           * proj_rot      // projective rotation
-           * RotationY(roty); // facing z = 0.
+  // place modules
+  int i_mod = 1; // starts at 1
+  for (auto& p: positions) {
+
+    // get positions in one quadrant
+    double x = p.first;
+    double y = p.second;
+    double z = -zpos;
+
+    // and place in all quadrants (intentional shadowing)
+    for (auto& p: decltype(positions){{x,y}, {y,-x}, {-x,-y}, {-y,x}}) {
+
+      // get positions (intentional shadowing)
+      double x = p.first;
+      double y = p.second;
+
+      // get angles
+      double rotAngX = atan(y/z);
+      double rotAngY = -1.*atan(x/z);
+
+      /*
+      ROOT::Math::XYZVector x_location(p.x(), p.y(), zmin+std::signbit(zmin)*mod_length/2.0);
+      ROOT::Math::XYZVector z_dir(0, 0, 1);
+      ROOT::Math::XYZVector x_dir(1, 0, 0);
+      ROOT::Math::XYZVector rot_axis = x_location.Cross(z_dir);
+      double rot_angle = ROOT::Math::VectorUtil::Angle(z_dir,x_location);
+      ROOT::Math::AxisAngle proj_rot(rot_axis,-1.0*rot_angle);
+      ROOT::Math::AxisAngle grid_fix_rot(x_location,0.0*rot_angle);
+      auto new_x_dir = grid_fix_rot*x_dir;
+      // operations are inversely ordered
+      Transform3D tr = Translation3D(p.x(), p.y(), 0.) // move to position
+                      * RotationY(roty);              // facing z = 0.
+      */
+
+      Transform3D tr;
+      if(projective) {
+        tr = Translation3D(x, y, 0)
+           * RotationX(rotAngX)
+           * RotationY(rotAngY);
+      } else {
+        tr = Translation3D(x, y, 0) * RotationX(0);
+      }
+
+      // mod placement
+      pv = envVol.placeVolume(mod_v, tr);
+      pv.addPhysVolID("module", i_mod);
+
+      auto mod_det_element  = module_assembly_delements[mod_name].clone(mod_name + "__" + std::to_string(i_mod));
+      mod_det_element.setPlacement(pv);
+      sdet.add(mod_det_element);
+
+      i_mod++;
     }
-    // mod placement
-    pv = envVol.placeVolume(mod_v, tr);
-    pv.addPhysVolID("module", i_mod);
-
-    auto mod_det_element  = module_assembly_delements[mod_name].clone(mod_name + "__" + std::to_string(i_mod));
-    mod_det_element.setPlacement(pv);
-    sdet.add(mod_det_element);
-    i_mod++;
   }
 
   // place envelope
-  Volume       motherVol = description.pickMotherVolume(sdet);
-  PlacedVolume envPV     = motherVol.placeVolume(envVol, Position(0, 0, zmin));
-  envPV.addPhysVolID("system", x_det.id());
-  sdet.setPlacement(envPV);
+  Volume motherVol = description.pickMotherVolume(sdet);
+  if (reflect) {
+    pv = motherVol.placeVolume(envVol, Transform3D(RotationZYX(0, M_PI, 0), Position(0, 0, -zpos)));
+  } else {
+    pv = motherVol.placeVolume(envVol, Transform3D(RotationZYX(0,    0, 0), Position(0, 0, +zpos)));
+  }
+  pv.addPhysVolID("system", x_det.id());
+  sdet.setPlacement(pv);
   return sdet;
 }
 

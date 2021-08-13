@@ -330,7 +330,8 @@ Examples:
     <constant name="ForwardTRD_length"            value="25.0*cm"/>
     <constant name="ForwardTOF_length"            value="ExtraTrackingEndcapP_length-ForwardTRD_length"/>
     
-    <constant name="BackwardCherenkov_length"    value="20.0*cm"/>
+    <constant name="BackwardCherenkov_rmax"      value="100.0*cm"/>
+    <constant name="BackwardCherenkov_length"    value="40.0*cm"/>
     <constant name="ExtraTrackingEndcapN_length" value="5.0*cm"/>
     <constant name="BackwardTOF_length"          value="0.0*cm"/>
 
