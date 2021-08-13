@@ -4,7 +4,7 @@
 
        <debug>
          <type name="surface"       value="0"/>
-         <type name="material"       value="0"/>
+         <type name="material"      value="0"/>
          <type name="readout"       value="0"/>
          <type name="segmentation"  value="0"/>
          <type name="limits"        value="0"/>
@@ -58,7 +58,9 @@
 
   <display>
   <include ref="compact/colors.xml" />
+  <!--include ref="compact/colors2.xml"/-->
   <include ref="compact/display.xml" />
+  <!--include ref="compact/display_detailed.xml"/-->
   </display>
 
   <documentation level="0">
@@ -85,18 +87,17 @@
       Beamline elements
       -----------------
   </comment>
+  <include ref="ip6/beampipe.xml" />
 
-  <comment>
-      Main magnet
-      -----------
+  <documentation level="5">
+     ## Main magnet
+
       Note: When changing magnet, also select dimensions in definitions.xml.
-  </comment>
-  <!--include ref="compact/solenoid.xml"/-->
+  </documentation>
 
-  <comment>
-      Tracker subassemblies for ACTS
-      ------------------------------
-  </comment>
+  <documentation level="5">
+      ### Tracker subassemblies for ACTS
+  </documentation>
   <detectors>
     <detector id="VertexBarrelSubAssembly_ID"
       name="VertexBarrelSubAssembly"
@@ -155,19 +156,31 @@
       <composite name="GEMTrackerEndcapN"/>
     </detector>
 
-
   </detectors>
 
-  <comment>
-      Central tracking detectors
-      --------------------------
-  </comment>
+  <documentation level="10">
+    ## Central tracking detectors
+  </documentation>
+
   <include ref="compact/tracking_config_accadia.xml"/>
 
-  <comment>
-      PID detectors
-      -------------
-  </comment>
+  <!--include ref="compact/tracking_config_mgpds.xml"/-->
+
+  <documentation level="10">
+  ### PID detectors
+  </documentation>
+  <!--include ref="compact/dirc.xml"/-->
+  <include ref="compact/mrich.xml"/>
+  <!--include ref="compact/forward_trd.xml"/-->
+  <include ref="compact/drich.xml"/>
+
+  <documentation level="10">
+  ## Central calorimetry
+  </documentation>
+
+  <documentation level="11">
+  ## Far foward detectors
+  </documentation>
 
   <fields>
     <field name="B0PF_Magnet" type="MultipoleMagnet">
@@ -232,6 +245,8 @@
       FB elements
       -----------
       None (TODO)
+
+      What is FB?
   </comment>
 
   <readouts>

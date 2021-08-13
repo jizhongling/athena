@@ -136,15 +136,6 @@
       <composite name="TrackerEndcapN_Outer"/>
     </detector>
 
-    <detector id="TOFSubAssembly_ID"
-      name="TOFSubAssembly"
-      type="DD4hep_SubdetectorAssembly"
-      vis="TOFSubAssemblyVis">
-      <composite name="BarrelTOF"/>
-      <composite name="ForwardTOF"/>
-      <composite name="BackwardTOF"/>
-    </detector>
-
   </detectors>
 
 

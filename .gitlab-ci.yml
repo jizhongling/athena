@@ -112,15 +112,30 @@ dump_geometry:
   needs:
     - common:detector
   script:
-   - echo "dumping geometry"
-   - mkdir -p geo
-   ## full geo with downstream beamline
-   - dd_web_display --output geo/detector_geo_full.root ${DETECTOR_PATH}/athena.xml
-   ## only central detector geo
-   - sed -i '/forward_ion_beamline/d' ${DETECTOR_PATH}/athena.xml
-   - sed -i '/far_forward/d' ${DETECTOR_PATH}/athena.xml
-   - dd_web_display --output geo/detector_geo.root ${DETECTOR_PATH}/athena.xml
-   - echo "Geometry viewer at https://eic.phy.anl.gov/geoviewer/index.htm?file=https://eicweb.phy.anl.gov/EIC/detectors/athena/-/jobs/${CI_JOB_ID}/artifacts/raw/geo/detector_geo_full.root?job=dump_geometry&item=default;1&opt=clipxyz;transp30;zoom75;ROTY290;ROTZ350;trz0;trr0;ctrl;all&"
+    - echo "dumping geometry"
+    - mkdir -p geo
+    ## subsystem views
+    - |
+      for xml in ${DETECTOR_PATH}/compact/subsystem_views/*.xml; do
+        geo_name=`basename $xml .xml`_geo.root
+        cp $xml ${DETECTOR_PATH}/geo.xml
+        dd_web_display --output geo/${geo_name} ${DETECTOR_PATH}/geo.xml
+      done
+    ## full geo with downstream beamline
+    - dd_web_display --output geo/detector_geo_full.root ${DETECTOR_PATH}/athena.xml
+    ## only central detector geo
+    - sed -i '/forward_ion_beamline/d' ${DETECTOR_PATH}/athena.xml
+    - sed -i '/far_forward/d' ${DETECTOR_PATH}/athena.xml
+    - dd_web_display --output geo/detector_geo.root ${DETECTOR_PATH}/athena.xml
+    ## print some useful output
+    - |
+      echo "Geometry viewer at:"
+      echo "https://eic.phy.anl.gov/geoviewer/index.htm?file=https://eicweb.phy.anl.gov/EIC/detectors/athena/-/jobs/${CI_JOB_ID}/artifacts/raw/geo/detector_geo_full.root?job=dump_geometry&item=default;1&opt=clipxyz;transp30;zoom75;ROTY290;ROTZ350;trz0;trr0;ctrl;all&"
+      for xml in ${DETECTOR_PATH}/compact/subsystem_views/*.xml; do
+        geo_name=`basename $xml .xml`_geo.root
+        echo " - Subsystem view for `basename $xml .xml` at:"
+        echo "   https://eic.phy.anl.gov/geoviewer/index.htm?file=https://eicweb.phy.anl.gov/EIC/detectors/athena/-/jobs/${CI_JOB_ID}/artifacts/raw/geo/${geo_name}?job=dump_geometry&item=default;1&opt=clipxyz;transp30;zoom75;ROTY290;ROTZ350;trz0;trr0;ctrl;all&"
+      done
 
 detector_documentation:
   stage: docs
@@ -174,12 +189,22 @@ overlap_check_tgeo:
     - echo "$(cat doc/overlap_check_tgeo.out | grep ovlp | wc -l) overlaps..."
     - if [[ "$(cat doc/overlap_check_tgeo.out | grep ovlp | wc -l)" -gt "0" ]] ; then echo "Overlaps exist!" && false ; fi
 
-overlap_check_geant4:
+overlap_check_geant4:full:
   stage: test
   needs: 
     - ["common:detector"]
   script:
     - python scripts/checkOverlaps.py -c ${DETECTOR_PATH}/athena.xml | tee doc/overlap_check_geant4.out
+    - echo "$(cat doc/overlap_check_geant4.out | grep GeomVol1002 | wc -l) overlaps..."
+    - if [[ "$(cat doc/overlap_check_geant4.out | grep GeomVol1002 | wc -l)" -gt "0" ]] ; then echo "Overlaps exist!" && false ; fi
+
+overlap_check_geant4:inner_detector:
+  stage: test
+  needs: 
+    - ["common:detector"]
+  script:
+    - cp ${DETECTOR_PATH}/compact/subsystem_views/inner_detector.xml ${DETECTOR_PATH}/inner_detector.xml
+    - python scripts/checkOverlaps.py -c ${DETECTOR_PATH}/inner_detector.xml | tee doc/overlap_check_geant4.out
     - echo "$(cat doc/overlap_check_geant4.out | grep GeomVol1002 | wc -l) overlaps..."
     - if [[ "$(cat doc/overlap_check_geant4.out | grep GeomVol1002 | wc -l)" -gt "0" ]] ; then echo "Overlaps exist!" && false ; fi
 
