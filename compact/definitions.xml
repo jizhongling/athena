@@ -486,7 +486,7 @@ end of the solenoid coils.
 EcalEndcapP_rmin  and EcalEndcapN_rmin need to be set in sync with the forward and backward  detectors 
     </documentation>
     <constant name="EcalEndcapP_rmin"                      value="200.0*mm"/>
-    <constant name="EcalEndcapN_rmin"                      value="300.0*mm"/>
+    <constant name="EcalEndcapN_rmin"                      value="100.0*mm"/>
 
     <constant name="HcalEndcapP_rmin"                      value="EcalEndcapP_rmin"/>
     <constant name="HcalEndcapN_rmin"                      value="EcalEndcapN_rmin"/>

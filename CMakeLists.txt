@@ -6,9 +6,13 @@ PROJECT(athena
   )
 
 set(CMAKE_CXX_STANDARD 17)
-find_package( DD4hep REQUIRED COMPONENTS DDCore DDG4 )
+find_package( DD4hep REQUIRED COMPONENTS DDCore DDG4)
 
 find_package(Acts REQUIRED COMPONENTS Core PluginIdentification PluginTGeo PluginDD4hep )
+
+find_package(fmt)
+#find_library(FMT_LIBRARY fmt)
+
 
 #-----------------------------------------------------------------------------------
 set(a_lib_name athena)
@@ -28,6 +32,7 @@ dd4hep_add_plugin(${a_lib_name} SOURCES
   src/GaseousRICH_geo.cpp
   src/GeometryHelpers.cpp
   src/HomogeneousCalorimeter_geo.cpp
+  src/HybridCalorimeter_geo.cpp
   src/MRich_geo.cpp
   src/PolyhedraEndcapCalorimeter2_geo.cpp
   src/ShashlikCalorimeter_geo.cpp
@@ -38,7 +43,7 @@ dd4hep_add_plugin(${a_lib_name} SOURCES
   USES ActsCore ActsPluginDD4hep
   )
 target_link_libraries(${a_lib_name}
-  PUBLIC DD4hep::DDCore  DD4hep::DDRec
+  PUBLIC DD4hep::DDCore  DD4hep::DDRec fmt::fmt
   )
 
 #-----------------------------------------------------------------------------------
