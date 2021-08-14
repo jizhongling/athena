@@ -562,22 +562,25 @@ The logic goes like this:
       ## Hadronic Calorimeter Parameters
     </documentation>
 
+    <constant name="HcalEndcapP_zmin"          value="max(EcalEndcapP_zmin + EcalEndcapP_length, Solenoid_length / 2.0 + Solenoid_offset) "/>
+    <!--constant name="HcalEndcapN_zmin"          value="max(EcalEndcapN_zmin + EcalEndcapN_length, Solenoid_length / 2.0 - Solenoid_offset) "/-->
+    <comment> Hard coded for now, but we really need to fix the parametrization...</comment>
+    <comment> Note: we can go up to 350cm here for 1m thick hcal</comment>
+    <constant name="HcalEndcapN_zmin"          value="300*cm"/>
+
     <constant name="HcalEndcapP_length"   value="120.0*cm"/>
     <constant name="HcalEndcapN_length"   value="105.0*cm"/>
-    <constant name="HcalEndcapP_rmin"     value="max(EcalEndcapP_rmin + HcalEndcapP_length * tan(2.0 * abs(CrossingAngle)), 15 * cm)"/>
-    <constant name="HcalEndcapN_rmin"     value="max(EcalEndcapN_rmin + HcalEndcapN_length * tan (abs(CrossingAngle)), 11 * cm)"/>
+
+    <comment> HcalEndcapP needs to clear the expanding beampipe with 2 * crossing angle + its radius of BeampipeOD / 2</comment>
+    <constant name="HcalEndcapP_rmin"     value="max((HcalEndcapP_zmin + HcalEndcapP_length) * tan(2.0 * abs(CrossingAngle)) + BeampipeOD / 2.0, 15 * cm)"/>
+    <comment> HcalEndcapP needs to clear the straight beampipe with 1 * crossing angle + its radius of 22.25 mm </comment>
+    <constant name="HcalEndcapN_rmin"     value="max((HcalEndcapN_zmin + HcalEndcapN_length) * tan(abs(CrossingAngle)) + 22.25 * mm, 11 * cm)"/>
 
     <constant name="HcalBarrel_thickness" value="100.0*cm "/>
     <constant name="HcalBarrel_rmin"      value="Solenoid_rmax"/>
     <constant name="HcalBarrel_rmax"      value="HcalBarrel_rmin + HcalBarrel_thickness"/>
 
     <constant name="HcalBarrelAvailThickness" value="HcalBarrel_thickness"/>
-
-    <constant name="HcalEndcapP_zmin"          value="max(EcalEndcapP_zmin + EcalEndcapP_length, Solenoid_length / 2.0 + Solenoid_offset) "/>
-    <!--constant name="HcalEndcapN_zmin"          value="max(EcalEndcapN_zmin + EcalEndcapN_length, Solenoid_length / 2.0 - Solenoid_offset) "/-->
-    <comment> Hard coded for now, but we really need to fix the parametrization...</comment>
-    <comment> Note: we can go up to 350cm here for 1m thick hcal</comment>
-    <constant name="HcalEndcapN_zmin"          value="300*cm"/>
 
     <constant name="HcalBarrelLength"          value="HcalEndcapP_zmin + HcalEndcapN_zmin "/>
 
