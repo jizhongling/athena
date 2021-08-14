@@ -11,7 +11,6 @@ workflow:
 default:
   before_script:
     - source .local/bin/env.sh
-  interruptible: true
   artifacts:
     expire_in: 1 week 
     paths:
