@@ -102,7 +102,7 @@ make_slice(){
   rm "${FILE_TAG}_temp0.prim"
   rm "${FILE_TAG}.prim"
 }
-for zzz in $(seq 150 50 2000) ;
+for zzz in $(seq 100 200 2000) ;
 do
   make_slice ${zzz} 
 done
