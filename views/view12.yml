@@ -1,7 +1,13 @@
 dawn_view_12:detector:
   extends: .views
   script:
-    - ./bin/make_dawn_views -t view12 -d scripts/view12 -D
+    - ./bin/make_dawn_views -t view12 -d scripts/view12 -D -- ${SLICE}
+    - ls -lrth *
+    - ls -lrth images/*
+  parallel:
+    matrix:
+      - SLICE: ["100", "300", "500", "700", "900", "1100", "1300", "1500", "1700", "1900"]
+
 
 view_12:
   stage: collect

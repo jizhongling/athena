@@ -18,7 +18,7 @@ tan ()
 
 
 function print_the_help {
-  echo "USAGE: $0 -i <PRIM_FILE>  "
+  echo "USAGE: $0 -i <PRIM_FILE> <slices ...> "
   echo "  OPTIONS: "
   echo "            -t,--tag           filename tag (default: view1)"
   exit 
@@ -48,10 +48,14 @@ do
       shift # past argument
       shift # past value
       ;;
-    *)    # unknown option
-      #POSITIONAL+=("$1") # save it in an array for later
+    -[a-zA-Z]*) # unknown option
+      POSITIONAL+=("$1") # save it in an array for later
       echo "unknown option $1"
       print_the_help
+      shift # past argument
+      ;;
+    *)     # positional options
+      POSITIONAL+=("$1") # save it in an array for later
       shift # past argument
       ;;
   esac
@@ -90,9 +94,10 @@ make_slice(){
   rm "${FILE_TAG}_temp0.prim"
   rm "${FILE_TAG}.prim"
 }
-for zzz in $(seq 50 50 2000) ;
+
+for zzz in $@ ;
 do
-  make_slice ${zzz} & 
+  make_slice ${zzz}
 done
 
 wait

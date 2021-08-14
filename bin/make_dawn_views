@@ -58,6 +58,8 @@ parser.add_argument('-t', '--tag', type=str,
 parser.add_argument('--timeout', type=int,
         default=60,
         help='Timeout in seconds')
+        
+parser.add_argument('passthrough', nargs='*')
 
 args = parser.parse_args()
 
@@ -157,7 +159,7 @@ prim_file = os.path.abspath(prim_file)
 owd = os.getcwd()
 os.chdir(args.dawn_dir)
 subprocess.run(['pwd'])
-subprocess.run(['./generate_eps', '-t', args.tag, '-i', prim_file])
+subprocess.run(['./generate_eps', '-t', args.tag, '-i', prim_file] + args.passthrough)
 subprocess.run(['ls', '-lrth'])
 
 # upload the results
