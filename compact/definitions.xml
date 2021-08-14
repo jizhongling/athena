@@ -487,14 +487,11 @@ end of the solenoid coils.
 
 
     <documentation>
-EcalEndcapP_rmin  and EcalEndcapN_rmin need to be set in sync with the forward and backward  detectors 
+EcalEndcapP_rmin and EcalEndcapN_rmin need to be set in sync with the forward and backward detectors.
     </documentation>
     <constant name="EcalEndcapP_rmin"                      value="200.0*mm"/>
     <constant name="EcalEndcapN_rmin"                      value="5*cm"/>
     <constant name="EcalEndcapN_rmax"                      value="BarrelTracking_rmax"/>
-
-    <constant name="HcalEndcapP_rmin"                      value="EcalEndcapP_rmin"/>
-    <constant name="HcalEndcapN_rmin"                      value="EcalEndcapN_rmin"/>
 
     <documentation>
       ## EM Calorimeter Parameters
@@ -567,10 +564,12 @@ The logic goes like this:
 
     <constant name="HcalEndcapP_length"   value="120.0*cm"/>
     <constant name="HcalEndcapN_length"   value="105.0*cm"/>
-    <constant name="HcalBarrel_thickness" value="100.0*cm "/>
+    <constant name="HcalEndcapP_rmin"     value="max(EcalEndcapP_rmin + HcalEndcapP_length * tan(2.0 * abs(CrossingAngle)), 15 * cm)"/>
+    <constant name="HcalEndcapN_rmin"     value="max(EcalEndcapN_rmin + HcalEndcapN_length * tan (abs(CrossingAngle)), 11 * cm)"/>
 
-    <constant name="HcalBarrel_rmin"          value="Solenoid_rmax"/>
-    <constant name="HcalBarrel_rmax"          value="HcalBarrel_rmin + HcalBarrel_thickness"/>
+    <constant name="HcalBarrel_thickness" value="100.0*cm "/>
+    <constant name="HcalBarrel_rmin"      value="Solenoid_rmax"/>
+    <constant name="HcalBarrel_rmax"      value="HcalBarrel_rmin + HcalBarrel_thickness"/>
 
     <constant name="HcalBarrelAvailThickness" value="HcalBarrel_thickness"/>
 
