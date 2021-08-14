@@ -28,7 +28,7 @@ dawn_view_06:ev004:
     - ./bin/make_dawn_views -t view06_ev004 -d scripts/view6 -s 4
 
 view_06:
-  stage: test
+  stage: collect
   rules:
     - if: '$CI_SERVER_HOST == "eicweb.phy.anl.gov"' 
   needs:

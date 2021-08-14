@@ -4,7 +4,7 @@ dawn_view_15:detector:
     - ./bin/make_dawn_views -t view15 -d scripts/view15 -D
 
 view_15:
-  stage: test
+  stage: collect
   rules:
     - if: '$CI_SERVER_HOST == "eicweb.phy.anl.gov"' 
   needs:

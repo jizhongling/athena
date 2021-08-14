@@ -30,8 +30,8 @@ default:
 
 stages:
   - config
-  - initialize
   - build
+  - test
   - docs
   - test 
   - collect
@@ -59,8 +59,9 @@ common:setup:
     - source setup/bin/env.sh && ./setup/bin/install_common.sh
 
 common:detector:
-  stage: initialize
-  needs: ["common:setup"]
+  stage: build
+  needs: 
+    - common:setup
   script:
     - source .local/bin/env.sh && build_detector.sh
     - mkdir_local_data_link sim_output
@@ -70,10 +71,8 @@ common:detector:
     - mkdir -p geo
     - print_env.sh
 
-compile:
+build:simple:
   stage: build
-  needs:
-    - ["common:detector"]
   script:
     - mkdir -p build && cd build && cmake ../. -DCMAKE_INSTALL_PREFIX=/usr/local && make -j20 && make install  && cd ..
     - echo "Build successful."
@@ -239,26 +238,6 @@ benchmarks:detector:
   trigger:
     project: EIC/benchmarks/detector_benchmarks
     strategy: depend
-  needs: ["overlap_check_tgeo","report"]
-
-    #benchmarks:reconstruction:
-    #  stage: deploy
-    #  variables:
-    #    JUGGLER_DETECTOR: "$JUGGLER_DETECTOR"
-    #    JUGGLER_DETECTOR_VERSION: "$JUGGLER_DETECTOR_VERSION"
-    #  trigger:
-    #    project: EIC/benchmarks/reconstruction_benchmarks
-    #    strategy: depend
-    #  needs: ["env","overlap_check_tgeo","overlap_check_geant4","report"]
-    #  
-    #
-    #benchmarks:physics:
-    #  stage: deploy
-    #  variables:
-    #    JUGGLER_DETECTOR: "$JUGGLER_DETECTOR"
-    #    JUGGLER_DETECTOR_VERSION: "$JUGGLER_DETECTOR_VERSION"
-    #  trigger:
-    #    project: EIC/benchmarks/physics_benchmarks
-    #    strategy: depend
-    #  needs: ["env","overlap_check_tgeo","overlap_check_geant4","report"]
-
+  needs: 
+    - overlap_check_tgeo
+    - common:detector
