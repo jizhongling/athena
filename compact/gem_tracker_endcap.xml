@@ -3,8 +3,8 @@
   <comment> Endcap Tracker  </comment>        
 
   <define>
-    <constant name="GEMTrackerEndcapP_thickness"      value="min(10.0*cm,ExtraTrackingEndcapP_length)" />
-    <constant name="GEMTrackerEndcapN_thickness"      value="min(10.0*cm,ExtraTrackingEndcapN_length)" />
+    <constant name="GEMTrackerEndcapP_thickness"      value="min(10.0*cm,ForwardTracking_length)" />
+    <constant name="GEMTrackerEndcapN_thickness"      value="min(10.0*cm,BackwardTracking_length)" />
     <constant name="GEMTrackerEndcapP_zmin"           value="EcalEndcapP_zmin - GEMTrackerEndcapP_thickness"/>
     <constant name="GEMTrackerEndcapN_zmin"           value="EcalEndcapN_zmin - GEMTrackerEndcapN_thickness"/>
     <constant name="GEMTrackerEndcapP_rmin"           value="19*cm" />

@@ -172,7 +172,7 @@
   <documentation level="10">
   ### PID detectors
   </documentation>
-  <!--include ref="compact/dirc.xml"/-->
+  <include ref="compact/dirc.xml"/>
   <include ref="compact/mrich.xml"/>
   <!--include ref="compact/forward_trd.xml"/-->
   <include ref="compact/drich.xml"/>

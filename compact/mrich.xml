@@ -2,9 +2,9 @@
   <comment> MRICH </comment>        
   <define>
     <constant name="MRICH_rmin"   value="10*cm"/>
-    <constant name="MRICH_rmax"   value="BackwardCherenkov_rmax"/>
-    <constant name="MRICH_length" value="BackwardCherenkov_length"/>
-    <constant name="MRICH_zmin"   value="BarrelTracking_length/2.0 + BackwardTracking_length"/>
+    <constant name="MRICH_rmax"   value="BackwardPID_rmax"/>
+    <constant name="MRICH_length" value="BackwardPID_length"/>
+    <constant name="MRICH_zmin"   value="CentralTrackingHalfN_length"/>
 
     <constant name="MRICHAerogel_thickness"           value="30.0*mm"/>
     <constant name="MRICHAerogel_width"               value="126.5*mm"/>
@@ -116,7 +116,7 @@
         <position x=" 96.0250000001"  y="590.7250000003"/>
         <position x="233.3750000002"  y="590.7250000003"/>
         <position x="370.7250000003"  y="590.7250000003"/>
-        <position x="508.0750000004"  y="590.7250000003"/>
+        <!--position x="508.0750000004"  y="590.7250000003"/-->
         <position x="508.0750000004"  y="178.6750000000"/>
         <position x="508.0750000004"  y="316.0250000001"/>
         <position x="508.0750000004"  y="453.3750000002"/>
@@ -124,11 +124,11 @@
       <positions scale="1.09">
         <position x="-41.3250000000"  y="728.0750000004"/>
         <position x=" 96.0250000001"  y="728.0750000004"/>
-        <position x="233.3750000002"  y="728.0750000004"/>
+        <!--position x="233.3750000002"  y="728.0750000004"/-->
         <!--position x="370.7250000003"  y="728.0750000004"/-->
         <!--position x="508.0750000004"  y="728.0750000004"/-->
         <!--position x="645.4250000005"  y="590.7250000003"/-->
-        <position x="645.4250000005"  y="453.3750000002"/>
+        <!--position x="645.4250000005"  y="453.3750000002"/-->
         <position x="645.4250000005"  y="316.0250000001"/>
         <position x="645.4250000005"  y="178.6750000000"/>
       </positions>
@@ -136,7 +136,7 @@
         <!--position x="-41.3250000000"  y="865.4250000005"/-->
         <!--position x=" 96.0250000001"  y="865.4250000005"/-->
         <!--position x="233.3750000002"  y="865.4250000005"/-->
-        <position x="782.7750000006"  y="178.6750000000"/>
+        <!--position x="782.7750000006"  y="178.6750000000"/-->
         <!--position x="782.7750000006"  y="316.0250000001"/-->
         <!--position x="782.7750000006"  y="453.3750000002"/-->
       </positions>

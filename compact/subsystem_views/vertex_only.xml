@@ -163,22 +163,10 @@
   </comment>
   <include ref="compact/vertex_tracker.xml"/>
 
-  <!--include ref="compact/tof_barrel.xml"/-->
-  <!--include ref="compact/tof_endcap.xml"/-->
-  <!--include ref="compact/rwell_tracker_barrel.xml"-->
-  <!--include ref="compact/ce_GEM.xml"/-->
-  <!--include ref="compact/mm_tracker_barrel.xml"/-->
-  <!--include ref="compact/cb_VTX_Barrel.xml"/-->
-  <!--include ref="compact/gem_tracker_endcap.xml"/-->
-
   <comment>
       PID detectors
       -------------
   </comment>
-  <!--include ref="compact/dirc.xml"/-->
-  <!--include ref="compact/mrich.xml"/-->
-  <!--include ref="compact/forward_trd.xml"/-->
-  <!--include ref="compact/gaseous_rich.xml"/-->
 
 
   <fields>

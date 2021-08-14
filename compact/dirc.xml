@@ -21,9 +21,7 @@
   </comment>
 
   <define>
-    <constant name="DIRC_length"           value="CentralTracking_length + BackwardPIDLength"/>
-    <constant name="DIRC_offset"           value="(CentralTracking_length - DIRC_length)/2.0"/>
-    <constant name="DIRC_rmin"             value="83.65*cm"/>
+    <constant name="DIRC_rmin"             value="BarrelTracking_rmax-11*cm"/>
     <constant name="DIRC_rotation"         value="pi" comment="Allows DIRC flip"/>
     <!-- <constant name="cb_DIRC_length"    value="DIRCLength"/> -->
     <!-- CLEANUP THIS if not sure. This is from the initial implementation
@@ -37,6 +35,10 @@
     <constant name="DIRCPrism_angle"        value="32*deg"/>
     <constant name="DIRCPrism_long_edge"    value="DIRCPrism_short_edge + DIRCPrism_length * tan(DIRCPrism_angle)"/>
     <constant name="DIRCPrism_height"       value="DIRCPrism_long_edge"/>
+
+    <!-- DIRC length -->
+    <constant name="DIRC_length"           value="DIRCFull_length - DIRCPrism_length"/>
+    <constant name="DIRC_offset"           value="(CentralTracking_length - DIRC_length)/2.0 - DIRCExtra_offset"/>
 
     <!-- Box - main DIRC modules -->
     <constant name="DIRCBox_count"          value="16"  comment="Number of DIRC boxes per... DIRC. 16 - default"/>

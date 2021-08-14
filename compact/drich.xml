@@ -10,7 +10,7 @@
     <constant name="DRICH_f4a_length"         value="161.0*cm"/> <!-- z-length of fun4all design -->
     <!-- vessel (=snout+tank) geometry -->
     <constant name="DRICH_zmin"               value="BarrelTracking_length/2.0 + ForwardTracking_length "/> <!-- vessel front -->
-    <constant name="DRICH_Length"             value="ForwardRICH_length"/>  <!-- overall vessel length (including snout) -->
+    <constant name="DRICH_Length"             value="ForwardPID_length"/>  <!-- overall vessel length (including snout) -->
     <constant name="DRICH_rmin0"              value="ForwardPID_rmin1"/>  <!-- bore radius at dRICh vessel frontplane -->
     <constant name="DRICH_rmin1"              value="19.0*cm"/>  <!-- bore radius at dRICh vessel backplane -->
     <constant name="DRICH_wall_thickness"     value="0.5*cm"/>  <!-- thickness of radial walls -->

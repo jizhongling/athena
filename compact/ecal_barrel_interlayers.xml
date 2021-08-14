@@ -124,7 +124,8 @@
             sensitive="yes"
             radius="EcalBarrel_FiberRadius"
             spacing_x="EcalBarrel_FiberXSpacing"
-            spacing_z="EcalBarrel_FiberZSpacing">
+            spacing_z="EcalBarrel_FiberZSpacing"
+            vis="EcalBarrelFiberLayerVis">
           </fiber>
         </slice>
         <slice material="CarbonFiber" thickness="EcalBarrel_CarbonThickness" vis="EcalBarrelSliceVis"/>
@@ -139,7 +140,8 @@
             sensitive="yes"
             radius="EcalBarrel_FiberRadius"
             spacing_x="EcalBarrel_FiberXSpacing"
-            spacing_z="EcalBarrel_FiberZSpacing">
+            spacing_z="EcalBarrel_FiberZSpacing"
+            vis="EcalBarrelFiberLayerVis">
           </fiber>
         </slice>
       </layer>

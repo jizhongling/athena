@@ -163,9 +163,9 @@
       PID detectors
       -------------
   </comment>
-  <!--include ref="compact/dirc.xml"/-->
-  <!--include ref="compact/mrich.xml"/-->
-  <include ref="compact/gaseous_rich.xml"/>
+  <include ref="compact/dirc.xml"/>
+  <include ref="compact/mrich.xml"/>
+  <include ref="compact/drich.xml"/>
 
 
   <comment>
