@@ -80,10 +80,12 @@ static Ref_t create_detector(Detector& desc, xml::Handle_t handle, SensitiveDete
     Box glass_box("glass_box", Glass_Width * 0.5, Glass_Width * 0.5, Glass_Thickness * 0.5);
     Volume glass_module("glass_module", glass_box, glass_material);
     glass_module.setVisAttributes(desc.visAttributes("EcalEndcapNModuleVis"));
+    glass_module.setSensitiveDetector(sens);
     
     Box crystal_box("crystal_box",  Crystal_Width* 0.5, Crystal_Width * 0.5, Crystal_Thickness * 0.5);
     Volume crystal_module("crystal_module", crystal_box, crystal_material);
     crystal_module.setVisAttributes(desc.visAttributes("EcalEndcapNModuleVis"));
+    crystal_module.setSensitiveDetector(sens);
 
     // GLASS
     double diameter = 2 * Glass_OuterR;
