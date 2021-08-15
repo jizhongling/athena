@@ -490,7 +490,7 @@ end of the solenoid coils.
 EcalEndcapP_rmin and EcalEndcapN_rmin need to be set in sync with the forward and backward detectors.
     </documentation>
     <constant name="EcalEndcapP_rmin"                      value="200.0*mm"/>
-    <constant name="EcalEndcapN_rmin"                      value="5*cm"/>
+    <constant name="EcalEndcapN_rmin"                      value="max((EcalEndcapN_zmin + EcalEndcapN_length) * tan(abs(CrossingAngle)) + 12.5 * mm, 5*cm)"/>
     <constant name="EcalEndcapN_rmax"                      value="BarrelTracking_rmax"/>
 
     <documentation>
