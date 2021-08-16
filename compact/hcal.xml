@@ -31,8 +31,8 @@
         z="HcalBarrelLength"/>
       <staves vis="HcalBarrelVis"/>
       <layer repeat="HcalBarrelLayer_NRepeat">
-        <slice material="Steel235" thickness="2.0*cm" vis="HcalAbsorberVis"/>
-        <slice material="Polystyrene" thickness="0.5*cm" vis="HcalSensorVis" sensitive="yes" limits="cal_limits"/>
+        <slice material="Steel235" thickness="HcalBarrelSteelThickness" vis="HcalAbsorberVis"/>
+        <slice material="Polystyrene" thickness="HcalBarrelPolystyreneThickness" vis="HcalSensorVis" sensitive="yes" limits="cal_limits"/>
       </layer>
     </detector>
 
@@ -51,8 +51,8 @@
         rmin="HcalEndcapP_rmin"
         rmax="HcalBarrel_rmax"/>
       <layer repeat="51" vis="HcalEndcapVis" >
-        <slice material="Steel235" thickness="2.0" vis="HcalAbsorberVis"/>
-	<slice material="Polystyrene" thickness="0.3*cm" vis="HcalSensorVis" sensitive="yes" limits="cal_limits"/>
+        <slice material="Steel235" thickness="HcalEndcapPSteelThickness" vis="HcalAbsorberVis"/>
+        <slice material="Polystyrene" thickness="HcalEndcapPPolystyreneThickness" vis="HcalSensorVis" sensitive="yes" limits="cal_limits"/>
       </layer>
     </detector>
 
@@ -70,8 +70,8 @@
         rmin="HcalEndcapN_rmin" 
         rmax="HcalBarrel_rmax"/>
       <layer repeat="HcalEndcapNLayer_NRepeat" vis="HcalEndcapVis" >
-	<slice material="Steel235" thickness="HcalSteelThickness" vis="HcalAbsorberVis"/>
-	<slice material="Polystyrene" thickness="0.5*cm" vis="HcalSensorVis" sensitive="yes" limits="cal_limits"/>
+        <slice material="Steel235" thickness="HcalEndcapNSteelThickness" vis="HcalAbsorberVis"/>
+        <slice material="Polystyrene" thickness="HcalEndcapNPolystyreneThickness" vis="HcalSensorVis" sensitive="yes" limits="cal_limits"/>
       </layer>
     </detector>
 
