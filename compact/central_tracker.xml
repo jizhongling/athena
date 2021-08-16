@@ -1,34 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lccdd>
-  <comment> 
-    ---------------
-    Silicon Tracker
-    ---------------
+  <documentation> 
+    ### Silicon Tracker
 
-    Some references:
-    With some added info on ITS3 chip from
-    https://indico.bnl.gov/event/10677/contributions/45591/attachments/33204/53254/20210318-IR2%40EIC-SVT.pdf
-    To be used as standin until we get more detailed specs from the working group on the tracker.
+#### Some references:
 
-    Note: initial implementation with hard-coded values,
-    TODO: add parametrization
+- With some added info on ITS3 chip from https://indico.bnl.gov/event/10677/contributions/45591/attachments/33204/53254/20210318-IR2%40EIC-SVT.pdf
+To be used as standin until we get more detailed specs from the working group on the tracker.
+- https://wiki.bnl.gov/athena/index.php/Tracking
 
-    ----
-    Aug 04, 2021, Shujie Li
-    
-    udpated stave and disck material budget for the baseline design.
-    see https://eicweb.phy.anl.gov/EIC/detectors/athena/-/issues/63
-    
-ITS3 sensor thickness: 40um, pixel size: 10um (segmentation)
-    total X0 0.55% per barrel layer:
-      0.35 mm aluminum ~ 0.4% X0. 
-      2 x carbonfiber (RL ~ 28) 0.12 mm (!!! material scan shows ~0.17mm, need to check later) to match Si (RL~9) of 0.04mm ~ 0.04%
+Note: initial implementation with hard-coded values,
+TODO: add parametrization
 
-    total X0 0.24% per disk layer （4 sectors per disk):
-      0.15 mm aluminum ~ 0.16% X0. 
-      1 x carbonfiber (RL ~ 28) 0.12 mm to match Si (RL~9) of 0.04mm ~ 0.04%
+#### ITS3 sensors
 
-  </comment>
+ITS3 sensor thickness: 
+- 40um, pixel size: 10um (segmentation)
+- total X0 0.55% per barrel layer:
+-  0.35 mm aluminum ~ 0.4% X0. 
+-  2 x carbonfiber (RL ~ 28) 0.12 mm (!!! material scan shows ~0.17mm, need to check later) to match Si (RL~9) of 0.04mm ~ 0.04%
+
+total X0 0.24% per disk layer （4 sectors per disk):
+  - 0.15 mm aluminum ~ 0.16% X0. 
+  - 1 x carbonfiber (RL ~ 28) 0.12 mm to match Si (RL~9) of 0.04mm ~ 0.04%
+
+  </documentation>
 
   <define>
     <comment>
@@ -64,15 +60,12 @@ ITS3 sensor thickness: 40um, pixel size: 10um (segmentation)
     <constant name="TrackerEndcapInner_nLayers"          value="1"/>
     <constant name="TrackerEndcapOuter_nLayers"          value="3"/>
     <constant name="TrackerEndcapLayer_dz"               value="2*cm"/>
-    <constant name="TrackerEndcapLayerModule_dz"         value="2.5*mm"/>
+    <constant name="TrackerEndcapModule_dz"              value="2.5*mm"/>
 
     <constant name="TrackerEndcapInner_zmin"            value="49*cm"/>
-    <!-- <constant name="TrackerEndcapInnerLayer_dz"         value="TrackerEndcapLayer_dz"/> -->
     <constant name="TrackerEndcapInner_zmax"            value="TrackerEndcapInner_zmin+TrackerEndcapLayer_dz"/>
     <constant name="TrackerEndcapInner_length"          value="TrackerEndcapLayer_dz"/>
-    <constant name="TrackerEndcapInnerLayer_thickness"  value="min(5.0*cm,TrackerEndcapLayer_dz - 0.5*cm)"/>
-    <comment> Note, the -1.0*cm is so the layers do not touch surfaces. 
-      This is a limitation of ACTS geometry which will likely go away in the future.</comment>
+    <constant name="TrackerEndcapInnerLayer_thickness"  value="min(3.0*cm,TrackerEndcapLayer_dz - 0.5*cm)"/>
 
     <constant name="TrackerEndcapOuter_zmin1"            value="73*cm"/>
     <constant name="TrackerEndcapOuter_zmin2"            value="97*cm"/>
@@ -80,6 +73,7 @@ ITS3 sensor thickness: 40um, pixel size: 10um (segmentation)
     <constant name="TrackerEndcapOuter_zmin"             value="TrackerEndcapOuter_zmin1"/>
     <constant name="TrackerEndcapOuter_zmax"             value="TrackerEndcapOuter_zmin3 + TrackerEndcapLayer_dz"/>
     <constant name="TrackerEndcapOuterLayer_thickness"   value="min(5.0*cm,TrackerEndcapLayer_dz - 1.0*cm)"/>
+
     <comment> Note, the -1.0*cm is so the layers do not touch surfaces. 
       This is a limitation of ACTS geometry which will likely go away in the future.</comment>
 
@@ -100,8 +94,6 @@ ITS3 sensor thickness: 40um, pixel size: 10um (segmentation)
    TrackerEndcapOuter_rmax1 * TrackerEndcapInner_zmin/TrackerEndcapInner_rmax1 ~ 60cm </comment>
     <constant name="TrackerEndcapOuterShell_zmin"      value="TrackerEndcapOuter_rmax1 * TrackerEndcapInner_zmin/TrackerEndcapInner_rmax1+1*cm"/>
     <constant name="TrackerEndcapOuterShell_length"    value="TrackerEndcapOuter_zmax- TrackerEndcapOuterShell_zmin"/>
-
-
 
     <constant name="TrackerEndcap_NModules" value="12"/>
 
@@ -138,9 +130,7 @@ ITS3 sensor thickness: 40um, pixel size: 10um (segmentation)
 
 
     <comment>
-      -----------------------------------
-      Inner Tracker Subassembly (group 1)
-      -----------------------------------
+      #### Inner Tracker Subassembly
     </comment>
 
     <detector
@@ -212,6 +202,12 @@ ITS3 sensor thickness: 40um, pixel size: 10um (segmentation)
       readout="TrackerEndcapHits"
       vis="AnlRed"
       reflect="false">
+      <support  material="CarbonFiber" name="sup_cylinder" vis="TrackerSupportVis">
+        <shape type="Cone" 
+          rmin1="TrackerEndcapInner_rmax1-14.0*cm" rmax1="TrackerEndcapInner_rmax1-14.0*cm+0.2*mm"
+          rmin2="TrackerEndcapInner_rmax1" rmax2="TrackerEndcapInner_rmax1+0.2*mm" z="8*cm"/>
+        <position x="0*cm"  y="0*cm"   z="TrackerEndcapInner_zmin-10.0*cm"/>
+      </support>
       <module name="Module1" vis="AnlProcess_Blue">
         <trd x1="TrackerEndcapInnerMod1_x1/2.0" x2="TrackerEndcapInnerMod1_x2/2.0" z="TrackerEndcapInnerMod1_y/2"/>
         <module_component thickness="ITS3Thickness" material="Silicon" sensitive="true"/>
@@ -227,7 +223,7 @@ ITS3 sensor thickness: 40um, pixel size: 10um (segmentation)
         <ring vis="AnlRed"
           r="TrackerEndcapInner_rmin1+TrackerEndcapInnerMod1_y/2.0"
           zstart="0.0"
-          nmodules="TrackerEndcap_NModules" dz="TrackerEndcapLayerModule_dz" module="Module1" />
+          nmodules="TrackerEndcap_NModules" dz="TrackerEndcapModule_dz" module="Module1" />
       </layer>
     </detector>
 
@@ -238,10 +234,16 @@ ITS3 sensor thickness: 40um, pixel size: 10um (segmentation)
       readout="TrackerEndcapHits"
       vis="AnlRed"
       reflect="true">
+      <support  material="CarbonFiber" name="sup_cylinder" vis="TrackerSupportVis">
+        <shape type="Cone" 
+          rmin2="TrackerEndcapInner_rmax1-14.0*cm" rmax2="TrackerEndcapInner_rmax1-14.0*cm+0.2*mm"
+          rmin1="TrackerEndcapInner_rmax1-1.0*cm" rmax1="TrackerEndcapInner_rmax1-1.0*cm+0.2*mm" z="8*cm"/>
+        <position x="0*cm"  y="0*cm"   z="-1.0*(TrackerEndcapInner_zmin-10.0*cm)"/>
+      </support>
       <module name="Module1" vis="AnlProcess_Blue">
         <trd x1="TrackerEndcapInnerMod1_x1/2.0" x2="TrackerEndcapInnerMod1_x2/2.0" z="TrackerEndcapInnerMod1_y/2"/>
         <module_component thickness="ITS3Thickness" material="Silicon" sensitive="true"/>
-       <module_component thickness="TrackerEndcapAluminum_thickness"  material="Aluminum"/>
+        <module_component thickness="TrackerEndcapAluminum_thickness"  material="Aluminum"/>
         <module_component thickness="TrackerCarbon_thickness"          material="CarbonFiber"/>
       </module>
       <layer id="1">
@@ -253,7 +255,7 @@ ITS3 sensor thickness: 40um, pixel size: 10um (segmentation)
         <ring vis="AnlRed"
           r="TrackerEndcapInner_rmin1+TrackerEndcapInnerMod1_y/2.0" 
           zstart="0"
-          nmodules="TrackerEndcap_NModules" dz="TrackerEndcapLayerModule_dz" module="Module1" />
+          nmodules="TrackerEndcap_NModules" dz="TrackerEndcapModule_dz" module="Module1" />
       </layer>
     </detector>
 
@@ -361,7 +363,7 @@ ITS3 sensor thickness: 40um, pixel size: 10um (segmentation)
         <ring vis="AnlRed"
           r="TrackerEndcapOuter_rmin1+TrackerEndcapOuterMod1_y/2.0"
           zstart="0.0*mm"
-          nmodules="TrackerEndcap_NModules" dz="TrackerEndcapLayerModule_dz" module="Module1" />
+          nmodules="TrackerEndcap_NModules" dz="TrackerEndcapModule_dz" module="Module1" />
       </layer>
       <layer id="2">
         <envelope  vis="AnlRed"
@@ -372,7 +374,7 @@ ITS3 sensor thickness: 40um, pixel size: 10um (segmentation)
         <ring vis="AnlRed"
           r="TrackerEndcapOuter_rmin2+TrackerEndcapOuterMod2_y/2.0"
           zstart="0.0*mm"
-          nmodules="TrackerEndcap_NModules" dz="TrackerEndcapLayerModule_dz" module="Module2" />
+          nmodules="TrackerEndcap_NModules" dz="TrackerEndcapModule_dz" module="Module2" />
       </layer>
       <layer id="3">
         <envelope  vis="AnlRed"
@@ -383,7 +385,7 @@ ITS3 sensor thickness: 40um, pixel size: 10um (segmentation)
         <ring vis="AnlRed"
           r="TrackerEndcapOuter_rmin3+TrackerEndcapOuterMod3_y/2.0"
           zstart="0.0*mm"
-          nmodules="TrackerEndcap_NModules" dz="TrackerEndcapLayerModule_dz" module="Module3" />
+          nmodules="TrackerEndcap_NModules" dz="TrackerEndcapModule_dz" module="Module3" />
       </layer>
     </detector>
 
@@ -394,9 +396,13 @@ ITS3 sensor thickness: 40um, pixel size: 10um (segmentation)
       readout="TrackerEndcapHits"
       vis="AnlRed"
       reflect="true">
-      <support vis="TrackerSupportVis"  material="CarbonFiber"
+      <support  material="CarbonFiber" name="sup_cylinder" vis="TrackerSupportVis" 
         rmin="TrackerEndcapOuter_rmax3+1.0*mm"
-        thickness="2.0*mm" length="TrackerEndcapOuterShell_length" zstart="TrackerEndcapOuterShell_zmin" />
+        thickness="2.0*mm" 
+        length="TrackerEndcapOuterShell_length" 
+        zstart="TrackerEndcapOuterShell_zmin"/>
+
+
       <module name="Module1" vis="AnlProcess_Blue">
         <trd x1="TrackerEndcapOuterMod1_x1/2.0" x2="TrackerEndcapOuterMod1_x2/2.0" z="TrackerEndcapOuterMod1_y/2"/>
         <module_component thickness="ITS3Thickness" material="Silicon" sensitive="true"/>
@@ -424,7 +430,7 @@ ITS3 sensor thickness: 40um, pixel size: 10um (segmentation)
         <ring vis="AnlRed"
           r="TrackerEndcapOuter_rmin1+TrackerEndcapOuterMod1_y/2.0"
           zstart="0.0*mm"
-          nmodules="TrackerEndcap_NModules" dz="TrackerEndcapLayerModule_dz" module="Module1" />
+          nmodules="TrackerEndcap_NModules" dz="TrackerEndcapModule_dz" module="Module1" />
       </layer>
       <layer id="2">
         <envelope  vis="AnlRed"
@@ -435,7 +441,7 @@ ITS3 sensor thickness: 40um, pixel size: 10um (segmentation)
         <ring vis="AnlRed"
           r="TrackerEndcapOuter_rmin2+TrackerEndcapOuterMod2_y/2.0"
           zstart="0.0*mm"
-          nmodules="TrackerEndcap_NModules" dz="TrackerEndcapLayerModule_dz" module="Module2" />
+          nmodules="TrackerEndcap_NModules" dz="TrackerEndcapModule_dz" module="Module2" />
       </layer>
       <layer id="3">
         <envelope  vis="AnlRed"
@@ -446,7 +452,7 @@ ITS3 sensor thickness: 40um, pixel size: 10um (segmentation)
         <ring vis="AnlRed"
           r="TrackerEndcapOuter_rmin3+TrackerEndcapOuterMod3_y/2.0"
           zstart="0.0*mm"
-          nmodules="TrackerEndcap_NModules" dz="TrackerEndcapLayerModule_dz" module="Module3" />
+          nmodules="TrackerEndcap_NModules" dz="TrackerEndcapModule_dz" module="Module3" />
       </layer>
     </detector>
 

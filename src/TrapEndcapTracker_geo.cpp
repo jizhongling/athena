@@ -2,6 +2,7 @@
 #include "DD4hep/DetFactoryHelper.h"
 #include "Acts/Plugins/DD4hep/ActsExtension.hpp"
 #include "Acts/Definitions/Units.hpp"
+#include "XML/Utilities.h"
 
 using namespace std;
 using namespace dd4hep;
@@ -46,16 +47,36 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
     double      support_length    = getAttrOrDefault(x_support, _U(length), 2.0 * mm);
     double      support_rmin      = getAttrOrDefault(x_support, _U(rmin), 2.0 * mm);
     double      support_zstart    = getAttrOrDefault(x_support, _U(zstart), 2.0 * mm);
+    std::string support_name      = getAttrOrDefault<std::string>(x_support, _Unicode(name), "support_tube");
     std::string support_vis       = getAttrOrDefault<std::string>(x_support, _Unicode(vis), "AnlRed");
-    Material    support_mat       = description.material(x_support.materialStr());
-    Tube        support_tub(support_rmin, support_rmin + support_thickness, support_length / 2);
-    Volume      support_vol("support_tube", support_tub, support_mat); // Create the layer envelope volume.
-    support_vol.setVisAttributes(description.visAttributes(support_vis));
-    if(reflect) {
-      pv = assembly.placeVolume(support_vol, Position(0, 0, -1.0 * (support_zstart + support_length / 2)));
+    xml_dim_t  pos        (x_support.child(_U(position), false));
+    xml_dim_t  rot        (x_support.child(_U(rotation), false));
+    Solid support_solid;
+    if(x_support.hasChild("shape")){
+      xml_comp_t shape(x_support.child(_U(shape)));
+      string     shape_type = shape.typeStr();
+      support_solid  = xml::createShape(description, shape_type, shape);
     } else {
-      pv = assembly.placeVolume(support_vol, Position(0, 0, support_zstart + support_length / 2));
+      support_solid = Tube(support_rmin, support_rmin + support_thickness, support_length / 2);
     }
+    Transform3D tr = Transform3D(Rotation3D(),Position(0,0,(reflect?-1.0:1.0) * (support_zstart + support_length / 2)));
+    if ( pos.ptr() && rot.ptr() )  {
+      Rotation3D  rot3D(RotationZYX(rot.z(0),rot.y(0),rot.x(0)));
+      Position    pos3D(pos.x(0),pos.y(0),pos.z(0));
+      tr = Transform3D(rot3D, pos3D);
+    }
+    else if ( pos.ptr() )  {
+      tr = Transform3D(Rotation3D(),Position(pos.x(0),pos.y(0),pos.z(0)));
+    }
+    else if ( rot.ptr() )  {
+      Rotation3D rot3D(RotationZYX(rot.z(0),rot.y(0),rot.x(0)));
+      tr = Transform3D(rot3D,Position());
+    }
+    Material    support_mat       = description.material(x_support.materialStr());
+    Volume      support_vol(support_name, support_solid, support_mat);
+    support_vol.setVisAttributes(description.visAttributes(support_vis));
+    pv = assembly.placeVolume(support_vol, tr);
+    // pv = assembly.placeVolume(support_vol, Position(0, 0, support_zstart + support_length / 2));
   }
 
   for (xml_coll_t mi(x_det, _U(module)); mi; ++mi, ++m_id) {
