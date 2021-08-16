@@ -21,6 +21,7 @@ dd4hep_configure_output()
 
 dd4hep_add_plugin(${a_lib_name} SOURCES 
   src/BackwardGEMTracker_geo.cpp
+  src/BarrelBarDetectorWithSideFrame_geo.cpp
   src/BarrelCalorimeter_geo.cpp
   src/BarrelCalorimeterHybrid_geo.cpp
   src/BarrelCalorimeterInterlayers_geo.cpp

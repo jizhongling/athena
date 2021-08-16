@@ -335,7 +335,7 @@ Examples:
     <constant name="BackwardTOF_length"           value="0.0*cm"/>
 
     <comment> Note: PID has space for DIRC and optional uRWEL layers</comment>
-    <constant name="BarrelPIDThickness"           value="10.0 * cm"/>
+    <constant name="BarrelPIDThickness"           value="15.0 * cm"/>
 
 
     <documentation>
@@ -454,7 +454,7 @@ end of the solenoid coils.
     <constant name="SolenoidYokeEndcapP_zmin"  value="Solenoid_length/2.0 + Solenoid_offset + EndcapPExtra_length"/>
     <constant name="SolenoidYokeEndcapN_zmin"  value="Solenoid_length/2.0 - Solenoid_offset + EndcapNExtra_length"/>
 
-    <constant name="EcalBarrel_rmin"            value="BarrelTrackingAndPID_rmax + 35.0 * mm"/>
+    <constant name="EcalBarrel_rmin"            value="BarrelTrackingAndPID_rmax + 10.0 * mm"/>
     <constant name="Barrel_rmax"                value="Solenoid_rmin - 1.0 *cm "/>
     <constant name="Barrel_TotalCalThickness"   value="Barrel_rmax - EcalBarrel_rmin"/>
 
@@ -614,7 +614,7 @@ The logic goes like this:
     <constant name="HcalEndcapN_thickness" value="HcalEndcapNLayer_NRepeat * HcalSingleLayerThickness"/>
 
     <comment> Special DIRC parameters </comment>
-    <constant name="DIRCFull_length"            value="max(CentralTracking_length + BackwardInnerEndcap_length + EcalEndcapN_length, EcalBarrel_length) + 50*cm"/>
+    <constant name="DIRCFull_length"            value="max(CentralTracking_length + BackwardInnerEndcap_length + EcalEndcapN_length, EcalBarrel_length) + 10*cm"/>
 		<constant name="DIRCExtra_offset"           value="-5*cm"/>
 
 

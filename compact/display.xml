@@ -57,7 +57,14 @@
     <comment>
       PID Detectors
     </comment>
-    <vis name="RICHVis"      ref="AnlViolet"     showDaughters="true"/>
+    <vis name="RICHVis"         ref="AnlViolet"     showDaughters="true"/>
+
+    <vis name="DIRCVis"         ref="AnlTeal"       showDaughters="true" visible="false"/>
+    <vis name="DIRCLayerVis"    ref="AnlTeal"       showDaughters="true" visible="false"/>
+    <vis name="DIRCModuleVis"   ref="AnlBlue"       showDaughters="true" visible="false"/>
+    <vis name="DIRCSupportVis"  ref="VertexSupportVis" showDaughters="true" visible="true"/>
+    <vis name="DIRCFrameVis"    ref="AnlOrange"     showDaughters="true" visible="true"/>
+    <vis name="DIRCBarVis"      ref="AnlTeal"       showDaughters="true" visible="true"/>
 
     <comment>
       Beam line

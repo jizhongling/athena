@@ -163,9 +163,7 @@
       PID detectors
       -------------
   </comment>
-  <include ref="compact/dirc.xml"/>
-  <include ref="compact/mrich.xml"/>
-  <include ref="compact/drich.xml"/>
+  <include ref="compact/pid_config_acadia.xml"/>
 
 
   <comment>

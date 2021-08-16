@@ -162,7 +162,7 @@
       Central tracking detectors
       --------------------------
   </comment>
-  <include ref="compact/tracking_config_accadia.xml"/>
+  <include ref="compact/tracking_config_acadia.xml"/>
 
   <comment>
       PID detectors
