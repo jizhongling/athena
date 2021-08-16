@@ -33,7 +33,6 @@ stages:
   - build
   - test
   - docs
-  - test 
   - collect
   - finalize 
   - deploy
@@ -77,22 +76,18 @@ build:simple:
     - mkdir -p build && cd build && cmake ../. -DCMAKE_INSTALL_PREFIX=/usr/local && make -j20 && make install  && cd ..
     - echo "Build successful."
 
+
 .views:
   stage: docs
   before_script:
     - source .local/bin/env.sh
-      #    - sed -i 's?<support inside?<\!--support inside?' compact/ecal_barrel_hybrid.xml 
-      #    - sed -i 's?</support>?</support-->?' compact/ecal_barrel_hybrid.xml
-      #    - sed -i 's?<fiber material?<\!--fiber material?' compact/ecal_barrel_interlayers.xml 
-      #    - sed -i 's?</fiber>?</fiber-->?' compact/ecal_barrel_interlayers.xml
-      #    - echo $DETECTOR_PATH
-      #    - cp compact/ecal_barrel_interlayers.xml ${DETECTOR_PATH}/compact/ecal_barrel_interlayers.xml
     - env
     - pip3 install psutil
   needs:
     - ["common:detector"]
 
 include:
+  - local: 'views/generate_prim_files.yml'
   - local: 'views/view1.yml'
   - local: 'views/view2.yml'
   - local: 'views/view3.yml'

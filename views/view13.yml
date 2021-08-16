@@ -1,7 +1,10 @@
 dawn_view_13:detector:
   extends: .views
+  needs:
+    - job: view_prim:detector_only
+      optional: false
   script:
-    - ./bin/make_dawn_views -t view13 -d scripts/view13 -D
+    - ./bin/make_dawn_views -i ${LOCAL_DATA_PATH}/detector_view.prim -t view13 -d scripts/view13 -D
 
 view_13:
   stage: collect

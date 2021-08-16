@@ -1,7 +1,10 @@
 dawn_view_12:detector:
   extends: .views
+  needs:
+    - job: view_prim:detector_only
+      optional: false
   script:
-    - ./bin/make_dawn_views -t view12 -d scripts/view12 -D -- ${SLICE}
+    - ./bin/make_dawn_views -i ${LOCAL_DATA_PATH}/detector_view.prim -t view12 -d scripts/view12 -D -- ${SLICE}
     - ls -lrth *
     - ls -lrth images/*
   parallel:

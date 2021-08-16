@@ -66,17 +66,6 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 
 echo "view12 produces a series of slightly rotated XY slices a different z locations. Along beamline"
 
-# slice at z = 2m
-# note the offset has to change with sign of the direction to cut in the opposite direction.
-dawncut 0  0  1  2005 ${INPUT_FILE} ${FILE_TAG}b_temp0.prim 
-dawncut 0  0 -1 -2000 ${FILE_TAG}b_temp0.prim  ${FILE_TAG}b.prim
-dawn -d ${FILE_TAG}b.prim 
-ps2pdf ${FILE_TAG}b.eps ${FILE_TAG}b_full.pdf
-gs -o ${FILE_TAG}b.pdf -sDEVICE=pdfwrite \
-  -c "[/CropBox [50 175 550 675] /PAGES pdfmark" \
-  -f ${FILE_TAG}b_full.pdf
-pdftoppm ${FILE_TAG}b.pdf ${FILE_TAG}b -png -singlefile -cropbox
-
 original_file_tag="${FILE_TAG}"
 
 make_slice(){

@@ -9,7 +9,7 @@ function print_the_help {
   exit 
 }
 
-FILE_TAG="view2"
+FILE_TAG="view13"
 INPUT_FILE="g4_0000.prim"
 
 

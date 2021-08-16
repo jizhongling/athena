@@ -36,8 +36,8 @@ parser.add_argument('-s', '--skip', type=int,
         default=0,
         help='Number of events number to skip in the input')
 
-parser.add_argument('-i', '--input', type=str,
-        default='scripts/input_data/few_events.hepmc',
+parser.add_argument('-i', '--input', type=str, dest='input',
+        default='sim_output',
         help='Input hepmc file')
 
 parser.add_argument('-o', '--output-dir', type=str, dest='out_dir',
@@ -51,7 +51,7 @@ parser.add_argument('-d', '--dawn-dir', type=str, dest='dawn_dir',
         default='scripts/view1',
         help='Directory to dawn script dir (with .DAWN files and a generate_eps script)')
 
-parser.add_argument('-t', '--tag', type=str,
+parser.add_argument('-t', '--tag', type=str,dest='file_tag',
         default='view',
         help='Output file tag')
 
@@ -80,90 +80,20 @@ dawn_env = os.environ.copy()
 dawn_env['DAWN_BATCH'] = 'a'
 # sdir = os.path.dirname(os.path.realpath(__file__))
 
-# Using a python warpper such as npsim introduces some problem in managing the subprocess.
-# The process1 managed by subprocess will generate another process with proc2_pid = proc1_pid + 1, which will not
-# be terminated by terminating or killing the process1.
-# In addition, running Geant4 with vis mode will never exit automatically (it waits for input).
-# Thus the created process 2 will occupy the system resources.
-sim_cmd = ['npsim', '--runType', 'vis',
-        '--compact', args.compact,
-        '--inputFiles', args.input,
-        '--outputFile', 'derp.root',
-        '--numberOfEvents', '1',
-        '--skipNEvents', str(args.skip),
-        '--macroFile', macro]
-
-start = datetime.now()
-elapse = datetime.now() - start
-last_update = datetime.now()
-finished = False
-
-# run simulation
-print(' '.join(sim_cmd))
-p = subprocess.Popen(args=sim_cmd, env=dawn_env,
-                     stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
-__child_pid = p.pid
-while elapse.seconds < args.timeout:
-    line = readline_nonblocking(p.stdout)
-    elapse = datetime.now() - start
-    time_left = args.timeout - elapse.seconds
-    time_str = '[{:02d}:{:02d}]'.format(elapse.seconds // 60, elapse.seconds % 60)
-
-    if time_left < 10:
-        print('{} === TIMEOUT ===: Terminating in {:d} seconds'.format(time_str, time_left))
-
-    if line:
-        decoded_line = line.decode('utf-8').strip()
-        print('{} {}'.format(time_str, decoded_line))
-        # what we are looking for
-        if decoded_line == 'File  {}  is generated.'.format(prim_file):
-            print('{} === FINISHED ===: Got the prim file, terminating.'.format(time_str))
-            finished = True
-            break
-        if decoded_line == 'Idle>':
-            p.stdin.write(b'exit')
-            break
-        # do not sleep
-        continue
-
-    # ended early before file
-    if p.poll() is not None:
-        print(p.poll())
-        break
-
-    time.sleep(1)
-
-p.kill()
-# use to kill the subprocess generated from the python wrapper
-# this is unsafe so maybe more checks required
-for proc in psutil.process_iter():
-    pinfo = proc.as_dict(attrs=['pid', 'name', 'create_time'])
-    if pinfo['pid'] == p.pid + 1 and pinfo['name'] == 'python':
-        print('kill {}, generated from {}'.format(pinfo, p.pid))
-        os.kill(pinfo['pid'], signal.SIGTERM)
-
-line = b'stderr outputs:\n'
-while line:
-    print(line.decode('utf-8'), end='')
-    line = readline_nonblocking(p.stderr)
-
-if finished:
-    print('Simulation finished')
-else:
-    print('Simulation failed')
-    exit(1)
-
 
 # generate DAWN images
-prim_file = os.path.abspath(prim_file)
+out_dir = os.path.abspath(args.out_dir)
+input_file = os.path.abspath(args.input)
+#prim_file = '{}/{}.prim'.format(input_dir,args.file_tag)
+#prim_file = os.path.abspath(prim_file)
 owd = os.getcwd()
 os.chdir(args.dawn_dir)
 subprocess.run(['pwd'])
-subprocess.run(['./generate_eps', '-t', args.tag, '-i', prim_file] + args.passthrough)
+subprocess.run(['./generate_eps', '-t', args.file_tag, '-i', input_file] + args.passthrough)
 subprocess.run(['ls', '-lrth'])
 
 # upload the results
-os.system('cp *.pdf {}'.format(args.out_dir))
-os.system('cp *.png {}'.format(args.out_dir))
+os.system('cp *.pdf {}'.format(out_dir))
+os.system('cp *.png {}'.format(out_dir))
 os.chdir(owd)
 
