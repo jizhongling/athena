@@ -84,7 +84,14 @@ static Ref_t createDetector(Detector& description, xml::Handle_t e, SensitiveDet
   DetElement mod_de( mod_name + std::string("_mod_") + std::to_string(1), 1);
 
   // todo module frame
-  double     frame_thickness  = getAttrOrDefault(x_frame, _U(thickness), 2.0 * mm);
+  double     frame_thickness = getAttrOrDefault(x_frame, _U(thickness), 2.0 * mm);
+  Box        frame_inside(mod_width / 2.0 - frame_thickness, mod_height / 2.0 - frame_thickness, mod_length / 2.0 - frame_thickness);
+  SubtractionSolid frame_solid(m_solid, frame_inside);
+  Material   frame_mat       = description.material(x_frame.materialStr());
+  Volume     frame_vol(mod_name+"_frame", frame_solid, frame_mat);
+  auto       frame_vis       = getAttrOrDefault<std::string>(x_frame, _U(vis), std::string("GrayVis"));
+  frame_vol.setVisAttributes(description.visAttributes(frame_vis));
+  m_volume.placeVolume(frame_vol);
 
   // aerogel box
   xml_comp_t x_aerogel_frame = x_aerogel.child(_Unicode(frame));
