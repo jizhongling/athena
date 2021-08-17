@@ -277,8 +277,8 @@ total X0 0.24% per disk layer （4 sectors per disk):
       <comment>
         Tracker Barrel Modules
       </comment>
-      <module name="TrackerBarrelOuter_Module1" vis="PurpleVis">
-        <frame  material="CarbonFiber" vis="BlueGreenVis"
+      <module name="TrackerBarrelOuter_Module1" vis="TrackerModuleVis">
+        <frame  material="CarbonFiber" vis="TrackerSupportVis"
           width="TrackerBarrelSpaceFrame_width"  
           height="TrackerBarrelSpaceFrame_height" 
           length="TrackerBarrelOuter_length1"
@@ -291,8 +291,8 @@ total X0 0.24% per disk layer （4 sectors per disk):
           thickness="TrackerSensor_thickness" material="Silicon" sensitive="true">
         </module_component>
       </module>
-      <module name="TrackerBarrelOuter_Module2" vis="PurpleVis">
-        <frame  material="CarbonFiber" vis="BlueGreenVis"
+      <module name="TrackerBarrelOuter_Module2" vis="TrackerModuleVis">
+        <frame  material="CarbonFiber" vis="TrackerSupportVis"
           width="TrackerBarrelSpaceFrame_width"  
           height="TrackerBarrelSpaceFrame_height" 
           length="TrackerBarrelOuter_length2"
@@ -306,9 +306,9 @@ total X0 0.24% per disk layer （4 sectors per disk):
         </module_component>
       </module>
       <comment>
-        Tracker Barrel Inner Layers
+        Tracker Barrel Outer Layers
       </comment>
-      <layer module="TrackerBarrelOuter_Module1" id="1" vis="VertexVis">
+      <layer module="TrackerBarrelOuter_Module1" id="1" vis="TrackerLayerVis">
         <barrel_envelope
           inner_r="TrackerBarrelOuter_rmin1-TrackerBarrelLayer_rOffset"
           outer_r="TrackerBarrelOuter_rmin1-TrackerBarrelLayer_rOffset + TrackerBarrelOuter_thickness-1.0*mm"
@@ -316,7 +316,7 @@ total X0 0.24% per disk layer （4 sectors per disk):
         <rphi_layout phi_tilt="TrackerBarrel_StaveTiltAngle" nphi="TrackerBarrelOuter_NModules1" phi0="0.0" rc="TrackerBarrelOuter_rmin1" dr="0.0 * mm"/>
         <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
       </layer>
-      <layer module="TrackerBarrelOuter_Module2" id="2" vis="VertexVis">
+      <layer module="TrackerBarrelOuter_Module2" id="2" vis="TrackerLayerVis">
         <barrel_envelope
           inner_r="TrackerBarrelOuter_rmin2-TrackerBarrelLayer_rOffset"
           outer_r="TrackerBarrelOuter_rmin2-TrackerBarrelLayer_rOffset + TrackerBarrelOuter_thickness"
