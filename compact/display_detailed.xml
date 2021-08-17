@@ -39,13 +39,15 @@
     <comment>
       HCal Vis
     </comment>
-    <vis name="HcalVis"               ref="AnlViolet"     showDaughters="false"/>
-    <vis name="HcalBarrelVis"         ref="AnlViolet"     showDaughters="false"  visible="true" />
-    <vis name="HcalBarrelStaveVis"    ref="AnlViolet"     showDaughters="false"  visible="true" />
-    <vis name="HcalEndcapVis"         ref="AnlProcess_Blue" showDaughters="false"  visible="true" />
-    <vis name="HcalSensorVis"         ref="AnlProcess_Blue" showDaughters="false"  visible="false" />
-    <vis name="HcalAbsorberVis"       ref="AnlProcess_Blue" showDaughters="false"  visible="false" />
-    
+    <vis name="HcalVis"               ref="AnlViolet"   showDaughters="true"  visible="true"/>
+    <vis name="HcalBarrelVis"         ref="AnlViolet"   showDaughters="true"  visible="true"/>
+    <vis name="HcalBarrelStaveVis"    ref="AnlViolet"   showDaughters="true"  visible="true"/>
+    <vis name="HcalBarrelLayerVis"    ref="AnlViolet"   showDaughters="false" visible="true"/>
+    <vis name="HcalEndcapVis"         ref="AnlViolet"   showDaughters="true"  visible="true"/>
+    <vis name="HcalEndcapLayerVis"    ref="AnlViolet"   showDaughters="false" visible="true"/>
+    <vis name="HcalSensorVis"         ref="AnlBlue"     showDaughters="false" visible="false"/>
+    <vis name="HcalAbsorberVis"       ref="AnlViolet"   showDaughters="false" visible="false"/>
+
     <comment>
       Solenoid
     </comment>

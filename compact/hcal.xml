@@ -21,6 +21,7 @@
       name="HcalBarrel"
       type="athena_EcalBarrel"
       readout="HcalBarrelHits"
+      vis="HcalBarrelVis" 
       calorimeterType="HAD_BARREL"
       offset="HcalBarrel_offset"
       gap="0.*cm"
@@ -29,8 +30,8 @@
         numsides="CaloSides" 
         rmin="HcalBarrel_rmin" 
         z="HcalBarrelLength"/>
-      <staves vis="HcalBarrelVis"/>
-      <layer repeat="HcalBarrelLayer_NRepeat">
+      <staves vis="HcalBarrelStaveVis"/>
+      <layer repeat="HcalBarrelLayer_NRepeat" vis="HcalBarrelLayerVis">
         <slice material="Steel235" thickness="HcalBarrelSteelThickness" vis="HcalAbsorberVis"/>
         <slice material="Polystyrene" thickness="HcalBarrelPolystyreneThickness" vis="HcalSensorVis" sensitive="yes" limits="cal_limits"/>
       </layer>
@@ -50,7 +51,7 @@
         zmin="HcalEndcapP_zmin" 
         rmin="HcalEndcapP_rmin"
         rmax="HcalBarrel_rmax"/>
-      <layer repeat="HcalEndcapPLayer_NRepeat" vis="HcalEndcapVis" >
+      <layer repeat="HcalEndcapPLayer_NRepeat" vis="HcalEndcapLayerVis" >
         <slice material="Steel235" thickness="HcalEndcapPSteelThickness" vis="HcalAbsorberVis"/>
         <slice material="Polystyrene" thickness="HcalEndcapPPolystyreneThickness" vis="HcalSensorVis" sensitive="yes" limits="cal_limits"/>
       </layer>
@@ -69,7 +70,7 @@
         zmin="HcalEndcapN_zmin" 
         rmin="HcalEndcapN_rmin" 
         rmax="HcalBarrel_rmax"/>
-      <layer repeat="HcalEndcapNLayer_NRepeat" vis="HcalEndcapVis" >
+      <layer repeat="HcalEndcapNLayer_NRepeat" vis="HcalEndcapLayerVis" >
         <slice material="Steel235" thickness="HcalEndcapNSteelThickness" vis="HcalAbsorberVis"/>
         <slice material="Polystyrene" thickness="HcalEndcapNPolystyreneThickness" vis="HcalSensorVis" sensitive="yes" limits="cal_limits"/>
       </layer>
