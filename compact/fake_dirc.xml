@@ -5,11 +5,6 @@
   </comment>
 
   <define>
-    <constant name="DIRC_rmin"                  value="BarrelTracking_rmax"/>
-    <constant name="DIRC_rmax"                  value="DIRC_rmin + BarrelPIDThickness"/>
-    <constant name="DIRC_length"                value="DIRCFull_length"/>
-    <constant name="DIRC_offset"                value="(CentralTracking_length - DIRC_length)/2.0 - DIRCExtra_offset"/>
-
     <constant name="DIRCModule_count"           value="16"  comment="Number of DIRC boxes per... DIRC. 16 - default"/>
 
     <constant name="DIRCBar_thickness"          value="17*mm" />

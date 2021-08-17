@@ -134,7 +134,7 @@
   </detectors>
 
 
-  <include ref="compact/dirc.xml"/>
+  <include ref="compact/fake_dirc.xml"/>
 
   <readouts>
   </readouts>

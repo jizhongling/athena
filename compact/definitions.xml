@@ -324,19 +324,26 @@ Examples:
     </documentation>
 
     <constant name="ForwardPID_length"            value="180.0*cm"/>
-    <constant name="ForwardTracking_length"       value="25.0*cm"/>
+    <constant name="ForwardTracking_length"       value="5.0*cm"/>
     <constant name="ForwardPID_rmin1"             value="Beampipe_rmax + 80*mm"/>
     <constant name="ForwardPID_rmin2"             value="19.0*cm"/>
     
     <!--constant name="BackwardPID_rmax"             value="83.65*cm"/-->
     <constant name="BackwardPID_rmax"             value="95.*cm"/>
     <constant name="BackwardPID_length"           value="40.0*cm"/>
-    <constant name="BackwardTracking_length"      value="10.0*cm"/>
+    <constant name="BackwardTracking_length"      value="5.0*cm"/>
     <constant name="BackwardTOF_length"           value="0.0*cm"/>
 
-    <comment> Note: PID has space for DIRC and optional uRWEL layers</comment>
-    <constant name="BarrelPIDThickness"           value="15.0 * cm"/>
+    <comment> Note: PID has space for DIRC, ExtraSpace has room for other detectors past the PID</comment>
+    <constant name="BarrelPIDThickness"           value="10.0 * cm"/>
+    <constant name="BarrelExtraSpaceThickness"    value="7.0 * cm"/>
 
+
+    <documentation>
+     Service gaps in FW direction (before endcapP ECAL) and BW direction (before endcapN HCAL)
+    </documentation>
+    <constant name="ForwardServiceGap_length"     value="10.0*cm"/>
+    <constant name="BackwardServiceGap_length"    value="10.0*cm"/>
 
     <documentation>
       ## Tracking Detector Parameters
@@ -454,13 +461,13 @@ end of the solenoid coils.
     <constant name="SolenoidYokeEndcapP_zmin"  value="Solenoid_length/2.0 + Solenoid_offset + EndcapPExtra_length"/>
     <constant name="SolenoidYokeEndcapN_zmin"  value="Solenoid_length/2.0 - Solenoid_offset + EndcapNExtra_length"/>
 
-    <constant name="EcalBarrel_rmin"            value="BarrelTrackingAndPID_rmax + 10.0 * mm"/>
+    <constant name="EcalBarrel_rmin"            value="BarrelTrackingAndPID_rmax + BarrelExtraSpaceThickness"/>
     <constant name="Barrel_rmax"                value="Solenoid_rmin - 1.0 *cm "/>
     <constant name="Barrel_TotalCalThickness"   value="Barrel_rmax - EcalBarrel_rmin"/>
 
     <constant name="EcalBarrel_TotalThickness"  value="40.0*cm"/>
 
-    <constant name="EcalEndcapP_zmin"           value="CentralTrackingHalfP_length + ForwardInnerEndcap_length"/>
+    <constant name="EcalEndcapP_zmin"           value="CentralTrackingHalfP_length + ForwardInnerEndcap_length + ForwardServiceGap_length"/>
     <constant name="EcalEndcapN_zmin"           value="max(CentralTrackingHalfN_length+ BackwardInnerEndcap_length, SolenoidYokeEndcapN_zmin)"/>
 
     <constant name="BarrelLength"               value="BarrelTrackingAndPID_length" />
@@ -558,6 +565,17 @@ The logic goes like this:
     <constant name="EcalBarrel_length"           value="CentralTracking_length + BackwardInnerEndcap_length + EcalEndcapN_length"/>
     <constant name="EcalBarrel_offset"          value="(CentralTracking_length - EcalBarrel_length)/2.0"/>
 
+
+    <comment> Special DIRC parameters (depend on the ECAL setup) </comment>
+    <constant name="DIRCReadout_length"         value="30*cm" />
+    <constant name="DIRC_length"                value="max(CentralTracking_length + BackwardInnerEndcap_length + EcalEndcapN_length, EcalBarrel_length) + DIRCReadout_length"/>
+		<constant name="DIRCExtra_offset"           value="-5*cm"/>
+    <constant name="DIRC_offset"                value="(CentralTracking_length - DIRC_length) / 2 - DIRCExtra_offset"/>
+    <constant name="DIRCForward_zmax"           value="DIRC_length/2. + DIRC_offset"/>
+    <constant name="DIRCBackward_zmax"          value="DIRC_length/2. - DIRC_offset"/>
+    <constant name="DIRC_rmin"                  value="BarrelTracking_rmax"/>
+    <constant name="DIRC_rmax"                  value="DIRC_rmin + BarrelPIDThickness"/>
+
     <documentation>
       ## Hadronic Calorimeter Parameters
     </documentation>
@@ -566,7 +584,7 @@ The logic goes like this:
     <!--constant name="HcalEndcapN_zmin"          value="max(EcalEndcapN_zmin + EcalEndcapN_length, Solenoid_length / 2.0 - Solenoid_offset) "/-->
     <comment> Hard coded for now, but we really need to fix the parametrization...</comment>
     <comment> Note: we can go up to 350cm here for 1m thick hcal</comment>
-    <constant name="HcalEndcapN_zmin"          value="300*cm"/>
+    <constant name="HcalEndcapN_zmin"          value="DIRCBackward_zmax + BackwardServiceGap_length"/>
 
     <constant name="HcalEndcapP_length"   value="120.0*cm"/>
     <constant name="HcalEndcapN_length"   value="105.0*cm"/>
@@ -617,10 +635,6 @@ The logic goes like this:
              value="HcalEndcapPSteelThickness + HcalEndcapPPolystyreneThickness"/>
     <constant name="HcalEndcapPLayer_NRepeat" value="floor(HcalEndcapP_length / HcalEndcapPSingleLayerThickness)"/>
     <constant name="HcalEndcapP_thickness" value="HcalEndcapPLayer_NRepeat * HcalEndcapPSingleLayerThickness"/>
-
-    <comment> Special DIRC parameters </comment>
-    <constant name="DIRCFull_length"            value="max(CentralTracking_length + BackwardInnerEndcap_length + EcalEndcapN_length, EcalBarrel_length) + 10*cm"/>
-		<constant name="DIRCExtra_offset"           value="-5*cm"/>
 
 
   </define>
