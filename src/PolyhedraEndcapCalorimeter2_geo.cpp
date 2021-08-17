@@ -32,7 +32,7 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
   int            numsides = dim.numsides();
   xml::Component pos      = x_det.position();
   double         rmin     = dim.rmin();
-  double         rmax     = dim.rmax() * std::cos(M_PI / numsides);
+  double         rmax     = dim.rmax();
   double         zmin     = dim.zmin();
   Layering       layering(x_det);
   double         totalThickness = layering.totalThickness();
