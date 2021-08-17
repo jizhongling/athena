@@ -87,6 +87,7 @@
       Beamline elements
       -----------------
   </comment>
+  <include ref="ip6/beampipe.xml" />
 
   <documentation level="5">
      ## Main magnet

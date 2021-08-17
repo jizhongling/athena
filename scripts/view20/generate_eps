@@ -68,13 +68,18 @@ pdftoppm ${FILE_TAG}.pdf ${FILE_TAG} -png -singlefile -cropbox -thinlinemode sol
 
 #npdet_info print EcalEndcapN_z0 --value-only ../../athena.xml
 #180.5 cm
-NMOD1=`npdet_info print EcalEndcapN_NModules_Sector1 ${DETECTOR_PATH}/calorimeters.xml | tail -1`
-NMOD2=`npdet_info print EcalEndcapN_NModules_Sector2 ${DETECTOR_PATH}/calorimeters.xml | tail -1`
+zcut=$(npdet_info print EcalEndcapN_z0 --value-only ${DETECTOR_PATH}/athena.xml )
+NMOD1=$(npdet_info print EcalEndcapN_NModules_Sector1 --value-only ${DETECTOR_PATH}/calorimeters.xml )
+NMOD2=$(npdet_info print EcalEndcapN_NModules_Sector2 --value-only ${DETECTOR_PATH}/calorimeters.xml )
+
+echo "NMOD1 = ${NMOD1}"
+echo "NMOD2 = ${NMOD2}"
+echo "zcut  = ${zcut}"
 
 # Top view with a thin slice down the middle
 dawncut 0 0  1 -1800 ${INPUT_FILE} ${FILE_TAG}_endcapN_temp0.prim   
-dawncut 0 0 -1 1805 ${FILE_TAG}_endcapN_temp0.prim  ${FILE_TAG}_endcapN.prim
-../../bin/dawn_tweak --mag 5 --draw 1 --theta 180 --phi 0 --draw 3
+dawncut 0 0 -1 2200 ${FILE_TAG}_endcapN_temp0.prim  ${FILE_TAG}_endcapN.prim
+../../bin/dawn_tweak --mag 5 --draw 3 --theta 180 --phi 0
 dawn -d ${FILE_TAG}_endcapN.prim 
 ps2pdf ${FILE_TAG}_endcapN.eps ${FILE_TAG}_endcapN_full.pdf
 gs -o ${FILE_TAG}_endcapN.pdf -sDEVICE=pdfwrite \

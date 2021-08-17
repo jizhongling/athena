@@ -215,10 +215,13 @@ static Ref_t create_detector(Detector& desc, xml::Handle_t handle, SensitiveDete
 
 
           // fmt::print(" {:<5} {:<6} {:<3} {:<3} {:>10.4f} {:>10.4f}   {}\n", towerIndex, code, colIndex, rowIndex, x / cm, y / cm, name);
-          glass_module_index++;
+          //glass_module_index++;
         }
       }
     }
+
+    desc.add(Constant("EcalEndcapN_NModules_Sector1", std::to_string(cryst_module_index)));
+    desc.add(Constant("EcalEndcapN_NModules_Sector2", std::to_string(glass_module_index)));
 //    fmt::print("Total Glass modules: {}\n", towerIndex);
 //    fmt::print("CE EMCAL GLASS END\n\n");
 
