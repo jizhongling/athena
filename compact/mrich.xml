@@ -70,17 +70,17 @@
               height="MRICHCarbonFrame_width"
               length="MRICHCarbonFrame_length">
         <frame vis="AnlGray" thickness="MRICHCarbonFrame_thickness" material="CarbonFiber"/>
-        <aerogel vis="AnlTeal"
+        <aerogel vis="MRICH_aerogel_vis"
                  length="MRICHAerogel_thickness" width="MRICHAerogel_width"
                  material="AerogelOptical">
-          <frame vis="AnlGold_1" thickness="MRICHFoam_thickness" material="PolystyreneFoam" />
+          <frame vis="MRICH_frame_vis" thickness="MRICHFoam_thickness" material="PolystyreneFoam" />
         </aerogel>
-        <lens vis="AnlViolet" thickness="MRICHFresnelLens_thickness"
+        <lens vis="MRICH_lens_vis" thickness="MRICHFresnelLens_thickness"
               pitch="MRICHFresnelLensGroove_pitch" focal_length="6.0*inch"
               effective_diameter="MRICHFresnelLensEffectiveDiameter" 
               width="MRICHAerogel_width"
               material="AcrylicOptical"/>
-        <mirror vis="AnlGray"
+        <mirror vis="MRICH_mirror_vis"
                 x1="MRICHMirror_width1" x2="MRICHMirror_width2" length="MRICHMirror_length"
                 surface="MRICH_MirrorOpticalSurface" thickness="MRICHMirror_thickness"
                 material="AluminumOxide"/>

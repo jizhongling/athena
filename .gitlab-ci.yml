@@ -110,6 +110,7 @@ dump_geometry:
     - mkdir -p geo
     ## subsystem views
     - |
+      mv ${DETECTOR_PATH}/compact/display_geoviewer.xml ${DETECTOR_PATH}/compact/display.xml
       for xml in ${DETECTOR_PATH}/compact/subsystem_views/*.xml; do
         geo_name=`basename $xml .xml`_geo.root
         cp $xml ${DETECTOR_PATH}/geo.xml

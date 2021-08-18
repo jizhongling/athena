@@ -52,7 +52,7 @@
                sensitive="false"
                width="DIRCModule_width"
                thickness="DIRCSkinFront_thickness"
-               vis="VertexSupportVis"
+               vis="DIRCSupportVis"
                length="DIRCBar_length" />
         <module_component name="QuartzBar"
                material="Quartz"
