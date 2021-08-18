@@ -331,7 +331,7 @@ Examples:
     <!--constant name="BackwardPID_rmax"             value="83.65*cm"/-->
     <constant name="BackwardPID_rmax"             value="95.*cm"/>
     <constant name="BackwardPID_length"           value="40.0*cm"/>
-    <constant name="BackwardTracking_length"      value="5.0*cm"/>
+    <constant name="BackwardTracking_length"      value="68.0*cm"/>
     <constant name="BackwardTOF_length"           value="0.0*cm"/>
 
     <comment> Note: PID has space for DIRC, ExtraSpace has room for other detectors past the PID</comment>
@@ -393,19 +393,8 @@ Examples:
       `TrackerBarrelForwardPadding` and `TrackerBarrelBackwardPadding` compensate for the asymmetry of the setup
     </documentation>
     <constant name="TrackerBarrelForwardPadding" value="25.0*cm"/>
-    <constant name="TrackerBarrelBackwardPadding" value="7.5*cm"/>
+    <constant name="TrackerBarrelBackwardPadding" value="7.0*cm"/>
  
-
-    <comment> Deprecated
-    constant name="SiliconTrackerInnerRadius"       value="TrackerBarrel_rmin"
-    constant name="SiliconTrackerInnerBarrelLength" value="TrackerBarrelInner_length"
-    constant name="SiliconTrackerOuterRadius"       value="TrackerBarrel_rmax"
-    constant name="SiliconTrackerOuterBarrelLength" value="TrackerBarrelOuter_length"
-    constant name="SiliconTrackerOuterBarrel_zmax"  value="TrackerBarrelOuter_length/2.0"
-    TrackerBarrelOuter_length  -> TrackerBarrel_length
-    TrackerBarrelInner_length  -> TrackerBarrelInside_length
-    </comment>
-
     <documentation>
 ## Central tracking and PID detector boundaries
 
@@ -562,17 +551,20 @@ The logic goes like this:
     <!--constant name="EcalEndcapNThickness"        
         value="EcalEndcapNLayer1_NRepeat*EcalLayer1_thickness + EcalEndcapNLayer2_NRepeat*EcalLayer2_thickness + EcalEndcapNLayer3_NRepeat*EcalLayer3_thickness"/-->
 
-    <constant name="EcalBarrel_length"           value="CentralTracking_length + BackwardInnerEndcap_length + EcalEndcapN_length"/>
-    <constant name="EcalBarrel_offset"          value="(CentralTracking_length - EcalBarrel_length)/2.0"/>
+    <constant name="EcalBarrelForward_length"       value="4*cm"/>
+    <constant name="EcalBarrelForward_zmax"         value="CentralTrackingHalfP_length + EcalBarrelForward_length"/>
+    <constant name="EcalBarrelBackward_zmax"        value="CentralTrackingHalfN_length + BackwardInnerEndcap_length + EcalEndcapN_length"/>
+    <constant name="EcalBarrel_length"              value="EcalBarrelForward_zmax + EcalBarrelBackward_zmax"/>
+    <constant name="EcalBarrel_offset"              value="(EcalBarrelForward_zmax - EcalBarrelBackward_zmax)/2.0"/>
 
 
     <comment> Special DIRC parameters (depend on the ECAL setup) </comment>
-    <constant name="DIRCReadout_length"         value="30*cm" />
-    <constant name="DIRC_length"                value="max(CentralTracking_length + BackwardInnerEndcap_length + EcalEndcapN_length, EcalBarrel_length) + DIRCReadout_length"/>
-		<constant name="DIRCExtra_offset"           value="-5*cm"/>
-    <constant name="DIRC_offset"                value="(CentralTracking_length - DIRC_length) / 2 - DIRCExtra_offset"/>
-    <constant name="DIRCForward_zmax"           value="DIRC_length/2. + DIRC_offset"/>
-    <constant name="DIRCBackward_zmax"          value="DIRC_length/2. - DIRC_offset"/>
+    <constant name="DIRCReadout_length"         value="30*cm"/>
+    <constant name="DIRCForward_length"         value="0*cm"/>
+    <constant name="DIRCForward_zmax"           value="CentralTrackingHalfP_length + DIRCForward_length"/>
+    <constant name="DIRCBackward_zmax"          value="CentralTrackingHalfN_length + BackwardInnerEndcap_length + EcalEndcapN_length + DIRCReadout_length"/>
+    <constant name="DIRC_length"                value="DIRCForward_zmax + DIRCBackward_zmax"/>
+    <constant name="DIRC_offset"                value="(DIRCForward_zmax - DIRCBackward_zmax)/2"/>
     <constant name="DIRC_rmin"                  value="BarrelTracking_rmax"/>
     <constant name="DIRC_rmax"                  value="DIRC_rmin + BarrelPIDThickness"/>
 
