@@ -331,7 +331,7 @@ Examples:
     <!--constant name="BackwardPID_rmax"             value="83.65*cm"/-->
     <constant name="BackwardPID_rmax"             value="95.*cm"/>
     <constant name="BackwardPID_length"           value="40.0*cm"/>
-    <constant name="BackwardTracking_length"      value="68.0*cm"/>
+    <constant name="BackwardTracking_length"      value="8.0*cm"/>
     <constant name="BackwardTOF_length"           value="0.0*cm"/>
 
     <comment> Note: PID has space for DIRC, ExtraSpace has room for other detectors past the PID</comment>
