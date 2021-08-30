@@ -675,6 +675,14 @@
       <property name="RINDEX" ref="RINDEX__Air"/>
       <property name="ABSLENGTH"               coldim="2" values="1*eV  200*m  5*eV  200*m"/>
     </material>
+    <material name="VacuumOptical">
+      <D type="density" unit="g/cm3" value="0.0000000001"/>
+      <fraction n="0.754" ref="N"/>
+      <fraction n="0.234" ref="O"/>
+      <fraction n="0.012" ref="Ar"/>
+      <property name="RINDEX" ref="RINDEX__Vacuum"/>
+      <property name="ABSLENGTH"               coldim="2" values="1*eV  2000*m  5*eV  2000*m"/>
+    </material>
     <material name="N2cherenkov">
       <D type="density" value="0.00125" unit="g/cm3"/>
       <composite n="1" ref="N"/>

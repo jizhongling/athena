@@ -4,7 +4,7 @@
 //
 // Author: Christopher Dilks (Duke University)
 //
-// - Design Adapted from Standalone Fun4all and GEMC implementations 
+// - Design Adapted from Standalone Fun4all and GEMC implementations
 //   [ Evaristo Cisbani, Cristiano Fanelli, Alessio Del Dotto, et al. ]
 //
 //==========================================================================
@@ -20,7 +20,6 @@
 #include "DD4hep/DetFactoryHelper.h"
 #include "DD4hep/Printout.h"
 
-using namespace std;
 using namespace dd4hep;
 using namespace dd4hep::rec;
 
@@ -35,85 +34,101 @@ static Ref_t createDetector(Detector& desc, xml::Handle_t handle, SensitiveDetec
   OpticalSurfaceManager surfMgr = desc.surfaceManager();
 
   // attributes -----------------------------------------------------------
-  // TODO [low priority]: some attributes have default values, some do not;
-  //                      make this more consistent
   // - vessel
-  double vesselZ0 = dims.attr<double>(_Unicode(z0));
-  double vesselLength = dims.attr<double>(_Unicode(length));
-  double vesselRmin0 = dims.attr<double>(_Unicode(rmin0));
-  double vesselRmin1 = dims.attr<double>(_Unicode(rmin1));
-  double vesselRmax0 = dims.attr<double>(_Unicode(rmax0));
-  double vesselRmax1 = dims.attr<double>(_Unicode(rmax1));
-  double vesselRmax2 = dims.attr<double>(_Unicode(rmax2));
-  double snoutLength = dims.attr<double>(_Unicode(snout_length));
-  int nSectors = getAttrOrDefault<int>(dims, _Unicode(nsectors), 6);
-  double wallThickness = getAttrOrDefault<double>(dims, _Unicode(wall_thickness), 0.5*cm);
-  double windowThickness = getAttrOrDefault<double>(dims, _Unicode(window_thickness), 0.1*cm);
-  auto vesselMat = desc.material(getAttrOrDefault(detElem, _Unicode(material), "Aluminum"));
-  auto gasvolMat = desc.material(getAttrOrDefault(detElem, _Unicode(gas), "AirOptical"));
-  auto vesselVis = desc.visAttributes(detElem.attr<std::string>(_Unicode(vis_vessel)));
-  auto gasvolVis = desc.visAttributes(detElem.attr<std::string>(_Unicode(vis_gas)));
+  double  vesselZmin       =  dims.attr<double>(_Unicode(zmin));
+  double  vesselLength     =  dims.attr<double>(_Unicode(length));
+  double  vesselRmin0      =  dims.attr<double>(_Unicode(rmin0));
+  double  vesselRmin1      =  dims.attr<double>(_Unicode(rmin1));
+  double  vesselRmax0      =  dims.attr<double>(_Unicode(rmax0));
+  double  vesselRmax1      =  dims.attr<double>(_Unicode(rmax1));
+  double  vesselRmax2      =  dims.attr<double>(_Unicode(rmax2));
+  double  snoutLength      =  dims.attr<double>(_Unicode(snout_length));
+  int     nSectors         =  dims.attr<int>(_Unicode(nsectors));
+  double  wallThickness    =  dims.attr<double>(_Unicode(wall_thickness));
+  double  windowThickness  =  dims.attr<double>(_Unicode(window_thickness));
+  auto    vesselMat        =  desc.material(detElem.attr<std::string>(_Unicode(material)));
+  auto    gasvolMat        =  desc.material(detElem.attr<std::string>(_Unicode(gas)));
+  auto    vesselVis        =  desc.visAttributes(detElem.attr<std::string>(_Unicode(vis_vessel)));
+  auto    gasvolVis        =  desc.visAttributes(detElem.attr<std::string>(_Unicode(vis_gas)));
   // - radiator (applies to aerogel and filter)
-  auto radiatorElem = detElem.child(_Unicode(radiator));
-  double radiatorRmin = getAttrOrDefault<double>(radiatorElem, _Unicode(rmin), 10.*cm);
-  double radiatorRmax = getAttrOrDefault<double>(radiatorElem, _Unicode(rmax), 80.*cm);
-  double radiatorPhiw = getAttrOrDefault<double>(radiatorElem, _Unicode(phiw), 2*M_PI/nSectors);
-  double radiatorPitch = getAttrOrDefault<double>(radiatorElem, _Unicode(pitch), 0.*degree);
-  double radiatorFrontplane = getAttrOrDefault<double>(radiatorElem, _Unicode(frontplane), 2.5*cm);
+  auto    radiatorElem        =  detElem.child(_Unicode(radiator));
+  double  radiatorRmin        =  radiatorElem.attr<double>(_Unicode(rmin));
+  double  radiatorRmax        =  radiatorElem.attr<double>(_Unicode(rmax));
+  double  radiatorPhiw        =  radiatorElem.attr<double>(_Unicode(phiw));
+  double  radiatorPitch       =  radiatorElem.attr<double>(_Unicode(pitch));
+  double  radiatorFrontplane  =  radiatorElem.attr<double>(_Unicode(frontplane));
   // - aerogel
-  auto aerogelElem = radiatorElem.child(_Unicode(aerogel));
-  auto aerogelMat = desc.material(aerogelElem.attr<std::string>(_Unicode(material)));
-  auto aerogelVis = desc.visAttributes(aerogelElem.attr<std::string>(_Unicode(vis)));
-  double aerogelThickness = getAttrOrDefault<double>(aerogelElem, _Unicode(thickness), 2.5*cm);
+  auto    aerogelElem       =  radiatorElem.child(_Unicode(aerogel));
+  auto    aerogelMat        =  desc.material(aerogelElem.attr<std::string>(_Unicode(material)));
+  auto    aerogelVis        =  desc.visAttributes(aerogelElem.attr<std::string>(_Unicode(vis)));
+  double  aerogelThickness  =  aerogelElem.attr<double>(_Unicode(thickness));
   // - filter
-  auto filterElem = radiatorElem.child(_Unicode(filter));
-  auto filterMat = desc.material(filterElem.attr<std::string>(_Unicode(material)));
-  auto filterVis = desc.visAttributes(filterElem.attr<std::string>(_Unicode(vis)));
-  double filterThickness = getAttrOrDefault<double>(filterElem, _Unicode(thickness), 2.5*cm);
+  auto    filterElem       =  radiatorElem.child(_Unicode(filter));
+  auto    filterMat        =  desc.material(filterElem.attr<std::string>(_Unicode(material)));
+  auto    filterVis        =  desc.visAttributes(filterElem.attr<std::string>(_Unicode(vis)));
+  double  filterThickness  =  filterElem.attr<double>(_Unicode(thickness));
   // - mirror
-  auto mirrorElem = detElem.child(_Unicode(mirror));
-  auto mirrorMat = desc.material(mirrorElem.attr<std::string>(_Unicode(material)));
-  auto mirrorVis = desc.visAttributes(mirrorElem.attr<std::string>(_Unicode(vis)));
-  auto mirrorSurf = surfMgr.opticalSurface(getAttrOrDefault(mirrorElem, _Unicode(surface), "MirrorOpticalSurface"));
-  double mirrorBackplane = getAttrOrDefault<double>(mirrorElem, _Unicode(backplane), 240.*cm);
-  double mirrorThickness = getAttrOrDefault<double>(mirrorElem, _Unicode(thickness), 2.*mm);
-  double mirrorRadius = getAttrOrDefault<double>(mirrorElem, _Unicode(radius), 190*cm);
-  double mirrorCenterX = getAttrOrDefault<double>(mirrorElem, _Unicode(centerx), 95*cm);
-  double mirrorRmin = getAttrOrDefault<double>(mirrorElem, _Unicode(rmin), 10.*cm);
-  double mirrorRmax = getAttrOrDefault<double>(mirrorElem, _Unicode(rmax), 150.*cm);
-  double mirrorPhiw = getAttrOrDefault<double>(mirrorElem, _Unicode(phiw), 2*M_PI/nSectors);
-  int mirrorDebug = getAttrOrDefault<int>(mirrorElem, _Unicode(debug), 0);
+  auto    mirrorElem       =  detElem.child(_Unicode(mirror));
+  auto    mirrorMat        =  desc.material(mirrorElem.attr<std::string>(_Unicode(material)));
+  auto    mirrorVis        =  desc.visAttributes(mirrorElem.attr<std::string>(_Unicode(vis)));
+  auto    mirrorSurf       =  surfMgr.opticalSurface(mirrorElem.attr<std::string>(_Unicode(surface)));
+  double  mirrorBackplane  =  mirrorElem.attr<double>(_Unicode(backplane));
+  double  mirrorThickness  =  mirrorElem.attr<double>(_Unicode(thickness));
+  double  mirrorRmin       =  mirrorElem.attr<double>(_Unicode(rmin));
+  double  mirrorRmax       =  mirrorElem.attr<double>(_Unicode(rmax));
+  double  mirrorPhiw       =  mirrorElem.attr<double>(_Unicode(phiw));
+  double  focusTuneLong    =  mirrorElem.attr<double>(_Unicode(focus_tune_long));
+  double  focusTunePerp    =  mirrorElem.attr<double>(_Unicode(focus_tune_perp));
   // - sensor module
-  auto sensorElem = detElem.child(_Unicode(sensors)).child(_Unicode(module));
-  auto sensorMat = desc.material(sensorElem.attr<std::string>(_Unicode(material)));
-  auto sensorVis = desc.visAttributes(sensorElem.attr<std::string>(_Unicode(vis)));
-  auto sensorSurf = surfMgr.opticalSurface(getAttrOrDefault(sensorElem, _Unicode(surface), "MirrorOpticalSurface"));
-  double sensorSide = sensorElem.attr<double>(_Unicode(side));
-  double sensorGap = sensorElem.attr<double>(_Unicode(gap));
-  double sensorThickness = sensorElem.attr<double>(_Unicode(thickness));
+  auto    sensorElem       =  detElem.child(_Unicode(sensors)).child(_Unicode(module));
+  auto    sensorMat        =  desc.material(sensorElem.attr<std::string>(_Unicode(material)));
+  auto    sensorVis        =  desc.visAttributes(sensorElem.attr<std::string>(_Unicode(vis)));
+  auto    sensorSurf       =  surfMgr.opticalSurface(sensorElem.attr<std::string>(_Unicode(surface)));
+  double  sensorSide       =  sensorElem.attr<double>(_Unicode(side));
+  double  sensorGap        =  sensorElem.attr<double>(_Unicode(gap));
+  double  sensorThickness  =  sensorElem.attr<double>(_Unicode(thickness));
   // - sensor sphere
-  auto sensorSphElem = detElem.child(_Unicode(sensors)).child(_Unicode(sphere));
-  double sensorSphRadius = sensorSphElem.attr<double>(_Unicode(radius));
-  double sensorSphCenterX = sensorSphElem.attr<double>(_Unicode(centerx));
-  double sensorSphCenterY = sensorSphElem.attr<double>(_Unicode(centery));
-  double sensorSphCenterZ = sensorSphElem.attr<double>(_Unicode(centerz));
-  int sensorSphDebug = getAttrOrDefault<int>(sensorSphElem, _Unicode(debug), 0);
+  auto    sensorSphElem     =  detElem.child(_Unicode(sensors)).child(_Unicode(sphere));
+  double  sensorSphRadius   =  sensorSphElem.attr<double>(_Unicode(radius));
+  double  sensorSphCenterX  =  sensorSphElem.attr<double>(_Unicode(centerx));
+  double  sensorSphCenterZ  =  sensorSphElem.attr<double>(_Unicode(centerz));
   // - sensor sphere patch cuts
-  auto sensorSphPatchElem = detElem.child(_Unicode(sensors)).child(_Unicode(sphericalpatch));
-  double sensorSphPatchThetaMin = sensorSphPatchElem.attr<double>(_Unicode(thetamin));
-  double sensorSphPatchThetaMax = sensorSphPatchElem.attr<double>(_Unicode(thetamax));
-  double sensorSphPatchWidthFactor = sensorSphPatchElem.attr<double>(_Unicode(widthfactor));
-  double sensorSphPatchTaper = sensorSphPatchElem.attr<double>(_Unicode(taper));
+  auto    sensorSphPatchElem  =  detElem.child(_Unicode(sensors)).child(_Unicode(sphericalpatch));
+  double  sensorSphPatchPhiw  =  sensorSphPatchElem.attr<double>(_Unicode(phiw));
+  double  sensorSphPatchRmin  =  sensorSphPatchElem.attr<double>(_Unicode(rmin));
+  double  sensorSphPatchRmax  =  sensorSphPatchElem.attr<double>(_Unicode(rmax));
+  double  sensorSphPatchZmin  =  sensorSphPatchElem.attr<double>(_Unicode(zmin));
+  // - debugging switches
+  int   debug_optics_mode  =  detElem.attr<int>(_Unicode(debug_optics));
+  bool  debug_mirror       =  mirrorElem.attr<bool>(_Unicode(debug));
+  bool  debug_sensors      =  sensorSphElem.attr<bool>(_Unicode(debug));
 
-  
+  // if debugging optics, override some settings
+  bool debug_optics = debug_optics_mode > 0;
+  if(debug_optics) {
+    printout(WARNING,"DRich_geo","DEBUGGING DRICH OPTICS");
+    switch(debug_optics_mode) {
+      case 1: vesselMat = aerogelMat = filterMat = sensorMat = gasvolMat = desc.material("VacuumOptical"); break;
+      case 2: vesselMat = aerogelMat = filterMat = sensorMat = desc.material("VacuumOptical"); break;
+      default: printout(FATAL,"DRich_geo","UNKNOWN debug_optics_mode"); return det;
+    };
+    aerogelVis = sensorVis = mirrorVis;
+    gasvolVis = vesselVis = desc.invisible();
+  };
+
+
   // BUILD VESSEL ====================================================================
   /* - `vessel`: aluminum enclosure, the mother volume of the dRICh
    * - `gasvol`: gas volume, which fills `vessel`; all other volumes defined below
    *   are children of `gasvol`
-   * - the dRICh vessel geometry has two regions: the snout refers to the conic region 
+   * - the dRICh vessel geometry has two regions: the snout refers to the conic region
    *   in the front, housing the aerogel, while the tank refers to the cylindrical
    *   region, housing the rest of the detector components
    */
+
+  // derived attributes
+  double tankLength = vesselLength - snoutLength;
+  double vesselZmax = vesselZmin + vesselLength;
 
   // snout solids
   double boreDelta = vesselRmin1 - vesselRmin0;
@@ -139,14 +154,14 @@ static Ref_t createDetector(Detector& desc, xml::Handle_t handle, SensitiveDetec
 
   // tank solids
   Cone vesselTank(
-      (vesselLength - snoutLength)/2.0,
+      tankLength/2.0,
       vesselSnout.rMin2(),
       vesselRmax2,
       vesselRmin1,
       vesselRmax2
       );
   Cone gasvolTank(
-      (vesselLength - snoutLength)/2.0 - windowThickness,
+      tankLength/2.0 - windowThickness,
       gasvolSnout.rMin2(),
       vesselRmax2 - wallThickness,
       vesselRmin1 + wallThickness,
@@ -154,26 +169,50 @@ static Ref_t createDetector(Detector& desc, xml::Handle_t handle, SensitiveDetec
       );
 
   // snout + tank solids
-  UnionSolid vesselSolid(
+  UnionSolid vesselUnion(
       vesselTank,
       vesselSnout,
       Position(0., 0., -vesselLength/2.)
       );
-  UnionSolid gasvolSolid(
+  UnionSolid gasvolUnion(
       gasvolTank,
       gasvolSnout,
       Position(0., 0., -vesselLength/2. + windowThickness)
       );
 
+  //  extra solids for `debug_optics` only
+  Box vesselBox(1001,1001,1001);
+  Box gasvolBox(1000,1000,1000);
+
+  // choose vessel and gasvol solids (depending on `debug_optics_mode` (0=disabled))
+  Solid vesselSolid, gasvolSolid;
+  switch(debug_optics_mode) {
+    case 0:  vesselSolid=vesselUnion;  gasvolSolid=gasvolUnion;  break; // `!debug_optics`
+    case 1:  vesselSolid=vesselBox;    gasvolSolid=gasvolBox;    break;
+    case 2:  vesselSolid=vesselBox;    gasvolSolid=gasvolUnion;  break;
+  };
 
   // volumes
   Volume vesselVol(detName, vesselSolid, vesselMat);
-  Volume gasvolVol(detName + "_gas", gasvolSolid, gasvolMat);
+  Volume gasvolVol(detName+"_gas", gasvolSolid, gasvolMat);
   vesselVol.setVisAttributes(vesselVis);
   gasvolVol.setVisAttributes(gasvolVis);
 
-  // reference position
-  auto snoutFront = Position(0., 0., -(vesselLength + snoutLength)/2.);
+  // reference positions
+  // - the vessel is created such that the center of the cylindrical tank volume
+  //   coincides with the origin; this is called the "origin position" of the vessel
+  // - when the vessel (and its children volumes) is placed, it is translated in
+  //   the z-direction to be in the proper ATHENA-integration location
+  // - these reference positions are for the frontplane and backplane of the vessel,
+  //   with respect to the vessel origin position
+  auto originFront = Position(0., 0., -tankLength/2.0 - snoutLength );
+  auto originBack =  Position(0., 0., tankLength/2.0 );
+
+  // initialize sensor centroids (used for mirror parameterization below); this is
+  // the average (x,y,z) of the placed sensors, w.r.t. originFront
+  double sensorCentroidX = 0;
+  double sensorCentroidZ = 0;
+  int sensorCount = 0;
 
 
   // sensitive detector type
@@ -183,97 +222,66 @@ static Ref_t createDetector(Detector& desc, xml::Handle_t handle, SensitiveDetec
   // SECTOR LOOP //////////////////////////////////
   for(int isec=0; isec<nSectors; isec++) {
 
-    if(mirrorDebug*isec>0 || sensorSphDebug*isec>0) continue; // if debugging, draw only 1 sector
-    double sectorRotation = isec * 360/nSectors * degree; // sector rotation about z axis
+    // debugging filters, limiting the number of sectors
+    if( (debug_mirror||debug_sensors||debug_optics) && isec!=0) continue;
+
+    // sector rotation about z axis
+    double sectorRotation = isec * 360/nSectors * degree;
+    std::string secName = "sec" + std::to_string(isec);
+
 
     // BUILD RADIATOR ====================================================================
-
-    // derived attributes
-    auto radiatorPos = Position(0., 0., radiatorFrontplane) + snoutFront;
 
     // solid and volume: create aerogel and filter sectors
     Tube aerogelSolid(radiatorRmin, radiatorRmax, aerogelThickness/2, -radiatorPhiw/2.0, radiatorPhiw/2.0);
     Tube filterSolid( radiatorRmin, radiatorRmax, filterThickness/2,  -radiatorPhiw/2.0, radiatorPhiw/2.0);
-    Volume aerogelVol("aerogel_v", aerogelSolid, aerogelMat);
-    Volume filterVol( "filter_v",  filterSolid,  filterMat);
+    Volume aerogelVol( detName+"_aerogel_"+secName, aerogelSolid, aerogelMat );
+    Volume filterVol(  detName+"_filter_"+secName,  filterSolid,  filterMat );
     aerogelVol.setVisAttributes(aerogelVis);
     filterVol.setVisAttributes(filterVis);
 
-    // placement
+    // aerogel placement and surface properties
+    // TODO [low-priority]: define skin properties for aerogel and filter
+    auto radiatorPos = Position(0., 0., radiatorFrontplane) + originFront;
     auto aerogelPV = gasvolVol.placeVolume(aerogelVol,
-	  RotationZ(sectorRotation) // rotate about beam axis to sector
-	* Translation3D(radiatorPos.x(), radiatorPos.y(), radiatorPos.z()) // re-center to snoutFront
-	* RotationY(radiatorPitch) // change polar angle to specified pitch
-	);
-    auto filterPV = gasvolVol.placeVolume(filterVol,
-  	  RotationZ(sectorRotation) // rotate about beam axis to sector
-	* Translation3D(radiatorPos.x(), radiatorPos.y(), radiatorPos.z()) // re-center to snoutFront
-	* RotationY(radiatorPitch) // change polar angle
-	* Translation3D(0., 0., (aerogelThickness+filterThickness)/2.) // move to aerogel backplane
-	);
-
-    // properties
-    // TODO [critical]: define skin properties for aerogel and filter
+          RotationZ(sectorRotation) // rotate about beam axis to sector
+        * Translation3D(radiatorPos.x(), radiatorPos.y(), radiatorPos.z()) // re-center to originFront
+        * RotationY(radiatorPitch) // change polar angle to specified pitch
+        );
     DetElement aerogelDE(det, Form("aerogel_de%d", isec), isec);
     aerogelDE.setPlacement(aerogelPV);
     //SkinSurface aerogelSkin(desc, aerogelDE, Form("mirror_optical_surface%d", isec), aerogelSurf, aerogelVol);
     //aerogelSkin.isValid();
-    DetElement filterDE(det, Form("filter_de%d", isec), isec);
-    filterDE.setPlacement(filterPV);
-    //SkinSurface filterSkin(desc, filterDE, Form("mirror_optical_surface%d", isec), filterSurf, filterVol);
-    //filterSkin.isValid();
 
-
-    // BUILD MIRROR ====================================================================
-
-    // derived attributes
-    auto mirrorPos = Position(mirrorCenterX, 0., mirrorBackplane) + snoutFront;
-    double mirrorThetaRot = std::asin(mirrorCenterX/mirrorRadius);
-    double mirrorTheta1 = mirrorThetaRot - std::asin((mirrorCenterX-mirrorRmin)/mirrorRadius);
-    double mirrorTheta2 = mirrorThetaRot + std::asin((mirrorRmax-mirrorCenterX)/mirrorRadius);
-
-    // if debugging, draw full sphere
-    if(mirrorDebug>0) { mirrorTheta1=0; mirrorTheta2=M_PI; mirrorPhiw=2*M_PI; };
-
-    // solid and volume: create sphere at origin, with specified angular limits
-    Sphere mirrorSolid(
-	mirrorRadius-mirrorThickness,
-	mirrorRadius,
-	mirrorTheta1,
-	mirrorTheta2,
-	-mirrorPhiw/2.0,
-	mirrorPhiw/2.0
-	);
-    Volume mirrorVol("mirror_v", mirrorSolid, mirrorMat);
-    mirrorVol.setVisAttributes(mirrorVis);
-
-    // placement (note: transformations are in reverse order)
-    auto mirrorPV = gasvolVol.placeVolume(mirrorVol,
-	  RotationZ(sectorRotation) // rotate about beam axis to sector
-	* Translation3D(0,0,-mirrorRadius) // move longitudinally so it intersects snoutFront
-	* Translation3D(mirrorPos.x(), mirrorPos.y(), mirrorPos.z()) // re-center to snoutFront
-	* RotationY(-mirrorThetaRot) // rotate about origin
-	);
-
-    // properties
-    DetElement mirrorDE(det, Form("mirror_de%d", isec), isec);
-    mirrorDE.setPlacement(mirrorPV);
-    SkinSurface mirrorSkin(desc, mirrorDE, Form("mirror_optical_surface%d", isec), mirrorSurf, mirrorVol);
-    mirrorSkin.isValid();
+    // filter placement and surface properties
+    if(!debug_optics) {
+      auto filterPV = gasvolVol.placeVolume(filterVol,
+            RotationZ(sectorRotation) // rotate about beam axis to sector
+          * Translation3D(radiatorPos.x(), radiatorPos.y(), radiatorPos.z()) // re-center to originFront
+          * RotationY(radiatorPitch) // change polar angle
+          * Translation3D(0., 0., (aerogelThickness+filterThickness)/2.) // move to aerogel backplane
+          );
+      DetElement filterDE(det, Form("filter_de%d", isec), isec);
+      filterDE.setPlacement(filterPV);
+      //SkinSurface filterSkin(desc, filterDE, Form("mirror_optical_surface%d", isec), filterSurf, filterVol);
+      //filterSkin.isValid();
+    };
 
 
     // BUILD SENSORS ====================================================================
 
     // if debugging sphere properties, restrict number of sensors drawn
-    if(sensorSphDebug>0) { sensorSide = 2*M_PI*sensorSphRadius / 64; };
+    if(debug_sensors) { sensorSide = 2*M_PI*sensorSphRadius / 64; };
 
     // solid and volume: single sensor module
     Box sensorSolid(sensorSide/2., sensorSide/2., sensorThickness/2.);
-    Volume sensorVol("sensor_v", sensorSolid, sensorMat);
+    Volume sensorVol(detName+"_sensor_"+secName, sensorSolid, sensorMat);
     sensorVol.setVisAttributes(sensorVis);
 
+    auto sensorSphPos = Position(sensorSphCenterX, 0., sensorSphCenterZ) + originFront;
+
     // sensitivity
-    sensorVol.setSensitiveDetector(sens);
+    if(!debug_optics) sensorVol.setSensitiveDetector(sens);
 
     // SENSOR MODULE LOOP ------------------------
     /* ALGORITHM: generate sphere of positions
@@ -299,13 +307,13 @@ static Ref_t createDetector(Detector& desc, xml::Handle_t handle, SensitiveDetec
     int imod=0;
 
     // thetaGen loop: iterate less than "0.5 circumference / sensor size" times
-    double nTheta = M_PI*sensorSphRadius / (sensorSide+sensorGap); 
+    double nTheta = M_PI*sensorSphRadius / (sensorSide+sensorGap);
     for(int t=0; t<(int)(nTheta+0.5); t++) {
       double thetaGen = t/((double)nTheta) * M_PI;
 
       // phiGen loop: iterate less than "circumference at this latitude / sensor size" times
-      double nPhi = 2*M_PI * sensorSphRadius * std::sin(thetaGen) / (sensorSide+sensorGap); 
-      for(int p=0; p<(int)(nPhi+0.5); p++) { 
+      double nPhi = 2*M_PI * sensorSphRadius * std::sin(thetaGen) / (sensorSide+sensorGap);
+      for(int p=0; p<(int)(nPhi+0.5); p++) {
         double phiGen = p/((double)nPhi) * 2*M_PI - M_PI; // shift to [-pi,pi]
 
         // determine global phi and theta
@@ -321,35 +329,35 @@ static Ref_t createDetector(Detector& desc, xml::Handle_t handle, SensitiveDetec
         double phi = std::atan2(y,x);
         double theta = std::acos(z/sensorSphRadius);
 
-        // cut spherical patch
-        // TODO [low priority]: instead of cutting a patch with complicated parameters,
-        //                      can we use something simpler such as Union or
-        //                      Intersection of solids?
-        // - applied on global coordinates
-        // - theta cuts are signed, since we will offset the patch along +x;
-        //   from the offset position, toward barrel is positive, toward beam is negative
-        double thetaSigned = (x<0?-1:1) * theta;
-        // - position of yz planes, associated to theta cuts
-        double xmin = sensorSphRadius * std::sin(sensorSphPatchThetaMin/2);
-        double xmax = sensorSphRadius * std::sin(sensorSphPatchThetaMax/2);
-        // - we want a phi wedge, but offset from the origin to allow more width, so
-        //   define phiCheck to account for the offset; the amount of the offset,
-        //   and hence the width, is controlled by `sensorSphPatchWidthFactor`
-        double phiCheck = std::atan2(y,(x+sensorSphCenterX)/sensorSphPatchWidthFactor);
-        // - apply cuts (only if not debugging)
-	// - NOTE: use `x<xmax` for straight cuts, or `theta<sensorSphPatchThetaMax` for
-	//   rounded cuts (which allows for more sensors)
-        if( ( std::fabs(phiCheck)<sensorSphPatchTaper && x>xmin && theta<sensorSphPatchThetaMax && z>0 )
-            || sensorSphDebug>0
-        ) {
+        // shift global coordinates so we can apply spherical patch cuts
+        double zCheck = z + sensorSphCenterZ;
+        double xCheck = x + sensorSphCenterX;
+        double yCheck = y;
+        double rCheck = std::hypot(xCheck,yCheck);
+        double phiCheck = std::atan2(yCheck,xCheck);
+
+        // patch cut
+        bool patchCut =
+          std::fabs(phiCheck) < sensorSphPatchPhiw
+          && zCheck > sensorSphPatchZmin
+          && rCheck > sensorSphPatchRmin
+          && rCheck < sensorSphPatchRmax;
+        if(debug_sensors) patchCut = std::fabs(phiCheck) < sensorSphPatchPhiw;
+        if(patchCut) {
+
+          // append sensor position to centroid calculation
+          if(isec==0) {
+            sensorCentroidX += xCheck;
+            sensorCentroidZ += zCheck;
+            sensorCount++;
+          };
 
           // placement (note: transformations are in reverse order)
           // - transformations operate on global coordinates; the corresponding
           //   generator coordinates are provided in the comments
           auto sensorPV = gasvolVol.placeVolume(sensorVol,
                 RotationZ(sectorRotation) // rotate about beam axis to sector
-              * Translation3D(sensorSphCenterX, sensorSphCenterY, sensorSphCenterZ) // move sphere to specified center
-              * Translation3D(snoutFront.x(), snoutFront.y(), snoutFront.z()) // move sphere to reference position
+              * Translation3D(sensorSphPos.x(), sensorSphPos.y(), sensorSphPos.z()) // move sphere to reference position
               * RotationX(phiGen) // rotate about `zGen`
               * RotationZ(thetaGen) // rotate about `yGen`
               * Translation3D(sensorSphRadius, 0., 0.) // push radially to spherical surface
@@ -357,15 +365,17 @@ static Ref_t createDetector(Detector& desc, xml::Handle_t handle, SensitiveDetec
               * RotationZ(-M_PI/2) // correction for readout segmentation mapping
               );
 
-	  // generate LUT for module number -> sensor position, for readout mapping tests
-	  //if(isec==0) printf("%d %f %f\n",imod,sensorPV.position().x(),sensorPV.position().y());
+          // generate LUT for module number -> sensor position, for readout mapping tests
+          //if(isec==0) printf("%d %f %f\n",imod,sensorPV.position().x(),sensorPV.position().y());
 
           // properties
           sensorPV.addPhysVolID("sector", isec).addPhysVolID("module", imod);
           DetElement sensorDE(det, Form("sensor_de%d_%d", isec, imod), 10000*isec+imod);
           sensorDE.setPlacement(sensorPV);
-          SkinSurface sensorSkin(desc, sensorDE, Form("sensor_optical_surface%d", isec), sensorSurf, sensorVol);
-          sensorSkin.isValid();
+          if(!debug_optics) {
+            SkinSurface sensorSkin(desc, sensorDE, Form("sensor_optical_surface%d", isec), sensorSurf, sensorVol);
+            sensorSkin.isValid();
+          };
 
           // increment sensor module number
           imod++;
@@ -373,7 +383,119 @@ static Ref_t createDetector(Detector& desc, xml::Handle_t handle, SensitiveDetec
         }; // end patch cuts
       }; // end phiGen loop
     }; // end thetaGen loop
+
+    // calculate centroid sensor position
+    if(isec==0) {
+      sensorCentroidX /= sensorCount;
+      sensorCentroidZ /= sensorCount;
+    };
+
     // END SENSOR MODULE LOOP ------------------------
+
+
+    // BUILD MIRRORS ====================================================================
+
+    // attributes, re-defined w.r.t. IP, needed for mirror positioning
+    double zS = sensorSphCenterZ + vesselZmin; // sensor sphere attributes
+    double xS = sensorSphCenterX;
+    double rS = sensorSphRadius;
+    double B = vesselZmax - mirrorBackplane; // distance between IP and mirror back plane
+
+    // derive spherical mirror parameters `(zM,xM,rM)`, for given image point
+    // coordinates `(zI,xI)` and `dO`, defined as the z-distance between the
+    // object and the mirror surface; all coordinates are specified w.r.t. the
+    // object point coordinates
+    double zM,xM,rM;
+    auto FocusMirror = [&zM,&xM,&rM](double zI, double xI, double dO) {
+      zM = dO*zI / (2*dO-zI);
+      xM = dO*xI / (2*dO-zI);
+      rM = dO - zM;
+    };
+
+    // focus 1: set mirror to focus IP on center of sensor sphere `(zS,xS)`
+    /*double zF = zS;
+    double xF = xS;
+    FocusMirror(zF,xF,B);*/
+
+    // focus 2: move focal region along sensor sphere radius, according to `focusTuneLong`
+    // - specifically, along the radial line which passes through the approximate centroid
+    //   of the sensor region `(sensorCentroidZ,sensorCentroidX)`
+    // - `focusTuneLong` is the distance to move, given as a fraction of `sensorSphRadius`
+    // - `focusTuneLong==0` means `(zF,xF)==(zS,xS)`
+    // - `focusTuneLong==1` means `(zF,xF)` will be on the sensor sphere, near the centroid
+    double zC = sensorCentroidZ + vesselZmin;
+    double xC = sensorCentroidX;
+    double slopeF = (xC-xS) / (zC-zS);
+    double thetaF = std::atan(std::fabs(slopeF));
+    double zF = zS + focusTuneLong * sensorSphRadius * std::cos(thetaF);
+    double xF = xS - focusTuneLong * sensorSphRadius * std::sin(thetaF);
+    //FocusMirror(zF,xF,B);
+
+    // focus 3: move along line perpendicular to focus 2's radial line,
+    // according to `focusTunePerp`, with the same numerical scale as `focusTuneLong`
+    zF += focusTunePerp * sensorSphRadius * std::cos(M_PI/2-thetaF);
+    xF += focusTunePerp * sensorSphRadius * std::sin(M_PI/2-thetaF);
+    FocusMirror(zF,xF,B);
+
+    /*
+    printf("(zC,xC) = ( %.2f, %.2f )\n",zC,xC);
+    printf("zS = %f\n",zS);
+    printf("xS = %f\n",xS);
+    printf("B = %f\n",B);
+    printf("zM = %f\n",zM);
+    printf("xM = %f\n",xM);
+    printf("rM = %f\n",rM);
+    */
+
+    // re-define mirror attributes to be w.r.t vessel front plane
+    double mirrorCenterZ = zM - vesselZmin;
+    double mirrorCenterX = xM;
+    double mirrorRadius = rM;
+
+    // spherical mirror patch cuts and rotation
+    double mirrorThetaRot = std::asin(mirrorCenterX/mirrorRadius);
+    double mirrorTheta1 = mirrorThetaRot - std::asin((mirrorCenterX-mirrorRmin)/mirrorRadius);
+    double mirrorTheta2 = mirrorThetaRot + std::asin((mirrorRmax-mirrorCenterX)/mirrorRadius);
+
+    // if debugging, draw full sphere
+    if(debug_mirror) { mirrorTheta1=0; mirrorTheta2=M_PI; /*mirrorPhiw=2*M_PI;*/ };
+
+    // solid : create sphere at origin, with specified angular limits;
+    // phi limits are increased to fill gaps (overlaps are cut away later)
+    Sphere mirrorSolid1(
+        mirrorRadius,
+        mirrorRadius + mirrorThickness,
+        mirrorTheta1,
+        mirrorTheta2,
+        -40*degree,
+        40*degree
+        );
+
+    // mirror placement transformation (note: transformations are in reverse order)
+    auto mirrorPos = Position(mirrorCenterX, 0., mirrorCenterZ) + originFront;
+    Transform3D mirrorPlacement(
+          Translation3D(mirrorPos.x(), mirrorPos.y(), mirrorPos.z()) // re-center to specified position
+        * RotationY(-mirrorThetaRot) // rotate about vertical axis, to be within vessel radial walls
+        );
+
+    // cut overlaps with other sectors using "pie slice" wedges, to the extent specified
+    // by `mirrorPhiw`
+    Tube pieSlice( 0.01*cm, vesselRmax2, tankLength/2.0, -mirrorPhiw/2.0, mirrorPhiw/2.0);
+    IntersectionSolid mirrorSolid2( pieSlice, mirrorSolid1, mirrorPlacement );
+
+    // mirror volume, attributes, and placement
+    Volume mirrorVol(detName+"_mirror_"+secName, mirrorSolid2, mirrorMat);
+    mirrorVol.setVisAttributes(mirrorVis);
+    auto mirrorPV2 = gasvolVol.placeVolume(mirrorVol,
+          RotationZ(sectorRotation) // rotate about beam axis to sector
+        * Translation3D(0,0,0)
+        );
+
+    // properties
+    DetElement mirrorDE(det, Form("mirror_de%d", isec), isec);
+    mirrorDE.setPlacement(mirrorPV2);
+    SkinSurface mirrorSkin(desc, mirrorDE, Form("mirror_optical_surface%d", isec), mirrorSurf, mirrorVol);
+    mirrorSkin.isValid();
 
 
   }; // END SECTOR LOOP //////////////////////////
@@ -387,7 +509,7 @@ static Ref_t createDetector(Detector& desc, xml::Handle_t handle, SensitiveDetec
   // place mother volume (vessel)
   Volume motherVol = desc.pickMotherVolume(det);
   PlacedVolume vesselPV = motherVol.placeVolume(vesselVol,
-      Position(0, 0, vesselZ0) - snoutFront
+      Position(0, 0, vesselZmin) - originFront
       );
   vesselPV.addPhysVolID("system", detID);
   det.setPlacement(vesselPV);

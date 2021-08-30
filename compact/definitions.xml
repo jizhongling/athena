@@ -356,16 +356,16 @@ Examples:
     <constant name="TrackerBarrel_zmax"         value="TrackerBarrel_length/2.0"/>
     <constant name="TrackerBarrelInside_length" value="VertexTrackingRegion_length"/>
     <constant name="TrackerBarrelInside_zmax"   value="TrackerBarrelInside_length/2.0"/>
-    <constant name="TrackerEndcapP_length"      value="675.0*mm"/>h
+    <constant name="TrackerEndcapP_length"      value="925.0*mm"/>h
     <constant name="TrackerEndcapN_length"      value="495.0*mm"/>h
 
     <documentation level="0">
 ### PID Detector Region Parameters
     </documentation>
 
-    <constant name="ForwardPID_length"            value="180.0*cm"/>
-    <constant name="ForwardPID_rmin1"             value="Beampipe_rmax + 80*mm"/>
-    <constant name="ForwardPID_rmin2"             value="19.0*cm"/>
+    <constant name="ForwardPID_length"            value="145.0*cm"/>
+    <constant name="ForwardPID_rmin1"             value="Beampipe_rmax + 90*mm"/>
+    <constant name="ForwardPID_rmin2"             value="18.0*cm"/>
 
     <constant name="BackwardPID_length"           value="40.0*cm"/>
     <constant name="BackwardPID_rmax"             value="TrackerBarrel_rmax"/>
@@ -424,7 +424,7 @@ Service gaps in FW direction (before endcapP ECAL) and BW direction (before endc
 
     <constant name="EcalBarrelEnvelope_thickness"      value="40.0*cm"/>
     <constant name="EcalBarrel_rmin"                value="CentralTracking_rmax + BarrelPIDThickness + BarrelExtraSpaceThickness"/>
-    <constant name="EcalBarrelForward_length"       value="4*cm"/>
+    <constant name="EcalBarrelForward_length"       value="-21*cm"/>
     <constant name="EcalBarrelForward_zmax"         value="ForwardPID_zmin + EcalBarrelForward_length"/>
     <constant name="EcalBarrelBackward_zmax"        value="BackwardPID_zmin + BackwardInnerEndcap_length + EcalEndcapN_length"/>
     <constant name="EcalBarrel_length"              value="EcalBarrelForward_zmax + EcalBarrelBackward_zmax"/>
