@@ -356,8 +356,8 @@ Examples:
     <constant name="TrackerBarrel_zmax"         value="TrackerBarrel_length/2.0"/>
     <constant name="TrackerBarrelInside_length" value="VertexTrackingRegion_length"/>
     <constant name="TrackerBarrelInside_zmax"   value="TrackerBarrelInside_length/2.0"/>
-    <constant name="TrackerEndcapP_length"      value="925.0*mm"/>h
-    <constant name="TrackerEndcapN_length"      value="495.0*mm"/>h
+    <constant name="TrackerEndcapP_length"      value="925.0*mm"/>
+    <constant name="TrackerEndcapN_length"      value="495.0*mm"/>
 
     <documentation level="0">
 ### PID Detector Region Parameters
