@@ -8,6 +8,12 @@
       EM Calorimeter Parameters with AstroPix
       ---------------------------------------
     </comment>
+    <comment>
+      To change the number of imaging layers from, e.g., 9 to 6,
+      change EcalBarrelImagingLayers_nMax variable
+    </comment>
+    <constant name="EcalBarrelImagingLayers_nMax"  value="9"/>
+
     <constant name="EcalBarrel_Support_thickness"    value="5*cm"/>
     <constant name="EcalBarrel_SiliconThickness"     value="500*um"/>
     <constant name="EcalBarrel_ElectronicsThickness" value="150*um"/>
@@ -21,7 +27,6 @@
     <constant name="EcalBarrel_FiberXSpacing"        value="1.34*mm"/>
     <constant name="EcalBarrel_FiberZSpacing"        value="1.22*mm"/>
     <constant name="EcalBarrel_SpaceBetween"         value="0.1*mm"/>
-    <constant name="EcalBarrel_FiberChunkLayers_num" value = "12"/>
     <comment>
       For Pb/SiFi (GlueX):  X0 ~ 1.45 cm
       For W/SiFi (sPHENIX): X0 ~ 0.7 cm (but different fiber orientation)
@@ -44,11 +49,16 @@
       + EcalBarrel_CarbonThickness
       + EcalBarrel_LayerSpacing"/>
 
-    <constant name="EcalBarrelImagingLayers_nMax"  value="9"/>
     <constant name="EcalBarrelImagingLayers_num"
         value="min(EcalBarrelImagingLayers_nMax,
                floor((EcalBarrel_AvailThickness-EcalBarrel_ImagingLayerThickness)/
-                     (EcalBarrel_ImagingLayerThickness + EcalBarrel_ScFiLayerThickness + EcalBarrel_SpaceBetween)))"/>
+                     (EcalBarrel_ImagingLayerThickness + EcalBarrel_ScFiLayerThickness +
+                      EcalBarrel_SpaceBetween)))"/>
+    <comment>
+      Adjusting size of the ScFi back chunk to match number of imiaging layers
+      and 20 radiation lengths in total 
+    </comment>               
+    <constant name="EcalBarrel_FiberChunkLayers_num" value = "20-EcalBarrelImagingLayers_num+1"/>
 
     <constant name="EcalBarrel_ImagingPartThickness"
         value="(EcalBarrelImagingLayers_num-1)*(EcalBarrel_ImagingLayerThickness + EcalBarrel_ScFiLayerThickness + EcalBarrel_SpaceBetween)
@@ -56,7 +66,8 @@
     <constant name="EcalBarrel_ScFiPartThickness_max"
         value="max(0, EcalBarrel_AvailThickness-EcalBarrel_ImagingPartThickness)"/>
     <constant name="EcalBarrel_ScFiPartThickness"
-        value="min(EcalBarrel_ScFiPartThickness_max, EcalBarrel_FiberZSpacing*13*12)"/>
+        value="min(EcalBarrel_ScFiPartThickness_max,
+         EcalBarrel_FiberZSpacing*13*EcalBarrel_FiberChunkLayers_num)"/>
     <constant name="EcalBarrel_SensitiveLayers_rmax"
         value="EcalBarrel_rmin + EcalBarrel_ImagingPartThickness + EcalBarrel_ScFiPartThickness"/>
   </define>
