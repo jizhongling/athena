@@ -77,8 +77,8 @@ static Ref_t createDetector(Detector& desc, xml::Handle_t handle, SensitiveDetec
   double  mirrorRmin       =  mirrorElem.attr<double>(_Unicode(rmin));
   double  mirrorRmax       =  mirrorElem.attr<double>(_Unicode(rmax));
   double  mirrorPhiw       =  mirrorElem.attr<double>(_Unicode(phiw));
-  double  focusTuneLong    =  mirrorElem.attr<double>(_Unicode(focus_tune_long));
-  double  focusTunePerp    =  mirrorElem.attr<double>(_Unicode(focus_tune_perp));
+  double  focusTuneZ       =  mirrorElem.attr<double>(_Unicode(focus_tune_z));
+  double  focusTuneX       =  mirrorElem.attr<double>(_Unicode(focus_tune_x));
   // - sensor module
   auto    sensorElem       =  detElem.child(_Unicode(sensors)).child(_Unicode(module));
   auto    sensorMat        =  desc.material(sensorElem.attr<std::string>(_Unicode(material)));
@@ -395,22 +395,24 @@ static Ref_t createDetector(Detector& desc, xml::Handle_t handle, SensitiveDetec
 
     // BUILD MIRRORS ====================================================================
 
-    // attributes, re-defined w.r.t. IP, needed for mirror positioning
-    double zS = sensorSphCenterZ + vesselZmin; // sensor sphere attributes
-    double xS = sensorSphCenterX;
-    double rS = sensorSphRadius;
-    double B = vesselZmax - mirrorBackplane; // distance between IP and mirror back plane
-
     // derive spherical mirror parameters `(zM,xM,rM)`, for given image point
     // coordinates `(zI,xI)` and `dO`, defined as the z-distance between the
-    // object and the mirror surface; all coordinates are specified w.r.t. the
-    // object point coordinates
+    // object and the mirror surface
+    // - all coordinates are specified w.r.t. the object point coordinates
+    // - this is point-to-point focusing, but it can be used to effectively steer
+    //   parallel-to-point focusing
     double zM,xM,rM;
     auto FocusMirror = [&zM,&xM,&rM](double zI, double xI, double dO) {
       zM = dO*zI / (2*dO-zI);
       xM = dO*xI / (2*dO-zI);
       rM = dO - zM;
     };
+
+    // attributes, re-defined w.r.t. IP, needed for mirror positioning
+    double zS = sensorSphCenterZ + vesselZmin; // sensor sphere attributes
+    double xS = sensorSphCenterX;
+    double rS = sensorSphRadius;
+    double B = vesselZmax - mirrorBackplane; // distance between IP and mirror back plane
 
     // focus 1: set mirror to focus IP on center of sensor sphere `(zS,xS)`
     /*double zF = zS;
@@ -423,6 +425,7 @@ static Ref_t createDetector(Detector& desc, xml::Handle_t handle, SensitiveDetec
     // - `focusTuneLong` is the distance to move, given as a fraction of `sensorSphRadius`
     // - `focusTuneLong==0` means `(zF,xF)==(zS,xS)`
     // - `focusTuneLong==1` means `(zF,xF)` will be on the sensor sphere, near the centroid
+    /*
     double zC = sensorCentroidZ + vesselZmin;
     double xC = sensorCentroidX;
     double slopeF = (xC-xS) / (zC-zS);
@@ -436,12 +439,19 @@ static Ref_t createDetector(Detector& desc, xml::Handle_t handle, SensitiveDetec
     zF += focusTunePerp * sensorSphRadius * std::cos(M_PI/2-thetaF);
     xF += focusTunePerp * sensorSphRadius * std::sin(M_PI/2-thetaF);
     FocusMirror(zF,xF,B);
+    */
+
+    // focus 4: use (z,x) coordinates for tune parameters
+    double zF = zS + focusTuneZ;
+    double xF = xS + focusTuneX;
+    FocusMirror(zF,xF,B);
 
     /*
-    printf("(zC,xC) = ( %.2f, %.2f )\n",zC,xC);
-    printf("zS = %f\n",zS);
-    printf("xS = %f\n",xS);
-    printf("B = %f\n",B);
+    // print some calculated parameters, viz. mirror attributes
+    //printf("(zC,xC) = ( %.2f, %.2f )\n",zC,xC);
+    //printf("zS = %f\n",zS);
+    //printf("xS = %f\n",xS);
+    //printf("B = %f\n",B);
     printf("zM = %f\n",zM);
     printf("xM = %f\n",xM);
     printf("rM = %f\n",rM);

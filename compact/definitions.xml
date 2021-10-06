@@ -359,14 +359,14 @@ Examples:
     <constant name="TrackerBarrel_zmax"         value="TrackerBarrel_length/2.0"/>
     <constant name="TrackerBarrelInside_length" value="VertexTrackingRegion_length"/>
     <constant name="TrackerBarrelInside_zmax"   value="TrackerBarrelInside_length/2.0"/>
-    <constant name="TrackerEndcapP_length"      value="925.0*mm"/>
+    <constant name="TrackerEndcapP_length"      value="1025.0*mm"/>
     <constant name="TrackerEndcapN_length"      value="495.0*mm"/>
 
     <documentation level="0">
 ### PID Detector Region Parameters
     </documentation>
 
-    <constant name="ForwardPID_length"            value="145.0*cm"/>
+    <constant name="ForwardPID_length"            value="140.0*cm"/>
     <constant name="ForwardPID_rmin1"             value="Beampipe_rmax + 90*mm"/>
     <constant name="ForwardPID_rmin2"             value="18.0*cm"/>
 
