@@ -27,10 +27,6 @@ total X0 0.24% per disk layer （4 sectors per disk):
   </documentation>
 
   <define>
-    <constant name="CentralTrackerSensor_thickness"      value="40*um"/>
-    <constant name="TrackerCarbon_thickness"         value="0.12*mm"/> 
-    <constant name="TrackerEndcapAluminum_thickness" value="0.15*mm"/> 
-
     <comment>
       Layer_rOffset is used to add inside space so the _rmin value is the nominal sensor radius.
       TrackerBarrelSpaceFrame_height must be smaller than {_rmin2 - _rmin1 - Layer_rOffset - 1mm - stave_thickness}
@@ -39,7 +35,7 @@ total X0 0.24% per disk layer （4 sectors per disk):
     <constant name="TrackerBarrelLayer_rOffset"     value="0.5*cm"/>
     <constant name="TrackerBarrelSpaceFrame_width"  value="4.0*cm"/>
     <constant name="TrackerBarrelSpaceFrame_height" value="1.0*cm"/>
-    <constant name="TrackerSensor_thickness"        value="CentralTrackerSensor_thickness"/> 
+    <constant name="TrackerSensor_thickness"        value="ITS3Thickness"/> 
 
     <constant name="TrackerBarrelInner_rmin1"       value="21.0*cm"/>    
     <constant name="TrackerBarrelInner_rmin2"       value="22.68*cm"/>
@@ -159,7 +155,7 @@ total X0 0.24% per disk layer （4 sectors per disk):
     </comment>
 
     <detector
-      id="TrackerBarrel_0_ID"
+      id="TrackerBarrel_Inner_ID"
       name="TrackerBarrel_Inner"
       type="athena_TrackerBarrel"
       readout="TrackerBarrelHits"
@@ -223,7 +219,7 @@ total X0 0.24% per disk layer （4 sectors per disk):
     </detector>
 
     <detector
-      id="TrackerEndcapP_0_ID"
+      id="TrackerEndcapP_Inner_ID"
       name="TrackerEndcapP_Inner"
       type="athena_TrapEndcapTracker"
       readout="TrackerEndcapHits"
@@ -245,7 +241,7 @@ total X0 0.24% per disk layer （4 sectors per disk):
 
       <module name="Module1" vis="AnlProcess_Blue">
         <trd x1="TrackerEndcapInnerMod1_x1/2.0" x2="TrackerEndcapInnerMod1_x2/2.0" z="TrackerEndcapInnerMod1_y/2"/>
-        <module_component thickness="CentralTrackerSensor_thickness" material="Silicon" sensitive="true"/>
+        <module_component thickness="ITS3Thickness" material="Silicon" sensitive="true"/>
        <module_component thickness="TrackerEndcapAluminum_thickness"  material="Aluminum"/>
         <module_component thickness="TrackerCarbon_thickness"          material="CarbonFiber"/>
       </module>
@@ -264,7 +260,7 @@ total X0 0.24% per disk layer （4 sectors per disk):
     </detector>
 
     <detector
-      id="TrackerEndcapN_0_ID"
+      id="TrackerEndcapN_Inner_ID"
       name="TrackerEndcapN_Inner"
       type="athena_TrapEndcapTracker"
       readout="TrackerEndcapHits"
@@ -286,7 +282,7 @@ total X0 0.24% per disk layer （4 sectors per disk):
 
       <module name="Module1" vis="AnlProcess_Blue">
         <trd x1="TrackerEndcapInnerMod1_x1/2.0" x2="TrackerEndcapInnerMod1_x2/2.0" z="TrackerEndcapInnerMod1_y/2"/>
-        <module_component thickness="CentralTrackerSensor_thickness" material="Silicon" sensitive="true"/>
+        <module_component thickness="ITS3Thickness" material="Silicon" sensitive="true"/>
         <module_component thickness="TrackerEndcapAluminum_thickness"  material="Aluminum"/>
         <module_component thickness="TrackerCarbon_thickness"          material="CarbonFiber"/>
       </module>
@@ -310,7 +306,7 @@ total X0 0.24% per disk layer （4 sectors per disk):
       -----------------------------------
     </comment>
     <detector
-      id="TrackerBarrel_1_ID"
+      id="TrackerBarrel_Outer_ID"
       name="TrackerBarrel_Outer"
       type="athena_TrackerBarrel"
       readout="TrackerBarrelHits"
@@ -374,7 +370,7 @@ total X0 0.24% per disk layer （4 sectors per disk):
     </detector>
 
     <detector
-      id="TrackerEndcapP_1_ID"
+      id="TrackerEndcapP_Outer_ID"
       name="TrackerEndcapP_Outer"
       type="athena_TrapEndcapTracker"
       readout="TrackerEndcapHits"
@@ -403,19 +399,19 @@ total X0 0.24% per disk layer （4 sectors per disk):
 
       <module name="Module1" vis="AnlProcess_Blue">
         <trd x1="TrackerEndcapOuterMod1_x1/2.0" x2="TrackerEndcapOuterMod1_x2/2.0" z="TrackerEndcapOuterMod1_y/2"/>
-        <module_component thickness="CentralTrackerSensor_thickness" material="Silicon" sensitive="true"/>
+        <module_component thickness="ITS3Thickness" material="Silicon" sensitive="true"/>
        <module_component thickness="TrackerEndcapAluminum_thickness"  material="Aluminum"/>
         <module_component thickness="TrackerCarbon_thickness"          material="CarbonFiber"/>
       </module>
       <module name="Module2" vis="AnlProcess_Blue">
         <trd x1="TrackerEndcapOuterMod2_x1/2.0" x2="TrackerEndcapOuterMod2_x2/2.0" z="TrackerEndcapOuterMod2_y/2"/>
-        <module_component thickness="CentralTrackerSensor_thickness" material="Silicon" sensitive="true"/>
+        <module_component thickness="ITS3Thickness" material="Silicon" sensitive="true"/>
        <module_component thickness="TrackerEndcapAluminum_thickness"  material="Aluminum"/>
         <module_component thickness="TrackerCarbon_thickness"          material="CarbonFiber"/>
       </module>
       <module name="Module3" vis="AnlProcess_Blue">
         <trd x1="TrackerEndcapOuterMod3_x1/2.0" x2="TrackerEndcapOuterMod3_x2/2.0" z="TrackerEndcapOuterMod3_y/2"/>
-        <module_component thickness="CentralTrackerSensor_thickness" material="Silicon" sensitive="true"/>
+        <module_component thickness="ITS3Thickness" material="Silicon" sensitive="true"/>
        <module_component thickness="TrackerEndcapAluminum_thickness"  material="Aluminum"/>
         <module_component thickness="TrackerCarbon_thickness"          material="CarbonFiber"/>
       </module>
@@ -458,7 +454,7 @@ total X0 0.24% per disk layer （4 sectors per disk):
     </detector>
 
     <detector
-      id="TrackerEndcapN_1_ID"
+      id="TrackerEndcapN_Outer_ID"
       name="TrackerEndcapN_Outer"
       type="athena_TrapEndcapTracker"
       readout="TrackerEndcapHits"
@@ -489,19 +485,19 @@ total X0 0.24% per disk layer （4 sectors per disk):
 
       <module name="Module1" vis="AnlProcess_Blue">
         <trd x1="TrackerEndcapOuterMod1_x1/2.0" x2="TrackerEndcapOuterMod1_x2/2.0" z="TrackerEndcapOuterMod1_y/2"/>
-        <module_component thickness="CentralTrackerSensor_thickness" material="Silicon" sensitive="true"/>
+        <module_component thickness="ITS3Thickness" material="Silicon" sensitive="true"/>
        <module_component thickness="TrackerEndcapAluminum_thickness"  material="Aluminum"/>
         <module_component thickness="TrackerCarbon_thickness"          material="CarbonFiber"/>
       </module>
       <module name="Module2" vis="AnlProcess_Blue">
         <trd x1="TrackerEndcapOuterMod2_x1/2.0" x2="TrackerEndcapOuterMod2_x2/2.0" z="TrackerEndcapOuterMod2_y/2"/>
-        <module_component thickness="CentralTrackerSensor_thickness" material="Silicon" sensitive="true"/>
+        <module_component thickness="ITS3Thickness" material="Silicon" sensitive="true"/>
        <module_component thickness="TrackerEndcapAluminum_thickness"  material="Aluminum"/>
         <module_component thickness="TrackerCarbon_thickness"          material="CarbonFiber"/>
       </module>
       <module name="Module3" vis="AnlProcess_Blue">
         <trd x1="TrackerEndcapOuterMod3_x1/2.0" x2="TrackerEndcapOuterMod3_x2/2.0" z="TrackerEndcapOuterMod3_y/2"/>
-        <module_component thickness="CentralTrackerSensor_thickness" material="Silicon" sensitive="true"/>
+        <module_component thickness="ITS3Thickness" material="Silicon" sensitive="true"/>
        <module_component thickness="TrackerEndcapAluminum_thickness"  material="Aluminum"/>
         <module_component thickness="TrackerCarbon_thickness"          material="CarbonFiber"/>
       </module>

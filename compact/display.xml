@@ -10,15 +10,10 @@
     <comment>
       Tracking Visualizations
     </comment>
-    <vis name="TrackerVis"        ref="AnlRed" />
+    <vis name="TrackerVis"        ref="AnlRed"      />
     <vis name="TrackerSupportVis" ref="AnlBlue"         visible="true"  showDaughters="true" />
-    <vis name="TrackerServiceVis" ref="AnlGold"         showDaughters="false" />
     <vis name="TrackerLayerVis"   ref="AnlGray"         visible="true"  showDaughters="true" />
     <vis name="TrackerModuleVis"  ref="TrackerLayerVis" visible="true"  showDaughters="false" />
-    <vis name="TrackerMPGDVis"    ref="AnlRed"          visible="true"  showDaughters="false" />
-    <comment> Visualization for Barrel MMGAS (apply to layers) and GEM endcap (apply to modules) </comment>
-    <vis name="TrackerGEMModuleVis"  ref="TrackerMPGDVis"  visible="true"  showDaughters="false" />
-    <vis name="TrackerMMGASLayerVis" ref="TrackerMPGDVis"  visible="true"  showDaughters="false" />
 
     <vis name="VertexSupportVis" ref="AnlBlue"         showDaughters="false" />
     <vis name="VertexLayerVis"   ref="AnlGray"         visible="true"  showDaughters="true" />

@@ -318,23 +318,4 @@
     <composite n="8" ref="C"/>
     <composite n="8" ref="H"/>
   </material>
-  <material name="MMGAS_ResistivePaste">
-    <D type="density" unit="g/cm3" value="0.77906"/>
-    <composite n="1" ref="C"/>
-  </material>
-  <material name="MMGAS_InoxForMesh" state="solid">
-  	<D type="density" unit="g/cm3" value="2.8548"/>
-    <fraction n="0.19" ref="Cr"/>
-  	<fraction n="0.68" ref="Fe"/>
-   	<fraction n="0.02" ref="Mn"/>
-   	<fraction n="0.10" ref="Ni"/>
-   	<fraction n="0.01" ref="Si"/>
-  </material>
-  <material name="Ar90IsoButane" state="gas">
-    <D type="density" unit="g/cm3" value="0.00170335"/>
-    <fraction n="0.90" ref="Ar"/>
-    <fraction n="0.0826586" ref="C"/>
-    <fraction n="0.0173414" ref="H"/>
-  </material>
-
 </materials>

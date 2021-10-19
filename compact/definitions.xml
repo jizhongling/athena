@@ -50,92 +50,79 @@ The unused IDs below are saved for future use.
 
 
     <documentation> 
-      #### (25-39) Silicon Vertex Tracker
+      #### (25-49) Silicon Vertex Tracker
 
-       - Vertex subassemblies: 25-27
-       - Vertex barrel and endcaps: 28-30
-       - Unused: 28-30
+       - SiVertex subsystem  ID: 25 
+       - Layer 1 subassembly ID: 26
+       - Layer 2 subassembly ID: 27
+       - Layer 3 subassembly ID: 28
+       - Layer 4 subassembly ID: 29
+       - Layer 5 subassembly ID: 30
     </documentation>
-    <constant name="VertexSubAssembly_0_ID"   value="25"/>
-    <constant name="VertexSubAssembly_1_ID"   value="26"/>
-    <constant name="VertexSubAssembly_2_ID"   value="27"/>
-
-    <constant name="VertexBarrel_0_ID"          value="31"/>
-    <constant name="VertexBarrel_1_ID"          value="32"/>
-    <constant name="VertexBarrel_2_ID"          value="33"/>
-    <constant name="VertexEndcapN_0_ID"         value="34"/>
-    <constant name="VertexEndcapN_1_ID"         value="35"/>
-    <constant name="VertexEndcapN_2_ID"         value="36"/>
-    <constant name="VertexEndcapP_0_ID"         value="37"/>
-    <constant name="VertexEndcapP_1_ID"         value="38"/>
-    <constant name="VertexEndcapP_2_ID"         value="39"/>
+    <constant name="VertexBarrel_ID" value="25"/>
+    <constant name="VertexBarrelSubAssembly_ID" value="26"/>
+    <constant name="VertexEndcapSubAssembly_ID" value="27"/>
+    <constant name="VertexEndcapP_ID" value="30"/>
+    <constant name="VertexEndcapN_ID" value="40"/>
     
     <documentation>
-       - Unused IDs: 31-39
+       - Unused IDs: 31-49
     </documentation>
 
     <documentation>
-      #### (40-84) Tracker System
+      #### (50-74) Silicon Tracker System
 
-      - Tracker subassemblies: 40-45
-      - Composite tracker systems: 46-57
-      - Tracker detectors: 56-84
-      Unused IDs: (77-79)
+      SiTracker subsystem  ID: 50
+      Layer 1 subassembly  ID: 51      
+      Layer 2 subassembly  ID: 52      
+      Layer 3 subassembly  ID: 53
+      Layer 4 subassembly  ID: 54
+      Layer 5 subassembly  ID: 55
+      (56-70) etc...
+      Unused IDs: 71-74
 
     </documentation>
 
-    <comment> 
-      SubAssembly IDs should increment from inner to outer 
-      (it's not the definition order but rather the ID order that's used 
-      for construction order in the ACTS geometry conversion)
-    </comment>
-    <constant name="TrackerSubAssembly_0_ID"      value="40"/>
-    <constant name="TrackerSubAssembly_1_ID"      value="41"/>
-    <constant name="TrackerSubAssembly_2_ID"      value="42"/>
-    <constant name="TrackerSubAssembly_3_ID"      value="43"/>
-    <constant name="TrackerSubAssembly_4_ID"      value="44"/>
-    <constant name="TrackerSubAssembly_5_ID"      value="45"/>
+    <constant name="TrackerBarrelSubAssembly_Inner_ID" value="50"/>
+    <constant name="TrackerEndcapSubAssembly_Inner_ID" value="51"/>
 
-    <constant name="TrackerCompositeBarrel_0_ID"  value="46"/>
-    <constant name="TrackerCompositeBarrel_1_ID"  value="47"/>
-    <constant name="TrackerCompositeBarrel_2_ID"  value="48"/>
-    <constant name="TrackerCompositeBarrel_3_ID"  value="49"/>
-    <constant name="TrackerCompositeEndcapN_0_ID" value="50"/>
-    <constant name="TrackerCompositeEndcapN_1_ID" value="51"/>
-    <constant name="TrackerCompositeEndcapN_2_ID" value="52"/>
-    <constant name="TrackerCompositeEndcapN_3_ID" value="53"/>
-    <constant name="TrackerCompositeEndcapP_0_ID" value="54"/>
-    <constant name="TrackerCompositeEndcapP_1_ID" value="55"/>
-    <constant name="TrackerCompositeEndcapP_2_ID" value="56"/>
-    <constant name="TrackerCompositeEndcapP_3_ID" value="57"/>
+    <constant name="TrackerBarrelSubAssembly_Outer_ID" value="52"/>
+    <constant name="TrackerEndcapSubAssembly_Outer_ID" value="53"/>
+    <constant name="OuterTrackingSubAssembly_ID" value="54"/>
 
-    <constant name="TrackerBarrel_0_ID"           value="58"/>
-    <constant name="TrackerBarrel_1_ID"           value="59"/>
-    <constant name="TrackerBarrel_2_ID"           value="60"/>
-    <constant name="TrackerBarrel_3_ID"           value="61"/>
-    <constant name="TrackerBarrel_4_ID"           value="62"/>
-    <constant name="TrackerBarrel_5_ID"           value="63"/>
-    <constant name="TrackerBarrel_6_ID"           value="64"/>
-    <constant name="TrackerBarrel_7_ID"           value="65"/>
-    <constant name="TrackerBarrel_8_ID"           value="66"/>
-    <constant name="TrackerEndcapN_0_ID"          value="67"/>
-    <constant name="TrackerEndcapN_1_ID"          value="68"/>
-    <constant name="TrackerEndcapN_2_ID"          value="69"/>
-    <constant name="TrackerEndcapN_3_ID"          value="70"/>
-    <constant name="TrackerEndcapN_4_ID"          value="71"/>
-    <constant name="TrackerEndcapN_5_ID"          value="72"/>
-    <constant name="TrackerEndcapN_6_ID"          value="73"/>
-    <constant name="TrackerEndcapN_7_ID"          value="74"/>
-    <constant name="TrackerEndcapN_8_ID"          value="75"/>
-    <constant name="TrackerEndcapP_0_ID"          value="76"/>
-    <constant name="TrackerEndcapP_1_ID"          value="77"/>
-    <constant name="TrackerEndcapP_2_ID"          value="78"/>
-    <constant name="TrackerEndcapP_3_ID"          value="79"/>
-    <constant name="TrackerEndcapP_4_ID"          value="80"/>
-    <constant name="TrackerEndcapP_5_ID"          value="81"/>
-    <constant name="TrackerEndcapP_6_ID"          value="82"/>
-    <constant name="TrackerEndcapP_7_ID"          value="83"/>
-    <constant name="TrackerEndcapP_8_ID"          value="84"/>
+    <!--constant name="TrackerSubAssemblyLayer4_ID" value="54"/-->
+    <!--constant name="TrackerSubAssemblyLayer5_ID" value="55"/-->
+
+    <constant name="TrackerBarrel_Inner_ID"      value="56"/>
+    <constant name="TrackerEndcapP_Inner_ID"     value="57"/>
+    <constant name="TrackerEndcapN_Inner_ID"     value="58"/>
+
+    <constant name="TrackerBarrel_Outer_ID"      value="59"/>
+    <constant name="TrackerEndcapP_Outer_ID"     value="60"/>
+    <constant name="TrackerEndcapN_Outer_ID"     value="61"/>
+
+    <constant name="TrackerBarrel_Layer3_ID"      value="62"/>
+    <constant name="TrackerEndcapP_Layer3_ID"     value="63"/>
+    <constant name="TrackerEndcapN_Layer3_ID"     value="64"/>
+
+    <constant name="TrackerBarrel_Layer4_ID"      value="65"/>
+    <constant name="TrackerEndcapP_Layer4_ID"     value="66"/>
+    <constant name="TrackerEndcapN_Layer4_ID"     value="67"/>
+
+    <constant name="TrackerBarrel_Layer5_ID"      value="68"/>
+    <constant name="TrackerEndcapP_Layer5_ID"     value="69"/>
+    <constant name="TrackerEndcapN_Layer5_ID"     value="70"/>
+
+    <documentation>
+    #### (75-84) Barrel Tracker IDs
+
+    - MMTrackerBarrel ID: 75
+    - RWellTrackerBarrel ID: 76
+    - Unused IDs: 77-89
+
+    </documentation>
+    <constant name="MMTrackerBarrel_ID" value="75"/>
+    <constant name="RWellTrackerBarrel_ID" value="76"/>
 
     <documentation>
     #### (85-99) Reserved IDs
@@ -193,27 +180,30 @@ The unused IDs below are saved for future use.
     <documentation> 
       #### (120-129) (near) Forward reserved
 
-      - Forward RICH    ID: 120
-      - Forward TRD     ID: 121
-      - Forward TOF     ID: 122
+      - Forwardtracking ID: 120
+      - Forward RICH    ID: 121
+
       - Unused IDs: 124-129
     </documentation>
-    <constant name="ForwardRICH_ID"     value="120"/>
-    <constant name="ForwardTRD_ID"      value="121"/>
-    <constant name="ForwardTOF_ID"      value="122"/>
+    <constant name="ForwardTracking_ID" value="120"/>
+    <constant name="ForwardRICH_ID"     value="121"/>
+    <!--constant name="UNUSED"          value="122"/-->
+    <constant name="ForwardTRD_ID"      value="123"/>
+    <constant name="GEMTrackerEndcapP_ID" value="124"/>
+    <constant name="GEMTrackerEndcapN_ID" value="125"/>
+    <constant name="ForwardTOF_ID"      value="126"/>
+    <constant name="BackwardTOF_ID"      value="127"/>
 
     <documentation> 
       #### (130-139) Backward reserved
 
       - Modular RICH ID: 130
-      - Backward RICH ID: 131
-      - Backward TOD ID: 132
-      - Unused IDs: 133-139
+      - Electron Endcap GEM tracking ID: 131
+      - Unused IDs: 132-139
 
     </documentation>
-    <constant name="MRICH_ID"           value="130"/>
-    <constant name="BackwardRICH_ID"    value="131"/>
-    <constant name="BackwardTOF_ID"     value="132"/>
+    <constant name="MRICH_ID"        value="130"/>
+    <!--constant name="UNUSED"          value="131"/-->
 
     <documentation> 
       #### (140-149) Central Magnet
@@ -299,17 +289,6 @@ Examples:
     </documentation>
 
     <documentation>
-      ## Rapidity constants
-    </documentation>
-    <constant name="Eta1_1_tantheta"       value="tan(2*atan(exp(-1.1)))" />
-    <constant name="Eta1_4_tantheta"       value="tan(2*atan(exp(-1.4)))" />
-    <constant name="Eta3_5_tantheta"       value="tan(2*atan(exp(-3.5)))" />
-    <constant name="Eta3_8_tantheta"       value="tan(2*atan(exp(-3.8)))" />
-    <constant name="Eta4_0_tantheta"       value="tan(2*atan(exp(-4.0)))" />
-
-    <comment>Solenoid option</comment>
-
-    <documentation>
       ## Solenoid Magnet Parameters
 
       When changing here, also change the include file in athena.xml.
@@ -342,55 +321,67 @@ Examples:
     </documentation>
 
     <documentation>
-      ### Vertex Tracking Region
+      ### Vertex Tracker Parameters
     </documentation>
-    <constant name="VertexTrackingRegion_rmin"    value="Beampipe_rmax + 1.0*mm" />
-    <constant name="VertexTrackingRegion_rmax"    value="100.0*mm" />
-    <constant name="VertexTrackingRegionP_zmax"   value="240.0*mm" />
-    <constant name="VertexTrackingRegionN_zmax"   value="240.0*mm" />
-    <constant name="VertexTrackingRegion_length"  value="VertexTrackingRegionP_zmax + VertexTrackingRegionN_zmax" />
+    <constant name="VertexTrackerBarrel_rmin"   value="Beampipe_rmax + 1.0*mm"/>
+    <constant name="VertexTrackerBarrel_rmax"   value="200.0*mm"/>
+    <constant name="VertexTrackerBarrel_length" value="300.0*mm"/>
+    <constant name="VertexTrackerBarrel_zmax"   value="VertexTrackerBarrel_length/2.0"/>
+
+    <constant name="VertexTrackerEndcapP_rmax"  value="VertexTrackerBarrel_rmax"/>
+    <constant name="VertexTrackerEndcapN_rmax"  value="VertexTrackerBarrel_rmax"/>
+
+    <constant name="VertexTrackerEndcapP_rmin"  value="Beampipe_rmax + 1.0*mm"/>
+    <constant name="VertexTrackerEndcapN_rmin"  value="Beampipe_rmax + 1.0*mm"/>
+
+    <constant name="VertexTrackerEndcapP_zmax"  value="300.0*mm"/>
+    <constant name="VertexTrackerEndcapN_zmax"  value="300.0*mm"/>
 
     <documentation>
-      ### Central Tracker Region
+      ### Vertex Tracking Region
+    </documentation>
+    <constant name="VertexTrackingRegion_length" value="VertexTrackerEndcapP_zmax + VertexTrackerEndcapN_zmax "/>
+    <constant name="VertexTrackingRegion_zmax"   value="VertexTrackerEndcapP_zmax"/>
+    <constant name="VertexTrackingRegion_rmax"   value="VertexTrackerBarrel_rmax"/>
+
+    <documentation>
+      ### Tracker Detector Parameters
       TrackerBarrel_rmax: also the rmin for the barrel PID system (DIRC)
       Note: The barrel rmax and endcap lengths are the maximum extent allowed for
       the barrel and endcap layers, not the position of the final layer.
     </documentation>
 
-    <constant name="CentralTrackingRegion_rmax"   value="950.0*mm" />
-    <constant name="CentralTrackingRegionP_zmax"  value="1900.0*mm" />
-    <constant name="CentralTrackingRegionN_zmax"  value="1370.0*mm" />
-    <constant name="CentralTrackingRegion_length" value="CentralTrackingRegionP_zmax + CentralTrackingRegionN_zmax" />
+    <constant name="TrackerBarrel_rmin"         value="VertexTrackingRegion_rmax"/>
+    <constant name="TrackerBarrel_rmax"         value="95.*cm"/> 
+    <constant name="TrackerBarrel_thickness"    value="TrackerBarrel_rmax-TrackerBarrel_rmin"/>
+
+    <constant name="TrackerBarrel_length"       value="VertexTrackingRegion_length + 1150.0*mm"/>
+    <constant name="TrackerBarrel_zmax"         value="TrackerBarrel_length/2.0"/>
+    <constant name="TrackerBarrelInside_length" value="VertexTrackingRegion_length"/>
+    <constant name="TrackerBarrelInside_zmax"   value="TrackerBarrelInside_length/2.0"/>
+    <constant name="TrackerEndcapP_length"      value="1025.0*mm"/>
+    <constant name="TrackerEndcapN_length"      value="495.0*mm"/>
 
     <documentation level="0">
 ### PID Detector Region Parameters
     </documentation>
 
-    <constant name="ForwardPIDRegion_zmin"        value="CentralTrackingRegionP_zmax" />
-    <constant name="ForwardPIDRegion_length"      value="140.0*cm" />
-    <constant name="ForwardPIDRegion_rmin1"       value="Beampipe_rmax + 90*mm" />
-    <constant name="ForwardPIDRegion_rmin2"       value="18.0*cm" />
+    <constant name="ForwardPID_length"            value="140.0*cm"/>
+    <constant name="ForwardPID_rmin1"             value="Beampipe_rmax + 90*mm"/>
+    <constant name="ForwardPID_rmin2"             value="18.0*cm"/>
 
-    <constant name="BackwardPIDRegion_zmin"       value="CentralTrackingRegionN_zmax" />
-    <constant name="BackwardPIDRegion_length"     value="40.0*cm" />
-    <constant name="BackwardPIDRegion_rmax"       value="CentralTrackingRegion_rmax" />
+    <constant name="BackwardPID_length"           value="40.0*cm"/>
+    <constant name="BackwardPID_rmax"             value="TrackerBarrel_rmax"/>
 
-    <comment> Note: PID has space for DIRC, ExtraSpace sits past the PID</comment>
-    <constant name="BarrelPIDRegion_thickness"    value="8.0 * cm" />
-    <constant name="BarrelExtraSpace_thickness"   value="0.0 * cm" />
+    <comment> Note: PID has space for DIRC, ExtraSpace has room for other detectors past the PID</comment>
+    <constant name="BarrelPIDThickness"           value="8.0 * cm"/>
+    <constant name="BarrelExtraSpaceThickness"    value="0.0 * cm"/>
 
-    <documentation>
-    ## Forward/backward tracking region behind the PID detectors
+    <documentation level="0">
+### Extra tracking region behind the endcap PID system
     </documentation>
-
-    <constant name="BackwardTrackingRegion_zmin"         value="BackwardPIDRegion_zmin + BackwardPIDRegion_length" />
-    <constant name="ForwardTrackingRegion_zmin"          value="ForwardPIDRegion_zmin + ForwardPIDRegion_length" />
-    <constant name="ForwardTrackingRegion_length"        value="10.0*cm" />
-    <constant name="BackwardTrackingRegion_length"       value="8.0*cm" />
-
-    <comment> Total length of the endcap detectors in front of the calorimeter</comment>
-    <constant name="BackwardInnerEndcapRegion_length"    value="BackwardPIDRegion_length + BackwardTrackingRegion_length"/>
-    <constant name="ForwardInnerEndcapRegion_length"     value="ForwardPIDRegion_length + ForwardTrackingRegion_length"/>
+    <constant name="ForwardTracking_length"       value="5.0*cm"/>
+    <constant name="BackwardTracking_length"      value="8.0*cm"/>
 
     <documentation>
 ## Service gaps
@@ -400,26 +391,41 @@ Service gaps in FW direction (before endcapP ECAL) and BW direction (before endc
     <constant name="ForwardServiceGap_length"     value="10.0*cm"/>
     <constant name="BackwardServiceGap_length"    value="10.0*cm"/>
  
+    <documentation>
+## Central tracking and PID detector boundaries
+    </documentation>
+    <constant name="CentralTracking_rmax"        value="TrackerBarrel_rmax"/>
+    <constant name="CentralTracking_length"      value="TrackerBarrel_length + TrackerEndcapP_length + TrackerEndcapN_length"/>
+
+    <constant name="BackwardPID_zmin" value="TrackerBarrel_length/2. + TrackerEndcapN_length"/>
+    <constant name="ForwardPID_zmin" value="TrackerBarrel_length/2. + TrackerEndcapP_length"/>
+    <constant name="BackwardTracking_zmin" value="BackwardPID_zmin + BackwardPID_length"/>
+    <constant name="ForwardTracking_zmin" value="ForwardPID_zmin + ForwardPID_length"/>
+
+    <comment> Total length of the endcap detectors in front of the calorimeter</comment>
+    <constant name="BackwardInnerEndcap_length"    value="BackwardPID_length + BackwardTracking_length"/>
+    <constant name="ForwardInnerEndcap_length"     value="ForwardPID_length + ForwardTracking_length"/>
+
   <documentation level="3">
 ## Calorimeter Parameters
   </documentation>
     <constant name="CaloSides"                      value="12"/>
 
-    <constant name="EcalEndcapP_zmin"               value="ForwardPIDRegion_zmin + ForwardInnerEndcapRegion_length + ForwardServiceGap_length" />
-    <constant name="EcalEndcapP_length"             value="30*cm" />
-    <constant name="EcalEndcapP_rmin"               value="200.0*mm" />
+    <constant name="EcalEndcapP_zmin"               value="ForwardPID_zmin + ForwardInnerEndcap_length + ForwardServiceGap_length"/>
+    <constant name="EcalEndcapP_length"             value="40*cm"/>
+    <constant name="EcalEndcapP_rmin"               value="200.0*mm"/>
     <constant name="EcalEndcapP_rmax"               value="Solenoid_rmax "/>
 
-    <constant name="EcalEndcapN_zmin"               value="BackwardPIDRegion_zmin + BackwardInnerEndcapRegion_length" />
-    <constant name="EcalEndcapN_length"             value="60*cm" />
-    <constant name="EcalEndcapN_rmin"               value="max((EcalEndcapN_zmin + EcalEndcapN_length) * tan(abs(CrossingAngle)) + 12.5 * mm, 5*cm)" />
-    <constant name="EcalEndcapN_rmax"               value="CentralTrackingRegion_rmax" />
+    <constant name="EcalEndcapN_zmin"               value="max(BackwardPID_zmin + BackwardInnerEndcap_length, SolenoidBackward_zmax)"/>
+    <constant name="EcalEndcapN_length"             value="60*cm"/>
+    <constant name="EcalEndcapN_rmin"               value="max((EcalEndcapN_zmin + EcalEndcapN_length) * tan(abs(CrossingAngle)) + 12.5 * mm, 5*cm)"/>
+    <constant name="EcalEndcapN_rmax"               value="TrackerBarrel_rmax"/>
 
-    <constant name="EcalBarrelRegion_thickness"     value="45.0*cm"/>
-    <constant name="EcalBarrel_rmin"                value="CentralTrackingRegion_rmax + BarrelPIDRegion_thickness + BarrelExtraSpace_thickness"/>
+    <constant name="EcalBarrelEnvelope_thickness"      value="45.0*cm"/>
+    <constant name="EcalBarrel_rmin"                value="CentralTracking_rmax + BarrelPIDThickness + BarrelExtraSpaceThickness"/>
     <constant name="EcalBarrelForward_length"       value="-20*cm"/>
-    <constant name="EcalBarrelForward_zmax"         value="ForwardPIDRegion_zmin + EcalBarrelForward_length"/>
-    <constant name="EcalBarrelBackward_zmax"        value="BackwardPIDRegion_zmin + BackwardInnerEndcapRegion_length + EcalEndcapN_length"/>
+    <constant name="EcalBarrelForward_zmax"         value="ForwardPID_zmin + EcalBarrelForward_length"/>
+    <constant name="EcalBarrelBackward_zmax"        value="BackwardPID_zmin + BackwardInnerEndcap_length + EcalEndcapN_length"/>
     <constant name="EcalBarrel_length"              value="EcalBarrelForward_zmax + EcalBarrelBackward_zmax"/>
     <constant name="EcalBarrel_offset"              value="(EcalBarrelForward_zmax - EcalBarrelBackward_zmax)/2.0"/>
 
@@ -429,18 +435,18 @@ Service gaps in FW direction (before endcapP ECAL) and BW direction (before endc
   </documentation>
     <constant name="DIRCReadout_length"         value="30*cm"/>
     <constant name="DIRCForward_length"         value="0*cm"/>
-    <constant name="DIRCForward_zmax"           value="ForwardPIDRegion_zmin + DIRCForward_length"/>
-    <constant name="DIRCBackward_zmax"          value="BackwardPIDRegion_zmin + BackwardInnerEndcapRegion_length + EcalEndcapN_length + DIRCReadout_length"/>
+    <constant name="DIRCForward_zmax"           value="ForwardPID_zmin + DIRCForward_length"/>
+    <constant name="DIRCBackward_zmax"          value="BackwardPID_zmin + BackwardInnerEndcap_length + EcalEndcapN_length + DIRCReadout_length"/>
     <constant name="DIRC_length"                value="DIRCForward_zmax + DIRCBackward_zmax"/>
     <constant name="DIRC_offset"                value="(DIRCForward_zmax - DIRCBackward_zmax)/2"/>
-    <constant name="DIRC_rmin"                  value="CentralTrackingRegion_rmax"/>
-    <constant name="DIRC_rmax"                  value="DIRC_rmin + BarrelPIDRegion_thickness"/>
+    <constant name="DIRC_rmin"                  value="TrackerBarrel_rmax"/>
+    <constant name="DIRC_rmax"                  value="DIRC_rmin + BarrelPIDThickness"/>
 
     <documentation>
       ## Hadronic Calorimeter Parameters
     </documentation>
 
-    <constant name="HcalEndcapP_zmin"     value="EcalEndcapP_zmin + EcalEndcapP_length"/>
+    <constant name="HcalEndcapP_zmin"     value="max(EcalEndcapP_zmin + EcalEndcapP_length, Solenoid_length / 2.0 + Solenoid_offset) "/>
     <constant name="HcalEndcapP_length"   value="120.0*cm"/>
     <comment> HcalEndcapP needs to clear the expanding beampipe with 2 * crossing angle + its radius of BeampipeOD / 2</comment>
     <constant name="HcalEndcapP_rmin"     value="max((HcalEndcapP_zmin + HcalEndcapP_length) * tan(2.0 * abs(CrossingAngle)) + BeampipeOD / 2.0, 15 * cm)"/>

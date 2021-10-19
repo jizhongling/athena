@@ -5,8 +5,8 @@
       THis value probably can live in the file that includes this one.
     </comment>
     <constant name="ITS3Thickness"       value="40*um"/>
-    <constant name="VertexCarbon_thickness"         value="0.12*mm"/> 
-    <constant name="VertexEndcapAluminumThickness" value="0.15*mm"/> 
+   <constant name="TrackerCarbon_thickness"         value="0.12*mm"/> 
+    <constant name="TrackerEndcapAluminum_thickness" value="0.15*mm"/> 
 
     <documentation>
       #### Vertex Tracker Barrel Parameters
@@ -27,14 +27,7 @@ Simple carbon fiber support shell.
 
     </documentation>
 
-    <constant name="VertexBarrel_length"            value="300.0*mm"/>
-    <constant name="VertexTrackerEndcapP_rmin"      value="VertexTrackingRegion_rmin"/>
-    <constant name="VertexTrackerEndcapN_rmin"      value="VertexTrackingRegion_rmin"/>
-    <constant name="VertexTrackerEndcapP_rmax"      value="VertexTrackingRegion_rmax"/>
-    <constant name="VertexTrackerEndcapN_rmax"      value="VertexTrackingRegion_rmax"/>
-    <constant name="VertexTrackerEndcapP_zmax"      value="VertexTrackingRegionP_zmax"/>
-    <constant name="VertexTrackerEndcapN_zmax"      value="VertexTrackingRegionN_zmax"/>
-
+    <constant name="VertexBarrel_length"            value="VertexTrackerBarrel_length"/>
     <constant name="VertexBarrelLayer_length"       value="VertexBarrel_length - 1*mm"/>
     <constant name="VertexBarrelMod_length"         value="VertexBarrel_length - 2*mm"/>
 
@@ -105,11 +98,8 @@ Simple carbon fiber support shell.
   </display>
 
   <detectors>
-    <documentation level="5">
-        ### Actual detectors
-    </documentation>
     <detector
-      id="VertexBarrel_0_ID"
+      id="VertexBarrel_ID"
       name="VertexBarrel"
       type="athena_VertexBarrel"
       readout="VertexBarrelHits"
@@ -187,7 +177,7 @@ Simple carbon fiber support shell.
     </detector>
 
     <detector
-      id="VertexEndcapP_0_ID"
+      id="VertexEndcapP_ID"
       name="VertexEndcapP"
       type="athena_TrapEndcapTracker"
       readout="VertexEndcapHits"
@@ -211,8 +201,8 @@ Simple carbon fiber support shell.
       <module name="Module1" vis="AnlProcess_Blue">
         <trd x1="VertexEndcapMod1_x1/2.0" x2="VertexEndcapMod1_x2/2.0" z="VertexEndcapMod1_y/2"/>
         <module_component thickness="ITS3Thickness" material="Silicon" sensitive="true"/>
-       <module_component thickness="VertexEndcapAluminumThickness"  material="Aluminum"/>
-        <module_component thickness="VertexCarbon_thickness"          material="CarbonFiber"/>
+       <module_component thickness="TrackerEndcapAluminum_thickness"  material="Aluminum"/>
+        <module_component thickness="TrackerCarbon_thickness"          material="CarbonFiber"/>
       </module>
       <layer id="1">
         <envelope  vis="TrackerVis"
@@ -230,7 +220,7 @@ Simple carbon fiber support shell.
 
 
     <detector
-      id="VertexEndcapN_0_ID"
+      id="VertexEndcapN_ID"
       name="VertexEndcapN"
       type="athena_TrapEndcapTracker"
       readout="VertexEndcapHits"
@@ -253,8 +243,8 @@ Simple carbon fiber support shell.
       <module name="Module1" vis="AnlProcess_Blue">
         <trd x1="VertexEndcapMod1_x1/2.0" x2="VertexEndcapMod1_x2/2.0" z="VertexEndcapMod1_y/2"/>
         <module_component thickness="ITS3Thickness" material="Silicon" sensitive="true"/>
-       <module_component thickness="VertexEndcapAluminumThickness"  material="Aluminum"/>
-        <module_component thickness="VertexCarbon_thickness"          material="CarbonFiber"/>
+       <module_component thickness="TrackerEndcapAluminum_thickness"  material="Aluminum"/>
+        <module_component thickness="TrackerCarbon_thickness"          material="CarbonFiber"/>
       </module>
       <layer id="1">
         <envelope  vis="TrackerVis"
@@ -270,6 +260,58 @@ Simple carbon fiber support shell.
       </layer>
     </detector>
 
+
+    <!--
+    <detector id="VertexEndcapP_ID" 
+      name="VertexEndcapP" 
+      type="athena_SimpleDiskTracker"
+      readout="VertexEndcapHits"
+      insideTrackingVolume="true" 
+      reflect="false" vis="TrackerVis">
+      <position x="0" y="0" z="0.0*mm"/>
+      <layer id="1" vis="AnlOrange"
+        inner_z="VertexTrackerEndcapP_zmin + 0.5*VertexTrackerEndcap_delta" 
+        inner_r="VertexTrackerEndcapP_rmin-3*mm" 
+        outer_r="VertexTrackerEndcapP_rmax">
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
+        <slice material="Silicon" thickness="1.0*mm" vis="AnlOrange"  sensitive="true"/>
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
+      </layer>
+      <layer id="2" vis="AnlOrange"
+        inner_z="VertexTrackerEndcapP_zmin + 1.5*VertexTrackerEndcap_delta" 
+        inner_r="VertexTrackerEndcapP_rmin" 
+        outer_r="VertexTrackerEndcapP_rmax">
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
+        <slice material="Silicon" thickness="1.0*mm" vis="AnlOrange"  sensitive="true"/>
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
+      </layer>
+    </detector>
+
+    <detector id="VertexEndcapN_ID" 
+      name="VertexEndcapN" 
+      type="athena_SimpleDiskTracker"
+      readout="VertexEndcapHits"
+      insideTrackingVolume="true"
+      reflect="true" vis="TrackerVis">
+      <position x="0" y="0" z="-0.0*mm-1.0e-9*mm"/>
+      <layer id="1" vis="AnlOrange"
+        inner_z="VertexTrackerEndcapN_zmin + 0.5*VertexTrackerEndcap_delta" 
+        inner_r="VertexTrackerEndcapN_rmin" 
+        outer_r="VertexTrackerEndcapN_rmax">
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
+        <slice material="Silicon" thickness="1.0*mm" vis="AnlOrange"  sensitive="true"/>
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
+      </layer>
+      <layer id="2" vis="AnlOrange"
+        inner_z="VertexTrackerEndcapN_zmin + 1.5*VertexTrackerEndcap_delta" 
+        inner_r="VertexTrackerEndcapN_rmin" 
+        outer_r="VertexTrackerEndcapN_rmax">
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
+        <slice material="Silicon" thickness="1.0*mm" vis="AnlOrange"  sensitive="true"/>
+        <slice material="Air" thickness="1.0*mm" vis="AnlOrange" />
+      </layer>
+    </detector>
+    -->
   </detectors>
 
   <readouts>
