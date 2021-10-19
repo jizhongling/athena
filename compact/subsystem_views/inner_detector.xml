@@ -96,81 +96,16 @@
       Note: When changing magnet, also select dimensions in definitions.xml.
   </documentation>
 
-  <documentation level="5">
-      ### Tracker subassemblies for ACTS
-  </documentation>
-  <detectors>
-    <detector id="VertexBarrelSubAssembly_ID"
-      name="VertexBarrelSubAssembly"
-      type="DD4hep_SubdetectorAssembly"
-      vis="TrackerSubAssemblyVis">
-      <composite name="VertexBarrel" />
-    </detector>
-    <detector id="VertexEndcapSubAssembly_ID"
-      name="VertexEndcapSubAssembly"
-      type="DD4hep_SubdetectorAssembly"
-      vis="TrackerSubAssemblyVis">
-      <composite name="VertexEndcapN" />
-      <composite name="VertexEndcapP" />
-    </detector>
-
-    <detector id="TrackerBarrelSubAssembly_Inner_ID"
-      name="TrackerBarrelSubAssembly_Inner"
-      type="DD4hep_SubdetectorAssembly"
-      vis="TrackerSubAssemblyVis">
-      <composite name="TrackerBarrel_Inner"/>
-    </detector>
-    <detector id="TrackerEndcapSubAssembly_Inner_ID"
-      name="TrackerEndcapSubAssembly_Inner"
-      type="DD4hep_SubdetectorAssembly"
-      vis="TrackerSubAssemblyVis">
-      <composite name="TrackerEndcapN_Inner"/>
-      <composite name="TrackerEndcapP_Inner"/>
-    </detector>
-
-    <detector id="TrackerBarrelSubAssembly_Outer_ID"
-      name="TrackerSubAssembly_Outer"
-      type="DD4hep_SubdetectorAssembly"
-      vis="TrackerSubAssemblyVis">
-      <composite name="TrackerBarrel_Outer"/>
-      <composite name="TrackerEndcapP_Outer"/>
-      <composite name="TrackerEndcapN_Outer"/>
-    </detector>
-
-    <comment>
-      TOF disabled for baseline
-      <detector id="OuterTrackingSubAssembly_ID"
-      name="OuterTrackingSubAssembly"
-      type="DD4hep_SubdetectorAssembly"
-      vis="TOFSubAssemblyVis">
-      <composite name="BarrelTOF"/>
-      <composite name="ForwardTOF"/>
-      <composite name="BackwardTOF"/>
-    </detector>
-    </comment>
-
-    <detector id="OuterTrackingSubAssembly_ID"
-      name="OuterTrackingSubAssembly"
-      type="DD4hep_SubdetectorAssembly"
-      vis="SubAssemblyVis">
-      <composite name="GEMTrackerEndcapP"/>
-      <composite name="GEMTrackerEndcapN"/>
-    </detector>
-
-  </detectors>
-
   <documentation level="10">
     ## Central tracking detectors
   </documentation>
 
-  <include ref="compact/tracking_config_acadia.xml"/>
-
-  <!--include ref="compact/tracking_config_mgpds.xml"/-->
+  <include ref="compact/tracking_config_canyonlands.xml"/>
 
   <documentation level="10">
   ### PID detectors
   </documentation>
-  <include ref="compact/pid_config_acadia.xml"/>
+  <include ref="compact/pid_config_canyonlands.xml"/>
 
   <documentation level="10">
   ## Central calorimetry
