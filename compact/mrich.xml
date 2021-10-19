@@ -2,9 +2,9 @@
   <comment> MRICH </comment>        
   <define>
     <constant name="MRICH_rmin"   value="10*cm"/>
-    <constant name="MRICH_rmax"   value="BackwardPID_rmax"/>
-    <constant name="MRICH_length" value="BackwardPID_length"/>
-    <constant name="MRICH_zmin"   value="BackwardPID_zmin"/>
+    <constant name="MRICH_rmax"   value="BackwardPIDRegion_rmax"/>
+    <constant name="MRICH_length" value="BackwardPIDRegion_length"/>
+    <constant name="MRICH_zmin"   value="BackwardPIDRegion_zmin"/>
 
     <constant name="MRICHAerogel_thickness"           value="30.0*mm"/>
     <constant name="MRICHAerogel_width"               value="126.5*mm"/>

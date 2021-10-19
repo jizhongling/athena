@@ -11,10 +11,14 @@
       Tracking Visualizations
     </comment>
     <vis name="TrackerVis"        ref="AnlRed"      />
-    <vis name="TrackerSupportVis" ref="AnlBlue"         visible="true"  showDaughters="true" />
+    <vis name="TrackerSupportVis" ref="AnlBlue"         visible="true"  showDaughters="false" />
+    <vis name="TrackerServiceVis" ref="AnlGold"         showDaughters="false" />
     <vis name="TrackerLayerVis"   ref="AnlGray"         visible="true"  showDaughters="true" />
-    <vis name="TrackerSubassemblyVis"   ref="TrackerLayerVis"/>
     <vis name="TrackerModuleVis"  ref="TrackerLayerVis" visible="true"  showDaughters="true" />
+    <vis name="TrackerMPGDVis"    ref="AnlRed"          visible="true"  showDaughters="true" />
+    <comment> Simple visualization for Barrel MMGAS (apply to layers) and GEM endcap (apply to modules) for better performance </comment>
+    <vis name="TrackerGEMModuleVis"  ref="TrackerMPGDVis"  visible="true"  showDaughters="false" />
+    <vis name="TrackerMMGASLayerVis" ref="TrackerMPGDVis"  visible="true"  showDaughters="false" />
 
     <vis name="VertexSupportVis" ref="AnlBlue"         visible="true"  showDaughters="true" />
     <vis name="VertexLayerVis"   ref="AnlGray"         visible="true"  showDaughters="true" />
@@ -65,7 +69,7 @@
     <vis name="RICHVis"         ref="AnlTeal"       showDaughters="true"/>
 
     <vis name="DIRCVis"         ref="AnlTeal"       showDaughters="true" visible="true"/>
-    <vis name="DIRCLayerVis"    ref="AnlTeal"       showDaughters="false" visible="true"/>
+    <vis name="DIRCLayerVis"    ref="AnlTeal"       showDaughters="true" visible="true"/>
     <vis name="DIRCModuleVis"   ref="AnlTeal"       showDaughters="true" visible="true"/>
     <vis name="DIRCSupportVis"  ref="AnlTeal"       showDaughters="true" visible="true"/>
     <vis name="DIRCFrameVis"    ref="AnlOrange"     showDaughters="true" visible="true"/>
