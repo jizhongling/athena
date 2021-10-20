@@ -323,7 +323,7 @@ Examples:
     <constant name="Solenoid_length"           value="3840.0*mm"/>
     <constant name="Solenoid_rmin"             value="1600.0*mm"/>
     <constant name="Solenoid_thickness"        value="640*mm"/>
-    <constant name="Solenoid_offset"           value="10*mm"/>
+    <constant name="Solenoid_offset"           value="-240*mm"/>
 
     <!--
     <comment>Helmholtz option</comment>
@@ -425,9 +425,9 @@ Service gaps in FW direction (before endcapP ECAL) and BW direction (before endc
     <constant name="EcalEndcapP_rmin"               value="200.0*mm" />
     <constant name="EcalEndcapP_rmax"               value="Solenoid_rmax "/>
 
-    <constant name="EcalEndcapN_zmin"               value="BackwardPIDRegion_zmin + BackwardInnerEndcapRegion_length" />
+    <constant name="EcalEndcapN_zmin"               value="max(BackwardPIDRegion_zmin + BackwardInnerEndcapRegion_length, SolenoidBackward_zmax)"/>
     <constant name="EcalEndcapN_length"             value="60*cm" />
-    <constant name="EcalEndcapN_rmin"               value="max((EcalEndcapN_zmin + EcalEndcapN_length) * tan(abs(CrossingAngle)) + 12.5 * mm, 5*cm)" />
+    <constant name="EcalEndcapN_rmin"               value="max((EcalEndcapN_zmin + EcalEndcapN_length) * tan(abs(CrossingAngle)) + 15.5 * mm, 5*cm)" />
     <constant name="EcalEndcapN_rmax"               value="CentralTrackingRegion_rmax" />
 
     <constant name="EcalBarrelRegion_thickness"     value="45.0*cm"/>
