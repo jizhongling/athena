@@ -39,9 +39,9 @@
       name="OuterTrackerSubAssembly"
       type="DD4hep_SubdetectorAssembly"
       vis="TrackerSubAssemblyVis">
-      <composite name="OuterTrackerEndcapNAssembly"/>
+      <composite name="OuterTrackerCompositeEndcapN"/>
       <composite name="OuterTrackerBarrel"/>
-      <composite name="OuterTrackerEndcapPAssembly"/>
+      <composite name="OuterTrackerCompositeEndcapP"/>
     </detector>
     <detector id="TrackerCompositeEndcapN_0_ID"
       name="OuterTrackerCompositeEndcapN"
