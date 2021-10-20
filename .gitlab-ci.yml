@@ -118,8 +118,10 @@ dump_geometry:
     ## disable fibers in SciFi endcap ECAL for better performance
     ## not needed, as we have no fibers in the current setup
     #- sed -i '/<fiber/,+4d' ${DETECTOR_PATH}/compact/ci_ecal_scfi.xml
-    ## subsystem views
+    ## finally: remove tracking subassemblies as they lower the display priority
+    ##          of some tracking detectors
     - |
+      sed -i -e '/<detectors>/,/<\/detectors>/d' ${DETECTOR_PATH}/compact/tracking_config*.xml
       mv ${DETECTOR_PATH}/compact/display_geoviewer.xml ${DETECTOR_PATH}/compact/display.xml
       mv ${DETECTOR_PATH}/compact/colors_geoviewer.xml ${DETECTOR_PATH}/compact/colors.xml
       for xml in ${DETECTOR_PATH}/compact/subsystem_views/*.xml; do
@@ -196,6 +198,8 @@ overlap_check_tgeo:
   needs: 
     - ["common:detector"]
   script:
+    ## disable fibers in ECAL for normal overlap check
+    - sed -i '/<fiber/,+6d' ${DETECTOR_PATH}/compact/ecal_barrel_interlayers.xml
     - checkOverlaps -c ${DETECTOR_PATH}/athena.xml  | tee doc/overlap_check_tgeo.out 
     - echo "$(cat doc/overlap_check_tgeo.out | grep ovlp | wc -l) overlaps..."
     - if [[ "$(cat doc/overlap_check_tgeo.out | grep ovlp | wc -l)" -gt "0" ]] ; then echo "Overlaps exist!" && false ; fi

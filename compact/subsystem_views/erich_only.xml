@@ -62,12 +62,10 @@
   <include ref="compact/display.xml" />
   </display>
 
-
   <documentation level="10">
-    ## dRICh only
+    ## eRICH only
   </documentation>
-
-  <include ref="ip6/beampipe.xml" /> 
-  <include ref="compact/drich.xml" />
+  <include ref="ip6/beampipe.xml" />
+  <include ref="compact/erich.xml" />
 
 </lccdd>

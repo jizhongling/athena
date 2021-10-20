@@ -32,7 +32,7 @@ Simple carbon fiber support shell.
     </documentation>
 
     <constant name="VertexBarrelEnvelope_length"    value="VertexTrackingRegion_length"/>
-    <constant name="VertexBarrelLayer_length"       value="VertexBarrelEnvelope_length - 1*mm"/>
+    <constant name="VertexBarrelLayer_length"       value="VertexBarrelMod_length + 1*um"/>
 
     <constant name="VertexBarrelLayer_thickness"    value="0.2*cm"/>
     <constant name="VertexBarrelMod_thickness"      value="0.1*cm"/>
@@ -163,7 +163,7 @@ Simple carbon fiber support shell.
         <rphi_layout phi_tilt="0.0*degree" nphi="VertexBarrelStave_count" phi0="0.0" rc="VertexBarrelMod3_rmin" dr="0.0 * mm"/>
         <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
       </layer>
-      <layer module="SupportShell" id="VertexBarrelMod_count + 1" vis="VertexSupportVis">
+      <layer module="SupportShell" id="VertexBarrelMod_count + 1" vis="VertexSupportLayerVis">
         <barrel_envelope
           inner_r="VertexBarrelSupport_rmin"
           outer_r="VertexBarrelSupport_rmax"

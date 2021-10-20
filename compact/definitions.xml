@@ -301,11 +301,15 @@ Examples:
     <documentation>
       ## Rapidity constants
     </documentation>
-    <constant name="Eta1_1_tantheta"       value="tan(2*atan(exp(-1.1)))" />
-    <constant name="Eta1_4_tantheta"       value="tan(2*atan(exp(-1.4)))" />
-    <constant name="Eta3_5_tantheta"       value="tan(2*atan(exp(-3.5)))" />
-    <constant name="Eta3_8_tantheta"       value="tan(2*atan(exp(-3.8)))" />
-    <constant name="Eta4_0_tantheta"       value="tan(2*atan(exp(-4.0)))" />
+    <constant name="Eta1_1_tan"       value="tan(2*atan(exp(-1.1)))" />
+    <constant name="Eta1_4_tan"       value="tan(2*atan(exp(-1.4)))" />
+    <constant name="Eta3_5_tan"       value="tan(2*atan(exp(-3.5)))" />
+    <constant name="Eta3_6_tan"       value="tan(2*atan(exp(-3.6)))" />
+    <constant name="Eta3_7_tan"       value="tan(2*atan(exp(-3.7)))" />
+    <constant name="Eta3_8_tan"       value="tan(2*atan(exp(-3.8)))" />
+    <constant name="Eta3_9_tan"       value="tan(2*atan(exp(-3.9)))" />
+    <constant name="Eta4_0_tan"       value="tan(2*atan(exp(-4.0)))" />
+    <constant name="Eta4_1_tan"       value="tan(2*atan(exp(-4.1)))" />
 
     <comment>Solenoid option</comment>
 
@@ -351,16 +355,23 @@ Examples:
     <constant name="VertexTrackingRegion_length"  value="VertexTrackingRegionP_zmax + VertexTrackingRegionN_zmax" />
 
     <documentation>
-      ### Central Tracker Region
+      ### Central Tracking Region
       TrackerBarrel_rmax: also the rmin for the barrel PID system (DIRC)
       Note: The barrel rmax and endcap lengths are the maximum extent allowed for
       the barrel and endcap layers, not the position of the final layer.
+
+
     </documentation>
 
     <constant name="CentralTrackingRegion_rmax"   value="950.0*mm" />
     <constant name="CentralTrackingRegionP_zmax"  value="1900.0*mm" />
-    <constant name="CentralTrackingRegionN_zmax"  value="1370.0*mm" />
+    <constant name="CentralTrackingRegionN_zmax"  value="1500.0*mm" />
     <constant name="CentralTrackingRegion_length" value="CentralTrackingRegionP_zmax + CentralTrackingRegionN_zmax" />
+    <comment>
+      tan(theta) to determine rmin in the outer tracking region (due to tapered beampipe)
+    </comment>
+    <constant name="CentralTrackingRegionP_tan"   value="Eta3_7_tan * 1.00" />
+    <constant name="CentralTrackingRegionN_tan"   value="Eta4_0_tan * 0.99" />
 
     <documentation level="0">
 ### PID Detector Region Parameters
@@ -368,11 +379,13 @@ Examples:
 
     <constant name="ForwardPIDRegion_zmin"        value="CentralTrackingRegionP_zmax" />
     <constant name="ForwardPIDRegion_length"      value="140.0*cm" />
-    <constant name="ForwardPIDRegion_rmin1"       value="Beampipe_rmax + 90*mm" />
-    <constant name="ForwardPIDRegion_rmin2"       value="18.0*cm" />
+    <comment> tangent of the opening angle at the front and back of the RICH </comment>
+    <constant name="ForwardPIDRegion_tan1"        value="CentralTrackingRegionP_tan * 1.00" />
+    <constant name="ForwardPIDRegion_tan2"        value="Eta3_6_tan * 1.01" />
 
     <constant name="BackwardPIDRegion_zmin"       value="CentralTrackingRegionN_zmax" />
-    <constant name="BackwardPIDRegion_length"     value="40.0*cm" />
+    <constant name="BackwardPIDRegion_tan"        value="CentralTrackingRegionN_tan" />
+    <constant name="BackwardPIDRegion_length"     value="60.0*cm" />
     <constant name="BackwardPIDRegion_rmax"       value="CentralTrackingRegion_rmax" />
 
     <comment> Note: PID has space for DIRC, ExtraSpace sits past the PID</comment>
@@ -383,10 +396,12 @@ Examples:
     ## Forward/backward tracking region behind the PID detectors
     </documentation>
 
-    <constant name="BackwardTrackingRegion_zmin"         value="BackwardPIDRegion_zmin + BackwardPIDRegion_length" />
-    <constant name="ForwardTrackingRegion_zmin"          value="ForwardPIDRegion_zmin + ForwardPIDRegion_length" />
-    <constant name="ForwardTrackingRegion_length"        value="10.0*cm" />
-    <constant name="BackwardTrackingRegion_length"       value="8.0*cm" />
+    <constant name="BackwardTrackingRegion_tan"     value="CentralTrackingRegionN_tan" />
+    <constant name="BackwardTrackingRegion_zmin"    value="BackwardPIDRegion_zmin + BackwardPIDRegion_length" />
+    <constant name="ForwardTrackingRegion_tan"      value="ForwardPIDRegion_tan2" />
+    <constant name="ForwardTrackingRegion_zmin"     value="ForwardPIDRegion_zmin + ForwardPIDRegion_length" />
+    <constant name="ForwardTrackingRegion_length"   value="10.0*cm" />
+    <constant name="BackwardTrackingRegion_length"  value="0.0*cm" />
 
     <comment> Total length of the endcap detectors in front of the calorimeter</comment>
     <constant name="BackwardInnerEndcapRegion_length"    value="BackwardPIDRegion_length + BackwardTrackingRegion_length"/>
