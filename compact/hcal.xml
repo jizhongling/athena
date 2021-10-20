@@ -1,9 +1,10 @@
 <lccdd>
 
   <define>
-    <constant name="HcalBarrel_offset"              value="(HcalEndcapP_zmin-HcalEndcapN_zmin)/2.0" />
-
+    <constant name="HcalBarrel_length"    value="HcalBarrelForward_zmax + HcalBarrelBackward_zmax"/>
+    <constant name="HcalBarrel_offset"    value="(HcalBarrelForward_zmax - HcalBarrelBackward_zmax)/2"/>
     <constant name="HcalBarrelAvailThickness" value="HcalBarrel_thickness"/>
+
     <documentation>
       #### Material Thickness 
     </documentation>
@@ -90,6 +91,24 @@
       <layer repeat="HcalEndcapPLayer_NRepeat" vis="HcalEndcapLayerVis" >
         <slice material="Steel235" thickness="HcalEndcapPSteelThickness" vis="HcalAbsorberVis"/>
         <slice material="Polystyrene" thickness="HcalEndcapPPolystyreneThickness" vis="HcalSensorVis" sensitive="yes" limits="cal_limits"/>
+      </layer>
+    </detector>
+
+    <detector 
+      id="PassiveSteelRingEndcapP_ID" 
+      name="PassiveSteelRingEndcapP" 
+      type="athena_PolyhedraEndcapCalorimeter2" 
+      vis="PassiveSteelVis" 
+      calorimeterType="HAD_ENDCAP"
+      reflect="false">
+      <position x="0" y="0" z="0"/>
+      <dimensions 
+        numsides="CaloSides" 
+        zmin="EcalEndcapP_zmin" 
+        rmin="EcalEndcapP_rmax"
+        rmax="HcalBarrel_rmax"/>
+      <layer repeat="1">
+        <slice material="Steel235" thickness="EcalEndcapP_length" vis="HcalAbsorberVis"/>
       </layer>
     </detector>
 
