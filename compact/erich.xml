@@ -155,6 +155,10 @@
   rmax="ERICH_rmax  - 4*cm"
   />
 
+<services>
+  <comment> SJJ: random standin for readout + electronics + cooling @FIXME </comment>
+  <component name="aluminum" thickness="10*mm" vis="RICHServiceVis" material="Aluminum"/>
+</services>
 
 </sensors>
 </detector>

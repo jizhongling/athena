@@ -102,6 +102,7 @@
     <vis name="MRICH_lens_vis" ref="AnlGray" showDaughters="true" visible="true" />
     <vis name="MRICH_mirror_vis"  ref="AnlGray" showDaughters="true" visible="true" />
 
+    <vis name="RICHServiceVis"  ref="AnlGray" showDaughters="true" visible="true" />
 
     <comment>
       Deprecated values used for IP6 vis
