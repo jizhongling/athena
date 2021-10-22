@@ -425,7 +425,7 @@ Service gaps in FW direction (before endcapP ECAL) and BW direction (before endc
     <constant name="EcalEndcapP_length"             value="30*cm" />
     <constant name="EcalEndcapP_rmin"               value="200.0*mm" />
     <comment> extra 50cm rmax that "protrudes" into the HCAL</comment>
-    <constant name="EcalEndcapP_rmax"               value="Solenoid_rmax + 50*cm"/>
+    <constant name="EcalEndcapP_rmax"               value="floor(Eta1_1_tan * EcalEndcapP_zmin)"/>
 
     <constant name="EcalEndcapN_zmin"               value="BackwardPIDRegion_zmin + BackwardInnerEndcapRegion_length"/>
     <constant name="EcalEndcapN_length"             value="60*cm" />
