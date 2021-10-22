@@ -13,7 +13,7 @@
     <constant name="SolenoidBarrelInnerFirstMLILayerThickness"  value=" 15.0 * mm"/>
     <constant name="SolenoidBarrelInnerHeliumVesselThickness"   value=" 15.0 * mm"/>
     <constant name="SolenoidBarrelInnerHeliumThickness"         value=" 10.0 * mm"/>
-    <constant name="SolenoidBarrelCoilFormerThickness"          value=" 50.0 * mm"/>
+    <constant name="SolenoidBarrelCoilFormerThickness"          value=" 10.0 * mm"/>
     <constant name="SolenoidBarrelCoilThickness"                value="210.0 * mm"/>
     <constant name="SolenoidBarrelCoilOverbindThickness"        value=" 50.0 * mm"/>
     <constant name="SolenoidBarrelOuterHeliumThickness"         value=" 15.0 * mm"/>
