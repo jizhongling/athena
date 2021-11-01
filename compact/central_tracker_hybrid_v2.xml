@@ -1096,40 +1096,6 @@ total X0 0.24% per disk layer （4 sectors per disk):
         <trd x1="GEMSpoke_width/2" x2="GEMSpoke_width/2" z="GEMEndcapRingModSpoke_length/2"/>
         <module_component thickness="GEMSpoke_thickness" material="Mylar" vis="TrackerSupportVis"/>
       </module>
-      <module name="LargeModule" vis="TrackerGEMModuleVis">
-        <trd x1="GEMEndcapLargeMod_x1/2" x2="GEMEndcapLargeMod_x2/2" z="GEMEndcapLargeMod_y/2" />
-        <comment> going from back to front </comment>
-        <module_component name="exit_window"      thickness="GEMMylar_thickness"        material="Mylar" vis="TrackerServiceVis" />
-        <module_component name="exit_region"      thickness="GEMGas_thickness"          material="Ar10CO2"/>
-        <module_component name="readout_cu"       thickness="GEMCuElectrode_thickness"  material="Copper"/>
-        <module_component name="readout_foil"     thickness="GEMKapton_thickness"       material="Kapton"/>
-        <module_component name="induction_region" thickness="GEMGas_thickness"          material="Ar10CO2"/>
-        <module_component name="gem_foil_3_cu"    thickness="GEMCuElectrode_thickness * GEMAreaFactor"  material="Copper"/>
-        <module_component name="gem_foil_3"       thickness="GEMKapton_thickness * GEMAreaFactor"       material="Kapton"/>
-        <module_component name="transfer_region2" thickness="GEMGas_thickness"                          material="Ar10CO2"/>
-        <module_component name="gem_foil_2_cu"    thickness="GEMCuElectrode_thickness * GEMAreaFactor"  material="Copper"/>
-        <module_component name="gem_foil_2"       thickness="GEMKapton_thickness * GEMAreaFactor"       material="Kapton"/>
-        <module_component name="transfer_region1" thickness="GEMGas_thickness"                          material="Ar10CO2"/>
-        <module_component name="gem_foil_1_cu"    thickness="GEMCuElectrode_thickness * GEMAreaFactor"  material="Copper"/>
-        <module_component name="gem_foil_1"       thickness="GEMKapton_thickness * GEMAreaFactor"       material="Kapton"/>
-        <module_component name="drift_region"     thickness="GEMDriftRegion_thickness"                  material="Ar10CO2" sensitive="true"/>
-        <module_component name="cathode_cu"       thickness="GEMCuElectrode_thickness"  material="Copper"/>
-        <module_component name="cathode_foil"     thickness="GEMKapton_thickness"       material="Kapton"/>
-        <module_component name="entrance_region"  thickness="GEMGas_thickness"          material="Ar10CO2"/>
-        <module_component name="entrance_window"  thickness="GEMMylar_thickness"        material="Mylar" vis="TrackerMPGDVis" />
-      </module>
-      <module name="LargeBotFrame" vis="TrackerSupportVis">
-        <trd x1="GEMEndcapLargeModBotFrame_x1/2" x2="GEMEndcapLargeModBotFrame_x2/2" z="GEMEndcapLargeModBotFrame_y/2" />
-        <module_component name="frame" thickness="GEMFrame_thickness" material="CarbonFiber" vis="TrackerSupportVis" />
-      </module>
-      <module name="LargeTopFrame" vis="TrackerSupportVis">
-        <trd x1="GEMEndcapLargeModTopFrame_x1/2" x2="GEMEndcapLargeModTopFrame_x2/2" z="GEMEndcapLargeModTopFrame_y/2" />
-        <module_component name="frame" thickness="GEMFrame_thickness" material="CarbonFiber" vis="TrackerSupportVis" />
-      </module>
-      <module name="LargeSpoke" vis="TrackerSupportVis">
-        <trd x1="GEMSpoke_width/2" x2="GEMSpoke_width/2" z="GEMEndcapLargeModSpoke_length/2"/>
-        <module_component thickness="GEMSpoke_thickness" material="Mylar" vis="TrackerSupportVis"/>
-      </module>
       <layer id="1">
         <envelope vis="TrackerLayerVis"
           rmin="GEMEndcapRingLayer_rmin"
@@ -1195,39 +1161,6 @@ total X0 0.24% per disk layer （4 sectors per disk):
           dz="0"
           phi0="GEMEndcapMod_angle/2"
           module="RingSpoke" />
-      </layer>
-      <layer id="3">
-        <envelope vis="TrackerLayerVis"
-          rmin="GEMEndcapLargeLayer_rmin"
-          rmax="GEMEndcapLargeLayer_rmax"
-          length="GEMEndcapLayer_thickness"
-          zstart="GEMEndcapPLayer3_zmin" />
-        <layer_material surface="representing" binning="binPhi,binR" bins0="20*GEMEndcapMod_count" bins1="256"/>
-        <ring 
-          r="GEMEndcapLargeMod_rmin + GEMEndcapLargeMod_y/2"
-          zstart="0"
-          nmodules="GEMEndcapMod_count"
-          dz="GEMEndcapMod_dz"
-          module="LargeModule" />
-        <ring 
-          r="GEMEndcapLargeModBotFrame_rmin + GEMEndcapLargeModBotFrame_y/2"
-          zstart="0"
-          nmodules="GEMEndcapMod_count"
-          dz="GEMEndcapMod_dz"
-          module="LargeBotFrame" />
-        <ring 
-          r="GEMEndcapLargeModTopFrame_rmin + GEMEndcapLargeModTopFrame_y/2"
-          zstart="0"
-          nmodules="GEMEndcapMod_count"
-          dz="GEMEndcapMod_dz"
-          module="LargeTopFrame" />
-        <ring 
-          r="GEMEndcapLargeModSpoke_r"
-          zstart="0"
-          nmodules="GEMEndcapMod_count"
-          dz="0"
-          phi0="GEMEndcapMod_angle/2"
-          module="LargeSpoke" />
       </layer>
     </detector>
     <detector
@@ -1370,6 +1303,81 @@ total X0 0.24% per disk layer （4 sectors per disk):
           dz="0"
           phi0="GEMEndcapMod_angle/2"
           module="RingSpoke" />
+      </layer>
+    </detector>
+    <detector
+      id="TrackerEndcapP_4_ID"
+      name="ForwardGEM"
+      type="athena_TrapEndcapTracker"
+      readout="GEMTrackerEndcapHits"
+      vis="TrackerVis"
+      reflect="false">
+      <module name="LargeModule" vis="TrackerGEMModuleVis">
+        <trd x1="GEMEndcapLargeMod_x1/2" x2="GEMEndcapLargeMod_x2/2" z="GEMEndcapLargeMod_y/2" />
+        <comment> going from back to front </comment>
+        <module_component name="exit_window"      thickness="GEMMylar_thickness"        material="Mylar" vis="TrackerServiceVis" />
+        <module_component name="exit_region"      thickness="GEMGas_thickness"          material="Ar10CO2"/>
+        <module_component name="readout_cu"       thickness="GEMCuElectrode_thickness"  material="Copper"/>
+        <module_component name="readout_foil"     thickness="GEMKapton_thickness"       material="Kapton"/>
+        <module_component name="induction_region" thickness="GEMGas_thickness"          material="Ar10CO2"/>
+        <module_component name="gem_foil_3_cu"    thickness="GEMCuElectrode_thickness * GEMAreaFactor"  material="Copper"/>
+        <module_component name="gem_foil_3"       thickness="GEMKapton_thickness * GEMAreaFactor"       material="Kapton"/>
+        <module_component name="transfer_region2" thickness="GEMGas_thickness"                          material="Ar10CO2"/>
+        <module_component name="gem_foil_2_cu"    thickness="GEMCuElectrode_thickness * GEMAreaFactor"  material="Copper"/>
+        <module_component name="gem_foil_2"       thickness="GEMKapton_thickness * GEMAreaFactor"       material="Kapton"/>
+        <module_component name="transfer_region1" thickness="GEMGas_thickness"                          material="Ar10CO2"/>
+        <module_component name="gem_foil_1_cu"    thickness="GEMCuElectrode_thickness * GEMAreaFactor"  material="Copper"/>
+        <module_component name="gem_foil_1"       thickness="GEMKapton_thickness * GEMAreaFactor"       material="Kapton"/>
+        <module_component name="drift_region"     thickness="GEMDriftRegion_thickness"                  material="Ar10CO2" sensitive="true"/>
+        <module_component name="cathode_cu"       thickness="GEMCuElectrode_thickness"  material="Copper"/>
+        <module_component name="cathode_foil"     thickness="GEMKapton_thickness"       material="Kapton"/>
+        <module_component name="entrance_region"  thickness="GEMGas_thickness"          material="Ar10CO2"/>
+        <module_component name="entrance_window"  thickness="GEMMylar_thickness"        material="Mylar" vis="TrackerMPGDVis" />
+      </module>
+      <module name="LargeBotFrame" vis="TrackerSupportVis">
+        <trd x1="GEMEndcapLargeModBotFrame_x1/2" x2="GEMEndcapLargeModBotFrame_x2/2" z="GEMEndcapLargeModBotFrame_y/2" />
+        <module_component name="frame" thickness="GEMFrame_thickness" material="CarbonFiber" vis="TrackerSupportVis" />
+      </module>
+      <module name="LargeTopFrame" vis="TrackerSupportVis">
+        <trd x1="GEMEndcapLargeModTopFrame_x1/2" x2="GEMEndcapLargeModTopFrame_x2/2" z="GEMEndcapLargeModTopFrame_y/2" />
+        <module_component name="frame" thickness="GEMFrame_thickness" material="CarbonFiber" vis="TrackerSupportVis" />
+      </module>
+      <module name="LargeSpoke" vis="TrackerSupportVis">
+        <trd x1="GEMSpoke_width/2" x2="GEMSpoke_width/2" z="GEMEndcapLargeModSpoke_length/2"/>
+        <module_component thickness="GEMSpoke_thickness" material="Mylar" vis="TrackerSupportVis"/>
+      </module>
+      <layer id="1">
+        <envelope vis="TrackerLayerVis"
+          rmin="GEMEndcapLargeLayer_rmin"
+          rmax="GEMEndcapLargeLayer_rmax"
+          length="GEMEndcapLayer_thickness"
+          zstart="GEMEndcapPLayer3_zmin" />
+        <layer_material surface="representing" binning="binPhi,binR" bins0="20*GEMEndcapMod_count" bins1="256"/>
+        <ring 
+          r="GEMEndcapLargeMod_rmin + GEMEndcapLargeMod_y/2"
+          zstart="0"
+          nmodules="GEMEndcapMod_count"
+          dz="GEMEndcapMod_dz"
+          module="LargeModule" />
+        <ring 
+          r="GEMEndcapLargeModBotFrame_rmin + GEMEndcapLargeModBotFrame_y/2"
+          zstart="0"
+          nmodules="GEMEndcapMod_count"
+          dz="GEMEndcapMod_dz"
+          module="LargeBotFrame" />
+        <ring 
+          r="GEMEndcapLargeModTopFrame_rmin + GEMEndcapLargeModTopFrame_y/2"
+          zstart="0"
+          nmodules="GEMEndcapMod_count"
+          dz="GEMEndcapMod_dz"
+          module="LargeTopFrame" />
+        <ring 
+          r="GEMEndcapLargeModSpoke_r"
+          zstart="0"
+          nmodules="GEMEndcapMod_count"
+          dz="0"
+          phi0="GEMEndcapMod_angle/2"
+          module="LargeSpoke" />
       </layer>
     </detector>
   </detectors>
