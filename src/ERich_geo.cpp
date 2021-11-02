@@ -283,7 +283,7 @@ static Ref_t createDetector(Detector& desc, xml::Handle_t handle, SensitiveDetec
     for (xml_coll_t ci(x_service, _Unicode(component)); ci; ++ci, ncomponents++) {
       xml_comp_t x_comp    = ci;
       double     thickness = x_comp.thickness();
-      Tube       c_tube{sensorPlaneRmin, sensorPlaneRmax, thickness};
+      Tube       c_tube{sensorPlaneRmin, sensorPlaneRmax, thickness/2};
       Volume     c_vol{_toString(ncomponents, "component%d"), c_tube, desc.material(x_comp.materialStr())};
       c_vol.setVisAttributes(desc, x_comp.visStr());
       service_vol.placeVolume(c_vol, Position(0, 0, thickness_sum + thickness / 2.0));
