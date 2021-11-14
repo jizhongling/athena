@@ -381,11 +381,11 @@ Examples:
     <constant name="ForwardPIDRegion_zmin"        value="CentralTrackingRegionP_zmax" />
     <constant name="ForwardPIDRegion_length"      value="140.0*cm" />
     <comment> tangent of the opening angle at the front and back of the RICH </comment>
-    <constant name="ForwardPIDRegion_tan1"        value="CentralTrackingRegionP_tan * 1.00" />
-    <constant name="ForwardPIDRegion_tan2"        value="Eta3_6_tan * 1.01" />
+    <constant name="ForwardPIDRegion_tan1"        value="CentralTrackingRegionP_tan * 0.88" />
+    <constant name="ForwardPIDRegion_tan2"        value="Eta3_6_tan * 0.89" />
 
     <constant name="BackwardPIDRegion_zmin"       value="CentralTrackingRegionN_zmax" />
-    <constant name="BackwardPIDRegion_tan"        value="CentralTrackingRegionN_tan" />
+    <constant name="BackwardPIDRegion_tan"        value="CentralTrackingRegionN_tan * 0.92" />
     <constant name="BackwardPIDRegion_length"     value="60.0*cm" />
     <constant name="BackwardPIDRegion_rmax"       value="CentralTrackingRegion_rmax" />
 
