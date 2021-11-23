@@ -53,6 +53,7 @@
   <!-- Define detector -->
   <detectors>
 
+<!-- 
     <detector 
       id="HCalBarrel_ID" 
       name="HcalBarrel"
@@ -73,6 +74,7 @@
         <slice material="Polystyrene" thickness="HcalBarrelPolystyreneThickness" vis="HcalSensorVis" sensitive="yes" limits="cal_limits"/>
       </layer>
     </detector>
+ -->
 
     <detector 
       id="HCalEndcapP_ID" 
@@ -112,6 +114,7 @@
       </layer>
     </detector>
 
+<!-- 
     <detector 
       id="HCalEndcapN_ID" 
       name="HcalEndcapN" 
@@ -130,22 +133,27 @@
         <slice material="Polystyrene" thickness="HcalEndcapNPolystyreneThickness" vis="HcalSensorVis" sensitive="yes" limits="cal_limits"/>
       </layer>
     </detector>
+ -->
 
   </detectors>
   <!--  Definition of the readout segmentation/definition  -->
   <readouts>
+<!-- 
     <readout name="HcalBarrelHits">
       <segmentation type="CartesianGridXY" grid_size_x="100* mm" grid_size_y="100 * mm"/>
       <id>system:8,barrel:3,module:4,layer:8,slice:5,x:32:-16,y:-16</id>
     </readout>
+ -->
     <readout name="HcalEndcapPHits">
       <segmentation type="CartesianGridXY" grid_size_x="100 * mm" grid_size_y="100 * mm"/>
       <id>system:8,barrel:3,module:4,layer:8,slice:5,x:32:-16,y:-16</id>
     </readout>
+<!--
     <readout name="HcalEndcapNHits">
       <segmentation type="CartesianGridXY" grid_size_x="100 * mm" grid_size_y ="100 * mm"/>
       <id>system:8,barrel:3,module:4,layer:8,slice:5,x:32:-16,y:-16</id>
     </readout>
+ -->
   </readouts>
 
   <plugins>
