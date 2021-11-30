@@ -59,7 +59,7 @@
 
   <display>
   <include ref="compact/colors.xml" />
-  <include ref="compact/display.xml" />
+  <include ref="compact/display_detailed.xml" />
   </display>
 
   <documentation level="0">
@@ -99,12 +99,12 @@
       Central tracking detectors
       --------------------------
   </comment>
-  <include ref="compact/tracking_config_canyonlands.xml"/>
+  <!--include ref="compact/tracking_config_canyonlands.xml"/-->
+  <include ref="compact/tracking_config_deathvalley.xml"/>
 
-  <comment>
       PID detectors
       -------------
-  </comment>
+  <include ref="compact/tof_barrel.xml"/>
 
   <fields>
     <field name="B0PF_Magnet" type="MultipoleMagnet">

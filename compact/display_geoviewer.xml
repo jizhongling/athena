@@ -25,7 +25,18 @@
     <vis name="VertexSupportVis"      ref="VertexSupportLayerVis" visible="true"  showDaughters="true" />
     <vis name="VertexModuleVis"       ref="TrackerLayerVis" visible="true"  showDaughters="true" />
 
-    <vis name="TOFVis" ref="AnlTeal" showDaughters="true" visible="true"/>
+    <vis name="TOFVis"            ref="AnlTeal"             visible="true"  showDaughters="true"/>
+    <vis name="TOFLayerVis"       ref="TOFVis"              visible="true"  showdaughters="true"/>
+    <vis name="TOFModuleVis"      ref="TOFVis"              visible="true"  showdaughters="true"/>
+    <vis name="TOFSupportVis"     ref="TrackerSupportVis"   visible="true"  showDaughters="true"/>
+    <vis name="TOFSensorVis"      ref="TOFVis"              visible="true"  showDaughters="true"/>
+    <vis name="TOFBarrelModuleVis" ref="TOFVis"             visible="true"  showdaughters="true"/>
+    <vis name="TOFHybridVis"      ref="AnlGold"             visible="true"  showDaughters="true"/>
+    <vis name="TOFCoolingTube"    ref="AnlRed"              visible="true"  showDaughters="true"/>
+    <vis name="TOFCoolant"        ref="TrackerServiceVis"   visible="true"  showDaughters="true"/>
+    <vis name="TOFCSkinVis"       ref="TrackerSupportVis"   visible="true"  showDaughters="true"/>
+    <vis name="TOFCFoamVis"       ref="TrackerSupportVis"   visible="true"  showDaughters="true"/>
+    <vis name="TOFCHoneycombVis"  ref="TrackerServiceVis"   visible="true"  showDaughters="true"/>
 
     <vis name="FFTrackerVis"        ref="AnlRed" />
     <vis name="FFTrackerSupportVis" ref="AnlBlue"             visible="true"  showDaughters="false" />
@@ -69,7 +80,7 @@
     <vis name="HcalBarrelLayerVis"    ref="AnlBlue"   showDaughters="true" visible="true"/>
     <vis name="HcalEndcapVis"         ref="AnlBlue"   showDaughters="false" visible="true"/>
     <vis name="HcalEndcapLayerVis"    ref="AnlBlue"   showDaughters="true" visible="true"/>
-    <vis name="HcalSensorVis"         ref="AnlBlue"     showDaughters="true" visible="true"/>
+    <vis name="HcalSensorVis"         ref="AnlBlue"   showDaughters="true" visible="true"/>
     <vis name="HcalAbsorberVis"       ref="AnlGray"   showDaughters="true" visible="true"/>
 
     <comment>
@@ -117,12 +128,12 @@
     </comment>
 
     <vis name="DRICH_vessel_vis"  ref="AnlGray" showDaughters="true" visible="true" />
-    <vis name="DRICH_gas_vis"     ref="AnlGreen" alpha="0.5" showDaughters="true" visible="true" />
+    <vis name="DRICH_gas_vis"     ref="AnlLightGray" alpha="0.2" showDaughters="true" visible="true" />
     <vis name="DRICH_aerogel_vis" ref="AnlTeal" showDaughters="true" visible="true" />
     <vis name="DRICH_filter_vis"  alpha="1.0" r="1.0" g="1.0" b="0.0" showDaughters="true" visible="true" />
     <vis name="DRICH_mirror_vis"  ref="AnlGray" showDaughters="true" visible="true" />
     <vis name="DRICH_sensor_vis"  ref="AnlGreen" showDaughters="true" visible="true" />
-    <vis name="ERICH_sensor_vis"  ref="AnlBlue" showDaughters="true" visible="false" /> <!-- invisible, to speedup graphics -->
+    <vis name="ERICH_sensor_vis"  ref="AnlGreen" showDaughters="true" visible="true" /> <!-- invisible, to speedup graphics -->
 
     <vis name="MRICH_aerogel_vis" ref="AnlTeal" showDaughters="true" visible="true" />
     <vis name="MRICH_frame_vis" ref="AnlGold" showDaughters="true" visible="true" />
