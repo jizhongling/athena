@@ -12,7 +12,7 @@
       To change the number of imaging layers from, e.g., 9 to 6,
       change EcalBarrelImagingLayers_nMax variable
     </comment>
-    <constant name="EcalBarrelImagingLayers_nMax"  value="9"/>
+    <constant name="EcalBarrelImagingLayers_nMax"  value="6"/>
 
     <constant name="EcalBarrel_Support_thickness"    value="5*cm"/>
     <constant name="EcalBarrel_SiliconThickness"     value="500*um"/>
