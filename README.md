@@ -28,8 +28,9 @@ The Athena Detector at IP6 for Electron-Ion Collider experiment.
 
 [Browse latest](https://eicweb.phy.anl.gov/EIC/detectors/athena/-/jobs/artifacts/master/browse/images?job=report)
 
-[Detector views](views/detector_views.md)
+[Detector views](https://eicweb.phy.anl.gov/EIC/detectors/athena/-/jobs/artifacts/master/raw/doc/dawn_views.md?job=report)
 
+[Constants listing](https://eicweb.phy.anl.gov/api/v4/projects/473/jobs/artifacts/master/raw/doc/constants.out?job=report)
 
 Getting Started
 ---------------
