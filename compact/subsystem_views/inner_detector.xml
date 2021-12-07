@@ -60,8 +60,7 @@
   <display>
   <include ref="compact/colors.xml" />
   <!--include ref="compact/colors2.xml"/-->
-  <include ref="compact/display.xml" />
-  <!--include ref="compact/display_detailed.xml"/-->
+  <include ref="compact/display.xml"/>
   </display>
 
   <documentation level="0">
@@ -100,12 +99,12 @@
     ## Central tracking detectors
   </documentation>
 
-  <include ref="compact/tracking_config_canyonlands.xml"/>
+  <include ref="compact/tracking_config_deathvalley.xml"/>
 
   <documentation level="10">
   ### PID detectors
   </documentation>
-  <include ref="compact/pid_config_canyonlands.xml"/>
+  <include ref="compact/pid_config_deathvalley.xml"/>
 
   <documentation level="10">
   ## Central calorimetry

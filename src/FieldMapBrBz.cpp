@@ -19,7 +19,7 @@ using namespace dd4hep;
 class FieldMapBrBz : public dd4hep::CartesianField::Object
 {
 public:
-    FieldMapBrBz(const std::string &field_type);
+    FieldMapBrBz(const std::string &field_type = "magnetic");
     void Configure(double rmin, double rmax, double rstep, double zmin, double zmax, double zstep);
     void LoadMap(const std::string &map_file, double scale);
     void GetIndices(double r, double z, int &ir, int &iz, double &dr, double &dz);
@@ -35,7 +35,7 @@ private:
 };
 
 // constructor
-FieldMapBrBz::FieldMapBrBz(const std::string &field_type = "magnetic")
+FieldMapBrBz::FieldMapBrBz(const std::string &field_type)
 {
     std::string ftype = field_type;
     for (auto &c : ftype) { c = tolower(c); }
