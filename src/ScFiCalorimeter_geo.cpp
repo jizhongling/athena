@@ -34,6 +34,58 @@ Position get_xml_xyz(const XmlComp &comp, dd4hep::xml::Strng_t name)
     return pos;
 }
 
+// Replace placeVolume to reduce memory consumption
+PlacedVolume _addNode(TGeoVolume* par, TGeoVolume* daughter, int id, TGeoMatrix* transform)
+{
+  TGeoVolume* parent = par;
+  if ( !parent )   {
+    std::cerr << "dd4hep Volume: Attempt to assign daughters to an invalid physical parent volume.\n";
+    exit(1);
+  }
+  else if ( !daughter )   {
+    std::cerr << "dd4hep Volume: Attempt to assign an invalid physical daughter volume.\n";
+    exit(1);
+  }
+  else if ( !transform )   {
+    std::cerr << "dd4hep Volume: Attempt to place volume without placement matrix.\n";
+    exit(1);
+  }
+  if ( transform != gGeoIdentity ) {
+    std::string nam = std::string(daughter->GetName()) + "_placement";
+    transform->SetName(nam.c_str());
+  }
+  TGeoShape* shape = daughter->GetShape();
+  // Need to fix the daughter's BBox of assemblies, if the BBox was not calculated....
+  if ( shape->IsA() == TGeoShapeAssembly::Class() )  {
+    TGeoShapeAssembly* as = (TGeoShapeAssembly*)shape;
+    as->NeedsBBoxRecompute();
+    as->ComputeBBox();
+  }
+  TGeoNode* n {nullptr};
+  TString nam_id = TString::Format("%s_%d", daughter->GetName(), id);
+  bool s_verifyCopyNumbers = true;
+  if ( s_verifyCopyNumbers )   {
+    n = static_cast<TGeoNode*>(parent->GetNode(nam_id));
+    if ( n != 0 )  {
+      std::cerr << "PlacedVolume ++ Attempt to place already exiting node " << nam_id;
+    }
+  }
+  parent->AddNode(daughter, id, transform);
+  n = static_cast<TGeoNode*>(parent->GetNodes()->Last());
+  if ( nam_id != n->GetName() )   {
+    std::cerr << "PlacedVolume ++ FAILED to place node " << nam_id;
+  }
+  //n->TGeoNode::SetUserExtension(new PlacedVolume::Object());
+  n->TGeoNode::SetUserExtension(0);
+  return PlacedVolume(n);
+}
+
+PlacedVolume _placeVolume(TGeoVolume* par, Volume daughter, int copy_nr, const Position& pos)
+{
+  auto matrix = std::make_unique<TGeoTranslation>(pos.x(), pos.y(), pos.z());
+  return _addNode(par, daughter, copy_nr, matrix.release());
+}
+
 // main
 static Ref_t create_detector(Detector& desc, xml::Handle_t handle, SensitiveDetector sens)
 {
@@ -164,7 +216,7 @@ std::tuple<Volume, Position> build_module(const Detector &desc, const xml::Compo
               double x = x0 + fdistx * ix;
               // about to touch the boundary
               if ((sx - x) < x0) { break; }
-              auto fiberPV = modVol.placeVolume(fiberVol, nfibers++, Position{x - sx/2., y - sy/2., 0});
+              auto fiberPV = _placeVolume(modVol.ptr(), fiberVol, nfibers++, Position{x - sx/2., y - sy/2., 0});
               //std::cout << "(" << ix << ", " << iy << ", " << x - sx/2. << ", " << y - sy/2. << ", " << fr << "),\n";
               fiberPV.addPhysVolID("fiber_x", ix + 1).addPhysVolID("fiber_y", iy + 1);
           }

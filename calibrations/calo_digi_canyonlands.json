@@ -21,7 +21,7 @@
         "capacityBitsADC": 14,
         "pedestalMean": 100,
         "pedestalSigma": 0.7,
-        "thresholdValue": 2
+        "thresholdValue": 1
     },
     "hcal_pos_endcap": {
         "readout": "tile",
