@@ -75,8 +75,7 @@ PlacedVolume _addNode(TGeoVolume* par, TGeoVolume* daughter, int id, TGeoMatrix*
   if ( nam_id != n->GetName() )   {
     std::cerr << "PlacedVolume ++ FAILED to place node " << nam_id;
   }
-  //n->TGeoNode::SetUserExtension(new PlacedVolume::Object());
-  n->TGeoNode::SetUserExtension(0);
+  n->TGeoNode::SetUserExtension(new PlacedVolume::Object());
   return PlacedVolume(n);
 }
 
@@ -216,7 +215,7 @@ std::tuple<Volume, Position> build_module(const Detector &desc, const xml::Compo
               double x = x0 + fdistx * ix;
               // about to touch the boundary
               if ((sx - x) < x0) { break; }
-              auto fiberPV = _placeVolume(modVol.ptr(), fiberVol, nfibers++, Position{x - sx/2., y - sy/2., 0});
+              auto fiberPV = modVol.placeVolume(fiberVol, nfibers++, Position{x - sx/2., y - sy/2., 0});
               //std::cout << "(" << ix << ", " << iy << ", " << x - sx/2. << ", " << y - sy/2. << ", " << fr << "),\n";
               fiberPV.addPhysVolID("fiber_x", ix + 1).addPhysVolID("fiber_y", iy + 1);
           }
