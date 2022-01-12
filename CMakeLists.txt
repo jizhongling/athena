@@ -62,7 +62,7 @@ install(DIRECTORY compact/
     DESTINATION share/${PROJECT_NAME}/compact
     FILES_MATCHING PATTERN "*.xml"
     )
-install(FILES athena.xml
+install(FILES athena.xml athena-juggler.xml
     DESTINATION share/${PROJECT_NAME}/
     )
 #-----------------------------------------------------------------------------------

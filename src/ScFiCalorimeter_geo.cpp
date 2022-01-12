@@ -174,7 +174,7 @@ std::tuple<Volume, Position> build_module(const Detector &desc, const xml::Compo
       auto foff     = dd4hep::getAttrOrDefault<double>(fiber_x, _Unicode(offset), 0.5*mm);
       auto fiberMat = desc.material(fiber_x.attr<std::string>(_Unicode(material)));
       Tube fiberShape(0., fr, sz/2.);
-      Volume fiberVol("fiber_vol", fiberShape, fiberMat);
+      Volume fiberVol("~fiber_vol", fiberShape, fiberMat);
       fiberVol.setSensitiveDetector(sens);
 
       // Fibers are placed in a honeycomb with the radius = sqrt(3)/2. * hexagon side length
@@ -217,7 +217,7 @@ std::tuple<Volume, Position> build_module(const Detector &desc, const xml::Compo
               if ((sx - x) < x0) { break; }
               auto fiberPV = modVol.placeVolume(fiberVol, nfibers++, Position{x - sx/2., y - sy/2., 0});
               //std::cout << "(" << ix << ", " << iy << ", " << x - sx/2. << ", " << y - sy/2. << ", " << fr << "),\n";
-              fiberPV.addPhysVolID("fiber_x", ix + 1).addPhysVolID("fiber_y", iy + 1);
+              fiberPV.addPhysVolID("~fiber_x", ix + 1).addPhysVolID("~fiber_y", iy + 1);
           }
       }
     // if no fibers we make the module itself sensitive

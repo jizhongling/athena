@@ -47,7 +47,7 @@
   <readouts>
     <readout name="EcalEndcapPHits">
       <segmentation type="NoSegmentation"/>
-      <id>system:8,ring:8,module:20,fiber_x:8,fiber_y:8</id>
+      <id>system:8,ring:8,module:20,~fiber_x:8,~fiber_y:8</id>
     </readout>
   </readouts>
 
