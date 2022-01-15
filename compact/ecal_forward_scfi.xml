@@ -33,8 +33,8 @@
       readout="EcalEndcapPHits">
       <position x="0" y="0" z="EcalEndcapP_zmin + EcalEndcapP_length/2."/>
       <dimensions rmin="EcalEndcapP_rmin" rmax="EcalEndcapP_rmax" length="EcalEndcapP_length"/>
-      <module sizex="25*mm" sizey="25*mm" sizez="170*mm" material="TungstenDens24" vis="EcalEndcapBlockVis">
-        <fiber material="Polystyrene"
+      <module sizex="25*mm" sizey="25*mm" sizez="170*mm" material="Polystyrene" vis="EcalEndcapBlockVis">
+        <fiber material="TungstenDens24"
           radius="EcalEndcapP_FiberRadius"
           offset="EcalEndcapP_FiberOffset"
           spacex="EcalEndcapP_FiberSpaceX"
@@ -47,7 +47,7 @@
   <readouts>
     <readout name="EcalEndcapPHits">
       <segmentation type="NoSegmentation"/>
-      <id>system:8,ring:8,module:20,~fiber_x:8,~fiber_y:8</id>
+      <id>system:8,ring:8,module:20,fiber_x:8,fiber_y:8</id>
     </readout>
   </readouts>
 

@@ -34,7 +34,7 @@ Position get_xml_xyz(const XmlComp &comp, dd4hep::xml::Strng_t name)
     return pos;
 }
 
-// Replace placeVolume to reduce memory consumption
+// Replace placeVolume to reduce memory consumption (not needed)
 PlacedVolume _addNode(TGeoVolume* par, TGeoVolume* daughter, int id, TGeoMatrix* transform)
 {
   TGeoVolume* parent = par;
@@ -162,6 +162,7 @@ std::tuple<Volume, Position> build_module(const Detector &desc, const xml::Compo
     Box modShape(sx/2., sy/2., sz/2.);
     auto modMat = desc.material(mod_x.attr<std::string>(_Unicode(material)));
     Volume modVol("module_vol", modShape, modMat);
+    modVol.setSensitiveDetector(sens);
     if (mod_x.hasAttr(_Unicode(vis))) {
         modVol.setVisAttributes(desc.visAttributes(mod_x.attr<std::string>(_Unicode(vis))));
     }
@@ -173,9 +174,6 @@ std::tuple<Volume, Position> build_module(const Detector &desc, const xml::Compo
       auto fsy      = fiber_x.attr<double>(_Unicode(spacey));
       auto foff     = dd4hep::getAttrOrDefault<double>(fiber_x, _Unicode(offset), 0.5*mm);
       auto fiberMat = desc.material(fiber_x.attr<std::string>(_Unicode(material)));
-      Tube fiberShape(0., fr, sz/2.);
-      Volume fiberVol("~fiber_vol", fiberShape, fiberMat);
-      fiberVol.setSensitiveDetector(sens);
 
       // Fibers are placed in a honeycomb with the radius = sqrt(3)/2. * hexagon side length
       // So each fiber is fully contained in a regular hexagon, which are placed as
@@ -203,28 +201,35 @@ std::tuple<Volume, Position> build_module(const Detector &desc, const xml::Compo
 
       // std::cout << sx << ", " << sy << ", " << fr << ", " << nx << ", " << ny << std::endl;
 
+      const std::vector<double> xvpg{0., fdistx/2., 0., -fdistx/2.};
+      const std::vector<double> yvpg{fdisty/2., 0., -fdisty/2., 0.};
+      const std::vector<double> zvpg{-sz/2., sz/2.};
+      const std::vector<double> x0vpg(2, 0.);
+      const std::vector<double> y0vpg(2, 0.);
+      const std::vector<double> scvpg(2, 1.);
+      ExtrudedPolygon fiberOuterShape(xvpg, yvpg, zvpg, x0vpg, y0vpg, scvpg);
+      Tube fiberInnerShape(0., fr, sz/2.);
+      SubtractionSolid fiberShape(fiberOuterShape, fiberInnerShape);
+      Volume fiberVol("fiber_vol", fiberShape, fiberMat);
+
       // place the fibers
-      double y0 = (foff + fside);
+      double y0 = fdisty/2.;
       int nfibers = 0;
       for (int iy = 0; iy < ny; ++iy) {
           double y = y0 + fdisty * iy;
           // about to touch the boundary
           if ((sy - y) < y0) { break; }
-          double x0 = (iy % 2) ? (foff + fside) : (foff + fside + fdistx / 2.);
+          double x0 = (iy % 2) ? fdistx/2. : fdistx;
           for (int ix = 0; ix < nx; ++ix) {
               double x = x0 + fdistx * ix;
               // about to touch the boundary
               if ((sx - x) < x0) { break; }
               auto fiberPV = modVol.placeVolume(fiberVol, nfibers++, Position{x - sx/2., y - sy/2., 0});
               //std::cout << "(" << ix << ", " << iy << ", " << x - sx/2. << ", " << y - sy/2. << ", " << fr << "),\n";
-              fiberPV.addPhysVolID("~fiber_x", ix + 1).addPhysVolID("~fiber_y", iy + 1);
+              //fiberPV.addPhysVolID("fiber_x", ix + 1).addPhysVolID("fiber_y", iy + 1);
           }
       }
-    // if no fibers we make the module itself sensitive
-    } else {
-      modVol.setSensitiveDetector(sens);
     }
-
 
     return std::make_tuple(modVol, Position{sx, sy, sz});
 }
