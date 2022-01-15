@@ -157,7 +157,7 @@ std::tuple<Volume, Position> build_module(const Detector &desc, const xml::Compo
 
     double y0 = foff + fside;
     double yb = y0 - fdisty/2.;
-    double yt = sy - yb - fdisty * std::floor((sy - yb) / fdisty);
+    double yt = sy - yb - fdisty * std::floor((sy - yb - y0 + fdisty/2.) / fdisty);
     Box modBottomShape(sx/2., yb/2., sz/2.);
     Box modTopShape(sx/2., yt/2., sz/2.);
     Volume modBottomVol("modBottom_vol", modBottomShape, fiberMat);
@@ -169,7 +169,7 @@ std::tuple<Volume, Position> build_module(const Detector &desc, const xml::Compo
     Volume modLeftVol[2], modRightVol[2];
     for (int ieo = 0; ieo < 2; ++ieo) {
       xl[ieo] = x0[ieo] - fdistx/2.;
-      xr[ieo] = sx - xl[ieo] - fdistx * std::floor((sx - xl[ieo]) / fdistx);
+      xr[ieo] = sx - xl[ieo] - fdistx * std::floor((sx - xl[ieo] - x0[ieo] + fdistx/2.) / fdistx);
       modLeftShape[ieo] = Box(xl[ieo]/2., fdisty/2., sz/2.);
       modRightShape[ieo] = Box(xr[ieo]/2., fdisty/2., sz/2.);
       modLeftVol[ieo] = Volume(Form("modLeft%d_vol",ieo), modLeftShape[ieo], fiberMat);
