@@ -157,7 +157,7 @@ std::tuple<Volume, Position> build_module(const Detector &desc, const xml::Compo
 
     double y0 = foff + fside;
     double yb = y0 - fdisty/2.;
-    double yt = sy - yb - fdisty * std::floor((sy - yb - y0 + fdisty/2.) / fdisty);
+    double yt = sy - yb - fdisty * std::floor((sy - yb*2.) / fdisty);
     Box modBottomShape(sx/2., yb/2., sz/2.);
     Box modTopShape(sx/2., yt/2., sz/2.);
     Volume modBottomVol("modBottom_vol", modBottomShape, fiberMat);
@@ -169,7 +169,7 @@ std::tuple<Volume, Position> build_module(const Detector &desc, const xml::Compo
     Volume modLeftVol[2], modRightVol[2];
     for (int ieo = 0; ieo < 2; ++ieo) {
       xl[ieo] = x0[ieo] - fdistx/2.;
-      xr[ieo] = sx - xl[ieo] - fdistx * std::floor((sx - xl[ieo] - x0[ieo] + fdistx/2.) / fdistx);
+      xr[ieo] = sx - xl[ieo] - fdistx * std::floor((sx - xl[ieo]*2.) / fdistx);
       modLeftShape[ieo] = Box(xl[ieo]/2., fdisty/2., sz/2.);
       modRightShape[ieo] = Box(xr[ieo]/2., fdisty/2., sz/2.);
       modLeftVol[ieo] = Volume(Form("modLeft%d_vol",ieo), modLeftShape[ieo], fiberMat);
@@ -182,17 +182,19 @@ std::tuple<Volume, Position> build_module(const Detector &desc, const xml::Compo
     for (int iy = 0; iy < ny; ++iy) {
       double y = y0 + fdisty * iy;
       // about to touch the boundary
-      if ((sy - y) < y0) {
+      if (sy - y < y0) {
         modVol.placeVolume(modTopVol, 0, Position{0, sy/2.-yt/2., 0});
+        //std::cout << "Top Y remaining: " << sy - y + fdisty/2. - yt << std::endl;
         break;
       }
       int ieo = iy % 2;
-      modVol.placeVolume(modLeftVol[ieo], nleft++, Position{-sx/2.+xl[2]/2., -sy/2.+y, 0});
+      modVol.placeVolume(modLeftVol[ieo], nleft++, Position{-sx/2.+xl[ieo]/2., -sy/2.+y, 0});
       for (int ix = 0; ix < nx; ++ix) {
         double x = x0[ieo] + fdistx * ix;
         // about to touch the boundary
-        if ((sx - x) < x0[ieo]) {
-          modVol.placeVolume(modRightVol[ieo], nright++, Position{sx/2.-xr[2]/2., -sy/2.+y, 0});
+        if (sx - x < x0[ieo]) {
+          modVol.placeVolume(modRightVol[ieo], nright++, Position{sx/2.-xr[ieo]/2., -sy/2.+y, 0});
+          //std::cout << "Right X remaining: " << sx - x + fdistx/2. - xr[ieo] << std::endl;
           break;
         }
         modVol.placeVolume(fiberVol, nfibers++, Position{-sx/2.+x, -sy/2.+y, 0});
