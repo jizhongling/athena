@@ -8,6 +8,7 @@
 
 #include <filesystem>
 #include <iostream>
+#include <cstdlib>
 #include <string>
 
 namespace fs = std::filesystem;
@@ -55,6 +56,24 @@ long load_file(
   if (url.empty()) {
     printout(WARNING, "FileLoader", "no url specified");
     return 0;
+  }
+
+  // parse cache for environment variables
+  auto pos = std::string::npos;
+  while ((pos = cache.find('$')) != std::string::npos) {
+    auto after = cache.find_first_not_of(
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+      "abcdefghijklmnopqrstuvwxyz"
+      "0123456789"
+      "_",
+      pos + 1);
+    if (after == std::string::npos) after = cache.size(); // cache ends on env var
+    auto env_name = cache.substr(pos + 1, after - pos - 1);
+    auto env_value = std::getenv(env_name.c_str());
+    if (env_value == nullptr) env_value = "";
+    cache.erase(pos, after - pos);
+    cache.insert(pos, env_value);
+    printout(INFO, "FileLoader", "$" + env_name + " -> " + env_value);
   }
 
   // create file path
