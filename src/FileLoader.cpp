@@ -68,9 +68,9 @@ long load_file(
       "_",
       pos + 1);
     if (after == std::string::npos) after = cache.size(); // cache ends on env var
-    auto env_name = cache.substr(pos + 1, after - pos - 1);
-    auto env_value = std::getenv(env_name.c_str());
-    if (env_value == nullptr) env_value = "";
+    const std::string env_name(cache.substr(pos + 1, after - pos - 1));
+    auto env_ptr = std::getenv(env_name.c_str());
+    const std::string env_value(env_ptr != nullptr ? env_ptr : "");
     cache.erase(pos, after - pos);
     cache.insert(pos, env_value);
     printout(INFO, "FileLoader", "$" + env_name + " -> " + env_value);
