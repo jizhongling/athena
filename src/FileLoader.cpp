@@ -100,35 +100,45 @@ long load_file(
     return 0;
   }
 
-  // if hash does not exist, we must retrieve file from cache or url
+  // if hash does not exist, we try to retrieve file from cache
   if (!fs::exists(hash_path)) {
+    // recursive loop into cache directory
     fs::path cache_path(cache);
-    fs::path cache_hash_path(cache_path / hash);
-    if (fs::exists(cache_hash_path)) {
-      // if cache/hash exists
-      // symlink hash to cache/hash
-      printout(INFO, "FileLoader", "File " + file + " with hash " + hash + " found in " + cache);
-      try {
-        fs::create_symlink(cache_hash_path, hash_path);
-      } catch (const fs::filesystem_error&) {
-        printout(ERROR, "FileLoader", "unable to link from " + hash_path.string() + " to " + cache_hash_path.string());
-        printout(ERROR, "FileLoader", "check permissions and retry");
-        std::quick_exit(1);
-      }
-    } else {
-      // if cache/hash doesn't exists
-      cmd = fmt::format(cmd, url, hash_path.c_str()); // TODO: Use c++20 std::fmt
-      printout(INFO, "FileLoader", "Downloading " + file + " as hash " + hash + " with " + cmd);
-      // run cmd
-      auto ret = std::system(cmd.c_str());
-      if (!fs::exists(hash_path)) {
-        printout(ERROR, "FileLoader", "unable to run cmd " + cmd);
-        printout(ERROR, "FileLoader", "check command and retry");
-        std::quick_exit(1);
+    printout(INFO, "FileLoader", "Cache " + cache_path.string());
+    if (fs::exists(cache_path)) {
+      for (auto const& dir_entry: fs::recursive_directory_iterator(cache_path)) {
+        if (!dir_entry.is_directory()) continue;
+        fs::path cache_dir_path = cache_path / dir_entry;
+        printout(INFO, "FileLoader", "Checking " + cache_dir_path.string());
+        fs::path cache_hash_path = cache_dir_path / hash;
+        if (fs::exists(cache_hash_path)) {
+          // symlink hash to cache/.../hash
+          printout(INFO, "FileLoader", "File " + file + " with hash " + hash + " found in " + cache_hash_path.string());
+          try {
+            fs::create_symlink(cache_hash_path, hash_path);
+          } catch (const fs::filesystem_error&) {
+            printout(ERROR, "FileLoader", "unable to link from " + hash_path.string() + " to " + cache_hash_path.string());
+            printout(ERROR, "FileLoader", "check permissions and retry");
+            std::quick_exit(1);
+          }
+          break;
+        }
       }
     }
   }
-  // hash_path now exists
+
+  // if hash does not exist, we try to retrieve file from url
+  if (!fs::exists(hash_path)) {
+    cmd = fmt::format(cmd, url, hash_path.c_str()); // TODO: Use c++20 std::fmt
+    printout(INFO, "FileLoader", "Downloading " + file + " as hash " + hash + " with " + cmd);
+    // run cmd
+    auto ret = std::system(cmd.c_str());
+    if (!fs::exists(hash_path)) {
+      printout(ERROR, "FileLoader", "unable to run cmd " + cmd);
+      printout(ERROR, "FileLoader", "check command and retry");
+      std::quick_exit(1);
+    }
+  }
 
   // check if file already exists
   if (fs::exists(file_path)) {
