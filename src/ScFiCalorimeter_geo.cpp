@@ -53,7 +53,8 @@ static Ref_t create_detector(Detector& desc, xml::Handle_t handle, SensitiveDete
   int modid = 1;
   for (int ix = 0; ix < 2; ix++)
     for (int iy = 0; iy < 2; iy++) {
-      auto modPV = blockVol.placeVolume(modVol, Position{glue_x*(ix-0.5), glue_y*(iy-0.5), 0});
+      auto modPV = blockVol.placeVolume(modVol, modid-1,
+          Position{(modSize.x()+glue_width)*(ix-0.5), (modSize.y()+glue_width)*(iy-0.5), 0});
       modPV.addPhysVolID("module", modid++);
     }
   blockVol.placeVolume(modGlue, Position{0, 0, 0});
@@ -64,13 +65,14 @@ static Ref_t create_detector(Detector& desc, xml::Handle_t handle, SensitiveDete
   const auto block_y = block_xml.attr<double>(_Unicode(sizey));
   // calorimeter block z-offsets (as blocks are shorter than the volume length)
   const double block_offset = -(length - modSize.z())/2.;
-  Box envShape(block_x*2., block_y*2., length/2.);
+  Box envShape(block_x*8./2., block_y*8./2., length/2.);
   Volume envVol(detName + "_envelope", envShape, desc.material("Air"));
   envVol.setVisAttributes(desc.visAttributes(detElem.visStr()));
   int blockid = 1;
-  for (int ix = 0; ix < 4; ix++)
-    for (int iy = 0; iy < 4; iy++) {
-      auto blockPV = envVol.placeVolume(blockVol, Position{block_x*(ix-1.5), block_y*(iy-1.5), block_offset});
+  for (int ix = 0; ix < 8; ix++)
+    for (int iy = 0; iy < 8; iy++) {
+      auto blockPV = envVol.placeVolume(blockVol, blockid-1,
+          Position{block_x*(ix-3.5), block_y*(iy-3.5), block_offset});
       blockPV.addPhysVolID("block", blockid++);
     }
 
@@ -132,7 +134,7 @@ std::tuple<Volume, Position> build_module(const Detector &desc, const xml::Compo
   Volume modTopVol("modTop_vol", modTopShape, modMat);
 
   // place the volumes separated for even and odd layers
-  modVol.placeVolume(modBottomVol, 0, Position{0, -sy/2.+yb/2., 0});
+  modVol.placeVolume(modBottomVol, Position{0, -sy/2.+yb/2., 0});
   for (int evenodd = 0; evenodd < 2; evenodd++) {
     double xl = foffx + fdistx/2. * evenodd;
     double x0 = xl + fdistx/2.;
@@ -165,7 +167,7 @@ std::tuple<Volume, Position> build_module(const Detector &desc, const xml::Compo
       modVol.placeVolume(modLayerVol, Position{0, -sy/2.+y, 0});
     }
   }
-  modVol.placeVolume(modTopVol, 0, Position{0, sy/2.-yt/2., 0});
+  modVol.placeVolume(modTopVol, Position{0, sy/2.-yt/2., 0});
 
   return std::make_tuple(modVol, Position{sx, sy, sz});
 }
