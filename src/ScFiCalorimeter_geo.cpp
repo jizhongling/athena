@@ -69,7 +69,7 @@ static Ref_t create_detector(Detector &desc, xml::Handle_t handle, SensitiveDete
   // calorimeter block z-offsets (as blocks are shorter than the volume length)
   const double block_offset = -length/2. + modSize.z()/2.;
   Box envShape(block_x*8./2., block_y*8./2., length/2.);
-  Volume envVol(detName + "_envelope", envShape, desc.material("Air"));
+  Volume envVol(detName + "_envelope", envShape, desc.material("Vacuum"));
   envVol.setVisAttributes(desc.visAttributes(detElem.visStr()));
   int blockid = 1;
   for (int ix = 0; ix < 8; ix++)

@@ -37,7 +37,7 @@
       <position x="-25.025*mm" y="185.547*mm" z="EcalEndcapP_length/2."/>
       <dimensions rmin="EcalEndcapP_rmin" rmax="EcalEndcapP_rmax" length="EcalEndcapP_length"/>
       <block sizex="100.*mm" sizey="98.897*mm"/>
-      <module sizex="49.85*mm" sizey="49.30*mm" sizez="170*mm" material="TungstenDens24" vis="EcalEndcapBlockVis">
+      <module sizex="49.85*mm" sizey="49.30*mm" sizez="170*mm" material="TungstenDens22" vis="EcalEndcapBlockVis">
         <fiber material="Polystyrene"
           radius="EcalEndcapP_FiberRadius"
           offsetx="EcalEndcapP_FiberOffsetX"
