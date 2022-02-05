@@ -192,7 +192,7 @@ Assembly build_layer(const std::string &prefix, bool is_even, double height, dou
   Box fiberOuterShape(fdistx/2., height/2., sz/2.);
   Tube fiberInnerShape(0., fr, sz/2.);
   SubtractionSolid fiberShape(fiberOuterShape, fiberInnerShape, Position{0, yshift, 0});
-  Volume fiberVol("fiber_vol", fiberShape, modMat);
+  Volume fiberVol(prefix + "LayerFiber_vol", fiberShape, modMat);
 
   // place the fibers
   double x = x0;
