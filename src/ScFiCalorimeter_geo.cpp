@@ -1,5 +1,5 @@
-#include <cmath>
 #include <iostream>
+#include <cmath>
 #include <tuple>
 #include <algorithm>
 
@@ -11,6 +11,9 @@ using namespace dd4hep;
 using Point =  ROOT::Math::XYPoint;
 
 std::tuple<Volume, Position> build_module(const Detector &desc, const xml::Component &mod_xml, SensitiveDetector &sens);
+Assembly build_layer(const std::string &prefix, bool is_even, double height, double yshift,
+    const Volume &fiberVol, const Volume &fiberCladVol, const Material &modMat,
+    double fdistx, double fr, double sx, double sz, double foffx);
 
 // helper function to get x, y, z if defined in a xml component
 template<class XmlComp>
@@ -76,7 +79,7 @@ static Ref_t create_detector(Detector& desc, xml::Handle_t handle, SensitiveDete
       blockPV.addPhysVolID("block", blockid++);
     }
 
-  desc.add(Constant(detName + "_NModules", std::to_string((blockid-1)*(modid-1))));
+  desc.add(Constant(detName + "_NModules", std::to_string((blockid-1)*(modid-1)*4)));
 
   // detector position and rotation
   auto pos = get_xml_xyz(detElem, _Unicode(position));
@@ -105,10 +108,6 @@ std::tuple<Volume, Position> build_module(const Detector &desc, const xml::Compo
   auto foffy = dd4hep::getAttrOrDefault<double>(fiber_xml, _Unicode(offsety), 0.5*mm);
   auto fiberMat = desc.material(fiber_xml.attr<std::string>(_Unicode(material)));
 
-  // maximum numbers of the fibers, help narrow the loop range
-  int nx = int(sx / fdistx) + 1;
-  int ny = int(sy / fdisty) + 1;
-
   // Instead of placing fibers, we make the whole module as a scintillator
   // and use daughters to cover the insensitive area by radiators
   Box modShape(sx/2., sy/2., sz/2.);
@@ -125,51 +124,103 @@ std::tuple<Volume, Position> build_module(const Detector &desc, const xml::Compo
   Tube fiberCladShape(0.97*fr, fr, sz/2.);
   Volume fiberCladVol("fiberClad_vol", fiberCladShape, fiberMat);
 
-  double yb = foffy;
-  double y0 = yb + fdisty/2.;
-  double yt = sy - yb - fdisty * std::floor((sy - yb*2.) / fdisty);
-  Box modBottomShape(sx/2., yb/2., sz/2.);
-  Box modTopShape(sx/2., yt/2., sz/2.);
-  Volume modBottomVol("modBottom_vol", modBottomShape, modMat);
-  Volume modTopVol("modTop_vol", modTopShape, modMat);
+  // place the top layer
+  int ny = int(sy / fdisty) + 1;
+  double yt = foffy + fdisty/2.;
+  double y0 = yt + fdisty/2.;
+  Assembly layerTopVol = build_layer("Top", false, yt, -yt/2.+fdisty/2.,
+      fiberVol, fiberCladVol, modMat, fdistx, fr, sx, sz, foffx);
+  modVol.placeVolume(layerTopVol, Position{0, sy/2.-yt/2., 0});
 
-  // place the volumes separated for even and odd layers
-  modVol.placeVolume(modBottomVol, Position{0, -sy/2.+yb/2., 0});
+  // place even and odd layers
   for (int evenodd = 0; evenodd < 2; evenodd++) {
-    double xl = foffx + fdistx/2. * evenodd;
-    double x0 = xl + fdistx/2.;
-    double xr = sx - xl - fdistx * std::floor((sx - xl*2.) / fdistx);
-    Box layerLeftShape(xl/2., fdisty/2., sz/2.);
-    Box layerRightShape(xr/2., fdisty/2., sz/2.);
-    Volume layerLeftVol(Form("layerLeft%d_vol",evenodd), layerLeftShape, modMat);
-    Volume layerRightVol(Form("layerRight%d_vol",evenodd), layerRightShape, modMat);
-    Assembly modLayerVol(Form("modLayer%d_vol",evenodd));
-
-    // place the fibers in each layer
-    int nfibers = 0;
-    modLayerVol.placeVolume(layerLeftVol, Position{-sx/2.+xl/2., 0, 0});
-    for (int ix = 0; ix < nx; ix++) {
-      double x = x0 + fdistx * ix;
-      // about to touch the boundary
-      if (sx - x < x0) break;
-      modLayerVol.placeVolume(fiberVol, nfibers, Position{-sx/2.+x, 0, 0});
-      modLayerVol.placeVolume(fiberCladVol, nfibers, Position{-sx/2.+x, 0, 0});
-      nfibers++;
-    }
-    modLayerVol.placeVolume(layerRightVol, Position{sx/2.-xr/2., 0, 0});
-    modLayerVol->Voxelize("");
+    bool is_even = evenodd%2 == 0 ? true : false;
+    Assembly layerVol = build_layer(is_even ? "Even" : "Odd", is_even, fdisty, 0.,
+        fiberVol, fiberCladVol, modMat, fdistx, fr, sx, sz, foffx);
 
     // place the layers
+    double y = y0;
     for (int iy = evenodd; iy < ny; iy += 2) {
-      double y = y0 + fdisty * iy;
+      y = y0 + fdisty * iy;
       // about to touch the boundary
       if (sy - y < y0) break;
-      modVol.placeVolume(modLayerVol, Position{0, -sy/2.+y, 0});
+      modVol.placeVolume(layerVol, Position{0, sy/2.-y, 0});
+    }
+
+    // place the bottom layer
+    y -= fdisty;
+    if (sy - y < y0) {
+      double yb = sy - y + fdisty/2.;
+      if (sy - y < foffy) {
+        Box layerBottomShape(sx/2., yb/2., sz/2.);
+        Volume layerBottomVol("BottomLayer_vol", layerBottomShape, modMat);
+        modVol.placeVolume(layerBottomVol, Position{0, -sy/2.+yb/2., 0});
+      }
+      else {
+        Assembly layerBottomVol = build_layer("Bottom", !is_even, yb, yb/2.-fdisty/2.,
+            fiberVol, fiberCladVol, modMat, fdistx, fr, sx, sz, foffx);
+        modVol.placeVolume(layerBottomVol, Position{0, -sy/2.+yb/2., 0});
+      }
     }
   }
-  modVol.placeVolume(modTopVol, Position{0, sy/2.-yt/2., 0});
 
   return std::make_tuple(modVol, Position{sx, sy, sz});
+}
+
+Assembly build_layer(const std::string &prefix, bool is_even, double height, double yshift,
+    const Volume &fiberVol, const Volume &fiberCladVol, const Material &modMat,
+    double fdistx, double fr, double sx, double sz, double foffx)
+{
+  Assembly layerVol(prefix + "Layer_vol");
+  int nfibers = 0;
+  int nclads = 0;
+
+  // place the left edge
+  int nx = int(sx / fdistx) + 1;
+  double xl = is_even ? foffx : foffx + fdistx/2.;
+  double x0 = xl + fdistx/2.;
+  if (is_even) {
+    Box layerLeftShape(xl/2., height/2., sz/2.);
+    Volume layerLeftVol(prefix + "LayerLeft_vol", layerLeftShape, modMat);
+    layerVol.placeVolume(layerLeftVol, Position{-sx/2.+xl/2., 0, 0});
+  }
+  else {
+    Box layerLeftOuterShape(xl/2., height/2., sz/2.);
+    Tube layerLeftInnerShape(0., fr, sz/2.);
+    SubtractionSolid layerLeftShape(layerLeftOuterShape, layerLeftInnerShape, Position{xl/2.-fdistx/2., yshift, 0});
+    Volume layerLeftVol(prefix + "LayerLeft_vol", layerLeftShape, modMat);
+    layerVol.placeVolume(layerLeftVol, Position{-sx/2.+xl/2., 0, 0});
+    layerVol.placeVolume(fiberCladVol, nclads++, Position{-sx/2.+foffx, yshift, 0});
+  }
+
+  // place the fibers
+  double x = x0;
+  for (int ix = 0; ix < nx; ix++) {
+    x = x0 + fdistx * ix;
+    // about to touch the boundary
+    if (sx - x < x0) break;
+    layerVol.placeVolume(fiberVol, nfibers++, Position{-sx/2.+x, yshift, 0});
+    layerVol.placeVolume(fiberCladVol, nclads++, Position{-sx/2.+x, yshift, 0});
+  }
+
+  // place the right edge
+  double xr = sx - x + fdistx/2.;
+  if (sx - x < foffx) {
+    Box layerRightShape(xr/2., height/2., sz/2.);
+    Volume layerRightVol(prefix + "LayerRight_vol", layerRightShape, modMat);
+    layerVol.placeVolume(layerRightVol, Position{sx/2.-xr/2., 0, 0});
+  }
+  else {
+    Box layerRightOuterShape(xr/2., height/2., sz/2.);
+    Tube layerRightInnerShape(0., fr, sz/2.);
+    SubtractionSolid layerRightShape(layerRightOuterShape, layerRightInnerShape, Position{-xr/2.+fdistx/2., yshift, 0});
+    Volume layerRightVol(prefix + "LayerRight_vol", layerRightShape, modMat);
+    layerVol.placeVolume(layerRightVol, Position{sx/2.-xr/2., 0, 0});
+    layerVol.placeVolume(fiberCladVol, nclads++, Position{-sx/2.+x, yshift, 0});
+  }
+
+  layerVol->Voxelize("");
+  return layerVol;
 }
 
 DECLARE_DETELEMENT(ScFiCalorimeter, create_detector)
