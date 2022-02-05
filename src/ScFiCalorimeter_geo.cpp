@@ -56,7 +56,7 @@ static Ref_t create_detector(Detector &desc, xml::Handle_t handle, SensitiveDete
   int modid = 1;
   for (int ix = 0; ix < 2; ix++)
     for (int iy = 0; iy < 2; iy++) {
-      auto modPV = blockVol.placeVolume(modVol, modid-1,
+      auto modPV = blockVol.placeVolume(modVol,
           Position{(modSize.x()+glue_width)*(ix-0.5), (modSize.y()+glue_width)*(iy-0.5), 0});
       modPV.addPhysVolID("module", modid++);
     }
@@ -74,7 +74,7 @@ static Ref_t create_detector(Detector &desc, xml::Handle_t handle, SensitiveDete
   int blockid = 1;
   for (int ix = 0; ix < 8; ix++)
     for (int iy = 0; iy < 8; iy++) {
-      auto blockPV = envVol.placeVolume(blockVol, blockid-1,
+      auto blockPV = envVol.placeVolume(blockVol,
           Position{block_x*(ix-3.5), block_y*(iy-3.5), block_offset});
       blockPV.addPhysVolID("block", blockid++);
     }
@@ -167,8 +167,6 @@ Assembly build_layer(const std::string &prefix, bool is_even, double height, dou
     double fdistx, double fr, double sx, double sz, double foffx)
 {
   Assembly layerVol(prefix + "Layer_vol");
-  int nfibers = 0;
-  int nclads = 0;
 
   // place the left edge
   int nx = int(sx / fdistx) + 1;
@@ -185,7 +183,7 @@ Assembly build_layer(const std::string &prefix, bool is_even, double height, dou
     SubtractionSolid layerLeftShape(layerLeftOuterShape, layerLeftInnerShape, Position{xl/2.-fdistx/2., yshift, 0});
     Volume layerLeftVol(prefix + "LayerLeft_vol", layerLeftShape, modMat);
     layerVol.placeVolume(layerLeftVol, Position{-sx/2.+xl/2., 0, 0});
-    layerVol.placeVolume(fiberCladVol, nclads++, Position{-sx/2.+foffx, yshift, 0});
+    layerVol.placeVolume(fiberCladVol, Position{-sx/2.+foffx, yshift, 0});
   }
 
   // Leave a hole for each fiber and cover the insensitive areas by module materials
@@ -200,8 +198,8 @@ Assembly build_layer(const std::string &prefix, bool is_even, double height, dou
     x = x0 + fdistx * ix;
     // about to touch the boundary
     if (sx - x < x0) break;
-    layerVol.placeVolume(fiberVol, nfibers++, Position{-sx/2.+x, 0, 0});
-    layerVol.placeVolume(fiberCladVol, nclads++, Position{-sx/2.+x, yshift, 0});
+    layerVol.placeVolume(fiberVol, Position{-sx/2.+x, 0, 0});
+    layerVol.placeVolume(fiberCladVol, Position{-sx/2.+x, yshift, 0});
   }
 
   // place the right edge
@@ -217,7 +215,7 @@ Assembly build_layer(const std::string &prefix, bool is_even, double height, dou
     SubtractionSolid layerRightShape(layerRightOuterShape, layerRightInnerShape, Position{-xr/2.+fdistx/2., yshift, 0});
     Volume layerRightVol(prefix + "LayerRight_vol", layerRightShape, modMat);
     layerVol.placeVolume(layerRightVol, Position{sx/2.-xr/2., 0, 0});
-    layerVol.placeVolume(fiberCladVol, nclads++, Position{-sx/2.+x, yshift, 0});
+    layerVol.placeVolume(fiberCladVol, Position{-sx/2.+x, yshift, 0});
   }
 
   layerVol->Voxelize("");
