@@ -1,8 +1,8 @@
 {
     "ffi_zdc_ecal": {
-        "sampling_fraction": 1.0,
+        "sampling_fraction": 1.0
     },
     "ffi_zdc_hcal": {
-        "sampling_fraction": 1.0,
-    },
+        "sampling_fraction": 1.0
+    }
 }
