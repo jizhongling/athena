@@ -34,18 +34,18 @@
       vis="EcalEndcapVis"
       readout="EcalEndcapPHits">
       <!--position x="0" y="0" z="EcalEndcapP_zmin + EcalEndcapP_length/2."/-->
-      <position x="-25.025*mm" y="185.547*mm" z="EcalEndcapP_length/2."/>
+      <position x="0" y="0" z="EcalEndcapP_length/2."/>
       <dimensions rmin="EcalEndcapP_rmin" rmax="EcalEndcapP_rmax" length="EcalEndcapP_length"/>
       <block sizex="100.*mm" sizey="98.897*mm"/>
       <module sizex="49.85*mm" sizey="49.30*mm" sizez="170*mm" material="TungstenDens22" vis="EcalEndcapBlockVis">
-        <fiber material="Polystyrene"
+        <fiber material="PlasticScint126"
           radius="EcalEndcapP_FiberRadius"
           offsetx="EcalEndcapP_FiberOffsetX"
           offsety="EcalEndcapP_FiberOffsetY"
           spacex="EcalEndcapP_FiberSpaceX"
           spacey="EcalEndcapP_FiberSpaceY"/>
       </module>
-      <glue width="EcalEndcapP_ModuleGlue" material="Polystyrene"/>
+      <glue width="EcalEndcapP_ModuleGlue" material="PlasticScint126"/>
     </detector>
   </detectors>
 

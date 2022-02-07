@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 #include <cmath>
 #include <tuple>
 #include <algorithm>
@@ -9,6 +10,7 @@
 
 using namespace dd4hep;
 using Point =  ROOT::Math::XYPoint;
+const double eps = std::numeric_limits<float>::epsilon();
 
 std::tuple<Volume, Position> build_module(const Detector &desc, const xml::Component &mod_xml, SensitiveDetector &sens);
 Assembly build_layer(const std::string &prefix, bool is_even, double height, double yshift,
@@ -127,36 +129,36 @@ std::tuple<Volume, Position> build_module(const Detector &desc, const xml::Compo
       modMat, fiberCladVol, fdistx, fr, sx, sz, foffx);
   modVol.placeVolume(layerTopVol, Position{0, sy/2.-yt/2., 0});
 
-  // place even and odd layers
+  // construct even and odd layers
+  Assembly layerVol[2];
   for (int evenodd = 0; evenodd < 2; evenodd++) {
     bool is_even = evenodd%2 == 0 ? true : false;
-    Assembly layerVol = build_layer(is_even ? "Even" : "Odd", is_even, fdisty, 0.,
+    layerVol[evenodd] = build_layer(is_even ? "Even" : "Odd", is_even, fdisty, 0.,
         modMat, fiberCladVol, fdistx, fr, sx, sz, foffx);
+  }
 
-    // place the layers
-    double y = y0;
-    for (int iy = evenodd; iy < ny; iy += 2) {
-      y = y0 + fdisty * iy;
-      // about to touch the boundary
-      if (sy - y < y0) break;
-      modVol.placeVolume(layerVol, Position{0, sy/2.-y, 0});
-    }
+  // place even and odd layers
+  double y = y0;
+  int iy = 0;
+  for (iy = 0; iy < ny; iy++) {
+    y = y0 + fdisty * iy;
+    // about to touch the boundary
+    if (sy - y < y0 - eps) break;
+    modVol.placeVolume(layerVol[iy%2], Position{0, sy/2.-y, 0});
+  }
 
-    // place the bottom layer
-    y -= fdisty;
-    if (sy - y < y0) {
-      double yb = sy - y + fdisty/2.;
-      if (sy - y < foffy) {
-        Box layerBottomShape(sx/2., yb/2., sz/2.);
-        Volume layerBottomVol("BottomLayer_vol", layerBottomShape, modMat);
-        modVol.placeVolume(layerBottomVol, Position{0, -sy/2.+yb/2., 0});
-      }
-      else {
-        Assembly layerBottomVol = build_layer("Bottom", !is_even, yb, yb/2.-fdisty/2.,
-            modMat, fiberCladVol, fdistx, fr, sx, sz, foffx);
-        modVol.placeVolume(layerBottomVol, Position{0, -sy/2.+yb/2., 0});
-      }
-    }
+  // place the bottom layer
+  double yb = sy - y + fdisty/2.;
+  if (sy - y < foffy - eps) {
+    Box layerBottomShape(sx/2., yb/2., sz/2.);
+    Volume layerBottomVol("BottomLayer_vol", layerBottomShape, modMat);
+    modVol.placeVolume(layerBottomVol, Position{0, -sy/2.+yb/2., 0});
+  }
+  else {
+    bool is_even = iy%2 == 0 ? true : false;
+    Assembly layerBottomVol = build_layer("Bottom", is_even, yb, yb/2.-fdisty/2.,
+        modMat, fiberCladVol, fdistx, fr, sx, sz, foffx);
+    modVol.placeVolume(layerBottomVol, Position{0, -sy/2.+yb/2., 0});
   }
 
   return std::make_tuple(modVol, Position{sx, sy, sz});
@@ -197,14 +199,14 @@ Assembly build_layer(const std::string &prefix, bool is_even, double height, dou
   for (int ix = 0; ix < nx; ix++) {
     x = x0 + fdistx * ix;
     // about to touch the boundary
-    if (sx - x < x0) break;
+    if (sx - x < x0 - eps) break;
     layerVol.placeVolume(fiberVol, Position{-sx/2.+x, 0, 0});
     layerVol.placeVolume(fiberCladVol, Position{-sx/2.+x, yshift, 0});
   }
 
   // place the right edge
   double xr = sx - x + fdistx/2.;
-  if (sx - x < foffx) {
+  if (sx - x < foffx - eps) {
     Box layerRightShape(xr/2., height/2., sz/2.);
     Volume layerRightVol(prefix + "LayerRight_vol", layerRightShape, modMat);
     layerVol.placeVolume(layerRightVol, Position{sx/2.-xr/2., 0, 0});
