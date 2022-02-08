@@ -33,8 +33,7 @@
       type="ScFiCalorimeter"
       vis="EcalEndcapVis"
       readout="EcalEndcapPHits">
-      <!--position x="0" y="0" z="EcalEndcapP_zmin + EcalEndcapP_length/2."/-->
-      <position x="0" y="0" z="EcalEndcapP_length/2."/>
+      <position x="0" y="0" z="EcalEndcapP_zmin + EcalEndcapP_length/2."/>
       <dimensions rmin="EcalEndcapP_rmin" rmax="EcalEndcapP_rmax" length="EcalEndcapP_length"/>
       <block sizex="100.*mm" sizey="98.897*mm"/>
       <module sizex="49.85*mm" sizey="49.30*mm" sizez="170*mm" material="TungstenDens22" vis="EcalEndcapBlockVis">
