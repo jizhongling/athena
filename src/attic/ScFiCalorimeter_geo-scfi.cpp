@@ -112,9 +112,9 @@ std::tuple<Volume, Position> build_module(const Detector &desc, const xml::Compo
   if (mod_xml.hasAttr(_Unicode(vis)))
     modVol.setVisAttributes(desc.visAttributes(mod_xml.attr<std::string>(_Unicode(vis))));
 
-  Tube fiberShape(0., 0.97*fr, sz/2.);
+  Tube fiberShape(0., 0.94*fr, sz/2.);
   Volume fiberVol("~fiber_vol", fiberShape, fiberMat);
-  Tube fiberCladShape(0.97*fr, fr, sz/2.);
+  Tube fiberCladShape(0.94*fr, fr, sz/2.);
   Volume fiberCladVol("fiberClad_vol", fiberCladShape, fiberMat);
   fiberVol.setSensitiveDetector(sens);
 

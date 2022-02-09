@@ -113,8 +113,8 @@ std::tuple<Volume, Position> build_module(const Detector &desc, const xml::Compo
     modVol.setVisAttributes(desc.visAttributes(mod_xml.attr<std::string>(_Unicode(vis))));
 
   Box emptyShape(eps, eps, eps);
-  Tube fiberShape(0., 0.97*fr, sz/2.);
-  Tube fiberCladShape(0.97*fr, fr, sz/2.);
+  Tube fiberShape(0., 0.94*fr, sz/2.);
+  Tube fiberCladShape(0.94*fr, fr, sz/2.);
   UnionSolid fiberUnionShape(emptyShape, emptyShape);
   UnionSolid fiberCladUnionShape(emptyShape, emptyShape);
 
