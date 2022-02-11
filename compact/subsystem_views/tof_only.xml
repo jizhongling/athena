@@ -63,7 +63,7 @@
   </display>
 
   <documentation level="10">
-    ## eRICH only
+    ## TOF only
   </documentation>
   <include ref="ip6/beampipe.xml" />
   <include ref="compact/tof_barrel.xml" />
