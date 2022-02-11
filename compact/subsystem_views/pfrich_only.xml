@@ -63,9 +63,9 @@
   </display>
 
   <documentation level="10">
-    ## eRICH only
+    ## pfRICH only
   </documentation>
   <include ref="ip6/beampipe.xml" />
-  <include ref="compact/erich.xml" />
+  <include ref="compact/pfrich.xml" />
 
 </lccdd>

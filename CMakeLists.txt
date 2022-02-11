@@ -30,7 +30,7 @@ dd4hep_add_plugin(${a_lib_name} SOURCES
   src/CylinderTrackerBarrel_geo.cpp
   src/DIRC_geo.cpp
   src/DRICH_geo.cpp
-  src/PfRICH_geo.cpp
+  src/PFRICH_geo.cpp
   src/FileLoader.cpp
   src/FieldMapBrBz.cpp
   src/GaseousRICH_geo.cpp
