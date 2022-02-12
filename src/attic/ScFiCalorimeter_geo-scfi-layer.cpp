@@ -105,70 +105,76 @@ std::tuple<Volume, Position> build_module(const Detector &desc, const xml::Compo
   auto sz = mod_xml.attr<double>(_Unicode(sizez));
   auto modMat = desc.material(mod_xml.attr<std::string>(_Unicode(material)));
 
-  auto fiber_xml = mod_xml.child(_Unicode(fiber));
-  auto fr = fiber_xml.attr<double>(_Unicode(radius));
-  auto fdistx = fiber_xml.attr<double>(_Unicode(spacex));
-  auto fdisty = fiber_xml.attr<double>(_Unicode(spacey));
-  auto foffx = dd4hep::getAttrOrDefault<double>(fiber_xml, _Unicode(offsetx), 0.5*mm);
-  auto foffy = dd4hep::getAttrOrDefault<double>(fiber_xml, _Unicode(offsety), 0.5*mm);
-  auto fiberMat = desc.material(fiber_xml.attr<std::string>(_Unicode(material)));
-
   Box modShape(sx/2., sy/2., sz/2.);
   Volume modVol("module_vol", modShape, modMat);
   if (mod_xml.hasAttr(_Unicode(vis)))
     modVol.setVisAttributes(desc.visAttributes(mod_xml.attr<std::string>(_Unicode(vis))));
 
-  Tube fiberShape(0., 0.94*fr, sz/2.);
-  Volume fiberVol("~fiber_vol", fiberShape, fiberMat);
-  Tube fiberCladShape(0.94*fr, fr, sz/2.);
-  Volume fiberCladVol("fiberClad_vol", fiberCladShape, fiberMat);
-  fiberVol.setSensitiveDetector(sens);
+  if (mod_xml.hasChild("fiber")) {
+    auto fiber_xml = mod_xml.child(_Unicode(fiber));
+    auto fr = fiber_xml.attr<double>(_Unicode(radius));
+    auto fdistx = fiber_xml.attr<double>(_Unicode(spacex));
+    auto fdisty = fiber_xml.attr<double>(_Unicode(spacey));
+    auto foffx = dd4hep::getAttrOrDefault<double>(fiber_xml, _Unicode(offsetx), 0.5*mm);
+    auto foffy = dd4hep::getAttrOrDefault<double>(fiber_xml, _Unicode(offsety), 0.5*mm);
+    auto fiberMat = desc.material(fiber_xml.attr<std::string>(_Unicode(material)));
 
-  // place the top layer
-  int ny = int(sy / fdisty) + 1;
-  double yt = foffy + fdisty/2.;
-  double y0 = yt + fdisty/2.;
-  Volume layerTopVol = build_layer("Top", false, yt, -yt/2.+fdisty/2.,
-      modMat, fiberVol, fiberCladVol, fdistx, fr, sx, sz, foffx);
-  auto layerTopPV = modVol.placeVolume(layerTopVol, Position{0, sy/2.-yt/2., 0});
-  layerTopPV.addPhysVolID("layer", 1);
-  //place_layer(false, sy/2.-foffy, 1,
-  //    modVol, fiberVol, fiberCladVol, fdistx, fr, sx, sz, foffx);
+    Tube fiberShape(0., 0.94*fr, sz/2.);
+    Volume fiberVol("~fiber_vol", fiberShape, fiberMat);
+    Tube fiberCladShape(0.94*fr, fr, sz/2.);
+    Volume fiberCladVol("fiberClad_vol", fiberCladShape, fiberMat);
+    fiberVol.setSensitiveDetector(sens);
 
-  // construct even and odd layers
-  Volume layerVol[2];
-  for (int evenodd = 0; evenodd < 2; evenodd++) {
-    bool is_even = evenodd%2 == 0 ? true : false;
-    layerVol[evenodd] = build_layer(is_even ? "Even" : "Odd", is_even, fdisty, 0.,
+    // place the top layer
+    int ny = int(sy / fdisty) + 1;
+    double yt = foffy + fdisty/2.;
+    double y0 = yt + fdisty/2.;
+    Volume layerTopVol = build_layer("Top", false, yt, -yt/2.+fdisty/2.,
         modMat, fiberVol, fiberCladVol, fdistx, fr, sx, sz, foffx);
-  }
-
-  // place even and odd layers
-  double y = y0;
-  int iy = 0;
-  for (iy = 0; iy < ny; iy++) {
-    y = y0 + fdisty * iy;
-    // about to touch the boundary
-    if (sy - y < y0 - eps) break;
-    bool is_even = iy%2 == 0 ? true : false;
-    auto layerPV = modVol.placeVolume(layerVol[iy%2], Position{0, sy/2.-y, 0});
-    layerPV.addPhysVolID("layer", iy + 2);
-    //place_layer(is_even, sy/2.-y, iy + 2,
+    auto layerTopPV = modVol.placeVolume(layerTopVol, Position{0, sy/2.-yt/2., 0});
+    layerTopPV.addPhysVolID("layer", 1);
+    //place_layer(false, sy/2.-foffy, 1,
     //    modVol, fiberVol, fiberCladVol, fdistx, fr, sx, sz, foffx);
-  }
 
-  // place the bottom layer
-  double yb = sy - y + fdisty/2.;
-  if (sy - y < foffy - eps) {
+    // construct even and odd layers
+    Volume layerVol[2];
+    for (int evenodd = 0; evenodd < 2; evenodd++) {
+      bool is_even = evenodd%2 == 0 ? true : false;
+      layerVol[evenodd] = build_layer(is_even ? "Even" : "Odd", is_even, fdisty, 0.,
+          modMat, fiberVol, fiberCladVol, fdistx, fr, sx, sz, foffx);
+    }
+
+    // place even and odd layers
+    double y = y0;
+    int iy = 0;
+    for (iy = 0; iy < ny; iy++) {
+      y = y0 + fdisty * iy;
+      // about to touch the boundary
+      if (sy - y < y0 - eps) break;
+      bool is_even = iy%2 == 0 ? true : false;
+      auto layerPV = modVol.placeVolume(layerVol[iy%2], Position{0, sy/2.-y, 0});
+      layerPV.addPhysVolID("layer", iy + 2);
+      //place_layer(is_even, sy/2.-y, iy + 2,
+      //    modVol, fiberVol, fiberCladVol, fdistx, fr, sx, sz, foffx);
+    }
+
+    // place the bottom layer
+    double yb = sy - y + fdisty/2.;
+    if (sy - y < foffy - eps) {
+    }
+    else {
+      bool is_even = iy%2 == 0 ? true : false;
+      Volume layerBottomVol = build_layer("Bottom", is_even, yb, yb/2.-fdisty/2.,
+          modMat, fiberVol, fiberCladVol, fdistx, fr, sx, sz, foffx);
+      auto layerBottomPV = modVol.placeVolume(layerBottomVol, Position{0, -sy/2.+yb/2., 0});
+      layerBottomPV.addPhysVolID("layer", iy + 2);
+      //place_layer(is_even, sy/2.-y, iy + 2,
+      //    modVol, fiberVol, fiberCladVol, fdistx, fr, sx, sz, foffx);
+    }
   }
+  // if no fibers we make the module itself sensitive
   else {
-    bool is_even = iy%2 == 0 ? true : false;
-    Volume layerBottomVol = build_layer("Bottom", is_even, yb, yb/2.-fdisty/2.,
-        modMat, fiberVol, fiberCladVol, fdistx, fr, sx, sz, foffx);
-    auto layerBottomPV = modVol.placeVolume(layerBottomVol, Position{0, -sy/2.+yb/2., 0});
-    layerBottomPV.addPhysVolID("layer", iy + 2);
-    //place_layer(is_even, sy/2.-y, iy + 2,
-    //    modVol, fiberVol, fiberCladVol, fdistx, fr, sx, sz, foffx);
+    modVol.setSensitiveDetector(sens);
   }
 
   return std::make_tuple(modVol, Position{sx, sy, sz});

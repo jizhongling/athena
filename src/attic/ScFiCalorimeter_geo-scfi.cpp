@@ -99,40 +99,46 @@ std::tuple<Volume, Position> build_module(const Detector &desc, const xml::Compo
   auto sz = mod_xml.attr<double>(_Unicode(sizez));
   auto modMat = desc.material(mod_xml.attr<std::string>(_Unicode(material)));
 
-  auto fiber_xml = mod_xml.child(_Unicode(fiber));
-  auto fr = fiber_xml.attr<double>(_Unicode(radius));
-  auto fdistx = fiber_xml.attr<double>(_Unicode(spacex));
-  auto fdisty = fiber_xml.attr<double>(_Unicode(spacey));
-  auto foffx = dd4hep::getAttrOrDefault<double>(fiber_xml, _Unicode(offsetx), 0.5*mm);
-  auto foffy = dd4hep::getAttrOrDefault<double>(fiber_xml, _Unicode(offsety), 0.5*mm);
-  auto fiberMat = desc.material(fiber_xml.attr<std::string>(_Unicode(material)));
-
   Box modShape(sx/2., sy/2., sz/2.);
   Volume modVol("module_vol", modShape, modMat);
   if (mod_xml.hasAttr(_Unicode(vis)))
     modVol.setVisAttributes(desc.visAttributes(mod_xml.attr<std::string>(_Unicode(vis))));
 
-  Tube fiberShape(0., 0.94*fr, sz/2.);
-  Volume fiberVol("~fiber_vol", fiberShape, fiberMat);
-  Tube fiberCladShape(0.94*fr, fr, sz/2.);
-  Volume fiberCladVol("fiberClad_vol", fiberCladShape, fiberMat);
-  fiberVol.setSensitiveDetector(sens);
+  if (mod_xml.hasChild("fiber")) {
+    auto fiber_xml = mod_xml.child(_Unicode(fiber));
+    auto fr = fiber_xml.attr<double>(_Unicode(radius));
+    auto fdistx = fiber_xml.attr<double>(_Unicode(spacex));
+    auto fdisty = fiber_xml.attr<double>(_Unicode(spacey));
+    auto foffx = dd4hep::getAttrOrDefault<double>(fiber_xml, _Unicode(offsetx), 0.5*mm);
+    auto foffy = dd4hep::getAttrOrDefault<double>(fiber_xml, _Unicode(offsety), 0.5*mm);
+    auto fiberMat = desc.material(fiber_xml.attr<std::string>(_Unicode(material)));
 
-  // place the fibers
-  int nx = int(sx / fdistx) + 1;
-  int ny = int(sy / fdisty) + 1;
-  for (int iy = 0; iy < ny; iy++) {
-    double y = foffy + fdisty * iy;
-    // about to touch the boundary
-    if (sy - y < foffy - eps) break;
-    for (int ix = 0; ix < nx; ix++) {
-      double x = foffx + fdistx/2. * (iy%2) + fdistx * ix;
+    Tube fiberShape(0., 0.94*fr, sz/2.);
+    Volume fiberVol("~fiber_vol", fiberShape, fiberMat);
+    Tube fiberCladShape(0.94*fr, fr, sz/2.);
+    Volume fiberCladVol("fiberClad_vol", fiberCladShape, fiberMat);
+    fiberVol.setSensitiveDetector(sens);
+
+    // place the fibers
+    int nx = int(sx / fdistx) + 1;
+    int ny = int(sy / fdisty) + 1;
+    for (int iy = 0; iy < ny; iy++) {
+      double y = foffy + fdisty * iy;
       // about to touch the boundary
-      if (sx - x < foffx - eps) break;
-      auto fiberPV = modVol.placeVolume(fiberVol, Position{-sx/2.+x, sy/2.-y, 0});
-      modVol.placeVolume(fiberCladVol, Position{-sx/2.+x, sy/2.-y, 0});
-      fiberPV.addPhysVolID("~fiber_x", ix + 1).addPhysVolID("~fiber_y", iy + 1);
+      if (sy - y < foffy - eps) break;
+      for (int ix = 0; ix < nx; ix++) {
+        double x = foffx + fdistx/2. * (iy%2) + fdistx * ix;
+        // about to touch the boundary
+        if (sx - x < foffx - eps) break;
+        auto fiberPV = modVol.placeVolume(fiberVol, Position{-sx/2.+x, sy/2.-y, 0});
+        modVol.placeVolume(fiberCladVol, Position{-sx/2.+x, sy/2.-y, 0});
+        fiberPV.addPhysVolID("~fiber_x", ix + 1).addPhysVolID("~fiber_y", iy + 1);
+      }
     }
+  }
+  // if no fibers we make the module itself sensitive
+  else {
+    modVol.setSensitiveDetector(sens);
   }
 
   return std::make_tuple(modVol, Position{sx, sy, sz});
