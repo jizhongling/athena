@@ -52,7 +52,7 @@
   <readouts>
     <readout name="EcalEndcapPHits">
       <segmentation type="CartesianGridXY" grid_size_x="24.925*mm" grid_size_y="24.65*mm"/>
-      <id>system:8,block:12,module:8,fiber_x:2,fiber_y:2,x:48:-8,y:-8</id>
+      <id>system:8,block:12,module:8,x:48:-8,y:-8</id>
     </readout>
   </readouts>
 
