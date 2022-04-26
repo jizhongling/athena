@@ -70,14 +70,14 @@ static Ref_t create_detector(Detector &desc, xml::Handle_t handle, SensitiveDete
   const auto block_y = block_xml.attr<double>(_Unicode(sizey));
   // calorimeter block z-offsets (as blocks are shorter than the volume length)
   const double block_offset = -length/2. + modSize.z()/2.;
-  Box envShape(block_x*8./2., block_y*8./2., length/2.);
+  Box envShape(block_x*4./2., block_y*4./2., length/2.);
   Volume envVol(detName + "_envelope", envShape, desc.material("Vacuum"));
   envVol.setVisAttributes(desc.visAttributes(detElem.visStr()));
   int blockid = 1;
-  for (int ix = 0; ix < 8; ix++)
-    for (int iy = 0; iy < 8; iy++) {
+  for (int ix = 0; ix < 4; ix++)
+    for (int iy = 0; iy < 4; iy++) {
       auto blockPV = envVol.placeVolume(blockVol,
-          Position{block_x*(ix-3.5), block_y*(iy-3.5), block_offset});
+          Position{block_x*(ix-1.5), block_y*(iy-1.5), block_offset});
       blockPV.addPhysVolID("block", blockid++);
     }
 
